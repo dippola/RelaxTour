@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
-import com.dippola.relaxtour.pages.adapter.PageAdapter;
 import com.dippola.relaxtour.pages.adapter.StoragePageAdapter;
 import com.dippola.relaxtour.pages.item.PageItem;
 

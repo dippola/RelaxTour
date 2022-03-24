@@ -41,6 +41,7 @@ import com.dippola.relaxtour.service.CheckOpenService;
 import com.dippola.relaxtour.service.DownloadService;
 import com.dippola.relaxtour.service.TimerService;
 import com.dippola.relaxtour.setting.SettingDialog;
+import com.dippola.relaxtour.setting.StorageManageDialogItem;
 import com.dippola.relaxtour.timer.TimerDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -102,9 +103,10 @@ public class MainActivity extends AppCompatActivity {
         Button testButton1 = findViewById(R.id.testButton1);
         Button testButton2 = findViewById(R.id.testButton2);
         Button testButton3 = findViewById(R.id.testButton3);
-        testButton1.setVisibility(View.GONE);
-        testButton2.setVisibility(View.GONE);
-        testButton3.setVisibility(View.GONE);
+        Button testButton4 = findViewById(R.id.testButton4);
+//        testButton1.setVisibility(View.GONE);
+//        testButton2.setVisibility(View.GONE);
+//        testButton3.setVisibility(View.GONE);
 
         testButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,12 +154,36 @@ public class MainActivity extends AppCompatActivity {
         testButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String path = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
-                File file = new File(path);
-                if (file.exists()) {
-                    Log.d(">>>MainActivity", "have");
+                String path1 = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
+                String path2 = getApplicationInfo().dataDir + "/cache/audio3-2.mp3";
+                String path3 = getApplicationInfo().dataDir + "/cache/audio4-1.mp3";
+                String path4 = getApplicationInfo().dataDir + "/cache/audio4-2.mp3";
+                File file1 = new File(path1);
+                File file2 = new File(path2);
+                File file3 = new File(path3);
+                File file4 = new File(path4);
+                if (file1.exists()) {
+                    Log.d(">>>MainActivity", "1have");
                 } else {
-                    Log.d(">>>MainActivity", "no have");
+                    Log.d(">>>MainActivity", "1no have");
+                }
+
+                if (file2.exists()) {
+                    Log.d(">>>MainActivity", "2have");
+                } else {
+                    Log.d(">>>MainActivity", "2no have");
+                }
+
+                if (file3.exists()) {
+                    Log.d(">>>MainActivity", "3have");
+                } else {
+                    Log.d(">>>MainActivity", "3no have");
+                }
+
+                if (file4.exists()) {
+                    Log.d(">>>MainActivity", "4have");
+                } else {
+                    Log.d(">>>MainActivity", "4no have");
                 }
             }
         });
@@ -165,14 +191,44 @@ public class MainActivity extends AppCompatActivity {
         testButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String path = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
+////                String path = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
+//                String path = getApplicationInfo().dataDir + "/cache/audio4647283716101701270";
+//                File file = new File(path);
+//                if (file.exists()) {
+//                    Log.d(">>>MainActivity", "have");
+//                    file.delete();
+//                    Log.d(">>>MainActivity", "deleted");
+//                } else {
+//                    Log.d(">>>MainActivity", "no have");
+//                }
+
+                String path = getApplicationInfo().dataDir + "/cache/";
                 File file = new File(path);
-                if (file.exists()) {
-                    Log.d(">>>MainActivity", "have");
-                    file.delete();
-                    Log.d(">>>MainActivity", "deleted");
+                File[] files = file.listFiles();
+
+                if (files == null) {
+                    Log.d("MainActivity>>>", "list is null");
                 } else {
-                    Log.d(">>>MainActivity", "no have");
+                    Log.d("MainActivity>>>", "list is not null");
+                }
+
+                if (files.length == 0) {
+                    Log.d("MainActivity>>>", "list size 0");
+                } else {
+                    Log.d("MainActivity>>>", "list size not 0");
+                }
+            }
+        });
+
+        testButton4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String path = getApplicationInfo().dataDir + "/cache/";
+                File file = new File(path);
+                File[] files = file.listFiles();
+
+                for (int i = 0; i < files.length; i++) {
+                    Log.d("MainActivity>>>", files[i].getName());
                 }
             }
         });

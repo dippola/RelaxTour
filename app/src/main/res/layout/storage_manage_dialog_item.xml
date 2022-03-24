@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/storage_manage_dialog_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sound name"
+        android:layout_margin="18dp"/>
+
+    <Button
+        android:id="@+id/storage_manage_dialog_item_delete_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/bottom_sheet_playlist_delete_icon"
+        android:layout_marginRight="18dp"/>
+</RelativeLayout>
