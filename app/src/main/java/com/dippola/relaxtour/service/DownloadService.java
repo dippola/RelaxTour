@@ -120,7 +120,7 @@ public class DownloadService extends Service {
         File localFile;
         try {
             localFile = File.createTempFile("audio", "0");
-            reference.child(fileName).getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            reference.child("audios").child(fileName).getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     File from = new File(context.getApplicationInfo().dataDir + "/cache", localFile.getName());

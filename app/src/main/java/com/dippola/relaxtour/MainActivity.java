@@ -1,5 +1,6 @@
 package com.dippola.relaxtour;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -29,6 +30,7 @@ import com.dippola.relaxtour.maintablayout.MainTabAdapter;
 import com.dippola.relaxtour.maintablayout.MainTabItem;
 import com.dippola.relaxtour.notification.DefaultNotification;
 import com.dippola.relaxtour.notification.NotificationService;
+import com.dippola.relaxtour.notification.SuccessDownloadNotification;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.FavPage;
 import com.dippola.relaxtour.pages.HzPage;
@@ -36,11 +38,19 @@ import com.dippola.relaxtour.pages.RainPage;
 import com.dippola.relaxtour.pages.WindPage;
 import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.service.CheckOpenService;
+import com.dippola.relaxtour.service.DownloadService;
 import com.dippola.relaxtour.service.TimerService;
 import com.dippola.relaxtour.setting.SettingDialog;
 import com.dippola.relaxtour.timer.TimerDialog;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,12 +89,93 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        testButton();
         setAudioManager();
         setTopButton();
         setDatabaseHandler();
         setViewPager();
         setTabLayout();
         setBottomSheet();
+    }
+
+    private void testButton() {
+        Button testButton1 = findViewById(R.id.testButton1);
+        Button testButton2 = findViewById(R.id.testButton2);
+        Button testButton3 = findViewById(R.id.testButton3);
+        testButton1.setVisibility(View.GONE);
+        testButton2.setVisibility(View.GONE);
+        testButton3.setVisibility(View.GONE);
+
+        testButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String path = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
+                File file = new File(path);
+                if (file.exists()) {
+                    Log.d(">>>MainActivity", "have already");
+                } else {
+                    Log.d(">>>MainActivity", "no have. will start download");
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    StorageReference reference = storage.getReference();
+                    String fileName = "audio3-1.mp3";
+                    try {
+                        File localFile = File.createTempFile("audio", "0");
+                        reference.child("audios").child(fileName).getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                File from = new File(getApplicationInfo().dataDir + "/cache", localFile.getName());
+                                File to = new File(getApplicationInfo().dataDir + "/cache", fileName);
+                                if (from.exists()) {
+                                    from.renameTo(to);
+                                }
+//                    stopSelf();
+                                Intent intent = new Intent(MainActivity.this, DownloadService.class);
+                                stopService(intent);
+                                SuccessDownloadNotification.successDownloadNotification(MainActivity.this);
+                                Log.d("StoragePageAdapter>>>", "download success");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("StoragePageAdapter>>>", "download failed: " + e.toString());
+                                Toast.makeText(MainActivity.this, "failed download. please try again. (" + e.toString() + ")", Toast.LENGTH_LONG).show();
+                                SuccessDownloadNotification.failedDownloadNotification(MainActivity.this, e.toString());
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        testButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String path = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
+                File file = new File(path);
+                if (file.exists()) {
+                    Log.d(">>>MainActivity", "have");
+                } else {
+                    Log.d(">>>MainActivity", "no have");
+                }
+            }
+        });
+
+        testButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String path = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
+                File file = new File(path);
+                if (file.exists()) {
+                    Log.d(">>>MainActivity", "have");
+                    file.delete();
+                    Log.d(">>>MainActivity", "deleted");
+                } else {
+                    Log.d(">>>MainActivity", "no have");
+                }
+            }
+        });
     }
 
     private void setTopButton() {
