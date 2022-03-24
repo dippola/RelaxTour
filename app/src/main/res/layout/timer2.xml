@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/hourintent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/minintent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_toRightOf="@+id/hourintent"
+        android:text="0" />
+
+    <EditText
+        android:id="@+id/edittime1"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <ProgressBar
+        android:id="@+id/progress_count1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:progressDrawable="@drawable/circularprogressbar" />
+
+    <TextView
+        android:id="@+id/text_timer1"
+        android:layout_width="55dp"
+        android:layout_height="15dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textColor="#ffff"
+        android:textSize="13dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="App closes after countdown."
+        android:textColor="#ffff"
+        android:textSize="12dp"/>
+
+    <Button
+        android:id="@+id/countstart1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:text="stop"
+        android:textColor="#ffff"/>
+
+</RelativeLayout>

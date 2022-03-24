@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/fav_page_item_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:id="@+id/fav_page_item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:text="title"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"/>
+
+            <Button
+                android:id="@+id/fav_page_item_delete"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/fav_page_item_play"
+                android:background="@drawable/bottom_sheet_playlist_delete_icon"
+                android:layout_marginRight="20dp"/>
+
+            <Button
+                android:id="@+id/fav_page_item_play"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/fav_page_item_edit"
+                android:background="@drawable/fav_page_item_play"
+                android:layout_marginRight="20dp"/>
+
+            <Button
+                android:id="@+id/fav_page_item_edit"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_toLeftOf="@+id/fav_page_item_uandd"
+                android:layout_centerVertical="true"
+                android:background="@drawable/fav_page_item_edit" />
+            <CheckBox
+                android:id="@+id/fav_page_item_uandd"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bottom_sheet_button_down"
+                android:layout_alignParentRight="true"
+                android:button="@android:color/transparent"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fav_page_inside_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</RelativeLayout>

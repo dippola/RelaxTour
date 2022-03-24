@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/bottom_cycle_button.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/bottom_pause.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/bottom_play.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/bottom_sheet_button_down.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/bottom_sheet_button_up.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/bottom_sheet_play_default.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/bottom_sheet_playlist_delete_icon.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/bottom_sheet_round.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/cancel.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/circularprogressbar.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/dialog_layout.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/download.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/fav_page_item_edit.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/fav_page_item_play.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/main_head.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/notification_close.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/setting.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/success_download.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/activity_main.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/add_title_dialog.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/ask_download_dialog.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/bottom_sheet.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/bottom_sheet_playlist_item.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/delete_fav_title_dialog.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/edit_fav_title_dialog.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/fav_page.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/fav_page_item.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/main_tab_item.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/page.xml" value="0.25" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/page_item.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/playing_item.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/setting_dialog.xml" value="0.1" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/storage_page_item.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/timer1.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/timer2.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/timer_dialog.xml" value="0.37135416666666665" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

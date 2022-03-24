@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "472039606183",
+    "project_id": "relax-tour-de785",
+    "storage_bucket": "relax-tour-de785.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472039606183:android:db42e28af1a578fcba5882",
+        "android_client_info": {
+          "package_name": "com.dippola.relaxtour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472039606183-t4g9h2651pc938l6n6rtgs27vp4k2laj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dippola.relaxtour",
+            "certificate_hash": "8cdb44d6b40aef1da81704b09ca631279ca78e6a"
+          }
+        },
+        {
+          "client_id": "472039606183-0ipm7rp5ku7mi96h20js5t0msfb03s82.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5wQFAluvMzGr4gPJB3GZ4kKFf_-cXtwI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472039606183-0ipm7rp5ku7mi96h20js5t0msfb03s82.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
