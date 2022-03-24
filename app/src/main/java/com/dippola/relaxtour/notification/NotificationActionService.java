@@ -8,8 +8,11 @@ import android.os.Build;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
+import com.dippola.relaxtour.controller.ChakraController;
+import com.dippola.relaxtour.controller.HzController;
 import com.dippola.relaxtour.controller.RainController;
 import com.dippola.relaxtour.controller.WindController;
+import com.dippola.relaxtour.pages.RainPage;
 import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.notification.DefaultNotification;
 
@@ -59,15 +62,19 @@ public class NotificationActionService extends BroadcastReceiver {
 
     private void stopAllSound() {
         for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-            stopPage(MainActivity.bottomSheetPlayList.get(i).getPage());
+            stopPage(MainActivity.bottomSheetPlayList.get(i).getPage(), MainActivity.bottomSheetPlayList.get(i).getPnp());
         }
     }
 
-    private void stopPage(int page) {
+    private void stopPage(int page, String pnp) {
         if (page == 1) {
             RainController.stopPage1();
         } else if (page == 2) {
             WindController.stopPage2();
+        } else if (page == 3) {
+            ChakraController.stopChakra(page, pnp);
+        } else if (page == 4) {
+            HzController.stopHz(page, pnp);
         }
     }
 
