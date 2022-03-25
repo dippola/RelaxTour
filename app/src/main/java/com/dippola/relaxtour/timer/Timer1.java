@@ -21,7 +21,7 @@ import com.dippola.relaxtour.service.TimerService;
 
 public class Timer1 extends Fragment {
     NumberPicker wheelViewhour, wheelViewmin;
-    public static Button wheelstart;
+    public static Button wheelstart, cancel;
     private String[] numpickhour;
     private String[] numpickmin;
 
@@ -40,6 +40,7 @@ public class Timer1 extends Fragment {
         wheelViewhour = rootView.findViewById(R.id.wheel_hour1);
         wheelViewmin = rootView.findViewById(R.id.wheel_min1);
         wheelstart = rootView.findViewById(R.id.wheel_start1);
+        cancel = rootView.findViewById(R.id.wheel_cancel);
 
         numpickhour = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
         numpickmin = new String[]{"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"};
@@ -147,6 +148,13 @@ public class Timer1 extends Fragment {
                 } else if (i1 == 11) {
                     Timer2.minintent.setText("3300");
                 }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
             }
         });
 

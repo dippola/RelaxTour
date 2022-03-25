@@ -22,7 +22,7 @@ public class EditFavTitleDialog {
     public static void editFavTitleDialog(Context context, String title, int position) {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout layout = (LinearLayout) vi.inflate(R.layout.edit_fav_title_dialog, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
         builder.setView(layout);
         alertDialog = builder.create();
 

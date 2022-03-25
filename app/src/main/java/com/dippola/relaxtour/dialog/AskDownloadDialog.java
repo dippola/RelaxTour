@@ -27,7 +27,7 @@ public class AskDownloadDialog {
     public static void askDownloadDialog(Context context, ArrayList<String> pnps, int position) {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout layout = (LinearLayout) vi.inflate(R.layout.ask_download_dialog, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
         builder.setView(layout);
         alertDialog = builder.create();
 

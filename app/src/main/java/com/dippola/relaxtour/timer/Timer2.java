@@ -27,7 +27,7 @@ import com.dippola.relaxtour.service.TimerService;
 public class Timer2 extends Fragment {
     public static int myProgress = 0;
     public static ProgressBar progressBarView;
-    public static Button btn_stop;
+    public static Button btn_stop, btn_close;
     public static TextView tv_time;
     public static EditText et_timer;
     public static int progress;
@@ -53,6 +53,7 @@ public class Timer2 extends Fragment {
 
         progressBarView = (ProgressBar) rootView.findViewById(R.id.progress_count1);
         btn_stop = (Button) rootView.findViewById(R.id.countstart1);
+        btn_close = rootView.findViewById(R.id.count_go_back);
         tv_time = (TextView) rootView.findViewById(R.id.text_timer1);
         et_timer = (EditText) rootView.findViewById(R.id.edittime1);
         hourintent = (TextView) rootView.findViewById(R.id.hourintent);
@@ -72,6 +73,13 @@ public class Timer2 extends Fragment {
                 getActivity().stopService(new Intent(getActivity(), TimerService.class));
                 Timer1.mTimerRunning = false;
                 DefaultNotification.defauleNotification(getActivity());
+            }
+        });
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
             }
         });
 

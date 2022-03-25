@@ -26,6 +26,8 @@ import android.widget.Toast;
 import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.AddTitleDialog;
+import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
+import com.dippola.relaxtour.dialog.ScreenModeDialog;
 import com.dippola.relaxtour.maintablayout.MainTabAdapter;
 import com.dippola.relaxtour.maintablayout.MainTabItem;
 import com.dippola.relaxtour.notification.DefaultNotification;
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     public static int maxVolumn;
 
     //top button
-    Button setting, timer;
+    Button setting, timer, mode;
     public static TextView maincount;
     public static Button cancel;
 
@@ -90,152 +92,155 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        testButton();
+//        testButton();
         setAudioManager();
         setTopButton();
         setDatabaseHandler();
         setViewPager();
         setTabLayout();
         setBottomSheet();
+        startActivity(new Intent(MainActivity.this, TimerDialog.class));
+//        TimerDialog.TimerDialog(MainActivity.this, MainActivity.this);
     }
 
-    private void testButton() {
-        Button testButton1 = findViewById(R.id.testButton1);
-        Button testButton2 = findViewById(R.id.testButton2);
-        Button testButton3 = findViewById(R.id.testButton3);
-        Button testButton4 = findViewById(R.id.testButton4);
-//        testButton1.setVisibility(View.GONE);
-//        testButton2.setVisibility(View.GONE);
-//        testButton3.setVisibility(View.GONE);
-
-        testButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String path = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
-                File file = new File(path);
-                if (file.exists()) {
-                    Log.d(">>>MainActivity", "have already");
-                } else {
-                    Log.d(">>>MainActivity", "no have. will start download");
-                    FirebaseStorage storage = FirebaseStorage.getInstance();
-                    StorageReference reference = storage.getReference();
-                    String fileName = "audio3-1.mp3";
-                    try {
-                        File localFile = File.createTempFile("audio", "0");
-                        reference.child("audios").child(fileName).getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                File from = new File(getApplicationInfo().dataDir + "/cache", localFile.getName());
-                                File to = new File(getApplicationInfo().dataDir + "/cache", fileName);
-                                if (from.exists()) {
-                                    from.renameTo(to);
-                                }
-//                    stopSelf();
-                                Intent intent = new Intent(MainActivity.this, DownloadService.class);
-                                stopService(intent);
-                                SuccessDownloadNotification.successDownloadNotification(MainActivity.this);
-                                Log.d("StoragePageAdapter>>>", "download success");
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("StoragePageAdapter>>>", "download failed: " + e.toString());
-                                Toast.makeText(MainActivity.this, "failed download. please try again. (" + e.toString() + ")", Toast.LENGTH_LONG).show();
-                                SuccessDownloadNotification.failedDownloadNotification(MainActivity.this, e.toString());
-                            }
-                        });
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-
-        testButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String path1 = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
-                String path2 = getApplicationInfo().dataDir + "/cache/audio3-2.mp3";
-                String path3 = getApplicationInfo().dataDir + "/cache/audio4-1.mp3";
-                String path4 = getApplicationInfo().dataDir + "/cache/audio4-2.mp3";
-                File file1 = new File(path1);
-                File file2 = new File(path2);
-                File file3 = new File(path3);
-                File file4 = new File(path4);
-                if (file1.exists()) {
-                    Log.d(">>>MainActivity", "1have");
-                } else {
-                    Log.d(">>>MainActivity", "1no have");
-                }
-
-                if (file2.exists()) {
-                    Log.d(">>>MainActivity", "2have");
-                } else {
-                    Log.d(">>>MainActivity", "2no have");
-                }
-
-                if (file3.exists()) {
-                    Log.d(">>>MainActivity", "3have");
-                } else {
-                    Log.d(">>>MainActivity", "3no have");
-                }
-
-                if (file4.exists()) {
-                    Log.d(">>>MainActivity", "4have");
-                } else {
-                    Log.d(">>>MainActivity", "4no have");
-                }
-            }
-        });
-
-        testButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-////                String path = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
-//                String path = getApplicationInfo().dataDir + "/cache/audio4647283716101701270";
+//    private void testButton() {
+//        Button testButton1 = findViewById(R.id.testButton1);
+//        Button testButton2 = findViewById(R.id.testButton2);
+//        Button testButton3 = findViewById(R.id.testButton3);
+//        Button testButton4 = findViewById(R.id.testButton4);
+////        testButton1.setVisibility(View.GONE);
+////        testButton2.setVisibility(View.GONE);
+////        testButton3.setVisibility(View.GONE);
+//
+//        testButton1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String path = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
 //                File file = new File(path);
 //                if (file.exists()) {
-//                    Log.d(">>>MainActivity", "have");
-//                    file.delete();
-//                    Log.d(">>>MainActivity", "deleted");
+//                    Log.d(">>>MainActivity", "have already");
 //                } else {
-//                    Log.d(">>>MainActivity", "no have");
+//                    Log.d(">>>MainActivity", "no have. will start download");
+//                    FirebaseStorage storage = FirebaseStorage.getInstance();
+//                    StorageReference reference = storage.getReference();
+//                    String fileName = "audio3-1.mp3";
+//                    try {
+//                        File localFile = File.createTempFile("audio", "0");
+//                        reference.child("audios").child(fileName).getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                            @Override
+//                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                                File from = new File(getApplicationInfo().dataDir + "/cache", localFile.getName());
+//                                File to = new File(getApplicationInfo().dataDir + "/cache", fileName);
+//                                if (from.exists()) {
+//                                    from.renameTo(to);
+//                                }
+////                    stopSelf();
+//                                Intent intent = new Intent(MainActivity.this, DownloadService.class);
+//                                stopService(intent);
+//                                SuccessDownloadNotification.successDownloadNotification(MainActivity.this);
+//                                Log.d("StoragePageAdapter>>>", "download success");
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.d("StoragePageAdapter>>>", "download failed: " + e.toString());
+//                                Toast.makeText(MainActivity.this, "failed download. please try again. (" + e.toString() + ")", Toast.LENGTH_LONG).show();
+//                                SuccessDownloadNotification.failedDownloadNotification(MainActivity.this, e.toString());
+//                            }
+//                        });
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
 //                }
-
-                String path = getApplicationInfo().dataDir + "/cache/";
-                File file = new File(path);
-                File[] files = file.listFiles();
-
-                if (files == null) {
-                    Log.d("MainActivity>>>", "list is null");
-                } else {
-                    Log.d("MainActivity>>>", "list is not null");
-                }
-
-                if (files.length == 0) {
-                    Log.d("MainActivity>>>", "list size 0");
-                } else {
-                    Log.d("MainActivity>>>", "list size not 0");
-                }
-            }
-        });
-
-        testButton4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String path = getApplicationInfo().dataDir + "/cache/";
-                File file = new File(path);
-                File[] files = file.listFiles();
-
-                for (int i = 0; i < files.length; i++) {
-                    Log.d("MainActivity>>>", files[i].getName());
-                }
-            }
-        });
-    }
+//            }
+//        });
+//
+//        testButton2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String path1 = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
+//                String path2 = getApplicationInfo().dataDir + "/cache/audio3-2.mp3";
+//                String path3 = getApplicationInfo().dataDir + "/cache/audio4-1.mp3";
+//                String path4 = getApplicationInfo().dataDir + "/cache/audio4-2.mp3";
+//                File file1 = new File(path1);
+//                File file2 = new File(path2);
+//                File file3 = new File(path3);
+//                File file4 = new File(path4);
+//                if (file1.exists()) {
+//                    Log.d(">>>MainActivity", "1have");
+//                } else {
+//                    Log.d(">>>MainActivity", "1no have");
+//                }
+//
+//                if (file2.exists()) {
+//                    Log.d(">>>MainActivity", "2have");
+//                } else {
+//                    Log.d(">>>MainActivity", "2no have");
+//                }
+//
+//                if (file3.exists()) {
+//                    Log.d(">>>MainActivity", "3have");
+//                } else {
+//                    Log.d(">>>MainActivity", "3no have");
+//                }
+//
+//                if (file4.exists()) {
+//                    Log.d(">>>MainActivity", "4have");
+//                } else {
+//                    Log.d(">>>MainActivity", "4no have");
+//                }
+//            }
+//        });
+//
+//        testButton3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//////                String path = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
+////                String path = getApplicationInfo().dataDir + "/cache/audio4647283716101701270";
+////                File file = new File(path);
+////                if (file.exists()) {
+////                    Log.d(">>>MainActivity", "have");
+////                    file.delete();
+////                    Log.d(">>>MainActivity", "deleted");
+////                } else {
+////                    Log.d(">>>MainActivity", "no have");
+////                }
+//
+//                String path = getApplicationInfo().dataDir + "/cache/";
+//                File file = new File(path);
+//                File[] files = file.listFiles();
+//
+//                if (files == null) {
+//                    Log.d("MainActivity>>>", "list is null");
+//                } else {
+//                    Log.d("MainActivity>>>", "list is not null");
+//                }
+//
+//                if (files.length == 0) {
+//                    Log.d("MainActivity>>>", "list size 0");
+//                } else {
+//                    Log.d("MainActivity>>>", "list size not 0");
+//                }
+//            }
+//        });
+//
+//        testButton4.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String path = getApplicationInfo().dataDir + "/cache/";
+//                File file = new File(path);
+//                File[] files = file.listFiles();
+//
+//                for (int i = 0; i < files.length; i++) {
+//                    Log.d("MainActivity>>>", files[i].getName());
+//                }
+//            }
+//        });
+//    }
 
     private void setTopButton() {
         setting = findViewById(R.id.activity_main_setting);
+        mode = findViewById(R.id.activity_main_mode);
         timer = findViewById(R.id.activity_main_timer);
         maincount = findViewById(R.id.activity_main_maincount);
         cancel = findViewById(R.id.activity_main_timer_cancel);
@@ -259,6 +264,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, SettingDialog.class));
+            }
+        });
+
+        mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ScreenModeDialog.class));
             }
         });
     }
@@ -466,7 +478,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public static class SectionsPagerAdapter extends FragmentPagerAdapter {
         ArrayList<Fragment> items = new ArrayList<Fragment>();
 
         public SectionsPagerAdapter(FragmentManager fm) {

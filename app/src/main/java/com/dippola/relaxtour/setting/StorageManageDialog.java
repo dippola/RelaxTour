@@ -35,10 +35,10 @@ public class StorageManageDialog extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.storage_manage_dialog);
 
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
