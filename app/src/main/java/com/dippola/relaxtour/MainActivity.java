@@ -1,6 +1,5 @@
 package com.dippola.relaxtour;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -12,11 +11,13 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -26,13 +27,11 @@ import android.widget.Toast;
 import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.AddTitleDialog;
-import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
-import com.dippola.relaxtour.dialog.ScreenModeDialog;
+import com.dippola.relaxtour.dialog.ThemeDialog;
 import com.dippola.relaxtour.maintablayout.MainTabAdapter;
 import com.dippola.relaxtour.maintablayout.MainTabItem;
 import com.dippola.relaxtour.notification.DefaultNotification;
 import com.dippola.relaxtour.notification.NotificationService;
-import com.dippola.relaxtour.notification.SuccessDownloadNotification;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.FavPage;
 import com.dippola.relaxtour.pages.HzPage;
@@ -40,20 +39,12 @@ import com.dippola.relaxtour.pages.RainPage;
 import com.dippola.relaxtour.pages.WindPage;
 import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.service.CheckOpenService;
-import com.dippola.relaxtour.service.DownloadService;
+import com.dippola.relaxtour.service.GetStateKillApp;
 import com.dippola.relaxtour.service.TimerService;
 import com.dippola.relaxtour.setting.SettingDialog;
-import com.dippola.relaxtour.setting.StorageManageDialogItem;
 import com.dippola.relaxtour.timer.TimerDialog;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
     public static int pageitemsize;
     AudioManager audioManager;
     public static int maxVolumn;
+
+    //theme
+    SharedPreferences sharedPreferences;
 
     //top button
     Button setting, timer, mode;
@@ -88,9 +82,19 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        sharedPreferences = getSharedPreferences("modeTable", MODE_PRIVATE);
+        String mode = sharedPreferences.getString("mode", "default");
+        ThemeHelper.applyTheme(mode);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        startGetStateKillApp();
 
 //        testButton();
         setAudioManager();
@@ -99,15 +103,17 @@ public class MainActivity extends AppCompatActivity {
         setViewPager();
         setTabLayout();
         setBottomSheet();
-        startActivity(new Intent(MainActivity.this, TimerDialog.class));
-//        TimerDialog.TimerDialog(MainActivity.this, MainActivity.this);
+
+//        sharedPreferences = getSharedPreferences("modeTable", MODE_PRIVATE);
+//        String mode = sharedPreferences.getString("mode", "default");
+//        ThemeHelper.applyTheme(mode);
+//        ThemeDialog.themeDialog(MainActivity.this);
     }
 
 //    private void testButton() {
 //        Button testButton1 = findViewById(R.id.testButton1);
 //        Button testButton2 = findViewById(R.id.testButton2);
 //        Button testButton3 = findViewById(R.id.testButton3);
-//        Button testButton4 = findViewById(R.id.testButton4);
 ////        testButton1.setVisibility(View.GONE);
 ////        testButton2.setVisibility(View.GONE);
 ////        testButton3.setVisibility(View.GONE);
@@ -115,128 +121,33 @@ public class MainActivity extends AppCompatActivity {
 //        testButton1.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                String path = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
-//                File file = new File(path);
-//                if (file.exists()) {
-//                    Log.d(">>>MainActivity", "have already");
-//                } else {
-//                    Log.d(">>>MainActivity", "no have. will start download");
-//                    FirebaseStorage storage = FirebaseStorage.getInstance();
-//                    StorageReference reference = storage.getReference();
-//                    String fileName = "audio3-1.mp3";
-//                    try {
-//                        File localFile = File.createTempFile("audio", "0");
-//                        reference.child("audios").child(fileName).getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                            @Override
-//                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                                File from = new File(getApplicationInfo().dataDir + "/cache", localFile.getName());
-//                                File to = new File(getApplicationInfo().dataDir + "/cache", fileName);
-//                                if (from.exists()) {
-//                                    from.renameTo(to);
-//                                }
-////                    stopSelf();
-//                                Intent intent = new Intent(MainActivity.this, DownloadService.class);
-//                                stopService(intent);
-//                                SuccessDownloadNotification.successDownloadNotification(MainActivity.this);
-//                                Log.d("StoragePageAdapter>>>", "download success");
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Log.d("StoragePageAdapter>>>", "download failed: " + e.toString());
-//                                Toast.makeText(MainActivity.this, "failed download. please try again. (" + e.toString() + ")", Toast.LENGTH_LONG).show();
-//                                SuccessDownloadNotification.failedDownloadNotification(MainActivity.this, e.toString());
-//                            }
-//                        });
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+//                ThemeHelper.applyTheme("light");
 //            }
 //        });
 //
 //        testButton2.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                String path1 = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
-//                String path2 = getApplicationInfo().dataDir + "/cache/audio3-2.mp3";
-//                String path3 = getApplicationInfo().dataDir + "/cache/audio4-1.mp3";
-//                String path4 = getApplicationInfo().dataDir + "/cache/audio4-2.mp3";
-//                File file1 = new File(path1);
-//                File file2 = new File(path2);
-//                File file3 = new File(path3);
-//                File file4 = new File(path4);
-//                if (file1.exists()) {
-//                    Log.d(">>>MainActivity", "1have");
-//                } else {
-//                    Log.d(">>>MainActivity", "1no have");
-//                }
-//
-//                if (file2.exists()) {
-//                    Log.d(">>>MainActivity", "2have");
-//                } else {
-//                    Log.d(">>>MainActivity", "2no have");
-//                }
-//
-//                if (file3.exists()) {
-//                    Log.d(">>>MainActivity", "3have");
-//                } else {
-//                    Log.d(">>>MainActivity", "3no have");
-//                }
-//
-//                if (file4.exists()) {
-//                    Log.d(">>>MainActivity", "4have");
-//                } else {
-//                    Log.d(">>>MainActivity", "4no have");
-//                }
+//                ThemeHelper.applyTheme("dark");
 //            }
 //        });
 //
 //        testButton3.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//////                String path = getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
-////                String path = getApplicationInfo().dataDir + "/cache/audio4647283716101701270";
-////                File file = new File(path);
-////                if (file.exists()) {
-////                    Log.d(">>>MainActivity", "have");
-////                    file.delete();
-////                    Log.d(">>>MainActivity", "deleted");
-////                } else {
-////                    Log.d(">>>MainActivity", "no have");
-////                }
-//
-//                String path = getApplicationInfo().dataDir + "/cache/";
-//                File file = new File(path);
-//                File[] files = file.listFiles();
-//
-//                if (files == null) {
-//                    Log.d("MainActivity>>>", "list is null");
-//                } else {
-//                    Log.d("MainActivity>>>", "list is not null");
-//                }
-//
-//                if (files.length == 0) {
-//                    Log.d("MainActivity>>>", "list size 0");
-//                } else {
-//                    Log.d("MainActivity>>>", "list size not 0");
-//                }
-//            }
-//        });
-//
-//        testButton4.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String path = getApplicationInfo().dataDir + "/cache/";
-//                File file = new File(path);
-//                File[] files = file.listFiles();
-//
-//                for (int i = 0; i < files.length; i++) {
-//                    Log.d("MainActivity>>>", files[i].getName());
-//                }
+//                ThemeHelper.applyTheme("default");
 //            }
 //        });
 //    }
+
+    private void startGetStateKillApp() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            this.startForegroundService(new Intent(MainActivity.this, GetStateKillApp.class));
+//        } else {
+//            this.startService(new Intent(MainActivity.this, GetStateKillApp.class));
+//        }
+        this.startService(new Intent(MainActivity.this, GetStateKillApp.class));
+    }
 
     private void setTopButton() {
         setting = findViewById(R.id.activity_main_setting);
@@ -270,7 +181,8 @@ public class MainActivity extends AppCompatActivity {
         mode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ScreenModeDialog.class));
+//                startActivity(new Intent(MainActivity.this, ThemeDialog.class));
+                ThemeDialog.themeDialog(MainActivity.this);
             }
         });
     }
@@ -503,5 +415,19 @@ public class MainActivity extends AppCompatActivity {
     private void setDatabaseHandler() {
         databaseHandler.setDB(MainActivity.this);
         databaseHandler = new DatabaseHandler(MainActivity.this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d("MainActivity>>>", "onKeyDown: ");
+//        if(keyCode == KeyEvent.KEYCODE_BACK){
+//            return true;
+//        }
+        return super.onKeyDown(keyCode, event);
     }
 }

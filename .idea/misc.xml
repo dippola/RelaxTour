@@ -21,7 +21,7 @@
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/notification_close.xml" value="0.2435" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/setting.xml" value="0.2435" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/success_download.xml" value="0.2435" />
-        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/activity_main.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/add_title_dialog.xml" value="0.25" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/ask_download_dialog.xml" value="0.37135416666666665" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/bottom_sheet.xml" value="0.37135416666666665" />
@@ -40,6 +40,7 @@
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/storage_manage_dialog.xml" value="0.37135416666666665" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/storage_manage_dialog_item.xml" value="0.37135416666666665" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/storage_page_item.xml" value="0.37135416666666665" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/theme_dialog.xml" value="0.2552083333333333" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/timer1.xml" value="0.37135416666666665" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/timer2.xml" value="0.33" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/timer_dialog.xml" value="0.25" />

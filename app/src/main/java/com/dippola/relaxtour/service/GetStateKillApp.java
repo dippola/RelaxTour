@@ -23,7 +23,6 @@ public class GetStateKillApp extends Service {
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        //my code
         databaseHandler = new DatabaseHandler(getApplicationContext());
         databaseHandler.whenAppKillTask();
         stopSelf();

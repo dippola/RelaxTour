@@ -17,25 +17,25 @@
             android:orientation="vertical">
 
             <RadioGroup
-                android:id="@+id/screen_mode_dialog_radio_group"
+                android:id="@+id/theme_dialog_radio_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal">
 
                 <RadioButton
-                    android:id="@+id/screen_mode_dialog_night_mode"
+                    android:id="@+id/theme_dialog_light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Night Mode" />
 
                 <RadioButton
-                    android:id="@+id/screen_mode_dialog_dark_mode"
+                    android:id="@+id/theme_dialog_dark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dark Mode" />
 
                 <RadioButton
-                    android:id="@+id/screen_mode_dialog_device_set"
+                    android:id="@+id/theme_dialog_system"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Device Set" />
@@ -45,19 +45,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
 
                 <Button
-                    android:id="@+id/screen_mode_dialog_ok"
+                    android:id="@+id/theme_dialog_okbtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ok" />
 
-                <Button
-                    android:id="@+id/screen_mode_dialog_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="cancel" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
