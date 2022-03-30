@@ -1,5 +1,6 @@
 package com.dippola.relaxtour;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -17,8 +18,10 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -81,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
     public static BottomSheetAdapter bottomSheetAdapter;
     RecyclerView.LayoutManager layoutManager;
 
+    RelativeLayout bottomOutside;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -95,6 +100,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         startGetStateKillApp();
+
+        bottomOutside = findViewById(R.id.activity_main_bottom_outside);
+        bottomOutside.setVisibility(View.GONE);
+        bottomOutside.bringToFront();
+        bottomOutside.setClickable(false);
 
 //        testButton();
         setAudioManager();
@@ -289,9 +299,31 @@ public class MainActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int y = (int)(size.y * 0.4);
+        int y = (int)(size.y * 0.5);
         pageitemsize = (int)(size.x * 0.37);
         bottomRecyclerView.setMinimumHeight(y);
+
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            bottomOutside.setVisibility(View.VISIBLE);
+        } else {
+            bottomOutside.setVisibility(View.GONE);
+        }
+
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    bottomOutside.setVisibility(View.VISIBLE);
+                } else {
+                    bottomOutside.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
 
         bottomSheetTitleBar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -385,6 +417,15 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (bottomSheetPlayList.size() != 0) {
                     databaseHandler.deleteAllPlayingListTest();
+                }
+            }
+        });
+
+        bottomOutside.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 }
             }
         });
