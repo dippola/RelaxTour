@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <solid android:color="#40385C"/>
-    <corners android:topLeftRadius="25dp"
-        android:topRightRadius="25dp"
+    <gradient
+        android:angle="45"
+        android:startColor="@color/bottom_sheet_background_start"
+        android:endColor="@color/bottom_sheet_background_end"/>
+    <corners
         android:bottomLeftRadius="25dp"
-        android:bottomRightRadius="25dp"/>
+        android:bottomRightRadius="25dp"
+        android:topLeftRadius="25dp"
+        android:topRightRadius="25dp" />
 
 </shape>

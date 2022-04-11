@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/activity_main_background.xml" value="0.1965" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/bottom_cycle_button.xml" value="0.2435" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/bottom_pause.xml" value="0.2435" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/bottom_play.xml" value="0.2435" />
@@ -19,6 +20,8 @@
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/fav_page_item_play.xml" value="0.2435" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/main_head.xml" value="0.2435" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/notification_close.xml" value="0.2435" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/page_round.xml" value="0.1965" />
+        <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/pand_button_color.xml" value="0.1965" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/setting.xml" value="0.2435" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/drawable/success_download.xml" value="0.2435" />
         <entry key="..\:/Users/kmj65/AndroidStudioProjects/RelaxTour/app/src/main/res/layout/activity_main.xml" value="0.22" />

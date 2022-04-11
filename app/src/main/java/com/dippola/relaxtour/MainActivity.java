@@ -305,8 +305,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             bottomOutside.setVisibility(View.VISIBLE);
+            upAndDown.setBackgroundResource(R.drawable.bottom_sheet_button_down);
         } else {
             bottomOutside.setVisibility(View.GONE);
+            upAndDown.setBackgroundResource(R.drawable.bottom_sheet_button_up);
         }
 
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -426,6 +428,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    upAndDown.setBackgroundResource(R.drawable.bottom_sheet_button_up);
                 }
             }
         });

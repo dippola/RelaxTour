@@ -8,7 +8,8 @@
         android:id="@+id/page_box"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#DC8A8A">
+        android:background="@drawable/page_round"
+        android:elevation="15dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/page_recyclerview"

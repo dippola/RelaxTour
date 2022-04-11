@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     app:behavior_hideable="false"
     app:behavior_peekHeight="90dp"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    android:elevation="10dp">
 
 
     <RelativeLayout
@@ -13,7 +14,8 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/bottom_cycle_button">
+        android:background="@drawable/bottom_cycle_button"
+        android:elevation="10dp">
 
         <Button
             android:id="@+id/bottom_sheet_pands"
@@ -52,7 +54,8 @@
                 android:layout_height="35dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
-                android:layout_toLeftOf="@+id/bottom_upanddown" />
+                android:layout_toLeftOf="@+id/bottom_upanddown"
+                android:background="@drawable/add_fav"/>
 
             <Button
                 android:id="@+id/bottom_upanddown"
