@@ -22,7 +22,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerInParent="true"
-            android:background="@drawable/bottom_sheet_play_default" />
+            android:background="@drawable/bottom_sheet_play" />
     </RelativeLayout>
 
     <LinearLayout

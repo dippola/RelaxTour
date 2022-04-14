@@ -404,12 +404,6 @@ public class MainActivity extends AppCompatActivity {
         bottomRecyclerView.setLayoutManager(layoutManager);
         bottomRecyclerView.setAdapter(bottomSheetAdapter);
 
-        if (bottomSheetPlayList.size() == 0) {
-            pands.setBackgroundResource(R.drawable.bottom_sheet_play_default);
-        } else {
-            pands.setBackgroundResource(R.drawable.bottom_sheet_play);
-        }
-
         deletePlayingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
