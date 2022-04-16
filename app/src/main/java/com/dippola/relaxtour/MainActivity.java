@@ -335,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
         display.getSize(size);
         int y = (int)(size.y * 0.5);
         pageitem_width_size = (int)(size.x * 0.37);
-        pageitem_height_size = (int)(pageitem_width_size * 0.7);
+        pageitem_height_size = (int)(pageitem_width_size * 0.75);
         bottomRecyclerView.setMinimumHeight(y);
 
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {

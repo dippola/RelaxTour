@@ -9,12 +9,15 @@ public class PageItem {
     byte[] img;
     int seek;
     int isplay;
+    int time;
+    String name;
+    int ispro;
 
     public PageItem() {
 
     }
 
-    public PageItem(int page, int position, String pnp, byte[] imgdefault, byte[] img, int seek, int isplay) {
+    public PageItem(int page, int position, String pnp, byte[] imgdefault, byte[] img, int seek, int isplay, int time, String name, int ispro) {
         this.page = page;
         this.position = position;
         this.pnp = pnp;
@@ -22,6 +25,9 @@ public class PageItem {
         this.img = img;
         this.seek = seek;
         this.isplay = isplay;
+        this.time = time;
+        this.name = name;
+        this.ispro = ispro;
     }
 
     public int getPage() {
@@ -78,5 +84,29 @@ public class PageItem {
 
     public void setIsplay(int isplay) {
         this.isplay = isplay;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getIspro() {
+        return ispro;
+    }
+
+    public void setIspro(int ispro) {
+        this.ispro = ispro;
     }
 }

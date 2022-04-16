@@ -9,9 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:scaleType="centerCrop"
-        android:layout_margin="10dp"/>
-
+        android:scaleType="fitCenter"
+        android:layout_margin="10dp" />
     <SeekBar
         android:id="@+id/page_item_seekbar"
         android:layout_width="match_parent"
