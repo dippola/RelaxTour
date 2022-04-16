@@ -50,8 +50,8 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         int positions = position;
         Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
         Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
-        holder.img.setMinimumWidth(MainActivity.pageitemsize);
-        holder.img.setMinimumHeight(MainActivity.pageitemsize);
+        holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
+        holder.img.setMinimumHeight(MainActivity.pageitem_height_size);
         if (arrayList.get(position).getIsplay() == 1) {
             holder.img.setImageBitmap(bitmap1);
         } else {

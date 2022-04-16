@@ -54,7 +54,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static DatabaseHandler databaseHandler;
-    public static int pageitemsize;
+    public static int pageitem_width_size;
+    public static int pageitem_height_size;
     AudioManager audioManager;
     public static int maxVolumn;
 
@@ -205,11 +206,36 @@ public class MainActivity extends AppCompatActivity {
     private void setTabLayout() {
         tabRecycler = findViewById(R.id.activity_main_tablayout);
         ArrayList<MainTabItem> tabsList = new ArrayList<>();
-        tabsList.add(new MainTabItem(R.drawable.fav_tab_default, "fav", false));
-        tabsList.add(new MainTabItem(R.drawable.rain_tab, "rain", true));
-        tabsList.add(new MainTabItem(R.drawable.wind_tab_default, "wind", false));
-        tabsList.add(new MainTabItem(R.drawable.cakra_tab_default, "chakra", false));
-        tabsList.add(new MainTabItem(R.drawable.hz_tab_default, "mandra", false));
+        tabsList.add(new MainTabItem(R.drawable.tabicon_fav_default, "fav", false));
+        tabsList.add(new MainTabItem(R.drawable.tabicon_rain_default, "rain", false));
+        tabsList.add(new MainTabItem(R.drawable.tabicon_river_default, "river", false));
+        tabsList.add(new MainTabItem(R.drawable.tabicon_wind_default, "wind", false));
+        tabsList.add(new MainTabItem(R.drawable.tabicon_chakra_default, "chakra", false));
+        tabsList.add(new MainTabItem(R.drawable.tabicon_mantra_default, "mantra", false));
+        tabsList.add(new MainTabItem(R.drawable.tabicon_hz_default, "mandra", false));
+
+        if (viewPager.getCurrentItem() == 0) {
+            tabsList.get(0).setImg(R.drawable.tabicon_fav);
+            tabsList.get(0).setOpen(true);
+        } else if (viewPager.getCurrentItem() == 1) {
+            tabsList.get(1).setImg(R.drawable.tabicon_rain);
+            tabsList.get(1).setOpen(true);
+        } else if (viewPager.getCurrentItem() == 2) {
+            tabsList.get(2).setImg(R.drawable.tabicon_river);
+            tabsList.get(2).setOpen(true);
+        } else if (viewPager.getCurrentItem() == 3) {
+            tabsList.get(3).setImg(R.drawable.tabicon_wind);
+            tabsList.get(3).setOpen(true);
+        } else if (viewPager.getCurrentItem() == 4) {
+            tabsList.get(4).setImg(R.drawable.tabicon_chakra);
+            tabsList.get(4).setOpen(true);
+        } else if (viewPager.getCurrentItem() == 5) {
+            tabsList.get(5).setImg(R.drawable.tabicon_mantra);
+            tabsList.get(5).setOpen(true);
+        } else if (viewPager.getCurrentItem() == 6) {
+            tabsList.get(6).setImg(R.drawable.tabicon_hz);
+            tabsList.get(6).setOpen(true);
+        }
 
         RecyclerView.LayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL);
         tabRecycler.setLayoutManager(layoutManager);
@@ -229,29 +255,37 @@ public class MainActivity extends AppCompatActivity {
                     if (i != position) {//선택안된page
                         tabsList.get(i).setOpen(false);
                         if (i == 0) {
-                            tabsList.get(i).setImg(R.drawable.fav_tab_default);
+                            tabsList.get(i).setImg(R.drawable.tabicon_fav_default);
                         } else if (i == 1) {
-                            tabsList.get(i).setImg(R.drawable.rain_tab_default);
+                            tabsList.get(i).setImg(R.drawable.tabicon_rain_default);
                         } else if (i == 2) {
-                            tabsList.get(i).setImg(R.drawable.wind_tab_default);
+                            tabsList.get(i).setImg(R.drawable.tabicon_river_default);
                         } else if (i == 3) {
-                            tabsList.get(i).setImg(R.drawable.cakra_tab_default);
+                            tabsList.get(i).setImg(R.drawable.tabicon_wind_default);
                         } else if (i == 4) {
-                            tabsList.get(i).setImg(R.drawable.hz_tab_default);
+                            tabsList.get(i).setImg(R.drawable.tabicon_chakra_default);
+                        } else if (i == 5) {
+                            tabsList.get(i).setImg(R.drawable.tabicon_mantra_default);
+                        } else if (i == 6) {
+                            tabsList.get(i).setImg(R.drawable.tabicon_hz_default);
                         }
                         mainTabAdapter.notifyItemChanged(i);
                     } else {//선택된 page
                         tabsList.get(position).setOpen(true);
                         if (position == 0) {
-                            tabsList.get(position).setImg(R.drawable.fav_tab);
+                            tabsList.get(position).setImg(R.drawable.tabicon_fav);
                         } else if (position == 1) {
-                            tabsList.get(position).setImg(R.drawable.rain_tab);
+                            tabsList.get(position).setImg(R.drawable.tabicon_rain);
                         } else if (position == 2) {
-                            tabsList.get(position).setImg(R.drawable.wind_tab);
+                            tabsList.get(position).setImg(R.drawable.tabicon_river);
                         } else if (position == 3) {
-                            tabsList.get(position).setImg(R.drawable.cakra_tab);
+                            tabsList.get(position).setImg(R.drawable.tabicon_wind);
                         } else if (position == 4) {
-                            tabsList.get(position).setImg(R.drawable.hz_tab);
+                            tabsList.get(position).setImg(R.drawable.tabicon_chakra);
+                        } else if (position == 5) {
+                            tabsList.get(position).setImg(R.drawable.tabicon_mantra);
+                        } else if (position == 6) {
+                            tabsList.get(position).setImg(R.drawable.tabicon_hz);
                         }
                         mainTabAdapter.notifyItemChanged(position);
                     }
@@ -300,7 +334,8 @@ public class MainActivity extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size);
         int y = (int)(size.y * 0.5);
-        pageitemsize = (int)(size.x * 0.37);
+        pageitem_width_size = (int)(size.x * 0.37);
+        pageitem_height_size = (int)(pageitem_width_size * 0.7);
         bottomRecyclerView.setMinimumHeight(y);
 
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {

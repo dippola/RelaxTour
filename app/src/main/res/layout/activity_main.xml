@@ -58,19 +58,21 @@
 
                 <Button
                     android:id="@+id/activity_main_setting"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginLeft="35dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/setting" />
+
                 <Button
                     android:id="@+id/activity_main_mode"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/setting"
-                    android:layout_toRightOf="@+id/activity_main_setting"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_toRightOf="@+id/activity_main_setting"
+                    android:background="@drawable/top_icon_light_dark"
+                    android:elevation="5dp"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"

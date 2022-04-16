@@ -41,8 +41,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final String PLAYING_TABLE_NAME = "playing";
     private static final String RAIN_TABLE_NAME = "rain";
+    private static final String RIVER_TABLE_NAME = "river";
     private static final String WIND_TABLE_NAME = "wind";
     private static final String CHAKRA_TABLE_NAME = "chakra";
+    private static final String MANTRA_TABLE_NAME = "mantra";
     private static final String HZ_TABLE_NAME = "hz";
 
     public static final String COLUMN_PAGE = "page";
@@ -62,8 +64,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final String PLAYING_TEAM = "create table if not exists " + PLAYING_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER" + ");";
     private static final String RAIN_TEAM = "create table if not exists " + RAIN_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER" + ");";
+    private static final String RIVER_TEAM = "create table if not exists " + RIVER_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER" + ");";
     private static final String WIND_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER" + ");";
     private static final String CHAKRA_TEAM = "create table if not exists " + CHAKRA_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER" + ");";
+    private static final String MANTRA_TEAM = "create table if not exists " + MANTRA_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER" + ");";
     private static final String HZ_TEAM = "create table if not exists " + HZ_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER" + ");";
 
     private static final String FAV_TITLE_TEAM = "create table if not exists " + FAV_TITLE_TABLE_NAME + "(" + COLUMN_FAV_TITLE + " TEXT," + COLUMN_FAV_ISPLAY + " INTEGER" + ");";
@@ -105,8 +109,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(PLAYING_TEAM);
         sqLiteDatabase.execSQL(RAIN_TEAM);
+        sqLiteDatabase.execSQL(RIVER_TEAM);
         sqLiteDatabase.execSQL(WIND_TEAM);
         sqLiteDatabase.execSQL(CHAKRA_TEAM);
+        sqLiteDatabase.execSQL(MANTRA_TEAM);
         sqLiteDatabase.execSQL(HZ_TEAM);
         sqLiteDatabase.execSQL(FAV_TITLE_TEAM);
         sqLiteDatabase.execSQL(FAV_LIST_TEAM);
@@ -116,15 +122,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE " + PLAYING_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + RAIN_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE " + RIVER_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + WIND_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + FAV_TITLE_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + FAV_LIST_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + CHAKRA_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE " + MANTRA_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + HZ_TABLE_NAME);
         sqLiteDatabase.execSQL(PLAYING_TEAM);
         sqLiteDatabase.execSQL(RAIN_TEAM);
+        sqLiteDatabase.execSQL(RIVER_TEAM);
         sqLiteDatabase.execSQL(WIND_TEAM);
         sqLiteDatabase.execSQL(CHAKRA_TEAM);
+        sqLiteDatabase.execSQL(MANTRA_TEAM);
         sqLiteDatabase.execSQL(HZ_TEAM);
         sqLiteDatabase.execSQL(FAV_TITLE_TEAM);
         sqLiteDatabase.execSQL(FAV_LIST_TEAM);
@@ -180,6 +190,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return pageItems;
     }
 
+    public ArrayList<PageItem> getRiverList() {
+        PageItem pageItem = null;
+        ArrayList<PageItem> pageItems = new ArrayList<>();
+
+        openDatabase();
+        String sql = "SELECT * FROM river";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6));
+            pageItems.add(pageItem);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        closeDatabse();
+        return pageItems;
+    }
+
     public ArrayList<PageItem> getWindList() {
         PageItem pageItem = null;
         ArrayList<PageItem> pageItems = new ArrayList<>();
@@ -204,6 +232,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         openDatabase();
         String sql = "SELECT * FROM chakra";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6));
+            pageItems.add(pageItem);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        closeDatabse();
+        return pageItems;
+    }
+
+    public ArrayList<PageItem> getMantraList() {
+        PageItem pageItem = null;
+        ArrayList<PageItem> pageItems = new ArrayList<>();
+
+        openDatabase();
+        String sql = "SELECT * FROM mantra";
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

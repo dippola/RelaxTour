@@ -56,12 +56,12 @@ public class StoragePageAdapter extends RecyclerView.Adapter<StoragePageAdapter.
         Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
         Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
 
-        holder.download.setMinimumHeight(MainActivity.pageitemsize);
-        holder.download.setMinimumWidth(MainActivity.pageitemsize);
-        holder.progressBar.setMinimumHeight(MainActivity.pageitemsize);
-        holder.progressBar.setMinimumWidth(MainActivity.pageitemsize);
-        holder.button.setMinimumHeight(MainActivity.pageitemsize);
-        holder.button.setMinimumWidth(MainActivity.pageitemsize);
+        holder.download.setMinimumHeight(MainActivity.pageitem_width_size);
+        holder.download.setMinimumWidth(MainActivity.pageitem_width_size);
+        holder.progressBar.setMinimumHeight(MainActivity.pageitem_width_size);
+        holder.progressBar.setMinimumWidth(MainActivity.pageitem_width_size);
+        holder.button.setMinimumHeight(MainActivity.pageitem_width_size);
+        holder.button.setMinimumWidth(MainActivity.pageitem_width_size);
 
         if (arrayList.get(position).getIsplay() == 1) {
             holder.button.setImageBitmap(bitmap1);

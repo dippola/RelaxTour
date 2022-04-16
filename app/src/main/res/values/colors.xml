@@ -13,13 +13,16 @@
 <!--    <color name="activity_main_background_start">#9ce5f4</color>-->
 <!--    <color name="activity_main_background_end">#cef6d1</color>-->
     <color name="activity_main_background_start">#E6F5F8</color>
-    <color name="activity_main_background_end">#E5F8E7</color>
+<!--    <color name="activity_main_background_end">#E5F8E7</color>-->
+    <color name="activity_main_background_end">#ffffff</color>
 
     <color name="activity_main_page_background_color_left">#f2f3f8</color>
     <color name="activity_main_page_background_color_right">#fbfef9</color>
 
-    <color name="bottom_sheet_background_start">#7EE6B9</color>
-    <color name="bottom_sheet_background_end">#CEDF7B</color>
+<!--    <color name="bottom_sheet_background_start">#7EE6B9</color>-->
+<!--    <color name="bottom_sheet_background_end">#CEDF7B</color>-->
+    <color name="bottom_sheet_background_start">#B490EC</color>
+    <color name="bottom_sheet_background_end">#8DAAEC</color>
 
     <color name="pands_start">#C6A0FF</color>
     <color name="pands_end">#9AB8FD</color>
