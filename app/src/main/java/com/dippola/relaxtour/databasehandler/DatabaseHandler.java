@@ -9,8 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.dialog.AddTitleDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
@@ -41,8 +39,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final String PLAYING_TABLE_NAME = "playing";
     private static final String RAIN_TABLE_NAME = "rain";
-    private static final String RIVER_TABLE_NAME = "river";
+    private static final String WATER_TABLE_NAME = "water";
     private static final String WIND_TABLE_NAME = "wind";
+    private static final String NATURE_TABLE_NAME = "nature";
     private static final String CHAKRA_TABLE_NAME = "chakra";
     private static final String MANTRA_TABLE_NAME = "mantra";
     private static final String HZ_TABLE_NAME = "hz";
@@ -57,6 +56,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String COLUMN_TIME = "time";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_ISPRO = "ispro";
+    public static final String COLUMN_NEED_DOWNLOAD = "needdownload";
 
     //fav
     private static final String FAV_TITLE_TABLE_NAME = "favtitle";
@@ -65,16 +65,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String FAV_LIST_TABLE_NAME = "favlist";
     public static final String COLUMN_FAVTITLENAME = "favtitlename";
 
-    private static final String PLAYING_TEAM = "create table if not exists " + PLAYING_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER" + ");";
-    private static final String RAIN_TEAM = "create table if not exists " + RAIN_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER" + ");";
-    private static final String RIVER_TEAM = "create table if not exists " + RIVER_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER" + ");";
-    private static final String WIND_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER" + ");";
-    private static final String CHAKRA_TEAM = "create table if not exists " + CHAKRA_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER" + ");";
-    private static final String MANTRA_TEAM = "create table if not exists " + MANTRA_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER" + ");";
-    private static final String HZ_TEAM = "create table if not exists " + HZ_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER" + ");";
+    private static final String PLAYING_TEAM = "create table if not exists " + PLAYING_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
+    private static final String RAIN_TEAM = "create table if not exists " + RAIN_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER,"  + COLUMN_NEED_DOWNLOAD + " INTEGER"  + ");";
+    private static final String RIVER_TEAM = "create table if not exists " + WATER_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER"  + ");";
+    private static final String WIND_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
+    private static final String NATURE_TEAM = "create table if not exists " + NATURE_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER"  + ");";
+    private static final String CHAKRA_TEAM = "create table if not exists " + CHAKRA_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER"  + ");";
+    private static final String MANTRA_TEAM = "create table if not exists " + MANTRA_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER"  + ");";
+    private static final String HZ_TEAM = "create table if not exists " + HZ_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER"  + ");";
 
     private static final String FAV_TITLE_TEAM = "create table if not exists " + FAV_TITLE_TABLE_NAME + "(" + COLUMN_FAV_TITLE + " TEXT," + COLUMN_FAV_ISPLAY + " INTEGER" + ");";
-    private static final String FAV_LIST_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER," +  COLUMN_FAVTITLENAME + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER" + ");";
+    private static final String FAV_LIST_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER," +  COLUMN_FAVTITLENAME + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER"  + ");";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -114,6 +115,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(RAIN_TEAM);
         sqLiteDatabase.execSQL(RIVER_TEAM);
         sqLiteDatabase.execSQL(WIND_TEAM);
+        sqLiteDatabase.execSQL(NATURE_TEAM);
         sqLiteDatabase.execSQL(CHAKRA_TEAM);
         sqLiteDatabase.execSQL(MANTRA_TEAM);
         sqLiteDatabase.execSQL(HZ_TEAM);
@@ -125,8 +127,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE " + PLAYING_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + RAIN_TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE " + RIVER_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE " + WATER_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + WIND_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE " + NATURE_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + FAV_TITLE_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + FAV_LIST_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + CHAKRA_TABLE_NAME);
@@ -136,6 +139,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(RAIN_TEAM);
         sqLiteDatabase.execSQL(RIVER_TEAM);
         sqLiteDatabase.execSQL(WIND_TEAM);
+        sqLiteDatabase.execSQL(NATURE_TEAM);
         sqLiteDatabase.execSQL(CHAKRA_TEAM);
         sqLiteDatabase.execSQL(MANTRA_TEAM);
         sqLiteDatabase.execSQL(HZ_TEAM);
@@ -166,7 +170,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9));
+            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9), cursor.getInt(10));
             pageItems.add(pageItem);
             cursor.moveToNext();
         }
@@ -184,7 +188,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9));
+            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9), cursor.getInt(10));
             pageItems.add(pageItem);
             cursor.moveToNext();
         }
@@ -193,16 +197,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return pageItems;
     }
 
-    public ArrayList<PageItem> getRiverList() {
+    public ArrayList<PageItem> getWaterList() {
         PageItem pageItem = null;
         ArrayList<PageItem> pageItems = new ArrayList<>();
 
         openDatabase();
-        String sql = "SELECT * FROM river";
+        String sql = "SELECT * FROM water";
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9));
+            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9), cursor.getInt(10));
             pageItems.add(pageItem);
             cursor.moveToNext();
         }
@@ -220,7 +224,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9));
+            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9), cursor.getInt(10));
+            pageItems.add(pageItem);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        closeDatabse();
+        return pageItems;
+    }
+
+    public ArrayList<PageItem> getNatureList() {
+        PageItem pageItem = null;
+        ArrayList<PageItem> pageItems = new ArrayList<>();
+
+        openDatabase();
+        String sql = "SELECT * FROM nature";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9), cursor.getInt(10));
             pageItems.add(pageItem);
             cursor.moveToNext();
         }
@@ -238,7 +260,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9));
+            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9), cursor.getInt(10));
             pageItems.add(pageItem);
             cursor.moveToNext();
         }
@@ -256,7 +278,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9));
+            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9), cursor.getInt(10));
             pageItems.add(pageItem);
             cursor.moveToNext();
         }
@@ -274,7 +296,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9));
+            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9), cursor.getInt(10));
             pageItems.add(pageItem);
             cursor.moveToNext();
         }
@@ -557,7 +579,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         int count = 0;
         while (!cursor.isAfterLast()) {
             count += 1;
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), 2, cursor.getInt(7), cursor.getString(8), cursor.getInt(9));
+            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getInt(5), 2, cursor.getInt(7), cursor.getString(8), cursor.getInt(9), cursor.getInt(10));
             MainActivity.bottomSheetPlayList.add(pageItem);
             ContentValues contentValues = new ContentValues();
             contentValues.put("page", cursor.getInt(0));

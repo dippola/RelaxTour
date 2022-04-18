@@ -226,16 +226,16 @@ public class StoragePageAdapter extends RecyclerView.Adapter<StoragePageAdapter.
     private void checkHaveAudio(ProgressBar progressBar, ImageView button, ImageView download, String pnp) {
         String path = context.getApplicationInfo().dataDir + "/cache/";
         if (pnp.equals("3-1")) {
-            String filePath = path + "audio3-1.mp3";
+            String filePath = path + "audio3to1.mp3";
             checkHaveAudio2(progressBar, button, download, filePath);
         } else if (pnp.equals("3-2")) {
-            String filePath = path + "audio3-2.mp3";
+            String filePath = path + "audio3to2.mp3";
             checkHaveAudio2(progressBar, button, download, filePath);
         } else if (pnp.equals("4-1")) {
-            String filePath = path + "audio4-1.mp3";
+            String filePath = path + "audio4to1.mp3";
             checkHaveAudio2(progressBar, button, download, filePath);
         } else if (pnp.equals("4-2")) {
-            String filePath = path + "audio4-2.mp3";
+            String filePath = path + "audio4to2.mp3";
             checkHaveAudio2(progressBar, button, download, filePath);
         }
     }

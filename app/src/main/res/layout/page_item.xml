@@ -3,18 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/page_item_button_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/page_item_img"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:scaleType="fitCenter"
-        android:layout_margin="10dp" />
+        <ImageView
+            android:id="@+id/page_item_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/page_item_download"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/download_icon"
+            android:layout_centerInParent="true"/>
+
+        <ProgressBar
+            android:id="@+id/page_item_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
     <SeekBar
         android:id="@+id/page_item_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

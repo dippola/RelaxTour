@@ -28,6 +28,10 @@ public class RainPage extends Fragment {
 
     public static MediaPlayer p1p1_1, p1p1_2;
     public static MediaPlayer p1p2_1, p1p2_2;
+    public static MediaPlayer p1p3_1, p1p3_2;
+    public static MediaPlayer p1p4_1, p1p4_2;
+    public static MediaPlayer p1p5_1, p1p5_2;
+    public static MediaPlayer p1p6_1, p1p6_2;
 
     RelativeLayout pageBox;
     public static ArrayList<PageItem> arrayList = new ArrayList<>();
@@ -48,10 +52,18 @@ public class RainPage extends Fragment {
     }
 
     private void setAudio() {
-        p1p1_1 = MediaPlayer.create(getActivity(), R.raw.p1p1);
-        p1p1_2 = MediaPlayer.create(getActivity(), R.raw.p1p1);
-        p1p2_1 = MediaPlayer.create(getActivity(), R.raw.p1p2);
-        p1p2_2 = MediaPlayer.create(getActivity(), R.raw.p1p2);
+        p1p1_1 = MediaPlayer.create(getActivity(), R.raw.audio1to1);
+        p1p1_2 = MediaPlayer.create(getActivity(), R.raw.audio1to1);
+        p1p2_1 = MediaPlayer.create(getActivity(), R.raw.audio1to2);
+        p1p2_2 = MediaPlayer.create(getActivity(), R.raw.audio1to2);
+        p1p3_1 = MediaPlayer.create(getActivity(), R.raw.audio1to3);
+        p1p3_2 = MediaPlayer.create(getActivity(), R.raw.audio1to3);
+        p1p4_1 = MediaPlayer.create(getActivity(), R.raw.audio1to4);
+        p1p4_2 = MediaPlayer.create(getActivity(), R.raw.audio1to4);
+        p1p5_1 = MediaPlayer.create(getActivity(), R.raw.audio1to5);
+        p1p5_2 = MediaPlayer.create(getActivity(), R.raw.audio1to5);
+        p1p6_1 = MediaPlayer.create(getActivity(), R.raw.audio1to6);
+        p1p6_2 = MediaPlayer.create(getActivity(), R.raw.audio1to6);
     }
 
     private void setInit(ViewGroup rootView) {

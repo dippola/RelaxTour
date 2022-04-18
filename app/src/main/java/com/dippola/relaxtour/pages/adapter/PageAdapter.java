@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
@@ -48,15 +49,33 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         int positions = position;
-        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
-        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+
+        if (arrayList.get(position).getImgdefault() != null) {
+            Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
+            Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+            if (arrayList.get(position).getIsplay() == 1) {
+                holder.img.setImageBitmap(bitmap1);
+            } else {
+                holder.img.setImageBitmap(bitmap2);
+            }
+        }
+//        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
+//        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
         holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
         holder.img.setMinimumHeight(MainActivity.pageitem_height_size);
-        if (arrayList.get(position).getIsplay() == 1) {
-            holder.img.setImageBitmap(bitmap1);
-        } else {
-            holder.img.setImageBitmap(bitmap2);
-        }
+        holder.download.setMinimumWidth(MainActivity.pageitem_width_size);
+        holder.download.setMinimumHeight(MainActivity.pageitem_height_size);
+        holder.progressBar.setMinimumWidth(MainActivity.pageitem_width_size);
+        holder.progressBar.setMinimumHeight(MainActivity.pageitem_height_size);
+
+        holder.download.setVisibility(View.GONE);
+        holder.progressBar.setVisibility(View.GONE);
+
+//        if (arrayList.get(position).getIsplay() == 1) {
+//            holder.img.setImageBitmap(bitmap1);
+//        } else {
+//            holder.img.setImageBitmap(bitmap2);
+//        }
 
         holder.seekBar.setProgress(arrayList.get(position).getSeek());
 
@@ -156,11 +175,15 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
         SeekBar seekBar;
+        ImageView download;
+        ProgressBar progressBar;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.img = itemView.findViewById(R.id.page_item_img);
             this.seekBar = itemView.findViewById(R.id.page_item_seekbar);
+            this.download = itemView.findViewById(R.id.page_item_download);
+            this.progressBar = itemView.findViewById(R.id.page_item_progress);
         }
     }
 

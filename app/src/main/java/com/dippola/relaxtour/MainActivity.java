@@ -18,10 +18,8 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,6 +37,7 @@ import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.FavPage;
 import com.dippola.relaxtour.pages.HzPage;
 import com.dippola.relaxtour.pages.RainPage;
+import com.dippola.relaxtour.pages.WaterPage;
 import com.dippola.relaxtour.pages.WindPage;
 import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.service.CheckOpenService;
@@ -208,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<MainTabItem> tabsList = new ArrayList<>();
         tabsList.add(new MainTabItem(R.drawable.tabicon_fav_default, "fav", false));
         tabsList.add(new MainTabItem(R.drawable.tabicon_rain_default, "rain", false));
-        tabsList.add(new MainTabItem(R.drawable.tabicon_river_default, "river", false));
+        tabsList.add(new MainTabItem(R.drawable.tabicon_water_default, "water", false));
         tabsList.add(new MainTabItem(R.drawable.tabicon_wind_default, "wind", false));
         tabsList.add(new MainTabItem(R.drawable.tabicon_chakra_default, "chakra", false));
         tabsList.add(new MainTabItem(R.drawable.tabicon_mantra_default, "mantra", false));
@@ -221,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
             tabsList.get(1).setImg(R.drawable.tabicon_rain);
             tabsList.get(1).setOpen(true);
         } else if (viewPager.getCurrentItem() == 2) {
-            tabsList.get(2).setImg(R.drawable.tabicon_river);
+            tabsList.get(2).setImg(R.drawable.tabicon_water);
             tabsList.get(2).setOpen(true);
         } else if (viewPager.getCurrentItem() == 3) {
             tabsList.get(3).setImg(R.drawable.tabicon_wind);
@@ -259,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
                         } else if (i == 1) {
                             tabsList.get(i).setImg(R.drawable.tabicon_rain_default);
                         } else if (i == 2) {
-                            tabsList.get(i).setImg(R.drawable.tabicon_river_default);
+                            tabsList.get(i).setImg(R.drawable.tabicon_water_default);
                         } else if (i == 3) {
                             tabsList.get(i).setImg(R.drawable.tabicon_wind_default);
                         } else if (i == 4) {
@@ -277,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                         } else if (position == 1) {
                             tabsList.get(position).setImg(R.drawable.tabicon_rain);
                         } else if (position == 2) {
-                            tabsList.get(position).setImg(R.drawable.tabicon_river);
+                            tabsList.get(position).setImg(R.drawable.tabicon_water);
                         } else if (position == 3) {
                             tabsList.get(position).setImg(R.drawable.tabicon_wind);
                         } else if (position == 4) {
@@ -306,8 +305,10 @@ public class MainActivity extends AppCompatActivity {
         sectionsPagerAdapter.addItem(favPage);
         RainPage page1 = new RainPage();
         sectionsPagerAdapter.addItem(page1);
-        WindPage page2 = new WindPage();
+        WaterPage page2 = new WaterPage();
         sectionsPagerAdapter.addItem(page2);
+        WindPage page3 = new WindPage();
+        sectionsPagerAdapter.addItem(page3);
         ChakraPage chakraPage = new ChakraPage();
         sectionsPagerAdapter.addItem(chakraPage);
         HzPage hzPage = new HzPage();
