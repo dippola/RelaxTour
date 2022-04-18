@@ -1,13 +1,10 @@
 package com.dippola.relaxtour.pages;
 
-import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -24,14 +21,10 @@ import com.dippola.relaxtour.pages.item.PageItem;
 
 import java.util.ArrayList;
 
-public class WaterPage extends Fragment {
+public class NaturePage extends Fragment {
 
-    public static MediaPlayer p2p1_1, p2p1_2;
-    public static MediaPlayer p2p2_1, p2p2_2;
-    public static MediaPlayer p2p3_1, p2p3_2;
-    public static MediaPlayer p2p4_1, p2p4_2;
-    public static MediaPlayer p2p5_1, p2p5_2;
-    public static MediaPlayer p2p6_1, p2p6_2;
+    public static MediaPlayer p4p1_1, p4p1_2;
+    public static MediaPlayer p4p2_1, p4p2_2;
 
     RelativeLayout pageBox;
     public static ArrayList<PageItem> arrayList = new ArrayList<>();
@@ -52,18 +45,10 @@ public class WaterPage extends Fragment {
     }
 
     private void setAudio() {
-        p2p1_1 = MediaPlayer.create(getActivity(), R.raw.audio1to1);
-        p2p1_2 = MediaPlayer.create(getActivity(), R.raw.audio1to1);
-        p2p2_1 = MediaPlayer.create(getActivity(), R.raw.audio1to2);
-        p2p2_2 = MediaPlayer.create(getActivity(), R.raw.audio1to2);
-        p2p3_1 = MediaPlayer.create(getActivity(), R.raw.audio1to3);
-        p2p3_2 = MediaPlayer.create(getActivity(), R.raw.audio1to3);
-        p2p4_1 = MediaPlayer.create(getActivity(), R.raw.audio1to4);
-        p2p4_2 = MediaPlayer.create(getActivity(), R.raw.audio1to4);
-        p2p5_1 = MediaPlayer.create(getActivity(), R.raw.audio1to5);
-        p2p5_2 = MediaPlayer.create(getActivity(), R.raw.audio1to5);
-        p2p6_1 = MediaPlayer.create(getActivity(), R.raw.audio1to6);
-        p2p6_2 = MediaPlayer.create(getActivity(), R.raw.audio1to6);
+        p4p1_1 = MediaPlayer.create(getActivity(), R.raw.p2p1);
+        p4p1_2 = MediaPlayer.create(getActivity(), R.raw.p2p1);
+        p4p2_1 = MediaPlayer.create(getActivity(), R.raw.p2p2);
+        p4p2_2 = MediaPlayer.create(getActivity(), R.raw.p2p2);
     }
 
     private void setInit(ViewGroup rootView) {
@@ -73,16 +58,16 @@ public class WaterPage extends Fragment {
     }
 
     private void setRecyclerView() {
-        arrayList = MainActivity.databaseHandler.getWaterList();
+        arrayList = MainActivity.databaseHandler.getNatureList();
         adapter = new PageAdapter(arrayList, getActivity());
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        setPage1Volumn();
+        setPage2Volumn();
     }
 
-    private void setPage1Volumn() {
-//        AudioController.setVolumn("1-1", arrayList.get(0).getSeek());
-//        AudioController.setVolumn("1-2", arrayList.get(1).getSeek());
+    private void setPage2Volumn() {
+//        AudioController.setVolumn("2-1", arrayList.get(0).getSeek());
+//        AudioController.setVolumn("2-2", arrayList.get(1).getSeek());
     }
 }

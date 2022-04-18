@@ -36,6 +36,7 @@ import com.dippola.relaxtour.notification.NotificationService;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.FavPage;
 import com.dippola.relaxtour.pages.HzPage;
+import com.dippola.relaxtour.pages.NaturePage;
 import com.dippola.relaxtour.pages.RainPage;
 import com.dippola.relaxtour.pages.WaterPage;
 import com.dippola.relaxtour.pages.WindPage;
@@ -209,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
         tabsList.add(new MainTabItem(R.drawable.tabicon_rain_default, "rain", false));
         tabsList.add(new MainTabItem(R.drawable.tabicon_water_default, "water", false));
         tabsList.add(new MainTabItem(R.drawable.tabicon_wind_default, "wind", false));
+        tabsList.add(new MainTabItem(R.drawable.tabicon_nature_default, "nature", false));
         tabsList.add(new MainTabItem(R.drawable.tabicon_chakra_default, "chakra", false));
         tabsList.add(new MainTabItem(R.drawable.tabicon_mantra_default, "mantra", false));
         tabsList.add(new MainTabItem(R.drawable.tabicon_hz_default, "mandra", false));
@@ -226,19 +228,22 @@ public class MainActivity extends AppCompatActivity {
             tabsList.get(3).setImg(R.drawable.tabicon_wind);
             tabsList.get(3).setOpen(true);
         } else if (viewPager.getCurrentItem() == 4) {
-            tabsList.get(4).setImg(R.drawable.tabicon_chakra);
+            tabsList.get(4).setImg(R.drawable.tabicon_nature);
             tabsList.get(4).setOpen(true);
         } else if (viewPager.getCurrentItem() == 5) {
-            tabsList.get(5).setImg(R.drawable.tabicon_mantra);
+            tabsList.get(5).setImg(R.drawable.tabicon_chakra);
             tabsList.get(5).setOpen(true);
         } else if (viewPager.getCurrentItem() == 6) {
-            tabsList.get(6).setImg(R.drawable.tabicon_hz);
+            tabsList.get(6).setImg(R.drawable.tabicon_mantra);
             tabsList.get(6).setOpen(true);
+        } else if (viewPager.getCurrentItem() == 7) {
+            tabsList.get(7).setImg(R.drawable.tabicon_hz);
+            tabsList.get(7).setOpen(true);
         }
 
         RecyclerView.LayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL);
         tabRecycler.setLayoutManager(layoutManager);
-        MainTabAdapter mainTabAdapter =new MainTabAdapter(tabsList, MainActivity.this);
+        MainTabAdapter mainTabAdapter = new MainTabAdapter(tabsList, MainActivity.this);
         mainTabAdapter.setHasStableIds(true);
         tabRecycler.setAdapter(mainTabAdapter);
 
@@ -262,10 +267,12 @@ public class MainActivity extends AppCompatActivity {
                         } else if (i == 3) {
                             tabsList.get(i).setImg(R.drawable.tabicon_wind_default);
                         } else if (i == 4) {
-                            tabsList.get(i).setImg(R.drawable.tabicon_chakra_default);
+                            tabsList.get(i).setImg(R.drawable.tabicon_nature_default);
                         } else if (i == 5) {
-                            tabsList.get(i).setImg(R.drawable.tabicon_mantra_default);
+                            tabsList.get(i).setImg(R.drawable.tabicon_chakra_default);
                         } else if (i == 6) {
+                            tabsList.get(i).setImg(R.drawable.tabicon_mantra_default);
+                        } else if (i == 7) {
                             tabsList.get(i).setImg(R.drawable.tabicon_hz_default);
                         }
                         mainTabAdapter.notifyItemChanged(i);
@@ -280,10 +287,12 @@ public class MainActivity extends AppCompatActivity {
                         } else if (position == 3) {
                             tabsList.get(position).setImg(R.drawable.tabicon_wind);
                         } else if (position == 4) {
-                            tabsList.get(position).setImg(R.drawable.tabicon_chakra);
+                            tabsList.get(position).setImg(R.drawable.tabicon_nature);
                         } else if (position == 5) {
-                            tabsList.get(position).setImg(R.drawable.tabicon_mantra);
+                            tabsList.get(position).setImg(R.drawable.tabicon_chakra);
                         } else if (position == 6) {
+                            tabsList.get(position).setImg(R.drawable.tabicon_mantra);
+                        } else if (position == 7) {
                             tabsList.get(position).setImg(R.drawable.tabicon_hz);
                         }
                         mainTabAdapter.notifyItemChanged(position);
@@ -309,6 +318,8 @@ public class MainActivity extends AppCompatActivity {
         sectionsPagerAdapter.addItem(page2);
         WindPage page3 = new WindPage();
         sectionsPagerAdapter.addItem(page3);
+        NaturePage page4 = new NaturePage();
+        sectionsPagerAdapter.addItem(page4);
         ChakraPage chakraPage = new ChakraPage();
         sectionsPagerAdapter.addItem(chakraPage);
         HzPage hzPage = new HzPage();
@@ -334,9 +345,9 @@ public class MainActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int y = (int)(size.y * 0.5);
-        pageitem_width_size = (int)(size.x * 0.37);
-        pageitem_height_size = (int)(pageitem_width_size * 0.75);
+        int y = (int) (size.y * 0.5);
+        pageitem_width_size = (int) (size.x * 0.37);
+        pageitem_height_size = (int) (pageitem_width_size * 0.75);
         bottomRecyclerView.setMinimumHeight(y);
 
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
