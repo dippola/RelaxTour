@@ -36,6 +36,7 @@ import com.dippola.relaxtour.notification.NotificationService;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.FavPage;
 import com.dippola.relaxtour.pages.HzPage;
+import com.dippola.relaxtour.pages.MantraPage;
 import com.dippola.relaxtour.pages.NaturePage;
 import com.dippola.relaxtour.pages.RainPage;
 import com.dippola.relaxtour.pages.WaterPage;
@@ -213,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         tabsList.add(new MainTabItem(R.drawable.tabicon_nature_default, "nature", false));
         tabsList.add(new MainTabItem(R.drawable.tabicon_chakra_default, "chakra", false));
         tabsList.add(new MainTabItem(R.drawable.tabicon_mantra_default, "mantra", false));
-        tabsList.add(new MainTabItem(R.drawable.tabicon_hz_default, "mandra", false));
+        tabsList.add(new MainTabItem(R.drawable.tabicon_hz_default, "hz", false));
 
         if (viewPager.getCurrentItem() == 0) {
             tabsList.get(0).setImg(R.drawable.tabicon_fav);
@@ -322,6 +323,8 @@ public class MainActivity extends AppCompatActivity {
         sectionsPagerAdapter.addItem(page4);
         ChakraPage chakraPage = new ChakraPage();
         sectionsPagerAdapter.addItem(chakraPage);
+        MantraPage mantraPage = new MantraPage();
+        sectionsPagerAdapter.addItem(mantraPage);
         HzPage hzPage = new HzPage();
         sectionsPagerAdapter.addItem(hzPage);
         viewPager = findViewById(R.id.activity_main_viewpager);

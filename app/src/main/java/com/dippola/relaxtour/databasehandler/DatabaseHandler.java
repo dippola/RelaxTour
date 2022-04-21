@@ -6,6 +6,8 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -65,6 +67,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String FAV_LIST_TABLE_NAME = "favlist";
     public static final String COLUMN_FAVTITLENAME = "favtitlename";
 
+    //pageicon
+    public static final String PAGE_ICON_TABLE_NAME = "pageicon";
+    public static final String PAGE_ICON_TEAM = "create table if not exists pageicon(download BLOB, pro BLOB);";
+
+
+
+
     private static final String PLAYING_TEAM = "create table if not exists " + PLAYING_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
     private static final String RAIN_TEAM = "create table if not exists " + RAIN_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER,"  + COLUMN_NEED_DOWNLOAD + " INTEGER"  + ");";
     private static final String RIVER_TEAM = "create table if not exists " + WATER_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER"  + ");";
@@ -111,6 +120,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL(PAGE_ICON_TEAM);
         sqLiteDatabase.execSQL(PLAYING_TEAM);
         sqLiteDatabase.execSQL(RAIN_TEAM);
         sqLiteDatabase.execSQL(RIVER_TEAM);
@@ -125,6 +135,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        sqLiteDatabase.execSQL("DROP TABLE " + PAGE_ICON_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + PLAYING_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + RAIN_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + WATER_TABLE_NAME);
@@ -135,6 +146,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE " + CHAKRA_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + MANTRA_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + HZ_TABLE_NAME);
+        sqLiteDatabase.execSQL(PAGE_ICON_TEAM);
         sqLiteDatabase.execSQL(PLAYING_TEAM);
         sqLiteDatabase.execSQL(RAIN_TEAM);
         sqLiteDatabase.execSQL(RIVER_TEAM);
@@ -602,4 +614,40 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("update favtitle set isopen = 1 where isopen = 2");
     }
+
+    public Bitmap getPageicon(String what) {
+        Log.d("databaseHandler>>>", "1");
+        if (what.equals("download")) {
+            Log.d("databaseHandler>>>", "2");
+            openDatabase();
+            Cursor cursor = sqLiteDatabase.rawQuery("select download from pageicon where _rowid_ = 1", null);
+            cursor.moveToFirst();
+            byte[] icon = cursor.getBlob(0);
+            cursor.close();
+            closeDatabse();
+            Log.d("databaseHandler>>>", "3");
+            return BitmapFactory.decodeByteArray(icon, 0, icon.length);
+        } else {
+            openDatabase();
+            Cursor cursor = sqLiteDatabase.rawQuery("select pro from pageicon where _rowid_ = 1", null);
+            cursor.moveToFirst();
+            byte[] icon = cursor.getBlob(0);
+            cursor.close();
+            closeDatabse();
+            return BitmapFactory.decodeByteArray(icon, 0, icon.length);
+        }
+    }
+
+//    public String getTest() {
+//        String pnp;
+//        openDatabase();
+//        Cursor cursor = sqLiteDatabase.rawQuery("select pnp from rain where _rowid_ = 1", null);
+//        cursor.moveToFirst();
+//        pnp = cursor.getString(0);
+//        cursor.close();
+//        closeDatabse();
+//        return pnp;
+//    }
+
+    //Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
 }

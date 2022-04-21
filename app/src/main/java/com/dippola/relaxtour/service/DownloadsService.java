@@ -81,7 +81,7 @@ public class DownloadsService extends Service {
                 notification = new NotificationCompat.Builder(context);
             }
             notification.setSilent(true);
-            notification.setSmallIcon(R.drawable.download_icon);
+            notification.setSmallIcon(R.drawable.download);
             notification.setContentTitle("downloading..");//.setContentText(track.getName())
             notification.setLargeIcon(icon);
             notification.setOnlyAlertOnce(true);//show notification for only first time

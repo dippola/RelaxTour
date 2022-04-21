@@ -25,6 +25,7 @@ public class WindPage extends Fragment {
 
     public static MediaPlayer p2p1_1, p2p1_2;
     public static MediaPlayer p2p2_1, p2p2_2;
+    public static MediaPlayer p2p3_1, p2p3_2;
 
     RelativeLayout pageBox;
     public static ArrayList<PageItem> arrayList = new ArrayList<>();

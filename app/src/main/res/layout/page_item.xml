@@ -19,17 +19,18 @@
         <ImageView
             android:id="@+id/page_item_download"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/download_icon"
-            android:layout_centerInParent="true"/>
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitCenter"/>
 
         <ProgressBar
             android:id="@+id/page_item_progress"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:scaleType="fitCenter"/>
     </RelativeLayout>
 
     <SeekBar

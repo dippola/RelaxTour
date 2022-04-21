@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -23,6 +25,7 @@ import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.notification.NotificationService;
 import com.dippola.relaxtour.pages.item.PageItem;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +51,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+        databaseHandler = new DatabaseHandler(context);
         int positions = position;
 
         if (arrayList.get(position).getImgdefault() != null) {
@@ -65,11 +69,25 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         holder.img.setMinimumHeight(MainActivity.pageitem_height_size);
         holder.download.setMinimumWidth(MainActivity.pageitem_width_size);
         holder.download.setMinimumHeight(MainActivity.pageitem_height_size);
+        holder.download.setMaxHeight(MainActivity.pageitem_height_size);
+        holder.download.bringToFront();
         holder.progressBar.setMinimumWidth(MainActivity.pageitem_width_size);
         holder.progressBar.setMinimumHeight(MainActivity.pageitem_height_size);
 
         holder.download.setVisibility(View.GONE);
         holder.progressBar.setVisibility(View.GONE);
+
+        if (arrayList.get(position).getNeeddownload() == 2) {
+            String path = context.getApplicationInfo().dataDir + "/cache/" + "audio" + arrayList.get(position).getPage() + "-" + arrayList.get(position).getPosition() + ".mp3";
+            File file = new File(path);
+            if (file.exists()) {
+                holder.download.setVisibility(View.GONE);
+            } else {
+                holder.download.setImageBitmap(databaseHandler.getPageicon("download"));
+                holder.download.setVisibility(View.VISIBLE);
+                holder.img.setEnabled(false);
+            }
+        }
 
 //        if (arrayList.get(position).getIsplay() == 1) {
 //            holder.img.setImageBitmap(bitmap1);
@@ -82,7 +100,6 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                databaseHandler = new DatabaseHandler(context);
                 if (arrayList.get(positions).getIsplay() == 1) {//해당 아이템이 playing중이 아닐때
                     Bitmap bitmapremove = BitmapFactory.decodeByteArray(arrayList.get(positions).getImg(), 0, arrayList.get(positions).getImg().length);
                     holder.img.setImageBitmap(bitmapremove);

@@ -16,13 +16,10 @@ public class ThemeHelper {
         switch (themePref) {
             case LIGHT_MODE: {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                Log.d("ThemeHelper>>>", "light mode");
                 break;
             }
             case DARK_MODE: {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                Log.d("ThemeHelper>>>", AppCom);
-                Log.d("ThemeHelper>>>", "dark mode");
                 break;
             }
             default: {
@@ -31,7 +28,6 @@ public class ThemeHelper {
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
                 }
-                Log.d("ThemeHelper>>>", "system theme mode");
                 break;
             }
         }

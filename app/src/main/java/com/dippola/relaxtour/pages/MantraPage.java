@@ -3,7 +3,6 @@ package com.dippola.relaxtour.pages;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ChakraPage extends Fragment {
+public class MantraPage extends Fragment {
+
+    public static MediaPlayer p4p1, p4p2;
 
     RelativeLayout pageBox;
     public static ArrayList<PageItem> arrayList = new ArrayList<>();
@@ -33,7 +34,6 @@ public class ChakraPage extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
 
-    public static MediaPlayer p3p1, p3p2, p3p3;
     public static RelativeLayout load;
 
     @Nullable
@@ -48,37 +48,13 @@ public class ChakraPage extends Fragment {
         return rootView;
     }
 
-    private void setInit(ViewGroup rootView) {
-        pageBox = rootView.findViewById(R.id.page_box);
-        SetPageBoxMargin.setPageBoxMargin(getActivity(), pageBox);
-        recyclerView = rootView.findViewById(R.id.page_recyclerview);
-    }
-
-    private void setRecyclerView() {
-        arrayList = MainActivity.databaseHandler.getChakraList();
-        adapter = new StoragePageAdapter(arrayList, getActivity());
-        layoutManager = new GridLayoutManager(getActivity(), 2);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-
-        setChakraVolumn();
-    }
-
     public static void setAudio(Context context) {
-        p3p1 = new MediaPlayer();
-        p3p2 = new MediaPlayer();
-        p3p3 = new MediaPlayer();
-        String path3_1 = context.getApplicationInfo().dataDir + "/cache/audio3-1.mp3";
-        String path3_2 = context.getApplicationInfo().dataDir + "/cache/audio3-2.mp3";
-        String path3_3 = context.getApplicationInfo().dataDir + "/cache/audio3-3.mp3";
-        setDataSourceAudio(p3p1, path3_1);
-        setDataSourceAudio(p3p2, path3_2);
-
-//        if (path3_3.isEmpty()) {
-//            Log.d("ChakraPage>>>", "null");
-//        } else {
-//            Log.d("ChakraPage>>>", "have");
-//        }
+        p4p1 = new MediaPlayer();
+        p4p2 = new MediaPlayer();
+        String path4_1 = context.getApplicationInfo().dataDir + "/cache/audio4-1.mp3";
+        String path4_2 = context.getApplicationInfo().dataDir + "/cache/audio4-2.mp3";
+        setDataSourceAudio(p4p1, path4_1);
+        setDataSourceAudio(p4p2, path4_2);
     }
 
     private static void setDataSourceAudio(MediaPlayer mp, String path) {
@@ -94,8 +70,23 @@ public class ChakraPage extends Fragment {
         }
     }
 
-    public static void setChakraVolumn() {
-        AudioController.setVolumn("3-1", arrayList.get(0).getSeek());
-        AudioController.setVolumn("3-2", arrayList.get(1).getSeek());
+    private void setInit(ViewGroup rootView) {
+        pageBox = rootView.findViewById(R.id.page_box);
+        SetPageBoxMargin.setPageBoxMargin(getActivity(), pageBox);
+        recyclerView = rootView.findViewById(R.id.page_recyclerview);
+    }
+
+    private void setRecyclerView() {
+        arrayList = MainActivity.databaseHandler.getHzList();
+        adapter = new StoragePageAdapter(arrayList, getActivity());
+        layoutManager = new GridLayoutManager(getActivity(), 2);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+        setHzVolumn();
+    }
+
+    public static void setHzVolumn() {
+//        AudioController.setVolumn("4-1", arrayList.get(0).getSeek());
+//        AudioController.setVolumn("4-2", arrayList.get(1).getSeek());
     }
 }

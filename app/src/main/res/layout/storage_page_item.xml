@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/download_icon"/>
+        android:background="@drawable/download"/>
     <ProgressBar
         android:id="@+id/page_item_storage_progress"
         android:layout_width="match_parent"
