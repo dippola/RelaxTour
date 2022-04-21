@@ -127,10 +127,10 @@
             <Button
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:background="@drawable/go_to_storage_icon"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="25dp"/>
+                android:layout_centerVertical="true"
+                android:layout_marginRight="25dp"
+                android:background="@drawable/go_to_storage_icon" />
 
         </RelativeLayout>
 

@@ -46,6 +46,12 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         int positions = position;
+
+//        if (arrayList.size() != 0) {
+//            Bitmap bitmap = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+//            holder.button.setImageBitmap(bitmap);
+//        }
+
         Bitmap bitmap = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
         holder.button.setImageBitmap(bitmap);
         holder.button.setOnClickListener(new View.OnClickListener() {

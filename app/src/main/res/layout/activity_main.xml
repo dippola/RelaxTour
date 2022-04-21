@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@drawable/activity_main_background">
+    android:background="@drawable/activity_main_background"
+    tools:context=".MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/backstar"/>
+        android:background="@drawable/backstar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,33 +18,33 @@
         android:orientation="vertical"
         android:paddingBottom="60dp">
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:layout_gravity="center_horizontal">-->
-<!--            <Button-->
-<!--                android:id="@+id/testButton1"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="light"/>-->
-<!--            <Button-->
-<!--                android:id="@+id/testButton2"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="dark"/>-->
-<!--            <Button-->
-<!--                android:id="@+id/testButton3"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="system"/>-->
-<!--&lt;!&ndash;            <Button&ndash;&gt;-->
-<!--&lt;!&ndash;                android:id="@+id/testButton4"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_width="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:text="get list"/>&ndash;&gt;-->
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:layout_gravity="center_horizontal">-->
+        <!--            <Button-->
+        <!--                android:id="@+id/testButton1"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="light"/>-->
+        <!--            <Button-->
+        <!--                android:id="@+id/testButton2"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="dark"/>-->
+        <!--            <Button-->
+        <!--                android:id="@+id/testButton3"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="system"/>-->
+        <!--&lt;!&ndash;            <Button&ndash;&gt;-->
+        <!--&lt;!&ndash;                android:id="@+id/testButton4"&ndash;&gt;-->
+        <!--&lt;!&ndash;                android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;                android:text="get list"/>&ndash;&gt;-->
 
-<!--        </LinearLayout>-->
+        <!--        </LinearLayout>-->
 
         <RelativeLayout
             android:id="@+id/activity_main_head"
@@ -72,27 +72,30 @@
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@+id/activity_main_setting"
                     android:background="@drawable/top_icon_light_dark"
-                    android:elevation="5dp"/>
+                    android:elevation="5dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_alignBottom="@+id/activity_main_setting"
                     android:layout_centerHorizontal="true"
-                    android:layout_alignBottom="@+id/activity_main_setting">
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/activity_main_maincount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
+
                     <Button
                         android:id="@+id/activity_main_timer_cancel"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:background="@drawable/cancel"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
                 </LinearLayout>
+
                 <Button
                     android:id="@+id/activity_main_timer"
                     android:layout_width="30dp"
@@ -103,30 +106,61 @@
                     android:background="@drawable/timer" />
             </RelativeLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/activity_main_tablayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:layout_below="@+id/activity_main_topbar"
-                android:layout_marginTop="40dp"/>
+                android:layout_marginTop="40dp">
+                <Button
+                    android:id="@+id/activity_main_tab_left"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/tab_left"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_main_tablayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toRightOf="@+id/activity_main_tab_left"
+                    android:layout_toLeftOf="@+id/activity_main_tab_right"/>
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/tab_right_trans"
+                    android:layout_toLeftOf="@+id/activity_main_tab_right"/>
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/tab_left_trans"
+                    android:layout_toRightOf="@+id/activity_main_tab_left" />
+                <Button
+                    android:id="@+id/activity_main_tab_right"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/tab_right"/>
+            </RelativeLayout>
         </RelativeLayout>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/activity_main_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
     <include
         android:id="@+id/activity_main_include_bottom_sheet"
-        layout="@layout/bottom_sheet"/>
+        layout="@layout/bottom_sheet" />
 
     <RelativeLayout
         android:id="@+id/activity_main_bottom_outside"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#00000000"/>
+        android:background="#00000000" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

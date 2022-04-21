@@ -25,4 +25,6 @@
 <!--    <color name="pands_end">#93a6ee</color>-->
     <color name="pands_start">#2A669B</color>
     <color name="pands_end">#8093DC</color>
+
+    <color name="tab_arrow_color">#E6F5F8</color>
 </resources>
