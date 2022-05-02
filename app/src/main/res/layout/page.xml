@@ -10,12 +10,20 @@
         android:layout_height="match_parent"
         android:background="@drawable/page_round"
         android:elevation="15dp">
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/page_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:overScrollMode="never"/>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/page_round_stroke">
+
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>
