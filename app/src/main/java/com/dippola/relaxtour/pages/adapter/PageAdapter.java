@@ -56,63 +56,24 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         databaseHandler = new DatabaseHandler(context);
         int positions = position;
 
-        if (arrayList.get(position).getImgdefault() != null) {
-            Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
-            Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
-            if (arrayList.get(position).getIsplay() == 1) {
-                holder.img.setImageBitmap(bitmap1);
-            } else {
-                holder.img.setImageBitmap(bitmap2);
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {//LIGHT모드
+            setPageImageTheme(position, holder.img, "light");
+        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {//dark모드
+            setPageImageTheme(position, holder.img, "dark");
+        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {//system모드
+            Configuration config = context.getResources().getConfiguration();
+            int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            switch (currentNightMode) {
+                case Configuration.UI_MODE_NIGHT_NO://system light 모드
+                    setPageImageTheme(position, holder.img, "light");
+                    break;
+                case Configuration.UI_MODE_NIGHT_YES://system dark 모드
+                    setPageImageTheme(position, holder.img, "dark");
+                    break;
             }
         }
 
-
-
-
-
-//        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {//LIGHT모드
-//            if (arrayList.get(position).getIsplay() == 1) {
-//                Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
-//                holder.img.setImageBitmap(bitmap1);
-//            } else {
-//                Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
-//                holder.img.setImageBitmap(bitmap2);
-//            }
-//        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {//dark모드
-//            if (arrayList.get(position).getIsplay() == 1) {
-//                Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getDarkdefault(), 0, arrayList.get(position).getDarkdefault().length);
-//                holder.img.setImageBitmap(bitmap1);
-//            } else {
-//                Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
-//                holder.img.setImageBitmap(bitmap2);
-//            }
-//        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {//system모드
-//            Configuration config = context.getResources().getConfiguration();
-//            Log.d("PageAdapter>>>", "get config : " + config.uiMode);
-//
-//
-////            if (config.uiMode == Configuration.UI_MODE_NIGHT_NO) {//system light모드
-////                Log.d("PageAdapter>>>", "1");
-////                if (arrayList.get(position).getIsplay() == 1) {
-////                    Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
-////                    holder.img.setImageBitmap(bitmap1);
-////                } else {
-////                    Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
-////                    holder.img.setImageBitmap(bitmap2);
-////                }
-////            } else if (config.uiMode == Configuration.UI_MODE_NIGHT_YES) {//system dark모드
-////                Log.d("PageAdapter>>>", "2");
-////                if (arrayList.get(position).getIsplay() == 1) {
-////                    Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getDarkdefault(), 0, arrayList.get(position).getDarkdefault().length);
-////                    holder.img.setImageBitmap(bitmap1);
-////                } else {
-////                    Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
-////                    holder.img.setImageBitmap(bitmap2);
-////                }
-////            }
-//        }
-
-        if (arrayList.get(position).getPage() != 4) {
+        if (arrayList.get(position).getPage() == 1 || arrayList.get(position).getPage() == 2 || arrayList.get(position).getPage() == 3) {//1,2,3page
             holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
             holder.img.setMinimumHeight(MainActivity.pageitem_height_size);
             holder.download.setMinimumWidth(MainActivity.pageitem_width_size);
@@ -121,7 +82,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             holder.download.bringToFront();
             holder.progressBar.setMinimumWidth(MainActivity.pageitem_width_size);
             holder.progressBar.setMinimumHeight(MainActivity.pageitem_height_size);
-        } else if (arrayList.get(position).getPage() == 4) {
+        } else if (arrayList.get(position).getPage() == 4) {//4page
             holder.img.setMinimumWidth(MainActivity.pageitem_4_width_size);
             holder.img.setMinimumHeight(MainActivity.pageitem_4_height_size);
             holder.download.setMinimumWidth(MainActivity.pageitem_4_width_size);
@@ -290,5 +251,25 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             }
         }
         return -1;
+    }
+
+    private void setPageImageTheme(int position, ImageView img, String mode) {
+        if (arrayList.get(position).getIsplay() == 1) {
+            if (mode.equals("light")) {
+                Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
+                img.setImageBitmap(bitmap1);
+            } else if (mode.equals("dark")) {
+                Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDarkdefault(), 0, arrayList.get(position).getDarkdefault().length);
+                img.setImageBitmap(bitmap2);
+            }
+        } else {
+            if (mode.equals("light")) {
+                Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+                img.setImageBitmap(bitmap1);
+            } else if (mode.equals("dark")) {
+                Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+                img.setImageBitmap(bitmap2);
+            }
+        }
     }
 }
