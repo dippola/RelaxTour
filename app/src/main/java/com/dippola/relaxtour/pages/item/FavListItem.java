@@ -6,6 +6,8 @@ public class FavListItem {
     String pnp;
     byte[] imgdefault;
     byte[] img;
+    byte[] darkdefault;
+    byte[] dark;
     int seek;
     int isplay;
     String favtitlename;
@@ -15,12 +17,14 @@ public class FavListItem {
 
     public FavListItem() {}
 
-    public FavListItem(int page, int position, String pnp, byte[] imgdefault, byte[] img, int seek, int isplay, String favtitlename, int time, String name, int ispro) {
+    public FavListItem(int page, int position, String pnp, byte[] imgdefault, byte[] img, byte[] darkdefault, byte[] dark, int seek, int isplay, String favtitlename, int time, String name, int ispro) {
         this.page = page;
         this.position = position;
         this.pnp = pnp;
         this.imgdefault = imgdefault;
         this.img = img;
+        this.darkdefault = darkdefault;
+        this.dark = dark;
         this.seek = seek;
         this.isplay = isplay;
         this.favtitlename = favtitlename;

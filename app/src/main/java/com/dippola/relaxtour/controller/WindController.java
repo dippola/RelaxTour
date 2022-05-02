@@ -1,9 +1,16 @@
 package com.dippola.relaxtour.controller;
-
-import static com.dippola.relaxtour.pages.WindPage.p2p1_1;
-import static com.dippola.relaxtour.pages.WindPage.p2p1_2;
-import static com.dippola.relaxtour.pages.WindPage.p2p2_1;
-import static com.dippola.relaxtour.pages.WindPage.p2p2_2;
+import static com.dippola.relaxtour.pages.WindPage.p3p1_1;
+import static com.dippola.relaxtour.pages.WindPage.p3p1_2;
+import static com.dippola.relaxtour.pages.WindPage.p3p2_1;
+import static com.dippola.relaxtour.pages.WindPage.p3p2_2;
+import static com.dippola.relaxtour.pages.WindPage.p3p3_1;
+import static com.dippola.relaxtour.pages.WindPage.p3p3_2;
+import static com.dippola.relaxtour.pages.WindPage.p3p4_1;
+import static com.dippola.relaxtour.pages.WindPage.p3p4_2;
+import static com.dippola.relaxtour.pages.WindPage.p3p5_1;
+import static com.dippola.relaxtour.pages.WindPage.p3p5_2;
+import static com.dippola.relaxtour.pages.WindPage.p3p6_1;
+import static com.dippola.relaxtour.pages.WindPage.p3p6_2;
 
 public class WindController {
     public static class p2t1 extends Thread {
@@ -19,10 +26,10 @@ public class WindController {
         @Override
         public void run() {
             while (!stop) {
-                if (p2p1_1.isPlaying()) {
-                    int i = p2p1_1.getCurrentPosition();
+                if (p3p1_1.isPlaying()) {
+                    int i = p3p1_1.getCurrentPosition();
                     if (i >= getSec(pnp)) {
-                        p2p1_2.start();
+                        p3p1_2.start();
                         new p2t2(pnp).start();
                         setStop(true);
                     }
@@ -43,10 +50,10 @@ public class WindController {
         @Override
         public void run() {
             while (!stop) {
-                if (p2p1_2.isPlaying()) {
-                    int i = p2p1_2.getCurrentPosition();
+                if (p3p1_2.isPlaying()) {
+                    int i = p3p1_2.getCurrentPosition();
                     if (i >= getSec(pnp)) {
-                        p2p1_1.start();
+                        p3p1_1.start();
                         new p2t1(pnp).start();
                         setStop(true);
                     }
@@ -56,14 +63,32 @@ public class WindController {
     }
 
     public static void stopPage2() {
-        p2p1_1.stop();
-        p2p1_1.prepareAsync();
-        p2p1_2.stop();
-        p2p1_2.prepareAsync();
-        p2p2_1.stop();
-        p2p2_1.prepareAsync();
-        p2p2_2.stop();
-        p2p2_2.prepareAsync();
+        p3p1_1.stop();
+        p3p1_1.prepareAsync();
+        p3p1_2.stop();
+        p3p1_2.prepareAsync();
+        p3p2_1.stop();
+        p3p2_1.prepareAsync();
+        p3p2_2.stop();
+        p3p2_2.prepareAsync();
+
+        p3p3_1.stop();
+        p3p3_1.prepareAsync();
+        p3p3_2.stop();
+        p3p3_2.prepareAsync();
+        p3p4_1.stop();
+        p3p4_1.prepareAsync();
+        p3p4_2.stop();
+        p3p4_2.prepareAsync();
+
+        p3p5_1.stop();
+        p3p5_1.prepareAsync();
+        p3p5_2.stop();
+        p3p5_2.prepareAsync();
+        p3p6_1.stop();
+        p3p6_1.prepareAsync();
+        p3p6_2.stop();
+        p3p6_2.prepareAsync();
         new p2t1(null).setStop(true);
         new p2t2(null).setStop(true);
     }

@@ -7,6 +7,8 @@ public class PageItem {
     String pnp;
     byte[] imgdefault;
     byte[] img;
+    byte[] darkdefault;
+    byte[] dark;
     int seek;
     int isplay;
     int time;
@@ -18,12 +20,14 @@ public class PageItem {
 
     }
 
-    public PageItem(int page, int position, String pnp, byte[] imgdefault, byte[] img, int seek, int isplay, int time, String name, int ispro, int needdownload) {
+    public PageItem(int page, int position, String pnp, byte[] imgdefault, byte[] img, byte[] darkdefault, byte[] dark, int seek, int isplay, int time, String name, int ispro, int needdownload) {
         this.page = page;
         this.position = position;
         this.pnp = pnp;
         this.imgdefault = imgdefault;
         this.img = img;
+        this.darkdefault = darkdefault;
+        this.dark = dark;
         this.seek = seek;
         this.isplay = isplay;
         this.time = time;
@@ -70,6 +74,22 @@ public class PageItem {
 
     public void setImg(byte[] img) {
         this.img = img;
+    }
+
+    public byte[] getDarkdefault() {
+        return darkdefault;
+    }
+
+    public void setDarkdefault(byte[] darkdefault) {
+        this.darkdefault = darkdefault;
+    }
+
+    public byte[] getDark() {
+        return dark;
+    }
+
+    public void setDark(byte[] dark) {
+        this.dark = dark;
     }
 
     public int getSeek() {

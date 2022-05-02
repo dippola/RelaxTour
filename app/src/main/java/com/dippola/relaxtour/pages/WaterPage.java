@@ -52,18 +52,18 @@ public class WaterPage extends Fragment {
     }
 
     private void setAudio() {
-        p2p1_1 = MediaPlayer.create(getActivity(), R.raw.audio1to1);
-        p2p1_2 = MediaPlayer.create(getActivity(), R.raw.audio1to1);
-        p2p2_1 = MediaPlayer.create(getActivity(), R.raw.audio1to2);
-        p2p2_2 = MediaPlayer.create(getActivity(), R.raw.audio1to2);
-        p2p3_1 = MediaPlayer.create(getActivity(), R.raw.audio1to3);
-        p2p3_2 = MediaPlayer.create(getActivity(), R.raw.audio1to3);
-        p2p4_1 = MediaPlayer.create(getActivity(), R.raw.audio1to4);
-        p2p4_2 = MediaPlayer.create(getActivity(), R.raw.audio1to4);
-        p2p5_1 = MediaPlayer.create(getActivity(), R.raw.audio1to5);
-        p2p5_2 = MediaPlayer.create(getActivity(), R.raw.audio1to5);
-        p2p6_1 = MediaPlayer.create(getActivity(), R.raw.audio1to6);
-        p2p6_2 = MediaPlayer.create(getActivity(), R.raw.audio1to6);
+        p2p1_1 = MediaPlayer.create(getActivity(), R.raw.audio2to1);
+        p2p1_2 = MediaPlayer.create(getActivity(), R.raw.audio2to1);
+        p2p2_1 = MediaPlayer.create(getActivity(), R.raw.audio2to2);
+        p2p2_2 = MediaPlayer.create(getActivity(), R.raw.audio2to2);
+        p2p3_1 = MediaPlayer.create(getActivity(), R.raw.audio2to3);
+        p2p3_2 = MediaPlayer.create(getActivity(), R.raw.audio2to3);
+        p2p4_1 = MediaPlayer.create(getActivity(), R.raw.audio2to4);
+        p2p4_2 = MediaPlayer.create(getActivity(), R.raw.audio2to4);
+        p2p5_1 = MediaPlayer.create(getActivity(), R.raw.audio2to5);
+        p2p5_2 = MediaPlayer.create(getActivity(), R.raw.audio2to5);
+        p2p6_1 = MediaPlayer.create(getActivity(), R.raw.audio2to6);
+        p2p6_2 = MediaPlayer.create(getActivity(), R.raw.audio2to6);
     }
 
     private void setInit(ViewGroup rootView) {
@@ -82,7 +82,11 @@ public class WaterPage extends Fragment {
     }
 
     private void setPage1Volumn() {
-//        AudioController.setVolumn("1-1", arrayList.get(0).getSeek());
-//        AudioController.setVolumn("1-2", arrayList.get(1).getSeek());
+        AudioController.setVolumn("2-1", arrayList.get(0).getSeek());
+        AudioController.setVolumn("2-2", arrayList.get(1).getSeek());
+        AudioController.setVolumn("2-3", arrayList.get(2).getSeek());
+        AudioController.setVolumn("2-4", arrayList.get(3).getSeek());
+        AudioController.setVolumn("2-5", arrayList.get(4).getSeek());
+        AudioController.setVolumn("2-6", arrayList.get(5).getSeek());
     }
 }

@@ -23,9 +23,13 @@ import java.util.ArrayList;
 
 public class WindPage extends Fragment {
 
-    public static MediaPlayer p2p1_1, p2p1_2;
-    public static MediaPlayer p2p2_1, p2p2_2;
-    public static MediaPlayer p2p3_1, p2p3_2;
+    public static MediaPlayer p3p1_1, p3p1_2;
+    public static MediaPlayer p3p2_1, p3p2_2;
+    public static MediaPlayer p3p3_1, p3p3_2;
+    public static MediaPlayer p3p4_1, p3p4_2;
+    public static MediaPlayer p3p5_1, p3p5_2;
+    public static MediaPlayer p3p6_1, p3p6_2;
+    public static MediaPlayer p3p7_1, p3p7_2;
 
     RelativeLayout pageBox;
     public static ArrayList<PageItem> arrayList = new ArrayList<>();
@@ -46,10 +50,20 @@ public class WindPage extends Fragment {
     }
 
     private void setAudio() {
-        p2p1_1 = MediaPlayer.create(getActivity(), R.raw.p2p1);
-        p2p1_2 = MediaPlayer.create(getActivity(), R.raw.p2p1);
-        p2p2_1 = MediaPlayer.create(getActivity(), R.raw.p2p2);
-        p2p2_2 = MediaPlayer.create(getActivity(), R.raw.p2p2);
+        p3p1_1 = MediaPlayer.create(getActivity(), R.raw.audio3to1);
+        p3p1_2 = MediaPlayer.create(getActivity(), R.raw.audio3to1);
+        p3p2_1 = MediaPlayer.create(getActivity(), R.raw.audio3to2);
+        p3p2_2 = MediaPlayer.create(getActivity(), R.raw.audio3to2);
+        p3p3_1 = MediaPlayer.create(getActivity(), R.raw.audio3to3);
+        p3p3_2 = MediaPlayer.create(getActivity(), R.raw.audio3to3);
+        p3p4_1 = MediaPlayer.create(getActivity(), R.raw.audio3to4);
+        p3p4_2 = MediaPlayer.create(getActivity(), R.raw.audio3to4);
+        p3p5_1 = MediaPlayer.create(getActivity(), R.raw.audio3to5);
+        p3p5_2 = MediaPlayer.create(getActivity(), R.raw.audio3to5);
+        p3p6_1 = MediaPlayer.create(getActivity(), R.raw.audio3to6);
+        p3p6_2 = MediaPlayer.create(getActivity(), R.raw.audio3to6);
+        p3p7_1 = MediaPlayer.create(getActivity(), R.raw.audio3to7);
+        p3p7_2 = MediaPlayer.create(getActivity(), R.raw.audio3to7);
     }
 
     private void setInit(ViewGroup rootView) {

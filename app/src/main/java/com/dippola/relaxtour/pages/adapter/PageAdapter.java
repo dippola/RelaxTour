@@ -2,6 +2,7 @@ package com.dippola.relaxtour.pages.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.MainActivity;
@@ -63,8 +65,52 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
                 holder.img.setImageBitmap(bitmap2);
             }
         }
-//        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
-//        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+
+
+
+
+
+//        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {//LIGHT모드
+//            if (arrayList.get(position).getIsplay() == 1) {
+//                Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
+//                holder.img.setImageBitmap(bitmap1);
+//            } else {
+//                Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+//                holder.img.setImageBitmap(bitmap2);
+//            }
+//        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {//dark모드
+//            if (arrayList.get(position).getIsplay() == 1) {
+//                Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getDarkdefault(), 0, arrayList.get(position).getDarkdefault().length);
+//                holder.img.setImageBitmap(bitmap1);
+//            } else {
+//                Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+//                holder.img.setImageBitmap(bitmap2);
+//            }
+//        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {//system모드
+//            Configuration config = context.getResources().getConfiguration();
+//            Log.d("PageAdapter>>>", "get config : " + config.uiMode);
+//
+//
+////            if (config.uiMode == Configuration.UI_MODE_NIGHT_NO) {//system light모드
+////                Log.d("PageAdapter>>>", "1");
+////                if (arrayList.get(position).getIsplay() == 1) {
+////                    Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
+////                    holder.img.setImageBitmap(bitmap1);
+////                } else {
+////                    Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+////                    holder.img.setImageBitmap(bitmap2);
+////                }
+////            } else if (config.uiMode == Configuration.UI_MODE_NIGHT_YES) {//system dark모드
+////                Log.d("PageAdapter>>>", "2");
+////                if (arrayList.get(position).getIsplay() == 1) {
+////                    Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getDarkdefault(), 0, arrayList.get(position).getDarkdefault().length);
+////                    holder.img.setImageBitmap(bitmap1);
+////                } else {
+////                    Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+////                    holder.img.setImageBitmap(bitmap2);
+////                }
+////            }
+//        }
 
         if (arrayList.get(position).getPage() != 4) {
             holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
@@ -128,7 +174,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
                             break;
                         }
                     }
-                    //add
+                    //add 해당 아이템 재생목록에 추가
                     MainActivity.pands.setBackgroundResource(R.drawable.bottom_pause);
                     arrayList.get(positions).setIsplay(2);
                     MainActivity.bottomSheetPlayList.add(arrayList.get(positions));
