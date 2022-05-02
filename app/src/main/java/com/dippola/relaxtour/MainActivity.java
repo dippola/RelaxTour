@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     public static DatabaseHandler databaseHandler;
     public static int pageitem_width_size;
     public static int pageitem_height_size;
+    public static int pageitem_4_width_size;
+    public static int pageitem_4_height_size;
     AudioManager audioManager;
     public static int maxVolumn;
 
@@ -351,6 +353,9 @@ public class MainActivity extends AppCompatActivity {
         int y = (int) (size.y * 0.5);
         pageitem_width_size = (int) (size.x * 0.37);
         pageitem_height_size = (int) (pageitem_width_size * 0.75);
+        pageitem_4_width_size = (int) (size.x * 0.25);
+        pageitem_4_height_size = (int) (pageitem_4_width_size * 0.75);
+
         bottomRecyclerView.setMinimumHeight(y);
 
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {

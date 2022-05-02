@@ -65,14 +65,26 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         }
 //        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
 //        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
-        holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
-        holder.img.setMinimumHeight(MainActivity.pageitem_height_size);
-        holder.download.setMinimumWidth(MainActivity.pageitem_width_size);
-        holder.download.setMinimumHeight(MainActivity.pageitem_height_size);
-        holder.download.setMaxHeight(MainActivity.pageitem_height_size);
-        holder.download.bringToFront();
-        holder.progressBar.setMinimumWidth(MainActivity.pageitem_width_size);
-        holder.progressBar.setMinimumHeight(MainActivity.pageitem_height_size);
+
+        if (arrayList.get(position).getPage() != 4) {
+            holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
+            holder.img.setMinimumHeight(MainActivity.pageitem_height_size);
+            holder.download.setMinimumWidth(MainActivity.pageitem_width_size);
+            holder.download.setMinimumHeight(MainActivity.pageitem_height_size);
+            holder.download.setMaxHeight(MainActivity.pageitem_height_size);
+            holder.download.bringToFront();
+            holder.progressBar.setMinimumWidth(MainActivity.pageitem_width_size);
+            holder.progressBar.setMinimumHeight(MainActivity.pageitem_height_size);
+        } else if (arrayList.get(position).getPage() == 4) {
+            holder.img.setMinimumWidth(MainActivity.pageitem_4_width_size);
+            holder.img.setMinimumHeight(MainActivity.pageitem_4_height_size);
+            holder.download.setMinimumWidth(MainActivity.pageitem_4_width_size);
+            holder.download.setMinimumHeight(MainActivity.pageitem_4_height_size);
+            holder.download.setMaxHeight(MainActivity.pageitem_4_height_size);
+            holder.download.bringToFront();
+            holder.progressBar.setMinimumWidth(MainActivity.pageitem_4_width_size);
+            holder.progressBar.setMinimumHeight(MainActivity.pageitem_4_height_size);
+        }
 
         holder.download.setVisibility(View.GONE);
         holder.progressBar.setVisibility(View.GONE);
