@@ -10,8 +10,11 @@ import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.controller.ChakraController;
 import com.dippola.relaxtour.controller.HzController;
+import com.dippola.relaxtour.controller.NatureController;
 import com.dippola.relaxtour.controller.RainController;
+import com.dippola.relaxtour.controller.WaterController;
 import com.dippola.relaxtour.controller.WindController;
+import com.dippola.relaxtour.pages.WaterPage;
 import com.dippola.relaxtour.pages.item.PageItem;
 
 import java.util.ArrayList;
@@ -68,11 +71,11 @@ public class NotificationActionService extends BroadcastReceiver {
         if (page == 1) {
             RainController.stopPage1();
         } else if (page == 2) {
-            WindController.stopPage3();
+            WaterController.stopPage2();
         } else if (page == 3) {
-            ChakraController.stopChakra(page, pnp);
+            WindController.stopPage3();
         } else if (page == 4) {
-            HzController.stopHz(page, pnp);
+            NatureController.stopPage4();
         }
     }
 

@@ -53,7 +53,6 @@ public class SuccessDownloadNotification {
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
 
             notificationManagerCompat.notify(2, notification.build());
-            Log.d("DownloadService>>>", "ok");
         }
     }
 
@@ -90,7 +89,6 @@ public class SuccessDownloadNotification {
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
 
             notificationManagerCompat.notify(3, notification.build());
-            Log.d("DownloadService>>>", "ok");
         }
     }
 }

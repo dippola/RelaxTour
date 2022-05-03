@@ -95,7 +95,7 @@ public class ChakraPage extends Fragment {
     }
 
     public static void setChakraVolumn() {
-        AudioController.setVolumn("3-1", arrayList.get(0).getSeek());
-        AudioController.setVolumn("3-2", arrayList.get(1).getSeek());
+//        AudioController.setVolumn("5-1", arrayList.get(0).getSeek());
+//        AudioController.setVolumn("5-2", arrayList.get(1).getSeek());
     }
 }

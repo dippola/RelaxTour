@@ -330,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
         HzPage hzPage = new HzPage();
         sectionsPagerAdapter.addItem(hzPage);
         viewPager = findViewById(R.id.activity_main_viewpager);
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(7);
         viewPager.setAdapter(sectionsPagerAdapter);
         viewPager.setCurrentItem(1);
     }
@@ -403,7 +403,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     CheckOpenService.checkOpenService(MainActivity.this);
                     if (AudioController.checkIsPlaying(bottomSheetPlayList.get(0).getPnp())) {//재생중
-                        Log.d("MainActivity>>>", "1");
                         pands.setBackgroundResource(R.drawable.bottom_sheet_play);
                         ArrayList<PageItem> page = new ArrayList<>();
                         for (int i = 0; i < bottomSheetPlayList.size(); i++) {
@@ -414,14 +413,13 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     } else {//재생중 아님
-                        Log.d("MainActivity>>>", "2");
                         pands.setBackgroundResource(R.drawable.bottom_pause);
-                        List<String> pp = new ArrayList<>();
+                        List<String> pplist = new ArrayList<>();
                         for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-                            pp.add(bottomSheetPlayList.get(i).getPnp());
+                            pplist.add(bottomSheetPlayList.get(i).getPnp());
                             if (i == bottomSheetPlayList.size() - 1) {
                                 //playinglist start
-                                AudioController.startPlayingList(MainActivity.this, pp);
+                                AudioController.startPlayingList(MainActivity.this, pplist);
                             }
                         }
                     }

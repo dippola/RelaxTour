@@ -19,7 +19,9 @@ import com.dippola.relaxtour.controller.SeekController;
 import com.dippola.relaxtour.notification.NotificationService;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.HzPage;
+import com.dippola.relaxtour.pages.NaturePage;
 import com.dippola.relaxtour.pages.RainPage;
+import com.dippola.relaxtour.pages.WaterPage;
 import com.dippola.relaxtour.pages.WindPage;
 import com.dippola.relaxtour.pages.item.PageItem;
 
@@ -140,15 +142,15 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
             RainPage.adapter.notifyItemChanged(position - 1);
 //            Page1.adapter.notifyDataSetChanged();
         } else if (page == 2) {
-            WindPage.arrayList.get(position - 1).setIsplay(1);
-            WindPage.adapter.notifyItemChanged(position - 1);
+            WaterPage.arrayList.get(position - 1).setIsplay(1);
+            WaterPage.adapter.notifyItemChanged(position - 1);
 //            Page2.adapter.notifyDataSetChanged();
         } else if (page == 3) {
-            ChakraPage.arrayList.get(position - 1).setIsplay(1);
-            ChakraPage.adapter.notifyItemChanged(position - 1);
+            WindPage.arrayList.get(position - 1).setIsplay(1);
+            WindPage.adapter.notifyItemChanged(position - 1);
         } else if (page == 4) {
-            HzPage.arrayList.get(position - 1).setIsplay(1);
-            HzPage.adapter.notifyItemChanged(position - 1);
+            NaturePage.arrayList.get(position - 1).setIsplay(1);
+            NaturePage.adapter.notifyItemChanged(position - 1);
         }
     }
 }

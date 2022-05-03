@@ -48,7 +48,6 @@ public class NotificationService extends Service {
     @Override
     public void onDestroy() {
         isPlaying = false;
-        Log.d("NotificationService>>>", "onDestroy");
         //여기서 재생중인곡 있으면 종료하기
         if (MainActivity.bottomSheetPlayList.size() != 0 && AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0).getPnp())) {//재생중
             MainActivity.pands.setBackgroundResource(R.drawable.bottom_sheet_play);

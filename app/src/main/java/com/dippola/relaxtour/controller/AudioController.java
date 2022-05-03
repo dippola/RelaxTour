@@ -72,7 +72,6 @@ public class AudioController {
             }
             new WindController.p3t1(pnp).start();
         } else if (page == 4) {
-            Log.d("AudioController>>>", "position: " + position);
             if (position == 1) {
                 NaturePage.p4p1_1.start();
             } else if (position == 2) {
@@ -96,9 +95,9 @@ public class AudioController {
         }
     }
 
-    public static void startPlayingList(Context context, List<String> pp) {//playingList에 있는 곡만 다시 재생
-        for (int i = 0; i < pp.size(); i++) {
-            checkPP(context, pp.get(i));
+    public static void startPlayingList(Context context, List<String> pplist) {//playingList에 있는 곡만 다시 재생
+        for (int i = 0; i < pplist.size(); i++) {
+            checkPP(context, pplist.get(i));
             checkOpenService(context);
         }
     }
@@ -281,7 +280,6 @@ public class AudioController {
         pnpList.add("4-7");
         pnpList.add("4-8");
         if (pnpList.contains(pp)) {
-            Log.d("AudioController>>>", "1");
             return playingListindex0_1(pp).isPlaying() || playingListindex0_2(pp).isPlaying();
         } else {
             if (playingListindex0_1(pp) == null) {
@@ -471,6 +469,10 @@ public class AudioController {
         float float13 = (float) 0.60375935;
         float float14 = (float) 0.75;
         float float15 = (float) 1.0;
+        if (pp.equals("4-1")) {
+
+            Log.d("AudioController>>>", "check i: " + i);
+        }
         if (i == 0) {
             AudioController.playingListindex0_1(pp).setVolume(float0, float0);
             AudioController.playingListindex0_2(pp).setVolume(float0, float0);
@@ -535,11 +537,11 @@ public class AudioController {
             if (pageItem.get(i).getPage() == 1) {
                 RainController.stopPage1();
             } else if (pageItem.get(i).getPage() == 2) {
-                WindController.stopPage3();
+                WaterController.stopPage2();
             } else if (pageItem.get(i).getPage() == 3) {
-                ChakraController.stopChakra(pageItem.get(i).getPage(), pageItem.get(i).getPnp());
+                WindController.stopPage3();
             } else if (pageItem.get(i).getPage() == 4) {
-                HzController.stopHz(pageItem.get(i).getPage(), pageItem.get(i).getPnp());
+                NatureController.stopPage4();
             }
         }
     }

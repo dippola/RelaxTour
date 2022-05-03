@@ -5,7 +5,9 @@ import android.content.Context;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.HzPage;
+import com.dippola.relaxtour.pages.NaturePage;
 import com.dippola.relaxtour.pages.RainPage;
+import com.dippola.relaxtour.pages.WaterPage;
 import com.dippola.relaxtour.pages.WindPage;
 import com.dippola.relaxtour.pages.adapter.FavListAdapter;
 import com.dippola.relaxtour.pages.adapter.FavTitleAdapter;
@@ -59,17 +61,17 @@ public class SeekController {
             RainPage.adapter.notifyItemChanged(position);
             RainPage.adapter.notifyDataSetChanged();
         } else if (pageItem.getPage() == 2) {
+            WaterPage.arrayList.get(position).setSeek(progress);
+            WaterPage.adapter.notifyItemChanged(position);
+            WaterPage.adapter.notifyDataSetChanged();
+        } else if (pageItem.getPage() == 3) {
             WindPage.arrayList.get(position).setSeek(progress);
             WindPage.adapter.notifyItemChanged(position);
             WindPage.adapter.notifyDataSetChanged();
-        } else if (pageItem.getPage() == 3) {
-            ChakraPage.arrayList.get(position).setSeek(progress);
-            ChakraPage.adapter.notifyItemChanged(position);
-            ChakraPage.adapter.notifyDataSetChanged();
         } else if (pageItem.getPage() == 4) {
-            HzPage.arrayList.get(position).setSeek(progress);
-            HzPage.adapter.notifyItemChanged(position);
-            HzPage.adapter.notifyDataSetChanged();
+            NaturePage.arrayList.get(position).setSeek(progress);
+            NaturePage.adapter.notifyItemChanged(position);
+            NaturePage.adapter.notifyDataSetChanged();
         }
 
         for (int i = 0; i < FavListAdapter.arrayList.size(); i++) {
@@ -90,9 +92,17 @@ public class SeekController {
             RainPage.adapter.notifyItemChanged(position);
             RainPage.adapter.notifyDataSetChanged();
         } else if (favListItem.getPage() == 2) {
+            WaterPage.arrayList.get(position).setSeek(progress);
+            WaterPage.adapter.notifyItemChanged(position);
+            WaterPage.adapter.notifyDataSetChanged();
+        } else if (favListItem.getPage() == 3) {
             WindPage.arrayList.get(position).setSeek(progress);
             WindPage.adapter.notifyItemChanged(position);
             WindPage.adapter.notifyDataSetChanged();
+        } else if (favListItem.getPage() == 4) {
+            NaturePage.arrayList.get(position).setSeek(progress);
+            NaturePage.adapter.notifyItemChanged(position);
+            NaturePage.adapter.notifyDataSetChanged();
         }
 
         if (MainActivity.bottomSheetPlayList.size() != 0) {

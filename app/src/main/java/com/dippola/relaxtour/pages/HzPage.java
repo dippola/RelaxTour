@@ -86,7 +86,7 @@ public class HzPage extends Fragment {
     }
 
     public static void setHzVolumn() {
-        AudioController.setVolumn("4-1", arrayList.get(0).getSeek());
-        AudioController.setVolumn("4-2", arrayList.get(1).getSeek());
+//        AudioController.setVolumn("7-1", arrayList.get(0).getSeek());
+//        AudioController.setVolumn("7-2", arrayList.get(1).getSeek());
     }
 }

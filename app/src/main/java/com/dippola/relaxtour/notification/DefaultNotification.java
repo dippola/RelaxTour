@@ -76,7 +76,6 @@ public class DefaultNotification {
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
 
             notificationManagerCompat.notify(1, notification.build());
-            Log.d(">>>", "open foreground");
         }
     }
 

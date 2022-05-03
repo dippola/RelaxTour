@@ -5,8 +5,13 @@ public class memo {
 //    1. AudioController > checkIsPlaying, checkIsPlaying, playingListindex0_1, playingListindex0_2, stopPage
 //    2. AudioController > startTrack, checkPP, stopPage, startTrack
 //    3. 각 page controller에 getSec
+//    4. 각 page에 set볼륨
 
 
 //    새로운 페이지 업데이트 했을때 변경할거
 //    1. databaseHandler > getPageName()
+//    2. stopPlayingList
+//    3. NotificationActionService > stopPage
+//    4. SeekController > changeSeekInBottom, changeSeekInFavList
+//    5. bottomSheetAdapter > changePageItemBackground
 }
