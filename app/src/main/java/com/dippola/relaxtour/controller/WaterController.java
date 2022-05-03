@@ -32,10 +32,10 @@ public class WaterController {
         @Override
         public void run() {
             while (!stop) {
-                if (p1p1_1.isPlaying()) {
-                    int i = p1p1_1.getCurrentPosition();
+                if (AudioController.playingListindex0_1(pnp).isPlaying()) {
+                    int i = AudioController.playingListindex0_1(pnp).getCurrentPosition();
                     if (i >= getSec(pnp)) {
-                        p1p1_2.start();
+                        AudioController.playingListindex0_2(pnp).start();
                         new p2t2(pnp).start();
                         setStop(true);
                     }
@@ -56,10 +56,10 @@ public class WaterController {
         @Override
         public void run() {
             while (!stop) {
-                if (p1p1_2.isPlaying()) {
-                    int i = p1p1_2.getCurrentPosition();
+                if (AudioController.playingListindex0_2(pnp).isPlaying()) {
+                    int i = AudioController.playingListindex0_2(pnp).getCurrentPosition();
                     if (i >= getSec(pnp)) {
-                        p1p1_1.start();
+                        AudioController.playingListindex0_1(pnp).start();
                         new p2t1(pnp).start();
                         setStop(true);
                     }

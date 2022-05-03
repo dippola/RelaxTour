@@ -28,10 +28,10 @@ public class WindController {
         @Override
         public void run() {
             while (!stop) {
-                if (p3p1_1.isPlaying()) {
-                    int i = p3p1_1.getCurrentPosition();
+                if (AudioController.playingListindex0_1(pnp).isPlaying()) {
+                    int i = AudioController.playingListindex0_1(pnp).getCurrentPosition();
                     if (i >= getSec(pnp)) {
-                        p3p1_2.start();
+                        AudioController.playingListindex0_2(pnp).start();
                         new p3t2(pnp).start();
                         setStop(true);
                     }
@@ -52,10 +52,10 @@ public class WindController {
         @Override
         public void run() {
             while (!stop) {
-                if (p3p1_2.isPlaying()) {
-                    int i = p3p1_2.getCurrentPosition();
+                if (AudioController.playingListindex0_2(pnp).isPlaying()) {
+                    int i = AudioController.playingListindex0_2(pnp).getCurrentPosition();
                     if (i >= getSec(pnp)) {
-                        p3p1_1.start();
+                        AudioController.playingListindex0_1(pnp).start();
                         new p3t1(pnp).start();
                         setStop(true);
                     }
