@@ -30,6 +30,7 @@ public class NaturePage extends Fragment {
     public static MediaPlayer p4p5_1, p4p5_2;
     public static MediaPlayer p4p6_1, p4p6_2;
     public static MediaPlayer p4p7_1, p4p7_2;
+    public static MediaPlayer p4p8_1, p4p8_2;
 
     RelativeLayout pageBox;
     public static ArrayList<PageItem> arrayList = new ArrayList<>();
@@ -55,18 +56,20 @@ public class NaturePage extends Fragment {
         p4p2_1 = MediaPlayer.create(getActivity(), R.raw.audio4to2);
         p4p2_2 = MediaPlayer.create(getActivity(), R.raw.audio4to2);
 
-        p4p1_1 = MediaPlayer.create(getActivity(), R.raw.audio4to3);
-        p4p1_2 = MediaPlayer.create(getActivity(), R.raw.audio4to3);
-        p4p2_1 = MediaPlayer.create(getActivity(), R.raw.audio4to4);
-        p4p2_2 = MediaPlayer.create(getActivity(), R.raw.audio4to4);
+        p4p3_1 = MediaPlayer.create(getActivity(), R.raw.audio4to3);
+        p4p3_2 = MediaPlayer.create(getActivity(), R.raw.audio4to3);
+        p4p4_1 = MediaPlayer.create(getActivity(), R.raw.audio4to4);
+        p4p4_2 = MediaPlayer.create(getActivity(), R.raw.audio4to4);
 
-        p4p1_1 = MediaPlayer.create(getActivity(), R.raw.audio4to5);
-        p4p1_2 = MediaPlayer.create(getActivity(), R.raw.audio4to5);
-        p4p2_1 = MediaPlayer.create(getActivity(), R.raw.audio4to6);
-        p4p2_2 = MediaPlayer.create(getActivity(), R.raw.audio4to6);
+        p4p5_1 = MediaPlayer.create(getActivity(), R.raw.audio4to5);
+        p4p5_2 = MediaPlayer.create(getActivity(), R.raw.audio4to5);
+        p4p6_1 = MediaPlayer.create(getActivity(), R.raw.audio4to6);
+        p4p6_2 = MediaPlayer.create(getActivity(), R.raw.audio4to6);
 
-        p4p1_1 = MediaPlayer.create(getActivity(), R.raw.audio4to7);
-        p4p1_2 = MediaPlayer.create(getActivity(), R.raw.audio4to7);
+        p4p7_1 = MediaPlayer.create(getActivity(), R.raw.audio4to7);
+        p4p7_2 = MediaPlayer.create(getActivity(), R.raw.audio4to7);
+        p4p8_1 = MediaPlayer.create(getActivity(), R.raw.audio4to8);
+        p4p8_2 = MediaPlayer.create(getActivity(), R.raw.audio4to8);
     }
 
     private void setInit(ViewGroup rootView) {

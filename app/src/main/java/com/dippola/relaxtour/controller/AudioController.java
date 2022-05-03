@@ -70,9 +70,26 @@ public class AudioController {
             } else if (position == 7) {
                 WindPage.p3p7_1.start();
             }
-            new WindController.p2t1(pnp).start();
+            new WindController.p3t1(pnp).start();
         } else if (page == 4) {
-            ChakraController.startChakra(pnp);
+            if (position == 1) {
+                NaturePage.p4p1_1.start();
+            } else if (position == 2) {
+                NaturePage.p4p2_1.start();
+            } else if (position == 3) {
+                NaturePage.p4p3_1.start();
+            } else if (position == 4) {
+                NaturePage.p4p4_1.start();
+            } else if (position == 5) {
+                NaturePage.p4p5_1.start();
+            } else if (position == 6) {
+                NaturePage.p4p6_1.start();
+            } else if (position == 7) {
+                NaturePage.p4p7_1.start();
+            } else if (position == 8) {
+                NaturePage.p4p8_1.start();
+            }
+//            NatureController.startNature(pnp);
         } else if (page == 5) {
             HzController.startHz(pnp);
         }
@@ -122,63 +139,66 @@ public class AudioController {
 
             case "2-1":
                 WaterPage.p2p1_1.start();
-                new WindController.p2t1(pp).start();
+                new WindController.p3t1(pp).start();
                 break;
             case "2-2":
                 WaterPage.p2p2_1.start();
-                new WindController.p2t1(pp).start();
+                new WindController.p3t1(pp).start();
                 break;
             case "2-3":
                 WaterPage.p2p3_1.start();
-                new WindController.p2t1(pp).start();
+                new WindController.p3t1(pp).start();
                 break;
             case "2-4":
                 WaterPage.p2p4_1.start();
-                new WindController.p2t1(pp).start();
+                new WindController.p3t1(pp).start();
                 break;
             case "2-5":
                 WaterPage.p2p5_1.start();
-                new WindController.p2t1(pp).start();
+                new WindController.p3t1(pp).start();
                 break;
             case "2-6":
                 WaterPage.p2p6_1.start();
-                new WindController.p2t1(pp).start();
+                new WindController.p3t1(pp).start();
                 break;
 
 
             case "3-1":
                 WindPage.p3p1_1.start();
-                new WindController.p2t1(pp).start();
+                new WindController.p3t1(pp).start();
                 break;
             case "3-2":
                 WindPage.p3p2_1.start();
-                new WindController.p2t1(pp).start();
+                new WindController.p3t1(pp).start();
                 break;
             case "3-3":
                 WindPage.p3p3_1.start();
-                new WindController.p2t1(pp).start();
+                new WindController.p3t1(pp).start();
                 break;
             case "3-4":
                 WindPage.p3p4_1.start();
-                new WindController.p2t1(pp).start();
+                new WindController.p3t1(pp).start();
                 break;
             case "3-5":
                 WindPage.p3p5_1.start();
-                new WindController.p2t1(pp).start();
+                new WindController.p3t1(pp).start();
                 break;
             case "3-6":
                 WindPage.p3p6_1.start();
-                new WindController.p2t1(pp).start();
+                new WindController.p3t1(pp).start();
                 break;
 
+//            case "4-1":
+//                NaturePage.p4p1_1.start();
+//                new NatureController
 
 
-            case "4-1":
-                HzController.startHz(pp);
-                break;
-            case "4-2":
-                HzController.startHz(pp);
-                break;
+//            case "4-1":
+//                HzController.startHz(pp);
+//                break;
+//            case "4-2":
+//                HzController.startHz(pp);
+//                break;
         }
     }
 
@@ -193,25 +213,42 @@ public class AudioController {
         }
     }
 
-    public static boolean checkIsPlaying(String pp) {
+    public static boolean checkIsPlaying(String pp) {//pp가 재생중인지 반환
         List<String> pnpList = new ArrayList<>();
         pnpList.add("1-1");
         pnpList.add("1-2");
+        pnpList.add("1-3");
+        pnpList.add("1-4");
+        pnpList.add("1-5");
+        pnpList.add("1-6");
         pnpList.add("2-1");
         pnpList.add("2-2");
+        pnpList.add("2-3");
+        pnpList.add("2-4");
+        pnpList.add("2-5");
+        pnpList.add("2-6");
         pnpList.add("3-1");
         pnpList.add("3-2");
+        pnpList.add("3-3");
+        pnpList.add("3-4");
+        pnpList.add("3-5");
+        pnpList.add("3-6");
+        pnpList.add("3-7");
         pnpList.add("4-1");
         pnpList.add("4-2");
+        pnpList.add("4-3");
+        pnpList.add("4-4");
+        pnpList.add("4-5");
+        pnpList.add("4-6");
+        pnpList.add("4-7");
+        pnpList.add("4-8");
         if (pnpList.contains(pp)) {
             Log.d("AudioController>>>", "1");
             return playingListindex0_1(pp).isPlaying() || playingListindex0_2(pp).isPlaying();
         } else {
             if (playingListindex0_1(pp) == null) {
-                Log.d("AudioController>>>", "2");
                 return false;
             } else {
-                Log.d("AudioController>>>", "3");
                 return true;
             }
         }
@@ -260,6 +297,8 @@ public class AudioController {
                 return WindPage.p3p5_1;
             case "3-6":
                 return WindPage.p3p6_1;
+            case "3-7":
+                return WindPage.p3p7_1;
 
             case "4-1":
                 return NaturePage.p4p1_1;
@@ -275,6 +314,8 @@ public class AudioController {
                 return NaturePage.p4p6_1;
             case "4-7":
                 return NaturePage.p4p7_1;
+            case "4-8":
+                return NaturePage.p4p8_1;
 
 
 //            case "4-1":
@@ -300,7 +341,6 @@ public class AudioController {
                 return RainPage.p1p5_2;
             case "1-6":
                 return RainPage.p1p6_2;
-
 
             case "2-1":
                 return WaterPage.p2p1_2;
@@ -328,6 +368,8 @@ public class AudioController {
                 return WindPage.p3p5_2;
             case "3-6":
                 return WindPage.p3p6_2;
+            case "3-7":
+                return WindPage.p3p7_2;
 
             case "4-1":
                 return NaturePage.p4p1_2;
@@ -343,6 +385,8 @@ public class AudioController {
                 return NaturePage.p4p6_2;
             case "4-7":
                 return NaturePage.p4p7_2;
+            case "4-8":
+                return NaturePage.p4p8_2;
 
 
 //            case "4-1":
@@ -358,10 +402,16 @@ public class AudioController {
         if (page == 1) {
             RainController.stopPage1();
         } else if (page == 2) {
-            WindController.stopPage2();
+            WaterController.stopPage2();
         } else if (page == 3) {
-            ChakraController.stopChakra(page, pnp);
+            WindController.stopPage3();
         } else if (page == 4) {
+            NatureController.stopPage4();
+        } else if (page == 5) {
+            ChakraController.stopChakra(page, pnp);
+        } else if (page == 6) {
+//            MantraController.stopMantra(page, pnp);
+        } else if (page == 7) {
             HzController.stopHz(page, pnp);
         }
     }
@@ -447,7 +497,7 @@ public class AudioController {
             if (pageItem.get(i).getPage() == 1) {
                 RainController.stopPage1();
             } else if (pageItem.get(i).getPage() == 2) {
-                WindController.stopPage2();
+                WindController.stopPage3();
             } else if (pageItem.get(i).getPage() == 3) {
                 ChakraController.stopChakra(pageItem.get(i).getPage(), pageItem.get(i).getPnp());
             } else if (pageItem.get(i).getPage() == 4) {

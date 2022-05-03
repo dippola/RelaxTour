@@ -56,22 +56,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         databaseHandler = new DatabaseHandler(context);
         int positions = position;
 
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {//LIGHT모드
-            setPageImageTheme(position, holder.img, "light");
-        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {//dark모드
-            setPageImageTheme(position, holder.img, "dark");
-        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {//system모드
-            Configuration config = context.getResources().getConfiguration();
-            int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
-            switch (currentNightMode) {
-                case Configuration.UI_MODE_NIGHT_NO://system light 모드
-                    setPageImageTheme(position, holder.img, "light");
-                    break;
-                case Configuration.UI_MODE_NIGHT_YES://system dark 모드
-                    setPageImageTheme(position, holder.img, "dark");
-                    break;
-            }
-        }
+        setPageImageTheme(position, holder.img);
 
         if (arrayList.get(position).getPage() == 1 || arrayList.get(position).getPage() == 2 || arrayList.get(position).getPage() == 3) {//1,2,3page
             holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
@@ -120,49 +105,46 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             @Override
             public void onClick(View view) {
                 if (arrayList.get(positions).getIsplay() == 1) {//해당 아이템이 playing중이 아닐때
-                    Bitmap bitmapremove = BitmapFactory.decodeByteArray(arrayList.get(positions).getImg(), 0, arrayList.get(positions).getImg().length);
-                    holder.img.setImageBitmap(bitmapremove);
+                    setPageImageTheme(positions, holder.img);
                     for (int i = 0; i < arrayList.size(); i++) {//같은 page에 재생중인게 있으면 없애기
-                        int isplay = arrayList.get(i).getIsplay();
-                        if (isplay == 2) {//change
-                            int index = checkPlayinglistPosition(arrayList.get(i).getPage());
-                            MainActivity.bottomSheetPlayList.remove(index);
-                            MainActivity.bottomSheetAdapter.notifyItemRemoved(index);
-                            arrayList.get(i).setIsplay(1);
-                            notifyItemChanged(i);
+                        if (arrayList.get(i).getIsplay() == 2) {//같은page에 재생중인게 있으면
+                            int index = checkPlayinglistPosition(arrayList.get(i).getPage());//같은페이지에 있는 다른 재생중인 트랙의 bottomSheetPlayList에서의 포지션 알아오기
+                            MainActivity.bottomSheetPlayList.remove(index);//같은페이지에 있는 다른 재생중인 트랙 지우고
+                            MainActivity.bottomSheetAdapter.notifyItemRemoved(index);//새로고침
+                            arrayList.get(i).setIsplay(1);//page에 있는 지운트랙 isplay 1로 바꾸고
+                            notifyItemChanged(i);//해당page 새로고침
                             notifyDataSetChanged();
-                            AudioController.stopPage(arrayList.get(positions).getPage(), arrayList.get(positions).getPnp());
+                            AudioController.stopPage(arrayList.get(positions).getPage(), arrayList.get(positions).getPnp());//지운트랙 재생정지
                             break;
                         }
                     }
                     //add 해당 아이템 재생목록에 추가
                     MainActivity.pands.setBackgroundResource(R.drawable.bottom_pause);
-                    arrayList.get(positions).setIsplay(2);
-                    MainActivity.bottomSheetPlayList.add(arrayList.get(positions));
-                    databaseHandler.setPlay1(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
-                    MainActivity.bottomSheetAdapter.notifyItemInserted(MainActivity.bottomSheetPlayList.size());
+                    arrayList.get(positions).setIsplay(2);//새로 재생시킬 트랙 isplay 2로 바꾸기
+                    MainActivity.bottomSheetPlayList.add(arrayList.get(positions));//bottom playlist에 새로 재생할거 넣기
+                    databaseHandler.setPlay1(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//db에서 기존꺼,새로운거 isplay바꾸고 bottom list에도 새로운걸로 변경
+                    MainActivity.bottomSheetAdapter.notifyItemInserted(MainActivity.bottomSheetPlayList.size());//bottom list 새로고침
 
-                    if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0).getPnp())) {//이미 재생중인게 있을때
-                        AudioController.startTrack(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
-                    } else {//재생중인게 없을때
+                    if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0).getPnp())) {//다른page에 이미 재생중인게 있을때 (pands버튼이 재생중일때)
+                        AudioController.startTrack(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//새로 재생할 트랙 찾아서 재생
+                    } else {//재생중인게 없을때(pands버튼이 재생 중이 아닐때)
                         List<String> pp = new ArrayList<>();
-                        for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {
+                        for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {//bottom list에 모든 트랙 pnp 수집
                             pp.add(MainActivity.bottomSheetPlayList.get(ii).getPnp());
                             if (ii == MainActivity.bottomSheetPlayList.size() - 1) {
-                                AudioController.startPlayingList(context, pp);
+                                AudioController.startPlayingList(context, pp);//bottom list에 있는 목록 다 재생
                             }
                         }
                     }
                     checkOpenService();
                 } else {//해당 아이템이 playing중일때
                     //remove
-                    Bitmap bitmapadd = BitmapFactory.decodeByteArray(arrayList.get(positions).getImgdefault(), 0, arrayList.get(positions).getImgdefault().length);
-                    holder.img.setImageBitmap(bitmapadd);
-                    databaseHandler.deletePlayingList(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
+                    setPageImageTheme(positions, holder.img);
+                    databaseHandler.deletePlayingList(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//db bottom list에서 지우고 page db에 isplay 1로 변경
                     for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-                        if (MainActivity.bottomSheetPlayList.get(i).getPnp().equals(arrayList.get(positions).getPnp())) {
+                        if (MainActivity.bottomSheetPlayList.get(i).getPnp().equals(arrayList.get(positions).getPnp())) {//bottom list에 있는 트랙이랑 누른트랙이랑 같을때
                             MainActivity.bottomSheetPlayList.remove(i);
-                            MainActivity.bottomSheetAdapter.notifyItemRemoved(i);
+                            MainActivity.bottomSheetAdapter.notifyItemRemoved(i);//지우고 새로고침
                             MainActivity.bottomSheetAdapter.notifyDataSetChanged();
                             break;
                         }
@@ -243,7 +225,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         }
     }
 
-    private int checkPlayinglistPosition(int page) {
+    private int checkPlayinglistPosition(int page) {//같은페이지에 있는 다른 재생중인 트랙의 bottomSheetPlayList에서의 포지션 알아오기
         for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
             int playlistpage = MainActivity.bottomSheetPlayList.get(i).getPage();
             if (playlistpage == page) {
@@ -253,22 +235,27 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         return -1;
     }
 
-    private void setPageImageTheme(int position, ImageView img, String mode) {
+    private void setPageImageTheme(int position, ImageView img) {
         if (arrayList.get(position).getIsplay() == 1) {
-            if (mode.equals("light")) {
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
                 Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
                 img.setImageBitmap(bitmap1);
-            } else if (mode.equals("dark")) {
+            } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                 Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDarkdefault(), 0, arrayList.get(position).getDarkdefault().length);
                 img.setImageBitmap(bitmap2);
             }
-        } else {
-            if (mode.equals("light")) {
-                Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
-                img.setImageBitmap(bitmap1);
-            } else if (mode.equals("dark")) {
-                Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
-                img.setImageBitmap(bitmap2);
+        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
+            Configuration config = context.getResources().getConfiguration();
+            int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            switch (currentNightMode) {
+                case Configuration.UI_MODE_NIGHT_NO://system light 모드
+                    Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+                    img.setImageBitmap(bitmap1);
+                    break;
+                case Configuration.UI_MODE_NIGHT_YES://system dark 모드
+                    Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+                    img.setImageBitmap(bitmap2);
+                    break;
             }
         }
     }

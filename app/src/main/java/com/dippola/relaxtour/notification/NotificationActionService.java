@@ -12,9 +12,7 @@ import com.dippola.relaxtour.controller.ChakraController;
 import com.dippola.relaxtour.controller.HzController;
 import com.dippola.relaxtour.controller.RainController;
 import com.dippola.relaxtour.controller.WindController;
-import com.dippola.relaxtour.pages.RainPage;
 import com.dippola.relaxtour.pages.item.PageItem;
-import com.dippola.relaxtour.notification.DefaultNotification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +68,7 @@ public class NotificationActionService extends BroadcastReceiver {
         if (page == 1) {
             RainController.stopPage1();
         } else if (page == 2) {
-            WindController.stopPage2();
+            WindController.stopPage3();
         } else if (page == 3) {
             ChakraController.stopChakra(page, pnp);
         } else if (page == 4) {

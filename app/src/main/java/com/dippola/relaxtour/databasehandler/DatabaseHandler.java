@@ -328,22 +328,28 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (page == 1) {
             return "rain";
         } else if (page == 2) {
-            return "wind";
+            return "water";
         } else if (page == 3) {
-            return "chakra";
+            return "wind";
         } else if (page == 4) {
+            return "nature";
+        } else if (page == 5) {
+            return "chakra";
+        } else if (page == 6) {
+            return "mantra";
+        } else if (page == 7) {
             return "hz";
         } else {
             return "null";
         }
     }
 
-    public void setPlay1(int page, int position) {
+    public void setPlay1(int page, int position) {//같은 page에 다른 재생중인거 있을때 지우고 새로운 재생할거 트랙 재생하기
         sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.execSQL("update " + getPageName(page) + " set isplay = 1");
-        sqLiteDatabase.execSQL("delete from playing where page = " + page);
-        sqLiteDatabase.execSQL("update " + getPageName(page) + " set isplay = 2 where position = " + position);
-        sqLiteDatabase.execSQL("insert into playing select * from " + getPageName(page) + " where position = " + position);
+        sqLiteDatabase.execSQL("update " + getPageName(page) + " set isplay = 1");//해당페이지 전체 isplay 1로 변경
+        sqLiteDatabase.execSQL("delete from playing where page = " + page);//bottom list에서 해당 페이지 있는거 지우기
+        sqLiteDatabase.execSQL("update " + getPageName(page) + " set isplay = 2 where position = " + position);//새로 재생할거 isplay2로 바꾸기
+        sqLiteDatabase.execSQL("insert into playing select * from " + getPageName(page) + " where position = " + position);//새로 재생할거 bottom list에 insert
     }
 
     public void deleteAllPlayingListTest() {

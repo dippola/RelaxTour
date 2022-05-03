@@ -11,11 +11,13 @@ import static com.dippola.relaxtour.pages.WindPage.p3p5_1;
 import static com.dippola.relaxtour.pages.WindPage.p3p5_2;
 import static com.dippola.relaxtour.pages.WindPage.p3p6_1;
 import static com.dippola.relaxtour.pages.WindPage.p3p6_2;
+import static com.dippola.relaxtour.pages.WindPage.p3p7_1;
+import static com.dippola.relaxtour.pages.WindPage.p3p7_2;
 
 public class WindController {
-    public static class p2t1 extends Thread {
+    public static class p3t1 extends Thread {
         String pnp;
-        public p2t1(String pnp) {
+        public p3t1(String pnp) {
             this.pnp = pnp;
         }
         private boolean stop;
@@ -30,16 +32,16 @@ public class WindController {
                     int i = p3p1_1.getCurrentPosition();
                     if (i >= getSec(pnp)) {
                         p3p1_2.start();
-                        new p2t2(pnp).start();
+                        new p3t2(pnp).start();
                         setStop(true);
                     }
                 }
             }
         }
     }
-    public static class p2t2 extends Thread {
+    public static class p3t2 extends Thread {
         String pnp;
-        public p2t2(String pnp) {
+        public p3t2(String pnp) {
             this.pnp = pnp;
         }
         private boolean stop;
@@ -54,7 +56,7 @@ public class WindController {
                     int i = p3p1_2.getCurrentPosition();
                     if (i >= getSec(pnp)) {
                         p3p1_1.start();
-                        new p2t1(pnp).start();
+                        new p3t1(pnp).start();
                         setStop(true);
                     }
                 }
@@ -62,7 +64,7 @@ public class WindController {
         }
     }
 
-    public static void stopPage2() {
+    public static void stopPage3() {
         p3p1_1.stop();
         p3p1_1.prepareAsync();
         p3p1_2.stop();
@@ -89,15 +91,30 @@ public class WindController {
         p3p6_1.prepareAsync();
         p3p6_2.stop();
         p3p6_2.prepareAsync();
-        new p2t1(null).setStop(true);
-        new p2t2(null).setStop(true);
+
+        p3p7_1.stop();
+        p3p7_1.prepareAsync();
+        p3p7_2.stop();
+        p3p7_2.prepareAsync();
+        new p3t1(null).setStop(true);
+        new p3t2(null).setStop(true);
     }
 
     private static int getSec(String pnp) {
-        if (pnp.equals("2-1")) {
-            return 69000;
-        } else if (pnp.equals("2-2")) {
-            return 69000;
+        if (pnp.equals("3-1")) {
+            return 125900-3000;
+        } else if (pnp.equals("3-2")) {
+            return 180000-3000;
+        } else if (pnp.equals("3-3")) {
+            return 137700-3000;
+        } else if (pnp.equals("3-4")) {
+            return 97900-3000;
+        } else if (pnp.equals("3-5")) {
+            return 40000-3000;
+        } else if (pnp.equals("3-6")) {
+            return 121400-3000;
+        } else if (pnp.equals("3-7")) {
+            return 129400-3000;
         } else {
             return 0;
         }
