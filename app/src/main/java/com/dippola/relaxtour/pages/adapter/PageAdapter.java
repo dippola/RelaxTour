@@ -104,8 +104,15 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (arrayList.get(positions).getPage() != 4) {//4페이지 아닐때
+
+                } else {//4page nature일때
+
+                }
+
+
                 if (arrayList.get(positions).getIsplay() == 1) {//해당 아이템이 playing중이 아닐때
-                    setPageImageTheme(positions, holder.img);
+                    setPageImageOnClickChangeImage(positions, holder.img);
                     for (int i = 0; i < arrayList.size(); i++) {//같은 page에 재생중인게 있으면 없애기
                         if (arrayList.get(i).getIsplay() == 2) {//같은page에 재생중인게 있으면
                             int index = checkPlayinglistPosition(arrayList.get(i).getPage());//같은페이지에 있는 다른 재생중인 트랙의 bottomSheetPlayList에서의 포지션 알아오기
@@ -139,7 +146,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
                     checkOpenService();
                 } else {//해당 아이템이 playing중일때
                     //remove
-                    setPageImageTheme(positions, holder.img);
+                    setPageImageOnClickChangeImage(positions, holder.img);
                     databaseHandler.deletePlayingList(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//db bottom list에서 지우고 page db에 isplay 1로 변경
                     for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
                         if (MainActivity.bottomSheetPlayList.get(i).getPnp().equals(arrayList.get(positions).getPnp())) {//bottom list에 있는 트랙이랑 누른트랙이랑 같을때
@@ -243,19 +250,86 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                 Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDarkdefault(), 0, arrayList.get(position).getDarkdefault().length);
                 img.setImageBitmap(bitmap2);
+            } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
+                Configuration config = context.getResources().getConfiguration();
+                int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                switch (currentNightMode) {
+                    case Configuration.UI_MODE_NIGHT_NO://system light 모드
+                        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
+                        img.setImageBitmap(bitmap1);
+                        break;
+                    case Configuration.UI_MODE_NIGHT_YES://system dark 모드
+                        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDarkdefault(), 0, arrayList.get(position).getDarkdefault().length);
+                        img.setImageBitmap(bitmap2);
+                        break;
+                }
             }
-        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
-            Configuration config = context.getResources().getConfiguration();
-            int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
-            switch (currentNightMode) {
-                case Configuration.UI_MODE_NIGHT_NO://system light 모드
-                    Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
-                    img.setImageBitmap(bitmap1);
-                    break;
-                case Configuration.UI_MODE_NIGHT_YES://system dark 모드
-                    Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
-                    img.setImageBitmap(bitmap2);
-                    break;
+        } else {
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+                img.setImageBitmap(bitmap1);
+            } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+                img.setImageBitmap(bitmap2);
+            } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
+                Configuration config = context.getResources().getConfiguration();
+                int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                switch (currentNightMode) {
+                    case Configuration.UI_MODE_NIGHT_NO://system light 모드
+                        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+                        img.setImageBitmap(bitmap1);
+                        break;
+                    case Configuration.UI_MODE_NIGHT_YES://system dark 모드
+                        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+                        img.setImageBitmap(bitmap2);
+                        break;
+                }
+            }
+        }
+    }
+
+    private void setPageImageOnClickChangeImage(int position, ImageView img) {
+        if (arrayList.get(position).getIsplay() == 1) {
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+                img.setImageBitmap(bitmap1);
+            } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+                img.setImageBitmap(bitmap2);
+            } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
+                Configuration config = context.getResources().getConfiguration();
+                int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                switch (currentNightMode) {
+                    case Configuration.UI_MODE_NIGHT_NO://system light 모드
+                        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+                        img.setImageBitmap(bitmap1);
+                        break;
+                    case Configuration.UI_MODE_NIGHT_YES://system dark 모드
+                        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+                        img.setImageBitmap(bitmap2);
+                        break;
+                }
+            }
+        } else {
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
+                img.setImageBitmap(bitmap1);
+            } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDarkdefault(), 0, arrayList.get(position).getDarkdefault().length);
+                img.setImageBitmap(bitmap2);
+            } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
+                Configuration config = context.getResources().getConfiguration();
+                int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                switch (currentNightMode) {
+                    case Configuration.UI_MODE_NIGHT_NO://system light 모드
+                        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
+                        img.setImageBitmap(bitmap1);
+                        break;
+                    case Configuration.UI_MODE_NIGHT_YES://system dark 모드
+                        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDarkdefault(), 0, arrayList.get(position).getDarkdefault().length);
+                        img.setImageBitmap(bitmap2);
+                        break;
+                }
             }
         }
     }

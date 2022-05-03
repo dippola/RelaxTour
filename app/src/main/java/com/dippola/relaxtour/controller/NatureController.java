@@ -18,16 +18,6 @@ import static com.dippola.relaxtour.pages.NaturePage.p4p8_1;
 import static com.dippola.relaxtour.pages.NaturePage.p4p8_2;
 import static com.dippola.relaxtour.pages.RainPage.p1p1_1;
 import static com.dippola.relaxtour.pages.RainPage.p1p1_2;
-import static com.dippola.relaxtour.pages.RainPage.p1p2_1;
-import static com.dippola.relaxtour.pages.RainPage.p1p2_2;
-import static com.dippola.relaxtour.pages.RainPage.p1p3_1;
-import static com.dippola.relaxtour.pages.RainPage.p1p3_2;
-import static com.dippola.relaxtour.pages.RainPage.p1p4_1;
-import static com.dippola.relaxtour.pages.RainPage.p1p4_2;
-import static com.dippola.relaxtour.pages.RainPage.p1p5_1;
-import static com.dippola.relaxtour.pages.RainPage.p1p5_2;
-import static com.dippola.relaxtour.pages.RainPage.p1p6_1;
-import static com.dippola.relaxtour.pages.RainPage.p1p6_2;
 
 public class NatureController {
     public static class p4t1 extends Thread {

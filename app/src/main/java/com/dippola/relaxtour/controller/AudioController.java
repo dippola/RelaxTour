@@ -53,7 +53,7 @@ public class AudioController {
             } else if (position == 6) {
                 WaterPage.p2p6_1.start();
             }
-
+            new WaterController.p2t1(pnp).start();
         } else if (page == 3) {//page2
             if (position == 1) {
                 WindPage.p3p1_1.start();
@@ -72,6 +72,7 @@ public class AudioController {
             }
             new WindController.p3t1(pnp).start();
         } else if (page == 4) {
+            Log.d("AudioController>>>", "position: " + position);
             if (position == 1) {
                 NaturePage.p4p1_1.start();
             } else if (position == 2) {
@@ -89,7 +90,7 @@ public class AudioController {
             } else if (position == 8) {
                 NaturePage.p4p8_1.start();
             }
-//            NatureController.startNature(pnp);
+            new NatureController.p4t1(pnp).start();
         } else if (page == 5) {
             HzController.startHz(pnp);
         }
@@ -185,6 +186,43 @@ public class AudioController {
                 break;
             case "3-6":
                 WindPage.p3p6_1.start();
+                new WindController.p3t1(pp).start();
+                break;
+            case "3-7":
+                WindPage.p3p7_1.start();
+                new WindController.p3t1(pp).start();
+
+
+            case "4-1":
+                NaturePage.p4p1_1.start();
+                new WindController.p3t1(pp).start();
+                break;
+            case "4-2":
+                NaturePage.p4p2_1.start();
+                new WindController.p3t1(pp).start();
+                break;
+            case "4-3":
+                NaturePage.p4p3_1.start();
+                new WindController.p3t1(pp).start();
+                break;
+            case "4-4":
+                NaturePage.p4p4_1.start();
+                new WindController.p3t1(pp).start();
+                break;
+            case "4-5":
+                NaturePage.p4p5_1.start();
+                new WindController.p3t1(pp).start();
+                break;
+            case "4-6":
+                NaturePage.p4p6_1.start();
+                new WindController.p3t1(pp).start();
+                break;
+            case "4-7":
+                NaturePage.p4p7_1.start();
+                new WindController.p3t1(pp).start();
+                break;
+            case "4-8":
+                NaturePage.p4p8_1.start();
                 new WindController.p3t1(pp).start();
                 break;
 
