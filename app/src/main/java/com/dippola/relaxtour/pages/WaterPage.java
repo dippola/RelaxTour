@@ -1,13 +1,10 @@
 package com.dippola.relaxtour.pages;
 
-import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -78,10 +75,10 @@ public class WaterPage extends Fragment {
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        setPage1Volumn();
+        setPage2Volumn();
     }
 
-    private void setPage1Volumn() {
+    private void setPage2Volumn() {
         AudioController.setVolumn("2-1", arrayList.get(0).getSeek());
         AudioController.setVolumn("2-2", arrayList.get(1).getSeek());
         AudioController.setVolumn("2-3", arrayList.get(2).getSeek());

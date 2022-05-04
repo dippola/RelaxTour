@@ -2,7 +2,6 @@ package com.dippola.relaxtour.pages;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,10 +84,10 @@ public class NaturePage extends Fragment {
         layoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        setPage2Volumn();
+        setPage4Volumn();
     }
 
-    private void setPage2Volumn() {
+    private void setPage4Volumn() {
         AudioController.setVolumn("4-1", arrayList.get(0).getSeek());
         AudioController.setVolumn("4-2", arrayList.get(1).getSeek());
         AudioController.setVolumn("4-3", arrayList.get(2).getSeek());

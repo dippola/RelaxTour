@@ -539,11 +539,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void removeFavList(String title) {
         sqLiteDatabase = this.getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select _rowid_ from favtitle where title = " + title, null);
+        Cursor cursor = sqLiteDatabase.rawQuery("select _rowid_ from favtitle where title = " + "'" + title + "'", null);
         cursor.moveToFirst();
         int rowid = cursor.getInt(0);
+        Log.d("DatabaseHandler>>>", "rowid is: " + rowid);
         sqLiteDatabase.execSQL("delete from favtitle where _rowid_ = " + rowid);
-        sqLiteDatabase.execSQL("delete from favlist where favtitlename = " + rowid);
+        sqLiteDatabase.execSQL("delete from favlist where favtitlename = " + "'" + title + "'");
         FavPage.favTitleItemArrayList.remove(rowid - 1);
         FavPage.adapter.notifyItemRemoved(rowid - 1);
         FavPage.adapter.notifyDataSetChanged();

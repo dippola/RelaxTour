@@ -16,8 +16,8 @@ import static com.dippola.relaxtour.pages.NaturePage.p4p7_1;
 import static com.dippola.relaxtour.pages.NaturePage.p4p7_2;
 import static com.dippola.relaxtour.pages.NaturePage.p4p8_1;
 import static com.dippola.relaxtour.pages.NaturePage.p4p8_2;
-import static com.dippola.relaxtour.pages.RainPage.p1p1_1;
-import static com.dippola.relaxtour.pages.RainPage.p1p1_2;
+
+import android.util.Log;
 
 public class NatureController {
     public static class p4t1 extends Thread {
@@ -34,12 +34,14 @@ public class NatureController {
         @Override
         public void run() {
             while (!stop) {
+                Log.d("NatureController>>>", "p4t1 start");
                 if (AudioController.playingListindex0_1(pnp).isPlaying()) {
                     int i = AudioController.playingListindex0_1(pnp).getCurrentPosition();
                     if (i >= getSec(pnp)) {
                         AudioController.playingListindex0_2(pnp).start();
                         new p4t2(pnp).start();
                         setStop(true);
+                        Log.d("NatureController>>>", "p4t1 stop");
                     }
                 }
             }
@@ -58,12 +60,14 @@ public class NatureController {
         @Override
         public void run() {
             while (!stop) {
+                Log.d("NatureController>>>", "p4t2 start");
                 if (AudioController.playingListindex0_2(pnp).isPlaying()) {
                     int i = AudioController.playingListindex0_2(pnp).getCurrentPosition();
                     if (i >= getSec(pnp)) {
                         AudioController.playingListindex0_1(pnp).start();
                         new p4t1(pnp).start();
                         setStop(true);
+                        Log.d("NatureController>>>", "p4t2 stop");
                     }
                 }
             }

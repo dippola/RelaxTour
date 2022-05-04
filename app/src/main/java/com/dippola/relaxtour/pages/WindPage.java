@@ -78,10 +78,10 @@ public class WindPage extends Fragment {
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        setPage2Volumn();
+        setPage3Volumn();
     }
 
-    private void setPage2Volumn() {
+    private void setPage3Volumn() {
         AudioController.setVolumn("3-1", arrayList.get(0).getSeek());
         AudioController.setVolumn("3-2", arrayList.get(1).getSeek());
         AudioController.setVolumn("3-3", arrayList.get(2).getSeek());

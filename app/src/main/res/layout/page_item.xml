@@ -39,6 +39,12 @@
             android:scaleType="fitCenter"/>
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/page_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"/>
+
     <SeekBar
         android:id="@+id/page_item_seekbar"
         android:layout_width="match_parent"

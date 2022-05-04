@@ -194,35 +194,35 @@ public class AudioController {
 
             case "4-1":
                 NaturePage.p4p1_1.start();
-                new WindController.p3t1(pp).start();
+                new NatureController.p4t1(pp).start();
                 break;
             case "4-2":
                 NaturePage.p4p2_1.start();
-                new WindController.p3t1(pp).start();
+                new NatureController.p4t1(pp).start();
                 break;
             case "4-3":
                 NaturePage.p4p3_1.start();
-                new WindController.p3t1(pp).start();
+                new NatureController.p4t1(pp).start();
                 break;
             case "4-4":
                 NaturePage.p4p4_1.start();
-                new WindController.p3t1(pp).start();
+                new NatureController.p4t1(pp).start();
                 break;
             case "4-5":
                 NaturePage.p4p5_1.start();
-                new WindController.p3t1(pp).start();
+                new NatureController.p4t1(pp).start();
                 break;
             case "4-6":
                 NaturePage.p4p6_1.start();
-                new WindController.p3t1(pp).start();
+                new NatureController.p4t1(pp).start();
                 break;
             case "4-7":
                 NaturePage.p4p7_1.start();
-                new WindController.p3t1(pp).start();
+                new NatureController.p4t1(pp).start();
                 break;
             case "4-8":
                 NaturePage.p4p8_1.start();
-                new WindController.p3t1(pp).start();
+                new NatureController.p4t1(pp).start();
                 break;
 
 //            case "4-1":
@@ -469,10 +469,6 @@ public class AudioController {
         float float13 = (float) 0.60375935;
         float float14 = (float) 0.75;
         float float15 = (float) 1.0;
-        if (pp.equals("4-1")) {
-
-            Log.d("AudioController>>>", "check i: " + i);
-        }
         if (i == 0) {
             AudioController.playingListindex0_1(pp).setVolume(float0, float0);
             AudioController.playingListindex0_2(pp).setVolume(float0, float0);

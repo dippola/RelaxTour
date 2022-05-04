@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -99,11 +100,13 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
 //            holder.img.setImageBitmap(bitmap2);
 //        }
 
+        holder.name.setText(arrayList.get(position).getName());
         holder.seekBar.setProgress(arrayList.get(position).getSeek());
 
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("PageAdapter>>>", "img onClick");
                 if (arrayList.get(positions).getPage() != 4) {//4페이지 아닐때
 
                 } else {//4page nature일때
@@ -112,8 +115,11 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
 
 
                 if (arrayList.get(positions).getIsplay() == 1) {//해당 아이템이 playing중이 아닐때
+                    Log.d("PageAdapter>>>", "1");
                     setPageImageOnClickChangeImage(positions, holder.img);
                     for (int i = 0; i < arrayList.size(); i++) {//같은 page에 재생중인게 있으면 없애기
+                        Log.d("PageAdapter>>>", "2- size: " + arrayList.size());
+                        Log.d("PageAdapter>>>", "2");
                         if (arrayList.get(i).getIsplay() == 2) {//같은page에 재생중인게 있으면
                             int index = checkPlayinglistPosition(arrayList.get(i).getPage());//같은페이지에 있는 다른 재생중인 트랙의 bottomSheetPlayList에서의 포지션 알아오기
                             MainActivity.bottomSheetPlayList.remove(index);//같은페이지에 있는 다른 재생중인 트랙 지우고
@@ -125,6 +131,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
                             break;
                         }
                     }
+                    Log.d("PageAdapter>>>", "3");
                     //add 해당 아이템 재생목록에 추가
                     MainActivity.pands.setBackgroundResource(R.drawable.bottom_pause);
                     arrayList.get(positions).setIsplay(2);//새로 재생시킬 트랙 isplay 2로 바꾸기
@@ -133,18 +140,24 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
                     MainActivity.bottomSheetAdapter.notifyItemInserted(MainActivity.bottomSheetPlayList.size());//bottom list 새로고침
 
                     if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0).getPnp())) {//다른page에 이미 재생중인게 있을때 (pands버튼이 재생중일때)
+                        Log.d("PageAdapter>>>", "4");
+                        Log.d("PageAdapter>>>", "check page, position: " + arrayList.get(positions).getPage() + ", " + arrayList.get(positions).getPosition());
                         AudioController.startTrack(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//새로 재생할 트랙 찾아서 재생
                     } else {//재생중인게 없을때(pands버튼이 재생 중이 아닐때)
+                        Log.d("PageAdapter>>>", "5");
                         List<String> pp = new ArrayList<>();
                         for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {//bottom list에 모든 트랙 pnp 수집
+                            Log.d("PageAdapter>>>", "6");
                             pp.add(MainActivity.bottomSheetPlayList.get(ii).getPnp());
                             if (ii == MainActivity.bottomSheetPlayList.size() - 1) {
+                                Log.d("PageAdapter>>>", "7");
                                 AudioController.startPlayingList(context, pp);//bottom list에 있는 목록 다 재생
                             }
                         }
                     }
                     checkOpenService();
                 } else {//해당 아이템이 playing중일때
+                    Log.d("PageAdapter>>>", "8");
                     //remove
                     setPageImageOnClickChangeImage(positions, holder.img);
                     databaseHandler.deletePlayingList(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//db bottom list에서 지우고 page db에 isplay 1로 변경
@@ -202,6 +215,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         SeekBar seekBar;
         ImageView download;
         ProgressBar progressBar;
+        TextView name;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -209,6 +223,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             this.seekBar = itemView.findViewById(R.id.page_item_seekbar);
             this.download = itemView.findViewById(R.id.page_item_download);
             this.progressBar = itemView.findViewById(R.id.page_item_progress);
+            this.name = itemView.findViewById(R.id.page_item_name);
         }
     }
 
