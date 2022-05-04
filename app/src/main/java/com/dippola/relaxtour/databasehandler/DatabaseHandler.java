@@ -446,9 +446,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             contentValues.put("pnp", MainActivity.bottomSheetPlayList.get(i).getPnp());
             contentValues.put("imagedefault", MainActivity.bottomSheetPlayList.get(i).getImgdefault());
             contentValues.put("img", MainActivity.bottomSheetPlayList.get(i).getImg());
+            contentValues.put("darkdefault", MainActivity.bottomSheetPlayList.get(i).getDarkdefault());
+            contentValues.put("dark", MainActivity.bottomSheetPlayList.get(i).getDark());
             contentValues.put("seek", MainActivity.bottomSheetPlayList.get(i).getSeek());
             contentValues.put("isplay", MainActivity.bottomSheetPlayList.get(i).getIsplay());
             contentValues.put("favtitlename", title);
+            contentValues.put("name", MainActivity.bottomSheetPlayList.get(i).getName());
             sqLiteDatabase.insert("favlist", null, contentValues);
         }
     }

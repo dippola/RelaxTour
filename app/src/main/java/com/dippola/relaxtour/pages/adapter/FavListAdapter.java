@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -37,15 +38,12 @@ public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomV
     public FavListAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.favlist_item, parent, false);
         FavListAdapter.CustomViewHolder holder = new FavListAdapter.CustomViewHolder(view);
-        Log.d(">>>FavListAdapter", "onCreateViewHolder");
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull FavListAdapter.CustomViewHolder holder, int position) {
         int positions = position;
-
-        Log.d(">>>FavListAdapter", "onBindViewHolder");
 //        databaseHandler = new DatabaseHandler(context);
 //        arrayList = databaseHandler.getFavListItem(title);
 
@@ -75,6 +73,8 @@ public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomV
 //        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
 //        holder.img.setImageBitmap(bitmap1);
 
+        holder.name.setText(arrayList.get(position).getName());
+        Log.d("FavListAdapter>>>", "check name: " + arrayList.get(position).getName());
         holder.seekBar.setProgress(arrayList.get(position).getSeek());
         holder.seekBar.setMax(MainActivity.maxVolumn);
 
@@ -112,10 +112,12 @@ public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomV
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
         SeekBar seekBar;
+        TextView name;
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.img = itemView.findViewById(R.id.favlist_item_img);
             this.seekBar = itemView.findViewById(R.id.favlist_item_seekbar);
+            this.name = itemView.findViewById(R.id.favlist_item_name);
         }
     }
 }
