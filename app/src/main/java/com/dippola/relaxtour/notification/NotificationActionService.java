@@ -75,7 +75,7 @@ public class NotificationActionService extends BroadcastReceiver {
         } else if (page == 3) {
             WindController.stopPage3();
         } else if (page == 4) {
-            NatureController.stopPage4();
+            NatureController.stopPage4(pnp);
         }
     }
 

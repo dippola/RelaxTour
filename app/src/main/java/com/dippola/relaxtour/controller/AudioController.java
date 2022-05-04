@@ -442,7 +442,7 @@ public class AudioController {
         } else if (page == 3) {
             WindController.stopPage3();
         } else if (page == 4) {
-            NatureController.stopPage4();
+            NatureController.stopPage4(pnp);
         } else if (page == 5) {
             ChakraController.stopChakra(page, pnp);
         } else if (page == 6) {
@@ -537,7 +537,7 @@ public class AudioController {
             } else if (pageItem.get(i).getPage() == 3) {
                 WindController.stopPage3();
             } else if (pageItem.get(i).getPage() == 4) {
-                NatureController.stopPage4();
+                NatureController.stopPage4(pageItem.get(i).getPnp());
             }
         }
     }

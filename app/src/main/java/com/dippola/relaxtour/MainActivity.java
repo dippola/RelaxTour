@@ -188,7 +188,10 @@ public class MainActivity extends AppCompatActivity {
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, SettingDialog.class));
+//                startActivity(new Intent(MainActivity.this, SettingDialog.class));
+                String s = "4-1";
+                String ss = s.substring(2, 3);
+                Log.d("MainActivity>>>", "get subString: " + ss);
             }
         });
 
@@ -404,11 +407,11 @@ public class MainActivity extends AppCompatActivity {
                     CheckOpenService.checkOpenService(MainActivity.this);
                     if (AudioController.checkIsPlaying(bottomSheetPlayList.get(0).getPnp())) {//재생중
                         pands.setBackgroundResource(R.drawable.bottom_sheet_play);
-                        ArrayList<PageItem> page = new ArrayList<>();
+                        ArrayList<PageItem> pageItems = new ArrayList<>();
                         for (int i = 0; i < bottomSheetPlayList.size(); i++) {
-                            page.add(bottomSheetPlayList.get(i));
+                            pageItems.add(bottomSheetPlayList.get(i));
                             if (i == bottomSheetPlayList.size() - 1) {
-                                AudioController.stopPlayingList(page);
+                                AudioController.stopPlayingList(pageItems);
                                 DefaultNotification.defauleNotification(MainActivity.this);
                             }
                         }
