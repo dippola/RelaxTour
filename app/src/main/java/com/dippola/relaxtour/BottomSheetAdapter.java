@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,6 +63,7 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
 
             }
         });
+        holder.name.setText(arrayList.get(position).getName());
         holder.seekBar.setProgress(arrayList.get(position).getSeek());
         holder.seekBar.setMax(MainActivity.maxVolumn);
 
@@ -118,12 +120,14 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
         ImageView button;
         SeekBar seekBar;
         Button delete_btn;
+        TextView name;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.button = itemView.findViewById(R.id.bottom_sheet_playlist_item_img);
             this.seekBar = itemView.findViewById(R.id.bottom_sheet_playlist_item_seekbar);
             this.delete_btn = itemView.findViewById(R.id.bottom_sheet_playlist_item_delete_btn);
+            this.name = itemView.findViewById(R.id.bottom_sheet_playlist_item_name);
         }
     }
 

@@ -27,4 +27,7 @@
     <color name="pands_end">#8093DC</color>
 
     <color name="tab_arrow_color">#E6F5F8</color>
+
+    <color name="bottom_sheet_item_box_start">#4D1A60</color>
+    <color name="bottom_sheet_item_box_end">#123657</color>
 </resources>
