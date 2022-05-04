@@ -382,15 +382,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursor.close();
         closeDatabse();
         if (titles.contains(title)) {
-            Toast.makeText(context, "같은이름", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "same name have already", Toast.LENGTH_SHORT).show();
         } else {
             checkSameFavList(context, title);
-//            addFavTitleList(title);
         }
     }
 
     public void checkSameFavList(Context context, String title) {
-        Log.d(">>>check", "4");
         List<String> nowPnps = new ArrayList<>();//현제 playinglist의 pnp list
         for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
             nowPnps.add(MainActivity.bottomSheetPlayList.get(i).getPnp());
@@ -407,18 +405,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
                 if (favtitles.size() != 0) {//여기서 error
                     if (haveSame(nowPnps, favtitles)) {
-                        Toast.makeText(context, "same already", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "same list have already", Toast.LENGTH_SHORT).show();
                     } else {
-                        addFavTitleList(title);
+                        addFavTitleList(context, title);
                     }
                 } else {
-                    addFavTitleList(title);
+                    addFavTitleList(context, title);
                 }
             }
         }
     }
 
-    public void addFavTitleList(String title1) {
+    public void addFavTitleList(Context context, String title1) {
         FavTitleItem favTitleItem = null;
         sqLiteDatabase = this.getWritableDatabase();
 
@@ -432,11 +430,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             if (AddTitleDialog.alertDialog.isShowing()) {
                 AddTitleDialog.alertDialog.dismiss();
             }
-            addFavList(title1);
+            addFavList(context, title1);
         }
     }
 
-    public void addFavList(String title) {
+    public void addFavList(Context context, String title) {
         sqLiteDatabase = this.getWritableDatabase();
 
         for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
@@ -453,6 +451,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             contentValues.put("favtitlename", title);
             contentValues.put("name", MainActivity.bottomSheetPlayList.get(i).getName());
             sqLiteDatabase.insert("favlist", null, contentValues);
+            Toast.makeText(context, "success add fav list!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -536,7 +535,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         cursor.close();
         closeDatabse();
-        Log.d(">>>favlist", "size: " + favListItems.size());
         return favListItems;
     }
 
@@ -545,7 +543,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery("select _rowid_ from favtitle where title = " + "'" + title + "'", null);
         cursor.moveToFirst();
         int rowid = cursor.getInt(0);
-        Log.d("DatabaseHandler>>>", "rowid is: " + rowid);
         sqLiteDatabase.execSQL("delete from favtitle where _rowid_ = " + rowid);
         sqLiteDatabase.execSQL("delete from favlist where favtitlename = " + "'" + title + "'");
         FavPage.favTitleItemArrayList.remove(rowid - 1);
@@ -570,7 +567,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void deleteAllPlayinglist(ArrayList<Integer> pagelist, ArrayList<Integer> positionlist, String title) {
-        Log.d(">>>DatabaseHandler", "check, title: + " + title);
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("delete from playing");
         sqLiteDatabase.execSQL("update rain set isplay = 1 where isplay = 2");
@@ -594,7 +590,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void addFavListInPlayinglist(String title) {
-        Log.d(">>>DatabaseHandler", "check, title: " + title);
         sqLiteDatabase = this.getWritableDatabase();
         PageItem pageItem = null;
         Cursor cursor = sqLiteDatabase.rawQuery("select * from favlist where favtitlename = " + "'" + title + "'", null);
@@ -627,16 +622,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public Bitmap getPageicon(String what) {
-        Log.d("databaseHandler>>>", "1");
         if (what.equals("download")) {
-            Log.d("databaseHandler>>>", "2");
             openDatabase();
             Cursor cursor = sqLiteDatabase.rawQuery("select download from pageicon where _rowid_ = 1", null);
             cursor.moveToFirst();
             byte[] icon = cursor.getBlob(0);
             cursor.close();
             closeDatabse();
-            Log.d("databaseHandler>>>", "3");
             return BitmapFactory.decodeByteArray(icon, 0, icon.length);
         } else {
             openDatabase();

@@ -35,7 +35,7 @@
     <color name="bottom_sheet_item_box_start">#C8AFEE</color>
     <color name="bottom_sheet_item_box_end">#ABC0EF</color>
 
-    <color name="fav_page_item_box_start">#DED3EF</color>
-    <color name="fav_page_item_box_end">#CED7EA</color>
+    <color name="fav_page_item_box_start">#E0D7ED</color>
+    <color name="fav_page_item_box_end">#D2D9EA</color>
 
 </resources>

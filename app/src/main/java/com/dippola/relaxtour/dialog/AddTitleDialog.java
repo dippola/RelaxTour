@@ -36,13 +36,10 @@ public class AddTitleDialog {
             @Override
             public void onClick(View view) {
                 if (MainActivity.bottomSheetPlayList.size() != 0) {
-                    for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-                        if (editText.getText().toString().length() != 0) {
-                            MainActivity.databaseHandler.checkTitleAlready(alertDialog.getContext(), editText.getText().toString());
-//                            databaseHandler.addFavTitleList(editText.getText().toString());
-                        } else {
-                            Toast.makeText(context, "please edit play list name", Toast.LENGTH_SHORT).show();
-                        }
+                    if (editText.getText().toString().length() != 0) {
+                        MainActivity.databaseHandler.checkTitleAlready(alertDialog.getContext(), editText.getText().toString());
+                    } else {
+                        Toast.makeText(context, "please edit play list name", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
