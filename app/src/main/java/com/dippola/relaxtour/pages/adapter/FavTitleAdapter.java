@@ -56,11 +56,11 @@ public class FavTitleAdapter  extends RecyclerView.Adapter<FavTitleAdapter.Custo
         if (arrayList.get(i).getIsopen() == 1) {
             holder.recyclerView.setVisibility(View.GONE);
             holder.uandd.setChecked(false);
-            holder.uandd.setBackgroundResource(R.drawable.bottom_sheet_button_down);
+            holder.uandd.setBackgroundResource(R.drawable.fav_page_item_down);
         } else {
             holder.recyclerView.setVisibility(View.VISIBLE);
             holder.uandd.setChecked(true);
-            holder.uandd.setBackgroundResource(R.drawable.bottom_sheet_button_up);
+            holder.uandd.setBackgroundResource(R.drawable.fav_page_item_up);
         }
 
         holder.play.setOnClickListener(new View.OnClickListener() {

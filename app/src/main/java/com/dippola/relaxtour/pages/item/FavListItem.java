@@ -73,6 +73,22 @@ public class FavListItem {
         this.img = img;
     }
 
+    public byte[] getDarkdefault() {
+        return darkdefault;
+    }
+
+    public void setDarkdefault(byte[] darkdefault) {
+        this.darkdefault = darkdefault;
+    }
+
+    public byte[] getDark() {
+        return dark;
+    }
+
+    public void setDark(byte[] dark) {
+        this.dark = dark;
+    }
+
     public int getSeek() {
         return seek;
     }
