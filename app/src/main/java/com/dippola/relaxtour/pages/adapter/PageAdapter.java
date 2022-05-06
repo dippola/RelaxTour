@@ -307,8 +307,10 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             MainActivity.bottomSheetAdapter.notifyItemInserted(MainActivity.bottomSheetPlayList.size());//bottom list 새로고침
 
             if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0).getPnp())) {//다른page에 이미 재생중인게 있을때 (pands버튼이 재생중일때)
+                Log.d("PageAdapter>>>", "1");
                 AudioController.startTrack(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//새로 재생할 트랙 찾아서 재생
             } else {//재생중인게 없을때(pands버튼이 재생 중이 아닐때)
+                Log.d("PageAdapter>>>", "2");
                 List<String> pp = new ArrayList<>();
                 for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {//bottom list에 모든 트랙 pnp 수집
                     pp.add(MainActivity.bottomSheetPlayList.get(ii).getPnp());

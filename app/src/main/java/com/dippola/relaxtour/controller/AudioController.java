@@ -40,9 +40,11 @@ public class AudioController {
             }
             new RainController.p1t1(pnp).start();
         } else if (page == 2) {
+            Log.d("AudioController>>>", "ok: " + page + " " + position);
             if (position == 1) {
                 WaterPage.p2p1_1.start();
             } else if (position == 2) {
+                Log.d("AudioController>>>", "ok");
                 WaterPage.p2p2_1.start();
             } else if (position == 3) {
                 WaterPage.p2p3_1.start();
@@ -139,27 +141,27 @@ public class AudioController {
 
             case "2-1":
                 WaterPage.p2p1_1.start();
-                new WindController.p3t1(pp).start();
+                new WaterController.p2t1(pp).start();
                 break;
             case "2-2":
                 WaterPage.p2p2_1.start();
-                new WindController.p3t1(pp).start();
+                new WaterController.p2t1(pp).start();
                 break;
             case "2-3":
                 WaterPage.p2p3_1.start();
-                new WindController.p3t1(pp).start();
+                new WaterController.p2t1(pp).start();
                 break;
             case "2-4":
                 WaterPage.p2p4_1.start();
-                new WindController.p3t1(pp).start();
+                new WaterController.p2t1(pp).start();
                 break;
             case "2-5":
                 WaterPage.p2p5_1.start();
-                new WindController.p3t1(pp).start();
+                new WaterController.p2t1(pp).start();
                 break;
             case "2-6":
                 WaterPage.p2p6_1.start();
-                new WindController.p3t1(pp).start();
+                new WaterController.p2t1(pp).start();
                 break;
 
 
