@@ -38,4 +38,5 @@
     <color name="fav_page_item_box_start">#E0D7ED</color>
     <color name="fav_page_item_box_end">#D2D9EA</color>
 
+    <color name="page_scroll_hint">#CED3DC</color>
 </resources>

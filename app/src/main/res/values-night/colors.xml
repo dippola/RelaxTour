@@ -37,4 +37,6 @@
 
     <color name="fav_page_item_box_start">#4D1A60</color>
     <color name="fav_page_item_box_end">#123657</color>
+
+    <color name="page_scroll_hint">#3A4251</color>
 </resources>

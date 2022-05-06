@@ -2,12 +2,14 @@ package com.dippola.relaxtour.pages;
 
 import android.graphics.Point;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -40,6 +42,8 @@ public class RainPage extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
 
+    ImageView hint;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,6 +75,7 @@ public class RainPage extends Fragment {
         pageBox = rootView.findViewById(R.id.page_box);
         SetPageBoxMargin.setPageBoxMargin(getActivity(), pageBox);
         recyclerView = rootView.findViewById(R.id.page_recyclerview);
+        hint = rootView.findViewById(R.id.page_scroll_hint);
     }
 
     private void setRecyclerView() {
@@ -80,6 +85,36 @@ public class RainPage extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         setPage1Volumn();
+
+        hint.setVisibility(View.VISIBLE);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            recyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+//                @Override
+//                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+////                    if (!recyclerView.canScrollVertically(-1)) {
+////                        Log.d("RainPage>>>", "최상단");
+////                    } else if (!recyclerView.canScrollVertically(1)) {
+////                        Log.d("RainPage>>>", "하단");
+////                    }
+//                    if (!recyclerView.canScrollVertically(1)) {
+//                        hint.setVisibility(View.GONE);
+//                    } else {
+//                        hint.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//            });
+//        }
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!recyclerView.canScrollVertically(1)) {
+                    hint.setVisibility(View.GONE);
+                } else {
+                    hint.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void setPage1Volumn() {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,8 @@ public class WindPage extends Fragment {
     public static PageAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
+
+    ImageView hint;
 
     @Nullable
     @Override
@@ -70,6 +73,7 @@ public class WindPage extends Fragment {
         pageBox = rootView.findViewById(R.id.page_box);
         SetPageBoxMargin.setPageBoxMargin(getActivity(), pageBox);
         recyclerView = rootView.findViewById(R.id.page_recyclerview);
+        hint = rootView.findViewById(R.id.page_scroll_hint);
     }
 
     private void setRecyclerView() {
@@ -79,6 +83,19 @@ public class WindPage extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         setPage3Volumn();
+
+        hint.setVisibility(View.VISIBLE);
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!recyclerView.canScrollVertically(1)) {
+                    hint.setVisibility(View.GONE);
+                } else {
+                    hint.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void setPage3Volumn() {
