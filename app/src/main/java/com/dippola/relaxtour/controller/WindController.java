@@ -1,4 +1,5 @@
 package com.dippola.relaxtour.controller;
+
 import static com.dippola.relaxtour.pages.WindPage.p3p1_1;
 import static com.dippola.relaxtour.pages.WindPage.p3p1_2;
 import static com.dippola.relaxtour.pages.WindPage.p3p2_1;
@@ -14,9 +15,12 @@ import static com.dippola.relaxtour.pages.WindPage.p3p6_2;
 import static com.dippola.relaxtour.pages.WindPage.p3p7_1;
 import static com.dippola.relaxtour.pages.WindPage.p3p7_2;
 
+import android.util.Log;
+
 public class WindController {
     public static class p3t1 extends Thread {
         String pnp;
+
         public p3t1(String pnp) {
             this.pnp = pnp;
         }
