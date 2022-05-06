@@ -13,8 +13,10 @@
     <color name="activity_main_background_start">#0b111b</color>
     <color name="activity_main_background_end">#141f39</color>
 
-    <color name="activity_main_page_background_color_left">#F224334A</color>
-    <color name="activity_main_page_background_color_right">#F20A1A34</color>
+<!--    <color name="activity_main_page_background_color_left">#F224334A</color>-->
+<!--    <color name="activity_main_page_background_color_right">#F20A1A34</color>-->
+    <color name="activity_main_page_background_color_left">#112241</color>
+    <color name="activity_main_page_background_color_right">#112241</color>
 
 <!--    <color name="bottom_sheet_background_start">#381a43</color>-->
 <!--    <color name="bottom_sheet_background_end">#0c263c</color>-->
