@@ -64,36 +64,39 @@ public class RainController {
         }
     }
 
-    public static void stopPage1() {
-        p1p1_1.stop();
-        p1p1_1.prepareAsync();
-        p1p1_2.stop();
-        p1p1_2.prepareAsync();
-
-        p1p2_1.stop();
-        p1p2_1.prepareAsync();
-        p1p2_2.stop();
-        p1p2_2.prepareAsync();
-
-        p1p3_1.stop();
-        p1p3_1.prepareAsync();
-        p1p3_2.stop();
-        p1p3_2.prepareAsync();
-
-        p1p4_1.stop();
-        p1p4_1.prepareAsync();
-        p1p4_2.stop();
-        p1p4_2.prepareAsync();
-
-        p1p5_1.stop();
-        p1p5_1.prepareAsync();
-        p1p5_2.stop();
-        p1p5_2.prepareAsync();
-
-        p1p6_1.stop();
-        p1p6_1.prepareAsync();
-        p1p6_2.stop();
-        p1p6_2.prepareAsync();
+    public static void stopPage1(String pnp) {
+        int position = Integer.parseInt(pnp.substring(2, 3));
+        if (position == 1) {
+            p1p1_1.stop();
+            p1p1_1.prepareAsync();
+            p1p1_2.stop();
+            p1p1_2.prepareAsync();
+        } else if (position == 2) {
+            p1p2_1.stop();
+            p1p2_1.prepareAsync();
+            p1p2_2.stop();
+            p1p2_2.prepareAsync();
+        } else if (position == 3) {
+            p1p3_1.stop();
+            p1p3_1.prepareAsync();
+            p1p3_2.stop();
+            p1p3_2.prepareAsync();
+        } else if (position == 4) {
+            p1p4_1.stop();
+            p1p4_1.prepareAsync();
+            p1p4_2.stop();
+            p1p4_2.prepareAsync();
+        } else if (position == 5) {
+            p1p5_1.stop();
+            p1p5_1.prepareAsync();
+            p1p5_2.stop();
+            p1p5_2.prepareAsync();
+        } else if (position == 6) {
+            p1p6_1.stop();
+            p1p6_1.prepareAsync();
+            p1p6_2.stop();
+            p1p6_2.prepareAsync();
+        }
         new p1t1(null).setStop(true);
         new p1t2(null).setStop(true);
     }

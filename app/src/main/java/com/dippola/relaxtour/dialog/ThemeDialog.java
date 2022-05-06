@@ -100,16 +100,19 @@ public class ThemeDialog {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("mode", "light");
                     editor.apply();
+                    alertDialog.cancel();
                 } else if (i == R.id.theme_dialog_dark) {
                     ThemeHelper.applyTheme("dark");
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("mode", "dark");
                     editor.apply();
+                    alertDialog.cancel();
                 } else {
                     ThemeHelper.applyTheme("system");
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("mode", "system");
                     editor.apply();
+                    alertDialog.cancel();
                 }
             }
         });

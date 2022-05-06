@@ -54,7 +54,7 @@ public class AudioController {
                 WaterPage.p2p6_1.start();
             }
             new WaterController.p2t1(pnp).start();
-        } else if (page == 3) {//page2
+        } else if (page == 3) {
             if (position == 1) {
                 WindPage.p3p1_1.start();
             } else if (position == 2) {
@@ -436,11 +436,11 @@ public class AudioController {
 
     public static void stopPage(int page, String pnp) {
         if (page == 1) {
-            RainController.stopPage1();
+            RainController.stopPage1(pnp);
         } else if (page == 2) {
-            WaterController.stopPage2();
+            WaterController.stopPage2(pnp);
         } else if (page == 3) {
-            WindController.stopPage3();
+            WindController.stopPage3(pnp);
         } else if (page == 4) {
             NatureController.stopPage4(pnp);
         } else if (page == 5) {
@@ -531,11 +531,11 @@ public class AudioController {
     public static void stopPlayingList(ArrayList<PageItem> pageItem) {//playinglist에 있는 목록만 stop(page)
         for (int i = 0; i < pageItem.size(); i++) {
             if (pageItem.get(i).getPage() == 1) {
-                RainController.stopPage1();
+                RainController.stopPage1(pageItem.get(i).getPnp());
             } else if (pageItem.get(i).getPage() == 2) {
-                WaterController.stopPage2();
+                WaterController.stopPage2(pageItem.get(i).getPnp());
             } else if (pageItem.get(i).getPage() == 3) {
-                WindController.stopPage3();
+                WindController.stopPage3(pageItem.get(i).getPnp());
             } else if (pageItem.get(i).getPage() == 4) {
                 NatureController.stopPage4(pageItem.get(i).getPnp());
             }

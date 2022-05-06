@@ -69,11 +69,11 @@ public class NotificationActionService extends BroadcastReceiver {
 
     private void stopPage(int page, String pnp) {
         if (page == 1) {
-            RainController.stopPage1();
+            RainController.stopPage1(pnp);
         } else if (page == 2) {
-            WaterController.stopPage2();
+            WaterController.stopPage2(pnp);
         } else if (page == 3) {
-            WindController.stopPage3();
+            WindController.stopPage3(pnp);
         } else if (page == 4) {
             NatureController.stopPage4(pnp);
         }

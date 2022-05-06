@@ -451,8 +451,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             contentValues.put("favtitlename", title);
             contentValues.put("name", MainActivity.bottomSheetPlayList.get(i).getName());
             sqLiteDatabase.insert("favlist", null, contentValues);
-            Toast.makeText(context, "success add fav list!", Toast.LENGTH_SHORT).show();
         }
+        Toast.makeText(context, "success add fav list!", Toast.LENGTH_SHORT).show();
     }
 
     boolean haveSame(List<String> nowPnps, List<String> favtitles) {

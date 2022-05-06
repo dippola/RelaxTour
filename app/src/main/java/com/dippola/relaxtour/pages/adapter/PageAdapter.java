@@ -103,16 +103,11 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (arrayList.get(positions).getPage() == 1 || arrayList.get(positions).getPage() == 2 || arrayList.get(positions).getPage() == 3) {//1,2,3page
+                if (arrayList.get(positions).getPage() != 4) {//1,2,3page
                     page123(positions, holder.img);
-                } else if (arrayList.get(positions).getPage() == 4) {//4page nature일때
+                } else {//4page nature일때
                     page4(positions, holder.img);
-                } else {
-
                 }
-
-
-
             }
         });
 
