@@ -302,6 +302,7 @@ public class MainActivity extends AppCompatActivity {
                             tabsList.get(position).setImg(R.drawable.tabicon_hz);
                         }
                         mainTabAdapter.notifyItemChanged(position);
+                        tabRecycler.smoothScrollToPosition(position);
                     }
                 }
 
