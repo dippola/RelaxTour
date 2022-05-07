@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.dippola.relaxtour.MainActivity;
@@ -453,6 +454,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             sqLiteDatabase.insert("favlist", null, contentValues);
         }
         Toast.makeText(context, "success add fav list!", Toast.LENGTH_SHORT).show();
+        if (FavPage.favTitleItemArrayList.size() != 0) {
+            FavPage.message.setVisibility(View.GONE);
+        }
     }
 
     boolean haveSame(List<String> nowPnps, List<String> favtitles) {
@@ -553,6 +557,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         closeDatabse();
         if (DeleteFavTitleDialog.alertDialog.isShowing()) {
             DeleteFavTitleDialog.alertDialog.dismiss();
+        }
+        if (FavPage.favTitleItemArrayList.size() == 0 ) {
+            FavPage.message.setVisibility(View.VISIBLE);
         }
     }
 

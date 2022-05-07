@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class FavPage extends Fragment {
 
     RelativeLayout pageBox;
+    public static RelativeLayout message;
 
     public static ArrayList<FavTitleItem> favTitleItemArrayList = new ArrayList<>();
     public static FavTitleAdapter adapter;
@@ -37,6 +38,7 @@ public class FavPage extends Fragment {
 //        SetPageBoxMargin.setPageBoxMargin(getActivity(), pageBox);
 
         setRecyclerView(rootView);
+        setMessage(rootView);
 
         return rootView;
     }
@@ -48,5 +50,13 @@ public class FavPage extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void setMessage(ViewGroup rootView) {
+        message = rootView.findViewById(R.id.fav_page_null_message);
+        message.setVisibility(View.GONE);
+        if (favTitleItemArrayList.size() == 0) {
+            message.setVisibility(View.VISIBLE);
+        }
     }
 }

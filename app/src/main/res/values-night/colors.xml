@@ -28,15 +28,16 @@
     <color name="pands_start">#2A669B</color>
     <color name="pands_end">#8093DC</color>
 
-    <color name="tab_arrow_color">#E6F5F8</color>
+    <color name="tab_arrow_color">#3A4251</color>
 
-    <color name="fav_icons_color">#E6F5F8</color>
+    <color name="fav_items_icons_color">#3A4251</color>
 
     <color name="bottom_sheet_item_box_start">#4D1A60</color>
     <color name="bottom_sheet_item_box_end">#123657</color>
 
     <color name="fav_page_item_box_start">#4D1A60</color>
     <color name="fav_page_item_box_end">#123657</color>
+    <color name="fav_message_icon">#D5D5D5</color>
 
     <color name="page_scroll_hint">#3A4251</color>
 </resources>

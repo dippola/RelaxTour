@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dippola.relaxtour.board.BoardMain;
 import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.AddTitleDialog;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     //top button
-    Button setting, timer, mode;
+    Button setting, timer, mode, board;
     public static TextView maincount;
     public static Button cancel;
 
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     //tablayout
     RecyclerView tabRecycler;
+    Button tabLeft, tabRight;
 
     //bottom sheet
     RelativeLayout bottomSheetTitleBar;
@@ -169,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
         timer = findViewById(R.id.activity_main_timer);
         maincount = findViewById(R.id.activity_main_maincount);
         cancel = findViewById(R.id.activity_main_timer_cancel);
+        board = findViewById(R.id.activity_main_board);
 
         if (TimerService.isCount) {
             cancel.setVisibility(View.VISIBLE);
@@ -188,10 +191,7 @@ public class MainActivity extends AppCompatActivity {
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, SettingDialog.class));
-                String s = "4-1";
-                String ss = s.substring(2, 3);
-                Log.d("MainActivity>>>", "get subString: " + ss);
+                startActivity(new Intent(MainActivity.this, SettingDialog.class));
             }
         });
 
@@ -200,6 +200,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                startActivity(new Intent(MainActivity.this, ThemeDialog.class));
                 ThemeDialog.themeDialog(MainActivity.this);
+            }
+        });
+
+        board.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, BoardMain.class));
             }
         });
     }
@@ -211,6 +218,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setTabLayout() {
         tabRecycler = findViewById(R.id.activity_main_tablayout);
+        tabLeft = findViewById(R.id.activity_main_tab_left);
+        tabRight = findViewById(R.id.activity_main_tab_right);
         ArrayList<MainTabItem> tabsList = new ArrayList<>();
         tabsList.add(new MainTabItem(R.drawable.tabicon_fav_default, "fav", false));
         tabsList.add(new MainTabItem(R.drawable.tabicon_rain_default, "rain", false));
@@ -252,6 +261,29 @@ public class MainActivity extends AppCompatActivity {
         MainTabAdapter mainTabAdapter = new MainTabAdapter(tabsList, MainActivity.this);
         mainTabAdapter.setHasStableIds(true);
         tabRecycler.setAdapter(mainTabAdapter);
+
+        if (!tabRecycler.canScrollHorizontally(-1)) {
+            tabLeft.setVisibility(View.INVISIBLE);
+        } else if (!tabRecycler.canScrollHorizontally(1)) {
+            tabRight.setVisibility(View.INVISIBLE);
+        } else {
+            tabLeft.setVisibility(View.VISIBLE);
+            tabRight.setVisibility(View.VISIBLE);
+        }
+
+        tabRecycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (!tabRecycler.canScrollHorizontally(-1)) {
+                    tabLeft.setVisibility(View.INVISIBLE);
+                } else if (!tabRecycler.canScrollHorizontally(1)) {
+                    tabRight.setVisibility(View.INVISIBLE);
+                } else {
+                    tabLeft.setVisibility(View.VISIBLE);
+                    tabRight.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

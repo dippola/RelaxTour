@@ -53,16 +53,16 @@
 
                 <Button
                     android:id="@+id/activity_main_setting"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="35dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/setting" />
 
                 <Button
                     android:id="@+id/activity_main_mode"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@+id/activity_main_setting"
@@ -92,6 +92,14 @@
                 </LinearLayout>
 
                 <Button
+                    android:id="@+id/activity_main_board"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/setting"
+                    android:layout_toLeftOf="@+id/activity_main_timer"
+                    android:layout_marginEnd="10dp"/>
+                <Button
                     android:id="@+id/activity_main_timer"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -111,7 +119,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="6dp"
                     android:background="@drawable/tab_left"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/activity_main_tablayout"
@@ -136,7 +144,7 @@
                     android:layout_height="20dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="6dp"
                     android:background="@drawable/tab_right"/>
             </RelativeLayout>
         </RelativeLayout>
