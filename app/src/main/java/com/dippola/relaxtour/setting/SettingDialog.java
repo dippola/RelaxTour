@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
@@ -16,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 
 public class SettingDialog extends AppCompatActivity {
 
@@ -74,6 +77,22 @@ public class SettingDialog extends AppCompatActivity {
     }
 
     private void setNotifiSwitch() {
-        //sound update notification. go to playstore
+        DatabaseHandler databaseHandler = new DatabaseHandler(SettingDialog.this);
+        if (databaseHandler.getNotificationAgree() == 1) {
+            notifiSwitch.setChecked(true);
+        } else {
+            notifiSwitch.setChecked(false);
+        }
+        notifiSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    Log.d("SettingDialog>>>", "true");
+                    databaseHandler.changeNotificationAgree(0);
+                } else {
+                    databaseHandler.changeNotificationAgree(1);
+                }
+            }
+        });
     }
 }

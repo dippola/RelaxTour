@@ -42,9 +42,9 @@ public class ChakraPage extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.page, container, false);
 
-        setAudio(getActivity());
-        setInit(rootView);
-        setRecyclerView();
+//        setAudio(getActivity());
+//        setInit(rootView);
+//        setRecyclerView();
 
         return rootView;
     }

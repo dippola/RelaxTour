@@ -88,6 +88,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String FAV_TITLE_TEAM = "create table if not exists " + FAV_TITLE_TABLE_NAME + "(" + COLUMN_FAV_TITLE + " TEXT," + COLUMN_FAV_ISPLAY + " INTEGER" + ");";
     private static final String FAV_LIST_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER," +  COLUMN_FAVTITLENAME + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER"  + ");";
 
+
+    //notification table set
+    public static final String NOTIFICATION_TABLE_NAME = "notification";
+    public static final String COLUMN_AGREE = "agree";
+    private static final String NOTIFICATION_TEAM = "create table if not exists notification(agree INTEGER);";
+
+
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -122,6 +129,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL(NOTIFICATION_TEAM);
         sqLiteDatabase.execSQL(PAGE_ICON_TEAM);
         sqLiteDatabase.execSQL(PLAYING_TEAM);
         sqLiteDatabase.execSQL(RAIN_TEAM);
@@ -137,6 +145,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        sqLiteDatabase.execSQL("DROP TABLE " + NOTIFICATION_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + PAGE_ICON_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + PLAYING_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + RAIN_TABLE_NAME);
@@ -148,6 +157,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE " + CHAKRA_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + MANTRA_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + HZ_TABLE_NAME);
+        sqLiteDatabase.execSQL(NOTIFICATION_TEAM);
         sqLiteDatabase.execSQL(PAGE_ICON_TEAM);
         sqLiteDatabase.execSQL(PLAYING_TEAM);
         sqLiteDatabase.execSQL(RAIN_TEAM);
@@ -172,6 +182,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void closeDatabse() {
         if (sqLiteDatabase != null) {
             sqLiteDatabase.close();
+        }
+    }
+
+    public int getNotificationAgree() {
+        int agree;
+        openDatabase();
+        String sql = "SELECT * FROM notification";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+        cursor.moveToFirst();
+        agree = cursor.getInt(0);
+        cursor.close();
+        closeDatabse();
+        return agree;
+    }
+
+    public void changeNotificationAgree(int before) {
+        sqLiteDatabase = this.getWritableDatabase();
+        if (before == 1) {
+            sqLiteDatabase.execSQL("update notification set agree = 0");
+        } else {
+            sqLiteDatabase.execSQL("update notification set agree = 1");
         }
     }
 
