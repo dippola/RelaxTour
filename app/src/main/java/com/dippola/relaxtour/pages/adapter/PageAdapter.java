@@ -27,7 +27,9 @@ import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.controller.SeekController;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.notification.NotificationService;
+import com.dippola.relaxtour.pages.NaturePage;
 import com.dippola.relaxtour.pages.item.PageItem;
+import com.dippola.relaxtour.service.DownloadService;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,7 +61,10 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         databaseHandler = new DatabaseHandler(context);
         int positions = position;
 
-        setPageImageTheme(position, holder.img);
+        if (arrayList.get(position).getImgdefault() != null) {
+            setPageImageTheme(position, holder.img);
+        }
+
 
         if (arrayList.get(position).getPage() == 1 || arrayList.get(position).getPage() == 2 || arrayList.get(position).getPage() == 3) {//1,2,3page
             holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
@@ -84,6 +89,12 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         holder.download.setVisibility(View.GONE);
         holder.progressBar.setVisibility(View.GONE);
 
+
+
+        if (arrayList.get(position).getIspro() == 2) {
+            holder.pro.setImageBitmap(databaseHandler.getPageicon("pro"));
+            holder.pro.setVisibility(View.VISIBLE);
+        }
         if (arrayList.get(position).getNeeddownload() == 2) {
             String path = context.getApplicationInfo().dataDir + "/cache/" + "audio" + arrayList.get(position).getPage() + "-" + arrayList.get(position).getPosition() + ".mp3";
             File file = new File(path);
@@ -108,6 +119,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
                 } else {//4page nature일때
                     page4(positions, holder.img);
                 }
+                page4Count();
             }
         });
 
@@ -138,6 +150,14 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
                 SeekController.pageMoving = false;
             }
         });
+
+        holder.download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDownloadService(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
+                DownloadService.setOnClickDownload(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
+            }
+        });
     }
 
     @Override
@@ -148,7 +168,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
         SeekBar seekBar;
-        ImageView download;
+        ImageView download, pro;
         ProgressBar progressBar;
         TextView name;
 
@@ -157,6 +177,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             this.img = itemView.findViewById(R.id.page_item_img);
             this.seekBar = itemView.findViewById(R.id.page_item_seekbar);
             this.download = itemView.findViewById(R.id.page_item_download);
+            this.pro = itemView.findViewById(R.id.page_item_pro);
             this.progressBar = itemView.findViewById(R.id.page_item_progress);
             this.name = itemView.findViewById(R.id.page_item_name);
         }
@@ -285,55 +306,60 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
     }
 
     private void page123(int positions, ImageView img) {
-        if (arrayList.get(positions).getIsplay() == 1) {//해당 아이템이 playing중이 아닐때
-            setPageImageOnClickChangeImage(positions, img);
-            for (int i = 0; i < arrayList.size(); i++) {//같은 page에 재생중인게 있으면 없애기
-                if (arrayList.get(i).getIsplay() == 2) {//같은page에 재생중인게 있으면
-                    int index = checkPlayinglistPosition(arrayList.get(i).getPage());//같은페이지에 있는 다른 재생중인 트랙의 bottomSheetPlayList에서의 포지션 알아오기
-                    MainActivity.bottomSheetPlayList.remove(index);//같은페이지에 있는 다른 재생중인 트랙 지우고
-                    MainActivity.bottomSheetAdapter.notifyItemRemoved(index);//새로고침
-                    arrayList.get(i).setIsplay(1);//page에 있는 지운트랙 isplay 1로 바꾸고
-                    notifyItemChanged(i);//해당page 새로고침
-                    notifyDataSetChanged();
-                    AudioController.stopPage(arrayList.get(positions).getPage(), arrayList.get(positions).getPnp());//지운트랙 재생정지
-                    break;
-                }
-            }
-            //add 해당 아이템 재생목록에 추가
-            MainActivity.pands.setBackgroundResource(R.drawable.bottom_pause);
-            arrayList.get(positions).setIsplay(2);//새로 재생시킬 트랙 isplay 2로 바꾸기
-            MainActivity.bottomSheetPlayList.add(arrayList.get(positions));//bottom playlist에 새로 재생할거 넣기
-            databaseHandler.setPlay1(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//db에서 기존꺼,새로운거 isplay바꾸고 bottom list에도 새로운걸로 변경
-            MainActivity.bottomSheetAdapter.notifyItemInserted(MainActivity.bottomSheetPlayList.size());//bottom list 새로고침
-
-            if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0).getPnp())) {//다른page에 이미 재생중인게 있을때 (pands버튼이 재생중일때)
-                AudioController.startTrack(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//새로 재생할 트랙 찾아서 재생
-            } else {//재생중인게 없을때(pands버튼이 재생 중이 아닐때)
-                List<String> pp = new ArrayList<>();
-                for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {//bottom list에 모든 트랙 pnp 수집
-                    pp.add(MainActivity.bottomSheetPlayList.get(ii).getPnp());
-                    if (ii == MainActivity.bottomSheetPlayList.size() - 1) {
-                        AudioController.startPlayingList(context, pp);//bottom list에 있는 목록 다 재생
+        if (arrayList.get(positions).getIspro() == 1) {
+            if (arrayList.get(positions).getIsplay() == 1) {//해당 아이템이 playing중이 아닐때
+                setPageImageOnClickChangeImage(positions, img);
+                for (int i = 0; i < arrayList.size(); i++) {//같은 page에 재생중인게 있으면 없애기
+                    if (arrayList.get(i).getIsplay() == 2) {//같은page에 재생중인게 있으면
+                        int index = checkPlayinglistPosition(arrayList.get(i).getPage());//같은페이지에 있는 다른 재생중인 트랙의 bottomSheetPlayList에서의 포지션 알아오기
+                        MainActivity.bottomSheetPlayList.remove(index);//같은페이지에 있는 다른 재생중인 트랙 지우고
+                        MainActivity.bottomSheetAdapter.notifyItemRemoved(index);//새로고침
+                        arrayList.get(i).setIsplay(1);//page에 있는 지운트랙 isplay 1로 바꾸고
+                        notifyItemChanged(i);//해당page 새로고침
+                        notifyDataSetChanged();
+                        AudioController.stopPage(arrayList.get(positions).getPage(), arrayList.get(positions).getPnp());//지운트랙 재생정지
+                        break;
                     }
                 }
-            }
-            checkOpenService();
-        } else {//해당 아이템이 playing중일때
-            //remove
-            setPageImageOnClickChangeImage(positions, img);
-            databaseHandler.deletePlayingList(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//db bottom list에서 지우고 page db에 isplay 1로 변경
-            for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-                if (MainActivity.bottomSheetPlayList.get(i).getPnp().equals(arrayList.get(positions).getPnp())) {//bottom list에 있는 트랙이랑 누른트랙이랑 같을때
-                    MainActivity.bottomSheetPlayList.remove(i);
-                    MainActivity.bottomSheetAdapter.notifyItemRemoved(i);//지우고 새로고침
-                    MainActivity.bottomSheetAdapter.notifyDataSetChanged();
-                    break;
+                //add 해당 아이템 재생목록에 추가
+                MainActivity.pands.setBackgroundResource(R.drawable.bottom_pause);
+                arrayList.get(positions).setIsplay(2);//새로 재생시킬 트랙 isplay 2로 바꾸기
+                MainActivity.bottomSheetPlayList.add(arrayList.get(positions));//bottom playlist에 새로 재생할거 넣기
+                databaseHandler.setPlay1(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//db에서 기존꺼,새로운거 isplay바꾸고 bottom list에도 새로운걸로 변경
+                MainActivity.bottomSheetAdapter.notifyItemInserted(MainActivity.bottomSheetPlayList.size());//bottom list 새로고침
+
+                if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0).getPnp())) {//다른page에 이미 재생중인게 있을때 (pands버튼이 재생중일때)
+                    AudioController.startTrack(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//새로 재생할 트랙 찾아서 재생
+                } else {//재생중인게 없을때(pands버튼이 재생 중이 아닐때)
+                    List<String> pp = new ArrayList<>();
+                    for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {//bottom list에 모든 트랙 pnp 수집
+                        pp.add(MainActivity.bottomSheetPlayList.get(ii).getPnp());
+                        if (ii == MainActivity.bottomSheetPlayList.size() - 1) {
+                            AudioController.startPlayingList(context, pp);//bottom list에 있는 목록 다 재생
+                        }
+                    }
                 }
+                checkOpenService();
+            } else {//해당 아이템이 playing중일때
+                //remove
+                setPageImageOnClickChangeImage(positions, img);
+                databaseHandler.deletePlayingList(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//db bottom list에서 지우고 page db에 isplay 1로 변경
+                for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
+                    if (MainActivity.bottomSheetPlayList.get(i).getPnp().equals(arrayList.get(positions).getPnp())) {//bottom list에 있는 트랙이랑 누른트랙이랑 같을때
+                        MainActivity.bottomSheetPlayList.remove(i);
+                        MainActivity.bottomSheetAdapter.notifyItemRemoved(i);//지우고 새로고침
+                        MainActivity.bottomSheetAdapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
+                arrayList.get(positions).setIsplay(1);
+                AudioController.stopPage(arrayList.get(positions).getPage(), arrayList.get(positions).getPnp());
+                stopServiceWhenPlaylistZero(context);
             }
-            arrayList.get(positions).setIsplay(1);
-            AudioController.stopPage(arrayList.get(positions).getPage(), arrayList.get(positions).getPnp());
-            stopServiceWhenPlaylistZero(context);
+        } else {
+
         }
+
     }
 
     private void page4(int positions, ImageView img) {
@@ -380,6 +406,26 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             arrayList.get(positions).setIsplay(1);
             AudioController.stopPage(arrayList.get(positions).getPage(), arrayList.get(positions).getPnp());
             stopServiceWhenPlaylistZero(context);
+        }
+    }
+
+    private void page4Count() {
+        int count = 0;
+        for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
+            if (MainActivity.bottomSheetPlayList.get(i).getPage() == 4) {
+                count += 1;
+            }
+        }
+        NaturePage.count.setText(count + " / 3");
+    }
+
+    private void openDownloadService(Context context, ProgressBar progressBar, ImageView img, ImageView download, int page, int position) {
+        DownloadService downloadService = new DownloadService(progressBar, img, download, page, position);
+        Intent intent = new Intent(context, downloadService.getClass());
+        if (Build.VERSION.SDK_INT >= 26) {
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
         }
     }
 }

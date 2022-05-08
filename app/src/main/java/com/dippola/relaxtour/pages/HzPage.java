@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
+import com.dippola.relaxtour.pages.adapter.PageAdapter;
 import com.dippola.relaxtour.pages.adapter.StoragePageAdapter;
 import com.dippola.relaxtour.pages.item.PageItem;
 
@@ -30,7 +31,7 @@ public class HzPage extends Fragment {
 
     RelativeLayout pageBox;
     public static ArrayList<PageItem> arrayList = new ArrayList<>();
-    public static StoragePageAdapter adapter;
+    public static PageAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
 
@@ -78,7 +79,7 @@ public class HzPage extends Fragment {
 
     private void setRecyclerView() {
         arrayList = MainActivity.databaseHandler.getHzList();
-        adapter = new StoragePageAdapter(arrayList, getActivity());
+        adapter = new PageAdapter(arrayList, getActivity());
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

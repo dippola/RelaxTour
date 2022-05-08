@@ -10,13 +10,22 @@
         android:layout_height="match_parent"
         android:background="@drawable/page_round"
         android:elevation="15dp">
+
+        <TextView
+            android:id="@+id/page_4_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/page_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:overScrollMode="never"/>
+            android:overScrollMode="never"
+            android:layout_below="@+id/page_4_count"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

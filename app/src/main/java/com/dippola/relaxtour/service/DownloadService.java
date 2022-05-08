@@ -27,6 +27,8 @@ import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.notification.SuccessDownloadNotification;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.HzPage;
+import com.dippola.relaxtour.pages.MantraPage;
+import com.dippola.relaxtour.pages.RainPage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -45,18 +47,18 @@ public class DownloadService extends Service {
     ProgressBar progressBar;
     ImageView button, download;
     int page;
-    String pnp;
+    int position;
 
     public DownloadService() {
 
     }
 
-    public DownloadService(ProgressBar progressBar, ImageView button, ImageView download, String pnp, int page) {
+    public DownloadService(ProgressBar progressBar, ImageView button, ImageView download, int page, int position) {
         this.progressBar = progressBar;
         this.button = button;
         this.download = download;
-        this.pnp = pnp;
         this.page = page;
+        this.position = position;
     }
 
     @Nullable
@@ -110,11 +112,12 @@ public class DownloadService extends Service {
         }
     }
 
-    public static void setOnClickDownload(Context context, ProgressBar progressBar, ImageView button, ImageView download, String pnp, int page) {
+    public static void setOnClickDownload(Context context, ProgressBar progressBar, ImageView button, ImageView download, int page, int position) {
+        String ptop = page + "to" + position;
         progressBar.setVisibility(View.VISIBLE);
         button.setEnabled(false);
         download.setEnabled(false);
-        String fileName = "audio" + pnp + ".mp3";
+        String fileName = "audio" + ptop + ".mp3";
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference reference = storage.getReference();
         File localFile;
@@ -154,10 +157,13 @@ public class DownloadService extends Service {
     }
 
     private static void resetMediaPlayer(Context context, int page) {
-        if (page == 3) {
+        if (page == 5) {
             ChakraPage.setAudio(context);
             ChakraPage.setChakraVolumn();
-        } else if (page == 4) {
+        } else if (page == 6)  {
+            MantraPage.setAudio(context);
+            MantraPage.setMantraVolumn();
+        } else if (page == 7) {
             HzPage.setAudio(context);
             HzPage.setHzVolumn();
         }

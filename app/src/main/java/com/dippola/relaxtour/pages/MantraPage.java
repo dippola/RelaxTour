@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
+import com.dippola.relaxtour.pages.adapter.PageAdapter;
 import com.dippola.relaxtour.pages.adapter.StoragePageAdapter;
 import com.dippola.relaxtour.pages.item.PageItem;
 
@@ -30,7 +31,7 @@ public class MantraPage extends Fragment {
 
     RelativeLayout pageBox;
     public static ArrayList<PageItem> arrayList = new ArrayList<>();
-    public static StoragePageAdapter adapter;
+    public static PageAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
 
@@ -78,14 +79,14 @@ public class MantraPage extends Fragment {
 
     private void setRecyclerView() {
         arrayList = MainActivity.databaseHandler.getHzList();
-        adapter = new StoragePageAdapter(arrayList, getActivity());
+        adapter = new PageAdapter(arrayList, getActivity());
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        setHzVolumn();
+        setMantraVolumn();
     }
 
-    public static void setHzVolumn() {
+    public static void setMantraVolumn() {
 //        AudioController.setVolumn("4-1", arrayList.get(0).getSeek());
 //        AudioController.setVolumn("4-2", arrayList.get(1).getSeek());
     }

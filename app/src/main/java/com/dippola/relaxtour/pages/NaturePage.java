@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +41,8 @@ public class NaturePage extends Fragment {
     RecyclerView recyclerView;
 
     ImageView hint;
+    
+    public static TextView count;
 
     @Nullable
     @Override
@@ -79,7 +82,11 @@ public class NaturePage extends Fragment {
         pageBox = rootView.findViewById(R.id.page_box);
         SetPageBoxMargin.setPageBoxMargin(getActivity(), pageBox);
         recyclerView = rootView.findViewById(R.id.page_recyclerview);
+        count = rootView.findViewById(R.id.page_4_count);
+        count.setVisibility(View.VISIBLE);
         hint = rootView.findViewById(R.id.page_scroll_hint);
+
+        setCount();
     }
 
     private void setRecyclerView() {
@@ -113,5 +120,15 @@ public class NaturePage extends Fragment {
         AudioController.setVolumn("4-6", arrayList.get(5).getSeek());
         AudioController.setVolumn("4-7", arrayList.get(6).getSeek());
         AudioController.setVolumn("4-8", arrayList.get(7).getSeek());
+    }
+
+    private void setCount() {
+        int count = 0;
+        for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
+            if (MainActivity.bottomSheetPlayList.get(i).getPage() == 4) {
+                count += 1;
+            }
+        }
+        NaturePage.count.setText(count + " / 3");
     }
 }

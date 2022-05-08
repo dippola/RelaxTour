@@ -158,8 +158,8 @@ public class StoragePageAdapter extends RecyclerView.Adapter<StoragePageAdapter.
             @Override
             public void onClick(View view) {
 //                setOnClickDownload(holder.progressBar, holder.button, holder.download, arrayList.get(positions).getPnp(), arrayList.get(positions).getPage());
-                openDownloadService(context, holder.progressBar, holder.button, holder.download, arrayList.get(positions).getPnp(), arrayList.get(positions).getPage());
-                DownloadService.setOnClickDownload(context, holder.progressBar, holder.button, holder.download, arrayList.get(positions).getPnp(), arrayList.get(positions).getPage());
+                openDownloadService(context, holder.progressBar, holder.button, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
+                DownloadService.setOnClickDownload(context, holder.progressBar, holder.button, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
             }
         });
     }
@@ -194,8 +194,8 @@ public class StoragePageAdapter extends RecyclerView.Adapter<StoragePageAdapter.
         }
     }
 
-    private void openDownloadService(Context context, ProgressBar progressBar, ImageView button, ImageView download, String pnp, int page) {
-        DownloadService downloadService = new DownloadService(progressBar, button, download, pnp, page);
+    private void openDownloadService(Context context, ProgressBar progressBar, ImageView button, ImageView download, int page, int position) {
+        DownloadService downloadService = new DownloadService(progressBar, button, download, page, position);
         Intent intent = new Intent(context, downloadService.getClass());
         if (Build.VERSION.SDK_INT >= 26) {
             context.startForegroundService(intent);
