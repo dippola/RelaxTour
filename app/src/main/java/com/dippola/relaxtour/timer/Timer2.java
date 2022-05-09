@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.notification.DefaultNotification;
+import com.dippola.relaxtour.notification.NotificationService;
 import com.dippola.relaxtour.service.TimerService;
 
 public class Timer2 extends Fragment {
@@ -73,6 +74,12 @@ public class Timer2 extends Fragment {
                 getActivity().stopService(new Intent(getActivity(), TimerService.class));
                 Timer1.mTimerRunning = false;
                 DefaultNotification.defauleNotification(getActivity());
+                NotificationService.closeNotification(getActivity());
+
+                //stop audio
+                if (NotificationService.isPlaying) {
+                    getActivity().stopService(new Intent(getActivity(), NotificationService.class));
+                }
             }
         });
 

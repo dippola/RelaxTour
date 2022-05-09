@@ -62,11 +62,13 @@ public class DefaultNotification {
             notification.setOnlyAlertOnce(true);//show notification for only first time
             notification.setShowWhen(false);
 
-            if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0).getPnp())) {
-                notification.addAction(R.drawable.bottom_pause, "Play", pendingIntentPlay);
-            } else {
-                notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
-            }
+//            if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0).getPnp())) {
+//                notification.addAction(R.drawable.bottom_pause, "Play", pendingIntentPlay);
+//            } else {
+//                notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
+//            }
+            notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
+
 //            notification.addAction(R.drawable.bottom_play, "Play", pendingIntentPlay);
             notification.addAction(R.drawable.notification_close, "close", pendingIntentClose);
 

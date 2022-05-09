@@ -100,10 +100,12 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             File file = new File(path);
             if (file.exists()) {
                 holder.download.setVisibility(View.GONE);
+                holder.seekBar.setEnabled(true);
             } else {
                 holder.download.setImageBitmap(databaseHandler.getPageicon("download"));
                 holder.download.setVisibility(View.VISIBLE);
                 holder.img.setEnabled(false);
+                holder.seekBar.setEnabled(false);
             }
         }
 

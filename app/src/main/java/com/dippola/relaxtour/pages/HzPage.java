@@ -42,9 +42,9 @@ public class HzPage extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.page, container, false);
 
-//        setAudio(getActivity());
-//        setInit(rootView);
-//        setRecyclerView();
+        setAudio(getActivity());
+        setInit(rootView);
+        setRecyclerView();
 
         return rootView;
     }
@@ -80,7 +80,7 @@ public class HzPage extends Fragment {
     private void setRecyclerView() {
         arrayList = MainActivity.databaseHandler.getHzList();
         adapter = new PageAdapter(arrayList, getActivity());
-        layoutManager = new GridLayoutManager(getActivity(), 2);
+        layoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         setHzVolumn();
