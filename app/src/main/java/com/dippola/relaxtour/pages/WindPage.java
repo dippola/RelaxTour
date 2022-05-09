@@ -56,7 +56,6 @@ public class WindPage extends Fragment {
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-//        setPage3Volumn();
 
         hint.setVisibility(View.VISIBLE);
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -70,15 +69,5 @@ public class WindPage extends Fragment {
                 }
             }
         });
-    }
-
-    private void setPage3Volumn() {
-        AudioController.setVolumn("3-1", arrayList.get(0).getSeek());
-        AudioController.setVolumn("3-2", arrayList.get(1).getSeek());
-        AudioController.setVolumn("3-3", arrayList.get(2).getSeek());
-        AudioController.setVolumn("3-4", arrayList.get(3).getSeek());
-        AudioController.setVolumn("3-5", arrayList.get(4).getSeek());
-        AudioController.setVolumn("3-6", arrayList.get(5).getSeek());
-        AudioController.setVolumn("3-7", arrayList.get(6).getSeek());
     }
 }

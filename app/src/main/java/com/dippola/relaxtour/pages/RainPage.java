@@ -61,7 +61,6 @@ public class RainPage extends Fragment {
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-//        setPage1Volumn();
 
         hint.setVisibility(View.VISIBLE);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -92,14 +91,5 @@ public class RainPage extends Fragment {
                 }
             }
         });
-    }
-
-    private void setPage1Volumn() {
-        AudioController.setVolumn("1-1", arrayList.get(0).getSeek());
-        AudioController.setVolumn("1-2", arrayList.get(1).getSeek());
-        AudioController.setVolumn("1-3", arrayList.get(2).getSeek());
-        AudioController.setVolumn("1-4", arrayList.get(3).getSeek());
-        AudioController.setVolumn("1-5", arrayList.get(4).getSeek());
-        AudioController.setVolumn("1-6", arrayList.get(5).getSeek());
     }
 }

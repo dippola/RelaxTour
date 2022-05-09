@@ -56,7 +56,6 @@ public class WaterPage extends Fragment {
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-//        setPage2Volumn();
 
         hint.setVisibility(View.VISIBLE);
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -70,14 +69,5 @@ public class WaterPage extends Fragment {
                 }
             }
         });
-    }
-
-    private void setPage2Volumn() {
-        AudioController.setVolumn("2-1", arrayList.get(0).getSeek());
-        AudioController.setVolumn("2-2", arrayList.get(1).getSeek());
-        AudioController.setVolumn("2-3", arrayList.get(2).getSeek());
-        AudioController.setVolumn("2-4", arrayList.get(3).getSeek());
-        AudioController.setVolumn("2-5", arrayList.get(4).getSeek());
-        AudioController.setVolumn("2-6", arrayList.get(5).getSeek());
     }
 }
