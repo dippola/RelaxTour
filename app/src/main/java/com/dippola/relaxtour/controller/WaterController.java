@@ -1,21 +1,6 @@
 package com.dippola.relaxtour.controller;
 
-import static com.dippola.relaxtour.pages.RainPage.p1p1_1;
-import static com.dippola.relaxtour.pages.RainPage.p1p1_2;
-import static com.dippola.relaxtour.pages.RainPage.p1p2_1;
-import static com.dippola.relaxtour.pages.RainPage.p1p2_2;
-import static com.dippola.relaxtour.pages.WaterPage.p2p1_1;
-import static com.dippola.relaxtour.pages.WaterPage.p2p1_2;
-import static com.dippola.relaxtour.pages.WaterPage.p2p2_1;
-import static com.dippola.relaxtour.pages.WaterPage.p2p2_2;
-import static com.dippola.relaxtour.pages.WaterPage.p2p3_1;
-import static com.dippola.relaxtour.pages.WaterPage.p2p3_2;
-import static com.dippola.relaxtour.pages.WaterPage.p2p4_1;
-import static com.dippola.relaxtour.pages.WaterPage.p2p4_2;
-import static com.dippola.relaxtour.pages.WaterPage.p2p5_1;
-import static com.dippola.relaxtour.pages.WaterPage.p2p5_2;
-import static com.dippola.relaxtour.pages.WaterPage.p2p6_1;
-import static com.dippola.relaxtour.pages.WaterPage.p2p6_2;
+import com.dippola.relaxtour.MPList;
 
 public class WaterController {
     public static class p2t1 extends Thread {
@@ -71,35 +56,47 @@ public class WaterController {
     public static void stopPage2(String pnp) {
         int position = Integer.parseInt(pnp.substring(2, 3));
         if (position == 1) {
-            p2p1_1.stop();
-            p2p1_1.prepareAsync();
-            p2p1_2.stop();
-            p2p1_2.prepareAsync();
+            if (MPList.p2p1_1 != null && MPList.p2p1_2 != null) {
+                MPList.p2p1_1.stop();
+                MPList.p2p1_1.prepareAsync();
+                MPList.p2p1_2.stop();
+                MPList.p2p1_2.prepareAsync();
+            }
         } else if (position == 2) {
-            p2p2_1.stop();
-            p2p2_1.prepareAsync();
-            p2p2_2.stop();
-            p2p2_2.prepareAsync();
+            if (MPList.p2p2_1 != null && MPList.p2p2_2 != null) {
+                MPList.p2p2_1.stop();
+                MPList.p2p2_1.prepareAsync();
+                MPList.p2p2_2.stop();
+                MPList.p2p2_2.prepareAsync();
+            }
         } else if (position == 3) {
-            p2p3_1.stop();
-            p2p3_1.prepareAsync();
-            p2p3_2.stop();
-            p2p3_2.prepareAsync();
+            if (MPList.p2p3_1 != null && MPList.p2p3_2 != null) {
+                MPList.p2p3_1.stop();
+                MPList.p2p3_1.prepareAsync();
+                MPList.p2p3_2.stop();
+                MPList.p2p3_2.prepareAsync();
+            }
         } else if (position == 4) {
-            p2p4_1.stop();
-            p2p4_1.prepareAsync();
-            p2p4_2.stop();
-            p2p4_2.prepareAsync();
+            if (MPList.p2p4_1 != null && MPList.p2p4_2 != null) {
+                MPList.p2p4_1.stop();
+                MPList.p2p4_1.prepareAsync();
+                MPList.p2p4_2.stop();
+                MPList.p2p4_2.prepareAsync();
+            }
         } else if (position == 5) {
-            p2p5_1.stop();
-            p2p5_1.prepareAsync();
-            p2p5_2.stop();
-            p2p5_2.prepareAsync();
+            if (MPList.p2p5_1 != null && MPList.p2p5_2 != null) {
+                MPList.p2p5_1.stop();
+                MPList.p2p5_1.prepareAsync();
+                MPList.p2p5_2.stop();
+                MPList.p2p5_2.prepareAsync();
+            }
         } else if (position == 6) {
-            p2p6_1.stop();
-            p2p6_1.prepareAsync();
-            p2p6_2.stop();
-            p2p6_2.prepareAsync();
+            if (MPList.p2p6_1 != null && MPList.p2p6_2 != null) {
+                MPList.p2p6_1.stop();
+                MPList.p2p6_1.prepareAsync();
+                MPList.p2p6_2.stop();
+                MPList.p2p6_2.prepareAsync();
+            }
         }
         new p2t1(null).setStop(true);
         new p2t2(null).setStop(true);

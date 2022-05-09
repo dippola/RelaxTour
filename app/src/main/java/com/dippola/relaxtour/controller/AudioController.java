@@ -7,6 +7,7 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 
+import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.notification.NotificationService;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.HzPage;
@@ -20,74 +21,77 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AudioController {
-    public static void startTrack(int page, int position) {
+    public static void startTrack(Context context, PageItem pageItem) {
 
-        String pnp = page + "-" + position;
+        int page = pageItem.getPage();
+        int position = pageItem.getPosition();
+        String pnp = pageItem.getPnp();
+        MPList.initalMP(pnp, context, pageItem.getSeek());
 
         if (page == 1) {//page1
             if (position == 1) {
-                RainPage.p1p1_1.start();
+                MPList.p1p1_1.start();
             } else if (position == 2) {
-                RainPage.p1p2_1.start();
+                MPList.p1p2_1.start();
             } else if (position == 3) {
-                RainPage.p1p3_1.start();
+                MPList.p1p3_1.start();
             } else if (position == 4) {
-                RainPage.p1p4_1.start();
+                MPList.p1p4_1.start();
             } else if (position == 5) {
-                RainPage.p1p5_1.start();
+                MPList.p1p5_1.start();
             } else if (position == 6) {
-                RainPage.p1p6_1.start();
+                MPList.p1p6_1.start();
             }
             new RainController.p1t1(pnp).start();
         } else if (page == 2) {
             if (position == 1) {
-                WaterPage.p2p1_1.start();
+                MPList.p2p1_1.start();
             } else if (position == 2) {
-                WaterPage.p2p2_1.start();
+                MPList.p2p2_1.start();
             } else if (position == 3) {
-                WaterPage.p2p3_1.start();
+                MPList.p2p3_1.start();
             } else if (position == 4) {
-                WaterPage.p2p4_1.start();
+                MPList.p2p4_1.start();
             } else if (position == 5) {
-                WaterPage.p2p5_1.start();
+                MPList.p2p5_1.start();
             } else if (position == 6) {
-                WaterPage.p2p6_1.start();
+                MPList.p2p6_1.start();
             }
             new WaterController.p2t1(pnp).start();
         } else if (page == 3) {
             if (position == 1) {
-                WindPage.p3p1_1.start();
+                MPList.p3p1_1.start();
             } else if (position == 2) {
-                WindPage.p3p2_1.start();
+                MPList.p3p2_1.start();
             } else if (position == 3) {
-                WindPage.p3p3_1.start();
+                MPList.p3p3_1.start();
             } else if (position == 4) {
-                WindPage.p3p4_1.start();
+                MPList.p3p4_1.start();
             } else if (position == 5) {
-                WindPage.p3p5_1.start();
+                MPList.p3p5_1.start();
             } else if (position == 6) {
-                WindPage.p3p6_1.start();
+                MPList.p3p6_1.start();
             } else if (position == 7) {
-                WindPage.p3p7_1.start();
+                MPList.p3p7_1.start();
             }
             new WindController.p3t1(pnp).start();
         } else if (page == 4) {
             if (position == 1) {
-                NaturePage.p4p1_1.start();
+                MPList.p4p1_1.start();
             } else if (position == 2) {
-                NaturePage.p4p2_1.start();
+                MPList.p4p2_1.start();
             } else if (position == 3) {
-                NaturePage.p4p3_1.start();
+                MPList.p4p3_1.start();
             } else if (position == 4) {
-                NaturePage.p4p4_1.start();
+                MPList.p4p4_1.start();
             } else if (position == 5) {
-                NaturePage.p4p5_1.start();
+                MPList.p4p5_1.start();
             } else if (position == 6) {
-                NaturePage.p4p6_1.start();
+                MPList.p4p6_1.start();
             } else if (position == 7) {
-                NaturePage.p4p7_1.start();
+                MPList.p4p7_1.start();
             } else if (position == 8) {
-                NaturePage.p4p8_1.start();
+                MPList.p4p8_1.start();
             }
             new NatureController.p4t1(pnp).start();
         } else if (page == 5) {
@@ -95,9 +99,10 @@ public class AudioController {
         }
     }
 
-    public static void startPlayingList(Context context, List<String> pplist) {//playingList에 있는 곡만 다시 재생
-        for (int i = 0; i < pplist.size(); i++) {
-            checkPP(context, pplist.get(i));
+    public static void startPlayingList(Context context, List<PageItem> pageItems) {//playingList에 있는 곡만 다시 재생
+        for (int i = 0; i < pageItems.size(); i++) {
+            MPList.initalMP(pageItems.get(i).getPnp(), context, pageItems.get(i).getSeek());
+            checkPP(context, pageItems.get(i).getPnp());
             checkOpenService(context);
         }
     }
@@ -112,117 +117,117 @@ public class AudioController {
         }
         switch (pp) {
             case "1-1":
-                RainPage.p1p1_1.start();
+                MPList.p1p1_1.start();
                 new RainController.p1t1(pp).start();
                 break;
             case "1-2":
-                RainPage.p1p2_1.start();
+                MPList.p1p2_1.start();
                 new RainController.p1t1(pp).start();
                 break;
             case "1-3":
-                RainPage.p1p3_1.start();
+                MPList.p1p3_1.start();
                 new RainController.p1t1(pp).start();
                 break;
             case "1-4":
-                RainPage.p1p4_1.start();
+                MPList.p1p4_1.start();
                 new RainController.p1t1(pp).start();
                 break;
             case "1-5":
-                RainPage.p1p5_1.start();
+                MPList.p1p5_1.start();
                 new RainController.p1t1(pp).start();
                 break;
             case "1-6":
-                RainPage.p1p6_1.start();
+                MPList.p1p6_1.start();
                 new RainController.p1t1(pp).start();
                 break;
 
 
             case "2-1":
-                WaterPage.p2p1_1.start();
+                MPList.p2p1_1.start();
                 new WaterController.p2t1(pp).start();
                 break;
             case "2-2":
-                WaterPage.p2p2_1.start();
+                MPList.p2p2_1.start();
                 new WaterController.p2t1(pp).start();
                 break;
             case "2-3":
-                WaterPage.p2p3_1.start();
+                MPList.p2p3_1.start();
                 new WaterController.p2t1(pp).start();
                 break;
             case "2-4":
-                WaterPage.p2p4_1.start();
+                MPList.p2p4_1.start();
                 new WaterController.p2t1(pp).start();
                 break;
             case "2-5":
-                WaterPage.p2p5_1.start();
+                MPList.p2p5_1.start();
                 new WaterController.p2t1(pp).start();
                 break;
             case "2-6":
-                WaterPage.p2p6_1.start();
+                MPList.p2p6_1.start();
                 new WaterController.p2t1(pp).start();
                 break;
 
 
             case "3-1":
-                WindPage.p3p1_1.start();
+                MPList.p3p1_1.start();
                 new WindController.p3t1(pp).start();
                 break;
             case "3-2":
-                WindPage.p3p2_1.start();
+                MPList.p3p2_1.start();
                 new WindController.p3t1(pp).start();
                 break;
             case "3-3":
-                WindPage.p3p3_1.start();
+                MPList.p3p3_1.start();
                 new WindController.p3t1(pp).start();
                 break;
             case "3-4":
-                WindPage.p3p4_1.start();
+                MPList.p3p4_1.start();
                 new WindController.p3t1(pp).start();
                 break;
             case "3-5":
-                WindPage.p3p5_1.start();
+                MPList.p3p5_1.start();
                 new WindController.p3t1(pp).start();
                 break;
             case "3-6":
-                WindPage.p3p6_1.start();
+                MPList.p3p6_1.start();
                 new WindController.p3t1(pp).start();
                 break;
             case "3-7":
-                WindPage.p3p7_1.start();
+                MPList.p3p7_1.start();
                 new WindController.p3t1(pp).start();
                 break;
 
 
             case "4-1":
-                NaturePage.p4p1_1.start();
+                MPList.p4p1_1.start();
                 new NatureController.p4t1(pp).start();
                 break;
             case "4-2":
-                NaturePage.p4p2_1.start();
+                MPList.p4p2_1.start();
                 new NatureController.p4t1(pp).start();
                 break;
             case "4-3":
-                NaturePage.p4p3_1.start();
+                MPList.p4p3_1.start();
                 new NatureController.p4t1(pp).start();
                 break;
             case "4-4":
-                NaturePage.p4p4_1.start();
+                MPList.p4p4_1.start();
                 new NatureController.p4t1(pp).start();
                 break;
             case "4-5":
-                NaturePage.p4p5_1.start();
+                MPList.p4p5_1.start();
                 new NatureController.p4t1(pp).start();
                 break;
             case "4-6":
-                NaturePage.p4p6_1.start();
+                MPList.p4p6_1.start();
                 new NatureController.p4t1(pp).start();
                 break;
             case "4-7":
-                NaturePage.p4p7_1.start();
+                MPList.p4p7_1.start();
                 new NatureController.p4t1(pp).start();
                 break;
             case "4-8":
-                NaturePage.p4p8_1.start();
+                MPList.p4p8_1.start();
                 new NatureController.p4t1(pp).start();
                 break;
 
@@ -251,7 +256,7 @@ public class AudioController {
         }
     }
 
-    public static boolean checkIsPlaying(String pp) {//pp가 재생중인지 반환
+    public static boolean checkIsPlaying(PageItem pageItem, Context context) {//pp가 재생중인지 반환
         List<String> pnpList = new ArrayList<>();
         pnpList.add("1-1");
         pnpList.add("1-2");
@@ -280,10 +285,11 @@ public class AudioController {
         pnpList.add("4-6");
         pnpList.add("4-7");
         pnpList.add("4-8");
-        if (pnpList.contains(pp)) {
-            return playingListindex0_1(pp).isPlaying() || playingListindex0_2(pp).isPlaying();
+        MPList.initalMP(pageItem.getPnp(), context, pageItem.getSeek());
+        if (pnpList.contains(pageItem.getPnp())) {
+            return playingListindex0_1(pageItem.getPnp()).isPlaying() || playingListindex0_2(pageItem.getPnp()).isPlaying();
         } else {
-            if (playingListindex0_1(pp) == null) {
+            if (playingListindex0_1(pageItem.getPnp()) == null) {
                 return false;
             } else {
                 return true;
@@ -295,64 +301,64 @@ public class AudioController {
     public static MediaPlayer playingListindex0_1(String pp) {
         switch (pp) {
             case "1-1":
-                return RainPage.p1p1_1;
+                return MPList.p1p1_1;
             case "1-2":
-                return RainPage.p1p2_1;
+                return MPList.p1p2_1;
             case "1-3":
-                return RainPage.p1p3_1;
+                return MPList.p1p3_1;
             case "1-4":
-                return RainPage.p1p4_1;
+                return MPList.p1p4_1;
             case "1-5":
-                return RainPage.p1p5_1;
+                return MPList.p1p5_1;
             case "1-6":
-                return RainPage.p1p6_1;
+                return MPList.p1p6_1;
 
 
             case "2-1":
-                return WaterPage.p2p1_1;
+                return MPList.p2p1_1;
             case "2-2":
-                return WaterPage.p2p2_1;
+                return MPList.p2p2_1;
             case "2-3":
-                return WaterPage.p2p3_1;
+                return MPList.p2p3_1;
             case "2-4":
-                return WaterPage.p2p4_1;
+                return MPList.p2p4_1;
             case "2-5":
-                return WaterPage.p2p5_1;
+                return MPList.p2p5_1;
             case "2-6":
-                return WaterPage.p2p6_1;
+                return MPList.p2p6_1;
 
 
             case "3-1":
-                return WindPage.p3p1_1;
+                return MPList.p3p1_1;
             case "3-2":
-                return WindPage.p3p2_1;
+                return MPList.p3p2_1;
             case "3-3":
-                return WindPage.p3p3_1;
+                return MPList.p3p3_1;
             case "3-4":
-                return WindPage.p3p4_1;
+                return MPList.p3p4_1;
             case "3-5":
-                return WindPage.p3p5_1;
+                return MPList.p3p5_1;
             case "3-6":
-                return WindPage.p3p6_1;
+                return MPList.p3p6_1;
             case "3-7":
-                return WindPage.p3p7_1;
+                return MPList.p3p7_1;
 
             case "4-1":
-                return NaturePage.p4p1_1;
+                return MPList.p4p1_1;
             case "4-2":
-                return NaturePage.p4p2_1;
+                return MPList.p4p2_1;
             case "4-3":
-                return NaturePage.p4p3_1;
+                return MPList.p4p3_1;
             case "4-4":
-                return NaturePage.p4p4_1;
+                return MPList.p4p4_1;
             case "4-5":
-                return NaturePage.p4p5_1;
+                return MPList.p4p5_1;
             case "4-6":
-                return NaturePage.p4p6_1;
+                return MPList.p4p6_1;
             case "4-7":
-                return NaturePage.p4p7_1;
+                return MPList.p4p7_1;
             case "4-8":
-                return NaturePage.p4p8_1;
+                return MPList.p4p8_1;
 
 
 //            case "4-1":
@@ -367,63 +373,63 @@ public class AudioController {
     public static MediaPlayer playingListindex0_2(String pp) {
         switch (pp) {
             case "1-1":
-                return RainPage.p1p1_2;
+                return MPList.p1p1_2;
             case "1-2":
-                return RainPage.p1p2_2;
+                return MPList.p1p2_2;
             case "1-3":
-                return RainPage.p1p3_2;
+                return MPList.p1p3_2;
             case "1-4":
-                return RainPage.p1p4_2;
+                return MPList.p1p4_2;
             case "1-5":
-                return RainPage.p1p5_2;
+                return MPList.p1p5_2;
             case "1-6":
-                return RainPage.p1p6_2;
+                return MPList.p1p6_2;
 
             case "2-1":
-                return WaterPage.p2p1_2;
+                return MPList.p2p1_2;
             case "2-2":
-                return WaterPage.p2p2_2;
+                return MPList.p2p2_2;
             case "2-3":
-                return WaterPage.p2p3_2;
+                return MPList.p2p3_2;
             case "2-4":
-                return WaterPage.p2p4_2;
+                return MPList.p2p4_2;
             case "2-5":
-                return WaterPage.p2p5_2;
+                return MPList.p2p5_2;
             case "2-6":
-                return WaterPage.p2p6_2;
+                return MPList.p2p6_2;
 
 
             case "3-1":
-                return WindPage.p3p1_2;
+                return MPList.p3p1_2;
             case "3-2":
-                return WindPage.p3p2_2;
+                return MPList.p3p2_2;
             case "3-3":
-                return WindPage.p3p3_2;
+                return MPList.p3p3_2;
             case "3-4":
-                return WindPage.p3p4_2;
+                return MPList.p3p4_2;
             case "3-5":
-                return WindPage.p3p5_2;
+                return MPList.p3p5_2;
             case "3-6":
-                return WindPage.p3p6_2;
+                return MPList.p3p6_2;
             case "3-7":
-                return WindPage.p3p7_2;
+                return MPList.p3p7_2;
 
             case "4-1":
-                return NaturePage.p4p1_2;
+                return MPList.p4p1_2;
             case "4-2":
-                return NaturePage.p4p2_2;
+                return MPList.p4p2_2;
             case "4-3":
-                return NaturePage.p4p3_2;
+                return MPList.p4p3_2;
             case "4-4":
-                return NaturePage.p4p4_2;
+                return MPList.p4p4_2;
             case "4-5":
-                return NaturePage.p4p5_2;
+                return MPList.p4p5_2;
             case "4-6":
-                return NaturePage.p4p6_2;
+                return MPList.p4p6_2;
             case "4-7":
-                return NaturePage.p4p7_2;
+                return MPList.p4p7_2;
             case "4-8":
-                return NaturePage.p4p8_2;
+                return MPList.p4p8_2;
 
 
 //            case "4-1":
@@ -470,54 +476,56 @@ public class AudioController {
         float float13 = (float) 0.60375935;
         float float14 = (float) 0.75;
         float float15 = (float) 1.0;
-        if (i == 0) {
-            AudioController.playingListindex0_1(pp).setVolume(float0, float0);
-            AudioController.playingListindex0_2(pp).setVolume(float0, float0);
-        } else if (i == 1) {
-            AudioController.playingListindex0_1(pp).setVolume(float1, float1);
-            AudioController.playingListindex0_2(pp).setVolume(float1, float1);
-        } else if (i == 2) {
-            AudioController.playingListindex0_1(pp).setVolume(float2, float2);
-            AudioController.playingListindex0_2(pp).setVolume(float2, float2);
-        } else if (i == 3) {
-            AudioController.playingListindex0_1(pp).setVolume(float3, float3);
-            AudioController.playingListindex0_2(pp).setVolume(float3, float3);
-        } else if (i == 4) {
-            AudioController.playingListindex0_1(pp).setVolume(float4, float4);
-            AudioController.playingListindex0_2(pp).setVolume(float4, float4);
-        } else if (i == 5) {
-            AudioController.playingListindex0_1(pp).setVolume(float5, float5);
-            AudioController.playingListindex0_2(pp).setVolume(float5, float5);
-        } else if (i == 6) {
-            AudioController.playingListindex0_1(pp).setVolume(float6, float6);
-            AudioController.playingListindex0_2(pp).setVolume(float6, float6);
-        } else if (i == 7) {
-            AudioController.playingListindex0_1(pp).setVolume(float7, float7);
-            AudioController.playingListindex0_2(pp).setVolume(float7, float7);
-        } else if (i == 8) {
-            AudioController.playingListindex0_1(pp).setVolume(float8, float8);
-            AudioController.playingListindex0_2(pp).setVolume(float8, float8);
-        } else if (i == 9) {
-            AudioController.playingListindex0_1(pp).setVolume(float9, float9);
-            AudioController.playingListindex0_2(pp).setVolume(float9, float9);
-        } else if (i == 10) {
-            AudioController.playingListindex0_1(pp).setVolume(float10, float10);
-            AudioController.playingListindex0_2(pp).setVolume(float10, float10);
-        } else if (i == 11) {
-            AudioController.playingListindex0_1(pp).setVolume(float11, float11);
-            AudioController.playingListindex0_2(pp).setVolume(float11, float11);
-        } else if (i == 12) {
-            AudioController.playingListindex0_1(pp).setVolume(float12, float12);
-            AudioController.playingListindex0_2(pp).setVolume(float12, float12);
-        } else if (i == 13) {
-            AudioController.playingListindex0_1(pp).setVolume(float13, float13);
-            AudioController.playingListindex0_2(pp).setVolume(float13, float13);
-        } else if (i == 14) {
-            AudioController.playingListindex0_1(pp).setVolume(float14, float14);
-            AudioController.playingListindex0_2(pp).setVolume(float14, float14);
-        } else if (i == 15) {
-            AudioController.playingListindex0_1(pp).setVolume(float15, float15);
-            AudioController.playingListindex0_2(pp).setVolume(float15, float15);
+        if (AudioController.playingListindex0_1(pp) != null && AudioController.playingListindex0_2(pp) != null) {
+            if (i == 0) {
+                AudioController.playingListindex0_1(pp).setVolume(float0, float0);
+                AudioController.playingListindex0_2(pp).setVolume(float0, float0);
+            } else if (i == 1) {
+                AudioController.playingListindex0_1(pp).setVolume(float1, float1);
+                AudioController.playingListindex0_2(pp).setVolume(float1, float1);
+            } else if (i == 2) {
+                AudioController.playingListindex0_1(pp).setVolume(float2, float2);
+                AudioController.playingListindex0_2(pp).setVolume(float2, float2);
+            } else if (i == 3) {
+                AudioController.playingListindex0_1(pp).setVolume(float3, float3);
+                AudioController.playingListindex0_2(pp).setVolume(float3, float3);
+            } else if (i == 4) {
+                AudioController.playingListindex0_1(pp).setVolume(float4, float4);
+                AudioController.playingListindex0_2(pp).setVolume(float4, float4);
+            } else if (i == 5) {
+                AudioController.playingListindex0_1(pp).setVolume(float5, float5);
+                AudioController.playingListindex0_2(pp).setVolume(float5, float5);
+            } else if (i == 6) {
+                AudioController.playingListindex0_1(pp).setVolume(float6, float6);
+                AudioController.playingListindex0_2(pp).setVolume(float6, float6);
+            } else if (i == 7) {
+                AudioController.playingListindex0_1(pp).setVolume(float7, float7);
+                AudioController.playingListindex0_2(pp).setVolume(float7, float7);
+            } else if (i == 8) {
+                AudioController.playingListindex0_1(pp).setVolume(float8, float8);
+                AudioController.playingListindex0_2(pp).setVolume(float8, float8);
+            } else if (i == 9) {
+                AudioController.playingListindex0_1(pp).setVolume(float9, float9);
+                AudioController.playingListindex0_2(pp).setVolume(float9, float9);
+            } else if (i == 10) {
+                AudioController.playingListindex0_1(pp).setVolume(float10, float10);
+                AudioController.playingListindex0_2(pp).setVolume(float10, float10);
+            } else if (i == 11) {
+                AudioController.playingListindex0_1(pp).setVolume(float11, float11);
+                AudioController.playingListindex0_2(pp).setVolume(float11, float11);
+            } else if (i == 12) {
+                AudioController.playingListindex0_1(pp).setVolume(float12, float12);
+                AudioController.playingListindex0_2(pp).setVolume(float12, float12);
+            } else if (i == 13) {
+                AudioController.playingListindex0_1(pp).setVolume(float13, float13);
+                AudioController.playingListindex0_2(pp).setVolume(float13, float13);
+            } else if (i == 14) {
+                AudioController.playingListindex0_1(pp).setVolume(float14, float14);
+                AudioController.playingListindex0_2(pp).setVolume(float14, float14);
+            } else if (i == 15) {
+                AudioController.playingListindex0_1(pp).setVolume(float15, float15);
+                AudioController.playingListindex0_2(pp).setVolume(float15, float15);
+            }
         }
     }
 

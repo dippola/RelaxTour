@@ -1,6 +1,7 @@
 package com.dippola.relaxtour.pages.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.dippola.relaxtour.pages.RainPage;
 import com.dippola.relaxtour.pages.WindPage;
 import com.dippola.relaxtour.pages.item.FavListItem;
 import com.dippola.relaxtour.pages.item.FavTitleItem;
+import com.dippola.relaxtour.pages.item.PageItem;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -66,6 +68,8 @@ public class FavTitleAdapter  extends RecyclerView.Adapter<FavTitleAdapter.Custo
         holder.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MainActivity.load.setVisibility(View.VISIBLE);
+                Log.d("FavTitleAdapter>>>", "play onClick");
                 checkDownloadAready(arrayList.get(i).getTitle(), i);
             }
         });
@@ -238,7 +242,7 @@ public class FavTitleAdapter  extends RecyclerView.Adapter<FavTitleAdapter.Custo
         favListItems = MainActivity.databaseHandler.getFavListItem(title);
         ArrayList<String> pnps = new ArrayList<>();
         for (int i = 0; i < favListItems.size(); i++) {
-            if (favListItems.get(i).getPage() == 3 || favListItems.get(i).getPage() == 4) {
+            if (favListItems.get(i).getNeeddownload() == 2) {
                 String path = context.getApplicationInfo().dataDir + "/cache/audio" + favListItems.get(i).getPnp() + ".mp3";
                 File file = new File(path);
                 if (!file.exists()) {
@@ -253,6 +257,7 @@ public class FavTitleAdapter  extends RecyclerView.Adapter<FavTitleAdapter.Custo
                 }
             }
         }
+        favListPlay(position);
     }
 
     public void favListPlay(int position) {
@@ -273,12 +278,12 @@ public class FavTitleAdapter  extends RecyclerView.Adapter<FavTitleAdapter.Custo
         } else {//playinglist에 기존목록 없다면
             MainActivity.databaseHandler.addFavListInPlayinglist(arrayList.get(position).getTitle());
         }
-        ArrayList<String> pnplist = new ArrayList<>();
+        ArrayList<PageItem> pageItems = new ArrayList<>();
         for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-            pnplist.add(MainActivity.bottomSheetPlayList.get(i).getPnp());
+            pageItems.add(MainActivity.bottomSheetPlayList.get(i));
             changePageImage(MainActivity.bottomSheetPlayList.get(i).getPage(), MainActivity.bottomSheetPlayList.get(i).getPosition() - 1);
             if (i == MainActivity.bottomSheetPlayList.size() - 1) {
-                AudioController.startPlayingList(context, pnplist);
+                AudioController.startPlayingList(context, pageItems);
                 AudioController.checkOpenService(context);
                 MainActivity.pands.setBackgroundResource(R.drawable.bottom_pause);
             }

@@ -27,7 +27,7 @@ public class NotificationActionService extends BroadcastReceiver {
         switch (ac) {
             case DefaultNotification.ACTION_PLAY:
                 checkOpenService(context);
-                if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0).getPnp())) {//재생중
+                if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0), context)) {//재생중
                     MainActivity.pands.setBackgroundResource(R.drawable.bottom_sheet_play);
                     ArrayList<PageItem> page = new ArrayList<>();
                     for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
@@ -39,12 +39,12 @@ public class NotificationActionService extends BroadcastReceiver {
                     }
                 } else {//재생중 아님
                     MainActivity.pands.setBackgroundResource(R.drawable.bottom_pause);
-                    List<String> pp = new ArrayList<>();
+                    List<PageItem> pageItems = new ArrayList<>();
                     for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-                        pp.add(MainActivity.bottomSheetPlayList.get(i).getPnp());
+                        pageItems.add(MainActivity.bottomSheetPlayList.get(i));
                         if (i == MainActivity.bottomSheetPlayList.size() - 1) {
                             //playinglist start
-                            AudioController.startPlayingList(context, pp);
+                            AudioController.startPlayingList(context, pageItems);
                         }
                     }
                 }

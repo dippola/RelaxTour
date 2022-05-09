@@ -13,11 +13,16 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.dippola.relaxtour.MainActivity;
-import com.dippola.relaxtour.dialog.AddTitleDialog;
+import com.dippola.relaxtour.dialog.AddFavDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
 import com.dippola.relaxtour.dialog.EditFavTitleDialog;
+import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.FavPage;
+import com.dippola.relaxtour.pages.HzPage;
+import com.dippola.relaxtour.pages.MantraPage;
+import com.dippola.relaxtour.pages.NaturePage;
 import com.dippola.relaxtour.pages.RainPage;
+import com.dippola.relaxtour.pages.WaterPage;
 import com.dippola.relaxtour.pages.WindPage;
 import com.dippola.relaxtour.pages.item.FavListItem;
 import com.dippola.relaxtour.pages.item.FavTitleItem;
@@ -459,8 +464,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             FavPage.favTitleItemArrayList.add(favTitleItem);
             FavPage.adapter.notifyItemInserted(FavPage.favTitleItemArrayList.size() - 1);
             FavPage.adapter.notifyDataSetChanged();
-            if (AddTitleDialog.alertDialog.isShowing()) {
-                AddTitleDialog.alertDialog.dismiss();
+            if (AddFavDialog.alertDialog.isShowing()) {
+                AddFavDialog.alertDialog.dismiss();
             }
             addFavList(context, title1);
         }
@@ -482,6 +487,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             contentValues.put("isplay", MainActivity.bottomSheetPlayList.get(i).getIsplay());
             contentValues.put("favtitlename", title);
             contentValues.put("name", MainActivity.bottomSheetPlayList.get(i).getName());
+            contentValues.put("ispro", MainActivity.bottomSheetPlayList.get(i).getIspro());
+            contentValues.put("needdownload", MainActivity.bottomSheetPlayList.get(i).getNeeddownload());
             sqLiteDatabase.insert("favlist", null, contentValues);
         }
         Toast.makeText(context, "success add fav list!", Toast.LENGTH_SHORT).show();
@@ -564,7 +571,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery("select * from favlist where favtitlename = " + "'" + title + "'", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            favListItem = new FavListItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getString(9), cursor.getInt(10), cursor.getString(11), cursor.getInt(12));
+            favListItem = new FavListItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getString(9), cursor.getInt(10), cursor.getString(11), cursor.getInt(12), cursor.getInt(13));
             favListItems.add(favListItem);
             cursor.moveToNext();
         }
@@ -607,19 +614,64 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void deleteAllPlayinglist(ArrayList<Integer> pagelist, ArrayList<Integer> positionlist, String title) {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("delete from playing");
-        sqLiteDatabase.execSQL("update rain set isplay = 1 where isplay = 2");
-        sqLiteDatabase.execSQL("update wind set isplay = 1 where isplay = 2");
+//        if (pagelist.contains(1)) {
+//            sqLiteDatabase.execSQL("update rain set isplay = 1 where isplay = 2");
+//        } else if (pagelist.contains(2)) {
+//            sqLiteDatabase.execSQL("update water set isplay = 1 where isplay = 2");
+//        } else if (pagelist.contains(3)) {
+//            sqLiteDatabase.execSQL("update wind set isplay = 1 where isplay = 2");
+//        } else if (pagelist.contains(4)) {
+//            sqLiteDatabase.execSQL("update nature set isplay = 1 where isplay = 2");
+//        } else if (pagelist.contains(5)) {
+//            sqLiteDatabase.execSQL("update chakra set isplay = 1 where isplay = 2");
+//        } else if (pagelist.contains(6)) {
+//            sqLiteDatabase.execSQL("update mantra set isplay = 1 where isplay = 2");
+//        } else if (pagelist.contains(7)) {
+//            sqLiteDatabase.execSQL("update hz set isplay = 1 where isplay = 2");
+//        }
         for (int i = 0; i < pagelist.size(); i++) {
             if (pagelist.get(i) == 1) {
+                sqLiteDatabase.execSQL("update rain set isplay = 1 where isplay = 2");
                 sqLiteDatabase.execSQL("update rain set isplay = 2 where position = " + positionlist.get(i));
                 RainPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 RainPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 RainPage.adapter.notifyDataSetChanged();
             } else if (pagelist.get(i) == 2) {
+                sqLiteDatabase.execSQL("update water set isplay = 1 where isplay = 2");
+                sqLiteDatabase.execSQL("update water set isplay = 2 where position = " + positionlist.get(i));
+                WaterPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
+                WaterPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
+                WaterPage.adapter.notifyDataSetChanged();
+            } else if (pagelist.get(i) == 3) {
+                sqLiteDatabase.execSQL("update wind set isplay = 1 where isplay = 2");
                 sqLiteDatabase.execSQL("update wind set isplay = 2 where position = " + positionlist.get(i));
                 WindPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 WindPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 WindPage.adapter.notifyDataSetChanged();
+            } else if (pagelist.get(i) == 4) {
+                sqLiteDatabase.execSQL("update nature set isplay = 1 where isplay = 2");
+                sqLiteDatabase.execSQL("update nature set isplay = 2 where position = " + positionlist.get(i));
+                NaturePage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
+                NaturePage.adapter.notifyItemChanged(positionlist.get(i) - 1);
+                NaturePage.adapter.notifyDataSetChanged();
+            } else if (pagelist.get(i) == 5) {
+                sqLiteDatabase.execSQL("update chakra set isplay = 1 where isplay = 2");
+                sqLiteDatabase.execSQL("update chakra set isplay = 2 where position = " + positionlist.get(i));
+                ChakraPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
+                ChakraPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
+                ChakraPage.adapter.notifyDataSetChanged();
+            } else if (pagelist.get(i) == 6) {
+                sqLiteDatabase.execSQL("update mantra set isplay = 1 where isplay = 2");
+                sqLiteDatabase.execSQL("update mantra set isplay = 2 where position = " + positionlist.get(i));
+                MantraPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
+                MantraPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
+                MantraPage.adapter.notifyDataSetChanged();
+            } else if (pagelist.get(i) == 7) {
+                sqLiteDatabase.execSQL("update hz set isplay = 1 where isplay = 2");
+                sqLiteDatabase.execSQL("update hz set isplay = 2 where position = " + positionlist.get(i));
+                HzPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
+                HzPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
+                HzPage.adapter.notifyDataSetChanged();
             }
         }
         sqLiteDatabase.execSQL("vacuum");
@@ -635,7 +687,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         int count = 0;
         while (!cursor.isAfterLast()) {
             count += 1;
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
+            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(10), cursor.getString(11), cursor.getInt(12), cursor.getInt(13));
             MainActivity.bottomSheetPlayList.add(pageItem);
             ContentValues contentValues = new ContentValues();
             contentValues.put("page", cursor.getInt(0));
@@ -643,8 +695,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             contentValues.put("pnp", cursor.getString(2));
             contentValues.put("imgdefault", cursor.getBlob(3));
             contentValues.put("img", cursor.getBlob(4));
-            contentValues.put("seek", cursor.getInt(5));
+            contentValues.put("darkdefault", cursor.getBlob(5));
+            contentValues.put("dark", cursor.getBlob(6));
+            contentValues.put("seek", cursor.getInt(7));
             contentValues.put("isplay", 2);
+            contentValues.put("time", cursor.getInt(9));
+            contentValues.put("name", cursor.getString(10));
+            contentValues.put("ispro", cursor.getInt(11));
+            contentValues.put("needdownload", cursor.getInt(12));
             sqLiteDatabase.insert("playing", null, contentValues);
             cursor.moveToNext();
         }
@@ -652,6 +710,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         MainActivity.bottomSheetAdapter.notifyDataSetChanged();
         cursor.close();
         closeDatabse();
+        MainActivity.load.setVisibility(View.GONE);
     }
 
     public void whenAppKillTask() {

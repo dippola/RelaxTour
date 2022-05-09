@@ -9,7 +9,7 @@ public class memo {
 
 
 //    새로운 페이지 업데이트 했을때 변경할거
-//    1. databaseHandler > getPageName()
+//    1. databaseHandler > getPageName(), deleteAllPlayinglist
 //    2. stopPlayingList
 //    3. NotificationActionService > stopPage
 //    4. SeekController > changeSeekInBottom, changeSeekInFavList

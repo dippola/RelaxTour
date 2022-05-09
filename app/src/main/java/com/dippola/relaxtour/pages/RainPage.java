@@ -29,13 +29,6 @@ import java.util.ArrayList;
 
 public class RainPage extends Fragment {
 
-    public static MediaPlayer p1p1_1, p1p1_2;
-    public static MediaPlayer p1p2_1, p1p2_2;
-    public static MediaPlayer p1p3_1, p1p3_2;
-    public static MediaPlayer p1p4_1, p1p4_2;
-    public static MediaPlayer p1p5_1, p1p5_2;
-    public static MediaPlayer p1p6_1, p1p6_2;
-
     RelativeLayout pageBox;
     public static ArrayList<PageItem> arrayList = new ArrayList<>();
     public static PageAdapter adapter;
@@ -49,26 +42,10 @@ public class RainPage extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.page, container, false);
 
-        setAudio();
         setInit(rootView);
         setRecyclerView();
 
         return rootView;
-    }
-
-    private void setAudio() {
-        p1p1_1 = MediaPlayer.create(getActivity(), R.raw.audio1to1);
-        p1p1_2 = MediaPlayer.create(getActivity(), R.raw.audio1to1);
-        p1p2_1 = MediaPlayer.create(getActivity(), R.raw.audio1to2);
-        p1p2_2 = MediaPlayer.create(getActivity(), R.raw.audio1to2);
-        p1p3_1 = MediaPlayer.create(getActivity(), R.raw.audio1to3);
-        p1p3_2 = MediaPlayer.create(getActivity(), R.raw.audio1to3);
-        p1p4_1 = MediaPlayer.create(getActivity(), R.raw.audio1to4);
-        p1p4_2 = MediaPlayer.create(getActivity(), R.raw.audio1to4);
-        p1p5_1 = MediaPlayer.create(getActivity(), R.raw.audio1to5);
-        p1p5_2 = MediaPlayer.create(getActivity(), R.raw.audio1to5);
-        p1p6_1 = MediaPlayer.create(getActivity(), R.raw.audio1to6);
-        p1p6_2 = MediaPlayer.create(getActivity(), R.raw.audio1to6);
     }
 
     private void setInit(ViewGroup rootView) {
@@ -84,7 +61,7 @@ public class RainPage extends Fragment {
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        setPage1Volumn();
+//        setPage1Volumn();
 
         hint.setVisibility(View.VISIBLE);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

@@ -34,13 +34,14 @@ public class ChakraPage extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
 
-    public static MediaPlayer p5p1_1, p5p1_2;
-    public static MediaPlayer p5p2_1, p5p2_2;
-    public static MediaPlayer p5p3_1, p5p3_2;
-    public static MediaPlayer p5p4_1, p5p4_2;
-    public static MediaPlayer p5p5_1, p5p5_2;
-    public static MediaPlayer p5p6_1, p5p6_2;
-    public static MediaPlayer p5p7_1, p5p7_2;
+    public static MediaPlayer p3p1, p3p2;
+//    public static MediaPlayer p5p1_1, p5p1_2;
+//    public static MediaPlayer p5p2_1, p5p2_2;
+//    public static MediaPlayer p5p3_1, p5p3_2;
+//    public static MediaPlayer p5p4_1, p5p4_2;
+//    public static MediaPlayer p5p5_1, p5p5_2;
+//    public static MediaPlayer p5p6_1, p5p6_2;
+//    public static MediaPlayer p5p7_1, p5p7_2;
     public static RelativeLayout load;
 
     @Nullable
@@ -72,26 +73,27 @@ public class ChakraPage extends Fragment {
     }
 
     public static void setAudio(Context context) {
-        p5p1_1 = new MediaPlayer();
-        p5p1_2 = new MediaPlayer();
-        p5p2_1 = new MediaPlayer();
-        p5p2_2 = new MediaPlayer();
-        p5p3_1 = new MediaPlayer();
-        p5p3_2 = new MediaPlayer();
-        p5p4_1 = new MediaPlayer();
-        p5p4_2 = new MediaPlayer();
-        p5p5_1 = new MediaPlayer();
-        p5p5_2 = new MediaPlayer();
-        p5p6_1 = new MediaPlayer();
-        p5p6_2 = new MediaPlayer();
-        p5p7_1 = new MediaPlayer();
-        p5p7_2 = new MediaPlayer();
+//        p5p1_1 = new MediaPlayer();
+//        p5p1_2 = new MediaPlayer();
+//        p5p2_1 = new MediaPlayer();
+//        p5p2_2 = new MediaPlayer();
+//        p5p3_1 = new MediaPlayer();
+//        p5p3_2 = new MediaPlayer();
+//        p5p4_1 = new MediaPlayer();
+//        p5p4_2 = new MediaPlayer();
+//        p5p5_1 = new MediaPlayer();
+//        p5p5_2 = new MediaPlayer();
+//        p5p6_1 = new MediaPlayer();
+//        p5p6_2 = new MediaPlayer();
+//        p5p7_1 = new MediaPlayer();
+//        p5p7_2 = new MediaPlayer();
 //        p5p1_1 = MediaPlayer.create(getActivity(), R.raw.audio5to1);
 //        p5p1_2 = MediaPlayer.create(getActivity(), R.raw.audio5to1);
+        String path3_1 = context.getApplicationInfo().dataDir + "/cache/audio3-2.mp3";
         String path3_2 = context.getApplicationInfo().dataDir + "/cache/audio3-2.mp3";
         String path3_3 = context.getApplicationInfo().dataDir + "/cache/audio3-3.mp3";
-//        setDataSourceAudio(p3p1, path3_1);
-//        setDataSourceAudio(p3p2, path3_2);
+        setDataSourceAudio(p3p1, path3_1);
+        setDataSourceAudio(p3p2, path3_2);
 
 //        if (path3_3.isEmpty()) {
 //            Log.d("ChakraPage>>>", "null");

@@ -96,12 +96,12 @@ public class StoragePageAdapter extends RecyclerView.Adapter<StoragePageAdapter.
                     MainActivity.databaseHandler.setPlay1(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
                     MainActivity.bottomSheetAdapter.notifyItemInserted(MainActivity.bottomSheetPlayList.size());
 
-                    if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0).getPnp())) {//이미 재생중인게 있을때
-                        AudioController.startTrack(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
+                    if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0), context)) {//이미 재생중인게 있을때
+                        AudioController.startTrack(context, arrayList.get(positions));
                     } else {//재생중인게 없을때
-                        List<String> pp = new ArrayList<>();
+                        List<PageItem> pp = new ArrayList<>();
                         for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {
-                            pp.add(MainActivity.bottomSheetPlayList.get(ii).getPnp());
+                            pp.add(MainActivity.bottomSheetPlayList.get(ii));
                             if (ii == MainActivity.bottomSheetPlayList.size() - 1) {
                                 AudioController.startPlayingList(context, pp);
                             }

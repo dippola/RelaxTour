@@ -14,10 +14,11 @@ public class FavListItem {
     int time;
     String name;
     int ispro;
+    int needdownload;
 
     public FavListItem() {}
 
-    public FavListItem(int page, int position, String pnp, byte[] imgdefault, byte[] img, byte[] darkdefault, byte[] dark, int seek, int isplay, String favtitlename, int time, String name, int ispro) {
+    public FavListItem(int page, int position, String pnp, byte[] imgdefault, byte[] img, byte[] darkdefault, byte[] dark, int seek, int isplay, String favtitlename, int time, String name, int ispro, int needdownload) {
         this.page = page;
         this.position = position;
         this.pnp = pnp;
@@ -31,6 +32,7 @@ public class FavListItem {
         this.time = time;
         this.name = name;
         this.ispro = ispro;
+        this.needdownload = needdownload;
     }
 
     public int getPage() {
@@ -135,5 +137,13 @@ public class FavListItem {
 
     public void setIspro(int ispro) {
         this.ispro = ispro;
+    }
+
+    public int getNeeddownload() {
+        return needdownload;
+    }
+
+    public void setNeeddownload(int needdownload) {
+        this.needdownload = needdownload;
     }
 }

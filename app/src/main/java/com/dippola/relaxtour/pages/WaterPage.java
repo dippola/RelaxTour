@@ -24,13 +24,6 @@ import java.util.ArrayList;
 
 public class WaterPage extends Fragment {
 
-    public static MediaPlayer p2p1_1, p2p1_2;
-    public static MediaPlayer p2p2_1, p2p2_2;
-    public static MediaPlayer p2p3_1, p2p3_2;
-    public static MediaPlayer p2p4_1, p2p4_2;
-    public static MediaPlayer p2p5_1, p2p5_2;
-    public static MediaPlayer p2p6_1, p2p6_2;
-
     RelativeLayout pageBox;
     public static ArrayList<PageItem> arrayList = new ArrayList<>();
     public static PageAdapter adapter;
@@ -44,26 +37,10 @@ public class WaterPage extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.page, container, false);
 
-        setAudio();
         setInit(rootView);
         setRecyclerView();
 
         return rootView;
-    }
-
-    private void setAudio() {
-        p2p1_1 = MediaPlayer.create(getActivity(), R.raw.audio2to1);
-        p2p1_2 = MediaPlayer.create(getActivity(), R.raw.audio2to1);
-        p2p2_1 = MediaPlayer.create(getActivity(), R.raw.audio2to2);
-        p2p2_2 = MediaPlayer.create(getActivity(), R.raw.audio2to2);
-        p2p3_1 = MediaPlayer.create(getActivity(), R.raw.audio2to3);
-        p2p3_2 = MediaPlayer.create(getActivity(), R.raw.audio2to3);
-        p2p4_1 = MediaPlayer.create(getActivity(), R.raw.audio2to4);
-        p2p4_2 = MediaPlayer.create(getActivity(), R.raw.audio2to4);
-        p2p5_1 = MediaPlayer.create(getActivity(), R.raw.audio2to5);
-        p2p5_2 = MediaPlayer.create(getActivity(), R.raw.audio2to5);
-        p2p6_1 = MediaPlayer.create(getActivity(), R.raw.audio2to6);
-        p2p6_2 = MediaPlayer.create(getActivity(), R.raw.audio2to6);
     }
 
     private void setInit(ViewGroup rootView) {
@@ -79,7 +56,7 @@ public class WaterPage extends Fragment {
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        setPage2Volumn();
+//        setPage2Volumn();
 
         hint.setVisibility(View.VISIBLE);
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {

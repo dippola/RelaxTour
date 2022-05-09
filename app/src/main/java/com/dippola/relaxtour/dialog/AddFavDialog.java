@@ -13,7 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 
-public class AddTitleDialog {
+public class AddFavDialog {
     public static AlertDialog alertDialog;
 
     private static EditText editText;

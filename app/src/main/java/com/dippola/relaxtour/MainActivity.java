@@ -16,9 +16,7 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -28,7 +26,7 @@ import android.widget.Toast;
 import com.dippola.relaxtour.board.BoardMain;
 import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
-import com.dippola.relaxtour.dialog.AddTitleDialog;
+import com.dippola.relaxtour.dialog.AddFavDialog;
 import com.dippola.relaxtour.dialog.ThemeDialog;
 import com.dippola.relaxtour.maintablayout.MainTabAdapter;
 import com.dippola.relaxtour.maintablayout.MainTabItem;
@@ -92,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
     RelativeLayout bottomOutside;
 
+    public static RelativeLayout load;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -111,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
         bottomOutside.setVisibility(View.GONE);
         bottomOutside.bringToFront();
         bottomOutside.setClickable(false);
+
+        load = findViewById(R.id.activity_main_load);
+        load.bringToFront();
+        load.setVisibility(View.GONE);
 
 //        testButton();
         setAudioManager();
@@ -438,7 +442,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "null play list", Toast.LENGTH_SHORT).show();
                 } else {
                     CheckOpenService.checkOpenService(MainActivity.this);
-                    if (AudioController.checkIsPlaying(bottomSheetPlayList.get(0).getPnp())) {//재생중
+                    if (AudioController.checkIsPlaying(bottomSheetPlayList.get(0), MainActivity.this)) {//재생중
                         pands.setBackgroundResource(R.drawable.bottom_sheet_play);
                         ArrayList<PageItem> pageItems = new ArrayList<>();
                         for (int i = 0; i < bottomSheetPlayList.size(); i++) {
@@ -450,12 +454,13 @@ public class MainActivity extends AppCompatActivity {
                         }
                     } else {//재생중 아님
                         pands.setBackgroundResource(R.drawable.bottom_pause);
-                        List<String> pplist = new ArrayList<>();
+                        List<PageItem> pageItems = new ArrayList<>();
                         for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-                            pplist.add(bottomSheetPlayList.get(i).getPnp());
+                            pageItems.add(bottomSheetPlayList.get(i));
+                            MPList.initalMP(bottomSheetPlayList.get(i).getPnp(), MainActivity.this, bottomSheetPlayList.get(i).getSeek());
                             if (i == bottomSheetPlayList.size() - 1) {
                                 //playinglist start
-                                AudioController.startPlayingList(MainActivity.this, pplist);
+                                AudioController.startPlayingList(MainActivity.this, pageItems);
                             }
                         }
                     }
@@ -480,7 +485,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (bottomSheetPlayList.size() != 0) {
-                    AddTitleDialog.addTitleDialog(MainActivity.this);
+                    AddFavDialog.addTitleDialog(MainActivity.this);
                 } else {
                     Toast.makeText(MainActivity.this, "null playinglist", Toast.LENGTH_SHORT).show();
                 }

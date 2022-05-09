@@ -49,7 +49,7 @@ public class NotificationService extends Service {
     public void onDestroy() {
         isPlaying = false;
         //여기서 재생중인곡 있으면 종료하기
-        if (MainActivity.bottomSheetPlayList.size() != 0 && AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0).getPnp())) {//재생중
+        if (MainActivity.bottomSheetPlayList.size() != 0 && AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0), getApplicationContext())) {//재생중
             MainActivity.pands.setBackgroundResource(R.drawable.bottom_sheet_play);
             ArrayList<PageItem> page = new ArrayList<>();
             for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {

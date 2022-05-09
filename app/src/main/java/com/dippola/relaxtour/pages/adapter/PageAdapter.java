@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
@@ -308,6 +309,10 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
     }
 
     private void page123(int positions, ImageView img) {
+        for (int count = 0; count < MainActivity.bottomSheetPlayList.size(); count++) {
+            MPList.initalMP(MainActivity.bottomSheetPlayList.get(count).getPnp(), context, MainActivity.bottomSheetPlayList.get(count).getSeek());
+        }
+        MPList.initalMP(arrayList.get(positions).getPnp(), context, arrayList.get(positions).getSeek());
         if (arrayList.get(positions).getIspro() == 1) {
             if (arrayList.get(positions).getIsplay() == 1) {//해당 아이템이 playing중이 아닐때
                 setPageImageOnClickChangeImage(positions, img);
@@ -330,12 +335,12 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
                 databaseHandler.setPlay1(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//db에서 기존꺼,새로운거 isplay바꾸고 bottom list에도 새로운걸로 변경
                 MainActivity.bottomSheetAdapter.notifyItemInserted(MainActivity.bottomSheetPlayList.size());//bottom list 새로고침
 
-                if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0).getPnp())) {//다른page에 이미 재생중인게 있을때 (pands버튼이 재생중일때)
-                    AudioController.startTrack(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//새로 재생할 트랙 찾아서 재생
+                if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0), context)) {//다른page에 이미 재생중인게 있을때 (pands버튼이 재생중일때)
+                    AudioController.startTrack(context, arrayList.get(positions));//새로 재생할 트랙 찾아서 재생
                 } else {//재생중인게 없을때(pands버튼이 재생 중이 아닐때)
-                    List<String> pp = new ArrayList<>();
+                    List<PageItem> pp = new ArrayList<>();
                     for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {//bottom list에 모든 트랙 pnp 수집
-                        pp.add(MainActivity.bottomSheetPlayList.get(ii).getPnp());
+                        pp.add(MainActivity.bottomSheetPlayList.get(ii));
                         if (ii == MainActivity.bottomSheetPlayList.size() - 1) {
                             AudioController.startPlayingList(context, pp);//bottom list에 있는 목록 다 재생
                         }
@@ -365,6 +370,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
     }
 
     private void page4(int positions, ImageView img) {
+        MPList.initalMP(arrayList.get(positions).getPnp(), context, arrayList.get(positions).getSeek());
         if (arrayList.get(positions).getIsplay() == 1) {
             int count = 0;
             for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
@@ -380,12 +386,12 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
                 databaseHandler.setPlay1(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//db에서 기존꺼,새로운거 isplay바꾸고 bottom list에도 새로운걸로 변경
                 MainActivity.bottomSheetAdapter.notifyItemInserted(MainActivity.bottomSheetPlayList.size());//bottom list 새로고침
 
-                if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0).getPnp())) {//다른page에 이미 재생중인게 있을때 (pands버튼이 재생중일때)
-                    AudioController.startTrack(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//새로 재생할 트랙 찾아서 재생
+                if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0), context)) {//다른page에 이미 재생중인게 있을때 (pands버튼이 재생중일때)
+                    AudioController.startTrack(context, arrayList.get(positions));//새로 재생할 트랙 찾아서 재생
                 } else {//재생중인게 없을때(pands버튼이 재생 중이 아닐때)
-                    List<String> pp = new ArrayList<>();
+                    List<PageItem> pp = new ArrayList<>();
                     for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {//bottom list에 모든 트랙 pnp 수집
-                        pp.add(MainActivity.bottomSheetPlayList.get(ii).getPnp());
+                        pp.add(MainActivity.bottomSheetPlayList.get(ii));
                         if (ii == MainActivity.bottomSheetPlayList.size() - 1) {
                             AudioController.startPlayingList(context, pp);//bottom list에 있는 목록 다 재생
                         }

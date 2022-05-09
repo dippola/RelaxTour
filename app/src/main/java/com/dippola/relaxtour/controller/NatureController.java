@@ -1,23 +1,8 @@
 package com.dippola.relaxtour.controller;
 
-import static com.dippola.relaxtour.pages.NaturePage.p4p1_1;
-import static com.dippola.relaxtour.pages.NaturePage.p4p1_2;
-import static com.dippola.relaxtour.pages.NaturePage.p4p2_1;
-import static com.dippola.relaxtour.pages.NaturePage.p4p2_2;
-import static com.dippola.relaxtour.pages.NaturePage.p4p3_1;
-import static com.dippola.relaxtour.pages.NaturePage.p4p3_2;
-import static com.dippola.relaxtour.pages.NaturePage.p4p4_1;
-import static com.dippola.relaxtour.pages.NaturePage.p4p4_2;
-import static com.dippola.relaxtour.pages.NaturePage.p4p5_1;
-import static com.dippola.relaxtour.pages.NaturePage.p4p5_2;
-import static com.dippola.relaxtour.pages.NaturePage.p4p6_1;
-import static com.dippola.relaxtour.pages.NaturePage.p4p6_2;
-import static com.dippola.relaxtour.pages.NaturePage.p4p7_1;
-import static com.dippola.relaxtour.pages.NaturePage.p4p7_2;
-import static com.dippola.relaxtour.pages.NaturePage.p4p8_1;
-import static com.dippola.relaxtour.pages.NaturePage.p4p8_2;
-
 import android.util.Log;
+
+import com.dippola.relaxtour.MPList;
 
 public class NatureController {
     public static class p4t1 extends Thread {
@@ -73,45 +58,61 @@ public class NatureController {
     public static void stopPage4(String pnp) {
         int position = Integer.parseInt(pnp.substring(2, 3));
         if (position == 1) {
-            p4p1_1.stop();
-            p4p1_1.prepareAsync();
-            p4p1_2.stop();
-            p4p1_2.prepareAsync();
+            if (MPList.p4p1_1 != null && MPList.p4p1_2 != null) {
+                MPList.p4p1_1.stop();
+                MPList.p4p1_1.prepareAsync();
+                MPList.p4p1_2.stop();
+                MPList.p4p1_2.prepareAsync();
+            }
         } else if (position == 2) {
-            p4p2_1.stop();
-            p4p2_1.prepareAsync();
-            p4p2_2.stop();
-            p4p2_2.prepareAsync();
+            if (MPList.p4p2_1 != null && MPList.p4p2_2 != null) {
+                MPList.p4p2_1.stop();
+                MPList.p4p2_1.prepareAsync();
+                MPList.p4p2_2.stop();
+                MPList.p4p2_2.prepareAsync();
+            }
         } else if (position == 3) {
-            p4p3_1.stop();
-            p4p3_1.prepareAsync();
-            p4p3_2.stop();
-            p4p3_2.prepareAsync();
+            if (MPList.p4p3_1 != null && MPList.p4p3_2 != null) {
+                MPList.p4p3_1.stop();
+                MPList.p4p3_1.prepareAsync();
+                MPList.p4p3_2.stop();
+                MPList.p4p3_2.prepareAsync();
+            }
         } else if (position == 4) {
-            p4p4_1.stop();
-            p4p4_1.prepareAsync();
-            p4p4_2.stop();
-            p4p4_2.prepareAsync();
+            if (MPList.p4p4_1 != null && MPList.p4p4_2 != null) {
+                MPList.p4p4_1.stop();
+                MPList.p4p4_1.prepareAsync();
+                MPList.p4p4_2.stop();
+                MPList.p4p4_2.prepareAsync();
+            }
         } else if (position == 5) {
-            p4p5_1.stop();
-            p4p5_1.prepareAsync();
-            p4p5_2.stop();
-            p4p5_2.prepareAsync();
+            if (MPList.p4p5_1 != null && MPList.p4p5_2 != null) {
+                MPList.p4p5_1.stop();
+                MPList.p4p5_1.prepareAsync();
+                MPList.p4p5_2.stop();
+                MPList.p4p5_2.prepareAsync();
+            }
         } else if (position == 6) {
-            p4p6_1.stop();
-            p4p6_1.prepareAsync();
-            p4p6_2.stop();
-            p4p6_2.prepareAsync();
+            if (MPList.p4p6_1 != null && MPList.p4p6_2 != null) {
+                MPList.p4p6_1.stop();
+                MPList.p4p6_1.prepareAsync();
+                MPList.p4p6_2.stop();
+                MPList.p4p6_2.prepareAsync();
+            }
         } else if (position == 7) {
-            p4p7_1.stop();
-            p4p7_1.prepareAsync();
-            p4p7_2.stop();
-            p4p7_2.prepareAsync();
+            if (MPList.p4p7_1 != null && MPList.p4p7_2 != null) {
+                MPList.p4p7_1.stop();
+                MPList.p4p7_1.prepareAsync();
+                MPList.p4p7_2.stop();
+                MPList.p4p7_2.prepareAsync();
+            }
         } else if (position == 8) {
-            p4p8_1.stop();
-            p4p8_1.prepareAsync();
-            p4p8_2.stop();
-            p4p8_2.prepareAsync();
+            if (MPList.p4p8_1 != null && MPList.p4p8_2 != null) {
+                MPList.p4p8_1.stop();
+                MPList.p4p8_1.prepareAsync();
+                MPList.p4p8_2.stop();
+                MPList.p4p8_2.prepareAsync();
+            }
         }
 
         new RainController.p1t1(null).setStop(true);

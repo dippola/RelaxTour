@@ -24,14 +24,6 @@ import java.util.ArrayList;
 
 public class WindPage extends Fragment {
 
-    public static MediaPlayer p3p1_1, p3p1_2;
-    public static MediaPlayer p3p2_1, p3p2_2;
-    public static MediaPlayer p3p3_1, p3p3_2;
-    public static MediaPlayer p3p4_1, p3p4_2;
-    public static MediaPlayer p3p5_1, p3p5_2;
-    public static MediaPlayer p3p6_1, p3p6_2;
-    public static MediaPlayer p3p7_1, p3p7_2;
-
     RelativeLayout pageBox;
     public static ArrayList<PageItem> arrayList = new ArrayList<>();
     public static PageAdapter adapter;
@@ -45,28 +37,10 @@ public class WindPage extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.page, container, false);
 
-        setAudio();
         setInit(rootView);
         setRecyclerView();
 
         return rootView;
-    }
-
-    private void setAudio() {
-        p3p1_1 = MediaPlayer.create(getActivity(), R.raw.audio3to1);
-        p3p1_2 = MediaPlayer.create(getActivity(), R.raw.audio3to1);
-        p3p2_1 = MediaPlayer.create(getActivity(), R.raw.audio3to2);
-        p3p2_2 = MediaPlayer.create(getActivity(), R.raw.audio3to2);
-        p3p3_1 = MediaPlayer.create(getActivity(), R.raw.audio3to3);
-        p3p3_2 = MediaPlayer.create(getActivity(), R.raw.audio3to3);
-        p3p4_1 = MediaPlayer.create(getActivity(), R.raw.audio3to4);
-        p3p4_2 = MediaPlayer.create(getActivity(), R.raw.audio3to4);
-        p3p5_1 = MediaPlayer.create(getActivity(), R.raw.audio3to5);
-        p3p5_2 = MediaPlayer.create(getActivity(), R.raw.audio3to5);
-        p3p6_1 = MediaPlayer.create(getActivity(), R.raw.audio3to6);
-        p3p6_2 = MediaPlayer.create(getActivity(), R.raw.audio3to6);
-        p3p7_1 = MediaPlayer.create(getActivity(), R.raw.audio3to7);
-        p3p7_2 = MediaPlayer.create(getActivity(), R.raw.audio3to7);
     }
 
     private void setInit(ViewGroup rootView) {
@@ -82,7 +56,7 @@ public class WindPage extends Fragment {
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        setPage3Volumn();
+//        setPage3Volumn();
 
         hint.setVisibility(View.VISIBLE);
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
