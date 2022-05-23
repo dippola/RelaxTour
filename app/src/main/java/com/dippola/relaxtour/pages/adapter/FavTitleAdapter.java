@@ -17,10 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
-import com.dippola.relaxtour.dialog.AskDownloadDialog;
+import com.dippola.relaxtour.dialog.AskDownloadsDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
 import com.dippola.relaxtour.dialog.EditFavTitleDialog;
+import com.dippola.relaxtour.pages.ChakraPage;
+import com.dippola.relaxtour.pages.HzPage;
+import com.dippola.relaxtour.pages.MantraPage;
+import com.dippola.relaxtour.pages.NaturePage;
 import com.dippola.relaxtour.pages.RainPage;
+import com.dippola.relaxtour.pages.WaterPage;
 import com.dippola.relaxtour.pages.WindPage;
 import com.dippola.relaxtour.pages.item.FavListItem;
 import com.dippola.relaxtour.pages.item.FavTitleItem;
@@ -226,14 +231,34 @@ public class FavTitleAdapter  extends RecyclerView.Adapter<FavTitleAdapter.Custo
     }
 
     private void changePageImage(int page, int position) {
-        if (page == 1) {
+        if (page == 1 && RainPage.arrayList.size() != 0) {
             RainPage.arrayList.get(position).setIsplay(2);
             RainPage.adapter.notifyItemChanged(position);
             RainPage.adapter.notifyDataSetChanged();
-        } else if (page == 2) {
+        } else if (page == 2 && WaterPage.arrayList.size() != 0) {
+            WaterPage.arrayList.get(position).setIsplay(2);
+            WaterPage.adapter.notifyItemChanged(position);
+            WaterPage.adapter.notifyDataSetChanged();
+        } else if (page == 3 && WindPage.arrayList.size() != 0) {
             WindPage.arrayList.get(position).setIsplay(2);
             WindPage.adapter.notifyItemChanged(position);
             WindPage.adapter.notifyDataSetChanged();
+        } else if (page == 4 && NaturePage.arrayList.size() != 0) {
+            NaturePage.arrayList.get(position).setIsplay(2);
+            NaturePage.adapter.notifyItemChanged(position);
+            NaturePage.adapter.notifyDataSetChanged();
+        } else if (page == 5 && ChakraPage.arrayList.size() != 0) {
+            ChakraPage.arrayList.get(position).setIsplay(2);
+            ChakraPage.adapter.notifyItemChanged(position);
+            ChakraPage.adapter.notifyDataSetChanged();
+        } else if (page == 6 && MantraPage.arrayList.size() != 0) {
+            MantraPage.arrayList.get(position).setIsplay(2);
+            MantraPage.adapter.notifyItemChanged(position);
+            MantraPage.adapter.notifyDataSetChanged();
+        } else if (page == 7 && HzPage.arrayList.size() != 0) {
+            HzPage.arrayList.get(position).setIsplay(2);
+            HzPage.adapter.notifyItemChanged(position);
+            HzPage.adapter.notifyDataSetChanged();
         }
     }
 
@@ -251,7 +276,7 @@ public class FavTitleAdapter  extends RecyclerView.Adapter<FavTitleAdapter.Custo
             }
             if (i == favListItems.size() - 1) {
                 if (pnps.size() != 0) {
-                    AskDownloadDialog.askDownloadDialog(context, pnps, position);
+                    AskDownloadsDialog.askDownloadDialog(context, pnps, position);
                 } else {
                     favListPlay(position);
                 }
@@ -288,5 +313,6 @@ public class FavTitleAdapter  extends RecyclerView.Adapter<FavTitleAdapter.Custo
                 MainActivity.pands.setBackgroundResource(R.drawable.bottom_pause);
             }
         }
+        PageAdapter.page4Count();
     }
 }

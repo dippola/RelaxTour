@@ -22,10 +22,12 @@ import com.dippola.relaxtour.controller.SeekController;
 import com.dippola.relaxtour.notification.NotificationService;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.HzPage;
+import com.dippola.relaxtour.pages.MantraPage;
 import com.dippola.relaxtour.pages.NaturePage;
 import com.dippola.relaxtour.pages.RainPage;
 import com.dippola.relaxtour.pages.WaterPage;
 import com.dippola.relaxtour.pages.WindPage;
+import com.dippola.relaxtour.pages.adapter.PageAdapter;
 import com.dippola.relaxtour.pages.item.PageItem;
 
 import java.util.ArrayList;
@@ -101,6 +103,7 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
                     stopServiceWhenPlaylistZero(context);
                 }
                 changePageItemBackground(getpage, getposition);
+                PageAdapter.page4Count();
             }
         });
 
@@ -160,20 +163,29 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
     }
 
     private void changePageItemBackground(int page, int position) {
-        if (page == 1) {
+        if (page == 1 && RainPage.arrayList.size() != 0) {
             RainPage.arrayList.get(position - 1).setIsplay(1);
             RainPage.adapter.notifyItemChanged(position - 1);
 //            Page1.adapter.notifyDataSetChanged();
-        } else if (page == 2) {
+        } else if (page == 2 && WaterPage.arrayList.size() != 0) {
             WaterPage.arrayList.get(position - 1).setIsplay(1);
             WaterPage.adapter.notifyItemChanged(position - 1);
 //            Page2.adapter.notifyDataSetChanged();
-        } else if (page == 3) {
+        } else if (page == 3 && WindPage.arrayList.size() != 0) {
             WindPage.arrayList.get(position - 1).setIsplay(1);
             WindPage.adapter.notifyItemChanged(position - 1);
-        } else if (page == 4) {
+        } else if (page == 4 && NaturePage.arrayList.size() != 0) {
             NaturePage.arrayList.get(position - 1).setIsplay(1);
             NaturePage.adapter.notifyItemChanged(position - 1);
+        } else if (page == 5 && ChakraPage.arrayList.size() != 0) {
+            ChakraPage.arrayList.get(position - 1).setIsplay(1);
+            ChakraPage.adapter.notifyItemChanged(position - 1);
+        } else if (page == 6 && MantraPage.arrayList.size() != 0) {
+            MantraPage.arrayList.get(position - 1).setIsplay(1);
+            MantraPage.adapter.notifyItemChanged(position - 1);
+        } else if (page == 5 && HzPage.arrayList.size() != 0) {
+            HzPage.arrayList.get(position - 1).setIsplay(1);
+            HzPage.adapter.notifyItemChanged(position - 1);
         }
     }
 }

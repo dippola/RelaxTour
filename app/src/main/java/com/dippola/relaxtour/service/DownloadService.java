@@ -15,12 +15,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
@@ -112,7 +114,7 @@ public class DownloadService extends Service {
         }
     }
 
-    public static void setOnClickDownload(Context context, ProgressBar progressBar, ImageView button, ImageView download, int page, int position) {
+    public static void setOnClickDownload(Context context, ProgressBar progressBar, ImageView button, ImageView download, int page, int position, SeekBar seekBar) {
         String ptop = page + "to" + position;
         progressBar.setVisibility(View.VISIBLE);
         button.setEnabled(false);
@@ -131,10 +133,11 @@ public class DownloadService extends Service {
                     if (from.exists()) {
                         from.renameTo(to);
                     }
-                    resetMediaPlayer(context, page);
+                    resetMediaPlayer(page + "-" + position, context);
                     button.setEnabled(true);
                     download.setVisibility(View.GONE);
                     progressBar.setVisibility(View.GONE);
+                    seekBar.setEnabled(true);
 //                    stopSelf();
                     Intent intent = new Intent(context, DownloadService.class);
                     context.stopService(intent);
@@ -156,17 +159,8 @@ public class DownloadService extends Service {
         }
     }
 
-    private static void resetMediaPlayer(Context context, int page) {
-        if (page == 5) {
-            ChakraPage.setAudio(context);
-            ChakraPage.setChakraVolumn();
-        } else if (page == 6)  {
-            MantraPage.setAudio(context);
-            MantraPage.setMantraVolumn();
-        } else if (page == 7) {
-            HzPage.setAudio(context);
-            HzPage.setHzVolumn();
-        }
+    private static void resetMediaPlayer(String pnp, Context context) {
+        MPList.initalMP(pnp, context, 3);
     }
 
     @Override

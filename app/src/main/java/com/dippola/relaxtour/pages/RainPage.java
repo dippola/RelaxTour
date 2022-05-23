@@ -56,7 +56,7 @@ public class RainPage extends Fragment {
     }
 
     private void setRecyclerView() {
-        arrayList = MainActivity.databaseHandler.getRainList();
+        arrayList = MainActivity.databaseHandler.getPageList(1);
         adapter = new PageAdapter(arrayList, getActivity());
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);

@@ -30,7 +30,7 @@
 
     <color name="tab_arrow_color">#3A4251</color>
 
-    <color name="fav_items_icons_color">#3A4251</color>
+    <color name="fav_items_icons_color">#ffffff</color>
 
     <color name="bottom_sheet_item_box_start">#4D1A60</color>
     <color name="bottom_sheet_item_box_end">#123657</color>
@@ -40,4 +40,12 @@
     <color name="fav_message_icon">#D5D5D5</color>
 
     <color name="page_scroll_hint">#3A4251</color>
+
+    <color name="fav_list_item_box_start">#67297E</color>
+    <color name="fav_list_item_box_end">#275783</color>
+
+    <color name="text_color">#D5D5D5</color>
+
+    <color name="dialog_layout_color">#3A4251</color>
+    <color name="dialog_layout_line_color">#8D97A8</color>
 </resources>

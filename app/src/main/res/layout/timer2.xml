@@ -16,14 +16,16 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-            android:text="0" />
+            android:text="0"
+            android:textColor="@color/text_color" />
 
         <TextView
             android:id="@+id/minintent"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-            android:text="0" />
+            android:text="0"
+            android:textColor="@color/text_color" />
 
         <EditText
             android:id="@+id/edittime1"
@@ -45,7 +47,7 @@
             android:layout_height="15dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:textColor="#ffff"
+            android:textColor="@color/text_color"
             android:textSize="13dp" />
 
         <TextView
@@ -54,7 +56,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
             android:text="App closes after countdown."
-            android:textColor="#ffff"
+            android:textColor="@color/text_color"
             android:textSize="12dp" />
 
         <LinearLayout

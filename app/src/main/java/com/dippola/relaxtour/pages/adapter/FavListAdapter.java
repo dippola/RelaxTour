@@ -77,7 +77,6 @@ public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomV
 //        holder.img.setImageBitmap(bitmap1);
 
         holder.name.setText(arrayList.get(position).getName());
-        Log.d("FavListAdapter>>>", "check name: " + arrayList.get(position).getName());
         holder.seekBar.setProgress(arrayList.get(position).getSeek());
         holder.seekBar.setMax(MainActivity.maxVolumn);
 

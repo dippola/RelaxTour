@@ -11,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="edit play list name" />
+        android:text="edit play list name"
+        android:textColor="@color/text_color"/>
 
     <EditText
         android:id="@+id/add_title_edittext"

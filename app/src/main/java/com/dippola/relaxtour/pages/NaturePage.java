@@ -58,7 +58,7 @@ public class NaturePage extends Fragment {
     }
 
     private void setRecyclerView() {
-        arrayList = MainActivity.databaseHandler.getNatureList();
+        arrayList = MainActivity.databaseHandler.getPageList(4);
         adapter = new PageAdapter(arrayList, getActivity());
         layoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(layoutManager);

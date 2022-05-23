@@ -37,7 +37,8 @@
             android:layout_marginStart="15dp"
             android:layout_gravity="center_vertical"
             android:text="testtest"
-            android:gravity="bottom"/>
+            android:gravity="bottom"
+            android:textColor="@color/text_color"/>
         <SeekBar
             android:id="@+id/bottom_sheet_playlist_item_seekbar"
             android:layout_width="match_parent"

@@ -26,19 +26,22 @@
                     android:id="@+id/theme_dialog_light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Night Mode" />
+                    android:text="Night Mode"
+                    android:textColor="@color/text_color"/>
 
                 <RadioButton
                     android:id="@+id/theme_dialog_dark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dark Mode" />
+                    android:text="Dark Mode"
+                    android:textColor="@color/text_color" />
 
                 <RadioButton
                     android:id="@+id/theme_dialog_system"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Device Set" />
+                    android:text="Device Set"
+                    android:textColor="@color/text_color" />
             </RadioGroup>
 
             <LinearLayout

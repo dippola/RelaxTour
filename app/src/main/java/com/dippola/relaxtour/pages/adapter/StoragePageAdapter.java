@@ -159,7 +159,7 @@ public class StoragePageAdapter extends RecyclerView.Adapter<StoragePageAdapter.
             public void onClick(View view) {
 //                setOnClickDownload(holder.progressBar, holder.button, holder.download, arrayList.get(positions).getPnp(), arrayList.get(positions).getPage());
                 openDownloadService(context, holder.progressBar, holder.button, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
-                DownloadService.setOnClickDownload(context, holder.progressBar, holder.button, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
+//                DownloadService.setOnClickDownload(context, holder.progressBar, holder.button, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
             }
         });
     }
@@ -290,13 +290,13 @@ public class StoragePageAdapter extends RecyclerView.Adapter<StoragePageAdapter.
 //        }
 //    }
 
-    private void resetMediaPlayer(int page) {
-        if (page == 3) {
-            ChakraPage.setAudio(context);
-            ChakraPage.setChakraVolumn();
-        } else if (page == 4) {
-            HzPage.setAudio(context);
-            HzPage.setHzVolumn();
-        }
-    }
+//    private void resetMediaPlayer(int page) {
+//        if (page == 3) {
+//            ChakraPage.setAudio(context);
+//            ChakraPage.setChakraVolumn();
+//        } else if (page == 4) {
+//            HzPage.setAudio(context);
+//            HzPage.setHzVolumn();
+//        }
+//    }
 }

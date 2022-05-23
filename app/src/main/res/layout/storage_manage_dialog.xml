@@ -20,14 +20,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="null in storage" />
+            android:text="null in storage"
+            android:textColor="@color/text_color"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/storage_manage_dialog_progressbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#68000000">
+        android:background="@drawable/dialog_progress_round">
 
         <ProgressBar
             android:layout_width="wrap_content"

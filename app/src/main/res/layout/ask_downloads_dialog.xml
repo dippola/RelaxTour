@@ -7,17 +7,26 @@
     android:padding="30dp">
 
     <TextView
-        android:id="@+id/edit_fav_title_dialog_text"
+        android:id="@+id/ask_downloads_dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="change play list name"
-        android:textColor="@color/text_color" />
+        android:text="are you download?"
+        android:textColor="@color/text_color"/>
 
-    <EditText
-        android:id="@+id/edit_fav_title_dialog_edittext"
+    <ProgressBar
+        android:id="@+id/ask_downloads_dialog_progressbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/ask_downloads_dialog_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/text_color"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -25,14 +34,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/edit_fav_title_dialog_button_ok"
+            android:id="@+id/ask_downloads_dialog_button_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="ok"/>
 
         <Button
-            android:id="@+id/edit_fav_title_dialog_button_cancel"
+            android:id="@+id/ask_downloads_dialog_button_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

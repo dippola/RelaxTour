@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dippola.relaxtour"
-    android:versionCode="2"
-    android:versionName="1.0.2">
+    android:versionCode="8"
+    android:versionName="1.0.8">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RelaxTour">
         <activity
-            android:name=".MainActivity"
+            android:name=".Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".MainActivity"/>
         <service android:name=".notification.NotificationService" android:stopWithTask="true"/>
         <receiver android:name=".notification.NotificationActionService"/>
         <service android:name=".service.GetStateKillApp" />

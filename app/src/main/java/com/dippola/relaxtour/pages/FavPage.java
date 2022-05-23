@@ -1,6 +1,7 @@
 package com.dippola.relaxtour.pages;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,5 +59,11 @@ public class FavPage extends Fragment {
         if (favTitleItemArrayList.size() == 0) {
             message.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MainActivity.databaseHandler.changeIsOpenWhenFavPageOnPause();
     }
 }

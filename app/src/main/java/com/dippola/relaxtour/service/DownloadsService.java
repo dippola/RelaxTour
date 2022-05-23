@@ -21,12 +21,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.dialog.AskDownloadDialog;
+import com.dippola.relaxtour.dialog.AskDownloadsDialog;
 import com.dippola.relaxtour.notification.SuccessDownloadNotification;
 import com.dippola.relaxtour.pages.ChakraPage;
-import com.dippola.relaxtour.pages.HzPage;
+import com.dippola.relaxtour.pages.MantraPage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -119,14 +120,16 @@ public class DownloadsService extends Service {
 
         progressBar.setProgress(counter[0]);
         for (int i = 0; i < pnps.size(); i++) {
-            String fileName = "audio" + pnps.get(i) + ".mp3";
+            String pnp = pnps.get(i);
+            String ptop = pnps.get(i).substring(0, 1) + "to" + pnps.get(i).substring(2, 3);
+            String fileName = "audio" + ptop + ".mp3";
             try {
                 File localFile = File.createTempFile("audio", "0");
                 reference.child(fileName).getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         ChakraPage.adapter.notifyDataSetChanged();
-                        HzPage.adapter.notifyDataSetChanged();
+                        MantraPage.adapter.notifyDataSetChanged();
                         File from = new File(context.getApplicationInfo().dataDir + "/cache", localFile.getName());
                         File to = new File(context.getApplicationInfo().dataDir + "/cache", fileName);
                         if (from.exists()) {
@@ -136,11 +139,10 @@ public class DownloadsService extends Service {
                         count.setText(counter[0] + " / " + pnps.size());
                         progressBar.setProgress(counter[0]);
                         if (counter[0] == pnps.size()) {
-                            ChakraPage.setAudio(context);
-                            HzPage.setAudio(context);
+                            MPList.initalMP(pnp, context, 3);
                             Intent intent = new Intent(context, DownloadsService.class);
                             context.stopService(intent);
-                            AskDownloadDialog.alertDialog.dismiss();
+                            AskDownloadsDialog.alertDialog.dismiss();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {

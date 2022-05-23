@@ -93,6 +93,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String FAV_TITLE_TEAM = "create table if not exists " + FAV_TITLE_TABLE_NAME + "(" + COLUMN_FAV_TITLE + " TEXT," + COLUMN_FAV_ISPLAY + " INTEGER" + ");";
     private static final String FAV_LIST_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER," +  COLUMN_FAVTITLENAME + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER"  + ");";
 
+    private static final String ISPRO_TEAM = "create table if not exists ispro (ispro INTEGER);";
 
     //notification table set
     public static final String NOTIFICATION_TABLE_NAME = "notification";
@@ -134,6 +135,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL(ISPRO_TEAM);
         sqLiteDatabase.execSQL(NOTIFICATION_TEAM);
         sqLiteDatabase.execSQL(PAGE_ICON_TEAM);
         sqLiteDatabase.execSQL(PLAYING_TEAM);
@@ -150,6 +152,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        sqLiteDatabase.execSQL("DROP TABLE ispro");
         sqLiteDatabase.execSQL("DROP TABLE " + NOTIFICATION_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + PAGE_ICON_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + PLAYING_TABLE_NAME);
@@ -162,6 +165,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE " + CHAKRA_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + MANTRA_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + HZ_TABLE_NAME);
+        sqLiteDatabase.execSQL(ISPRO_TEAM);
         sqLiteDatabase.execSQL(NOTIFICATION_TEAM);
         sqLiteDatabase.execSQL(PAGE_ICON_TEAM);
         sqLiteDatabase.execSQL(PLAYING_TEAM);
@@ -229,12 +233,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return pageItems;
     }
 
-    public ArrayList<PageItem> getRainList() {
+        public ArrayList<PageItem> getPageList(int page) {
         PageItem pageItem = null;
         ArrayList<PageItem> pageItems = new ArrayList<>();
 
         openDatabase();
-        String sql = "SELECT * FROM rain";
+        String sql = "SELECT * FROM " + getPageName(page);
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -247,117 +251,140 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return pageItems;
     }
 
-    public ArrayList<PageItem> getWaterList() {
-        PageItem pageItem = null;
-        ArrayList<PageItem> pageItems = new ArrayList<>();
-
-        openDatabase();
-        String sql = "SELECT * FROM water";
-        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
-            pageItems.add(pageItem);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        closeDatabse();
-        return pageItems;
-    }
-
-    public ArrayList<PageItem> getWindList() {
-        PageItem pageItem = null;
-        ArrayList<PageItem> pageItems = new ArrayList<>();
-
-        openDatabase();
-        String sql = "SELECT * FROM wind";
-        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
-            pageItems.add(pageItem);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        closeDatabse();
-        return pageItems;
-    }
-
-    public ArrayList<PageItem> getNatureList() {
-        PageItem pageItem = null;
-        ArrayList<PageItem> pageItems = new ArrayList<>();
-
-        openDatabase();
-        String sql = "SELECT * FROM nature";
-        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
-            pageItems.add(pageItem);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        closeDatabse();
-        return pageItems;
-    }
-
-    public ArrayList<PageItem> getChakraList() {
-        PageItem pageItem = null;
-        ArrayList<PageItem> pageItems = new ArrayList<>();
-
-        openDatabase();
-        String sql = "SELECT * FROM chakra";
-        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
-            pageItems.add(pageItem);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        closeDatabse();
-        return pageItems;
-    }
-
-    public ArrayList<PageItem> getMantraList() {
-        PageItem pageItem = null;
-        ArrayList<PageItem> pageItems = new ArrayList<>();
-
-        openDatabase();
-        String sql = "SELECT * FROM mantra";
-        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
-            pageItems.add(pageItem);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        closeDatabse();
-        return pageItems;
-    }
-
-    public ArrayList<PageItem> getHzList() {
-        PageItem pageItem = null;
-        ArrayList<PageItem> pageItems = new ArrayList<>();
-
-        openDatabase();
-        String sql = "SELECT * FROM hz";
-        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
-            pageItems.add(pageItem);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        closeDatabse();
-        return pageItems;
-    }
+//    public ArrayList<PageItem> getRainList() {
+//        PageItem pageItem = null;
+//        ArrayList<PageItem> pageItems = new ArrayList<>();
+//
+//        openDatabase();
+//        String sql = "SELECT * FROM rain";
+//        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
+//            pageItems.add(pageItem);
+//            cursor.moveToNext();
+//        }
+//        cursor.close();
+//        closeDatabse();
+//        return pageItems;
+//    }
+//
+//    public ArrayList<PageItem> getWaterList() {
+//        PageItem pageItem = null;
+//        ArrayList<PageItem> pageItems = new ArrayList<>();
+//
+//        openDatabase();
+//        String sql = "SELECT * FROM water";
+//        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
+//            pageItems.add(pageItem);
+//            cursor.moveToNext();
+//        }
+//        cursor.close();
+//        closeDatabse();
+//        return pageItems;
+//    }
+//
+//    public ArrayList<PageItem> getWindList() {
+//        PageItem pageItem = null;
+//        ArrayList<PageItem> pageItems = new ArrayList<>();
+//
+//        openDatabase();
+//        String sql = "SELECT * FROM wind";
+//        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
+//            pageItems.add(pageItem);
+//            cursor.moveToNext();
+//        }
+//        cursor.close();
+//        closeDatabse();
+//        return pageItems;
+//    }
+//
+//    public ArrayList<PageItem> getNatureList() {
+//        PageItem pageItem = null;
+//        ArrayList<PageItem> pageItems = new ArrayList<>();
+//
+//        openDatabase();
+//        String sql = "SELECT * FROM nature";
+//        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
+//            pageItems.add(pageItem);
+//            cursor.moveToNext();
+//        }
+//        cursor.close();
+//        closeDatabse();
+//        return pageItems;
+//    }
+//
+//    public ArrayList<PageItem> getChakraList() {
+//        PageItem pageItem = null;
+//        ArrayList<PageItem> pageItems = new ArrayList<>();
+//
+//        openDatabase();
+//        String sql = "SELECT * FROM chakra";
+//        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
+//            pageItems.add(pageItem);
+//            cursor.moveToNext();
+//        }
+//        cursor.close();
+//        closeDatabse();
+//        return pageItems;
+//    }
+//
+//    public ArrayList<PageItem> getMantraList() {
+//        PageItem pageItem = null;
+//        ArrayList<PageItem> pageItems = new ArrayList<>();
+//
+//        openDatabase();
+//        String sql = "SELECT * FROM mantra";
+//        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
+//            pageItems.add(pageItem);
+//            cursor.moveToNext();
+//        }
+//        cursor.close();
+//        closeDatabse();
+//        return pageItems;
+//    }
+//
+//    public ArrayList<PageItem> getHzList() {
+//        PageItem pageItem = null;
+//        ArrayList<PageItem> pageItems = new ArrayList<>();
+//
+//        openDatabase();
+//        String sql = "SELECT * FROM hz";
+//        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
+//            pageItems.add(pageItem);
+//            cursor.moveToNext();
+//        }
+//        cursor.close();
+//        closeDatabse();
+//        return pageItems;
+//    }
 
     public void deletePlayingList(int page, int position) {
         sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.execSQL("delete from playing where page = " + page);
+        if (page != 4) {
+            sqLiteDatabase.execSQL("delete from playing where page = " + page);
+        } else {
+            String pnp = page + "-" + position;
+            sqLiteDatabase.execSQL("delete from playing where pnp = '" + pnp + "'");
+        }
         sqLiteDatabase.execSQL("update " + getPageName(page) + " set isplay = 1 where position = " + position);
     }
 
@@ -387,6 +414,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("delete from playing where page = " + page);//bottom list에서 해당 페이지 있는거 지우기
         sqLiteDatabase.execSQL("update " + getPageName(page) + " set isplay = 2 where position = " + position);//새로 재생할거 isplay2로 바꾸기
         sqLiteDatabase.execSQL("insert into playing select * from " + getPageName(page) + " where position = " + position);//새로 재생할거 bottom list에 insert
+    }
+
+    public void setIsPlayPage4(int page, int position) {
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("update " + getPageName(page) + " set isplay = 2 where position = " + position);
+        sqLiteDatabase.execSQL("insert into playing select * from " + getPageName(page) + " where position = " + position);
     }
 
     public void deleteAllPlayingListTest() {
@@ -440,7 +473,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 }
 
 
-                if (favtitles.size() != 0) {//여기서 error
+                if (favtitles.size() != 0) {
                     if (haveSame(nowPnps, favtitles)) {
                         Toast.makeText(context, "same list have already", Toast.LENGTH_SHORT).show();
                     } else {
@@ -458,7 +491,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase = this.getWritableDatabase();
 
         if (MainActivity.bottomSheetPlayList.size() != 0) {
-            String pnp = MainActivity.bottomSheetPlayList.get(0).getPnp();
             sqLiteDatabase.execSQL("insert into favtitle values (" + "'" + title1 + "'" + "," + 1 + ")");
             favTitleItem = new FavTitleItem(title1, 1);
             FavPage.favTitleItemArrayList.add(favTitleItem);
@@ -486,6 +518,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             contentValues.put("seek", MainActivity.bottomSheetPlayList.get(i).getSeek());
             contentValues.put("isplay", MainActivity.bottomSheetPlayList.get(i).getIsplay());
             contentValues.put("favtitlename", title);
+            contentValues.put("time", MainActivity.bottomSheetPlayList.get(i).getTime());
             contentValues.put("name", MainActivity.bottomSheetPlayList.get(i).getName());
             contentValues.put("ispro", MainActivity.bottomSheetPlayList.get(i).getIspro());
             contentValues.put("needdownload", MainActivity.bottomSheetPlayList.get(i).getNeeddownload());
@@ -507,7 +540,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             while (!cursor.isAfterLast()) {
                 checkWithThisList.add(cursor.getString(0));
                 cursor.moveToNext();
-                //move to next 없어서 error난걸수도있음
             }
             if (listEqualsIgnoreOrder(checkWithThisList, nowPnps)) {
                 isSame = true;
@@ -611,6 +643,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
+    public void changeIsOpenWhenFavPageOnPause() {
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("update favtitle set isopen = 1");
+    }
+
     public void deleteAllPlayinglist(ArrayList<Integer> pagelist, ArrayList<Integer> positionlist, String title) {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("delete from playing");
@@ -632,43 +669,36 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         for (int i = 0; i < pagelist.size(); i++) {
             if (pagelist.get(i) == 1) {
                 sqLiteDatabase.execSQL("update rain set isplay = 1 where isplay = 2");
-                sqLiteDatabase.execSQL("update rain set isplay = 2 where position = " + positionlist.get(i));
                 RainPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 RainPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 RainPage.adapter.notifyDataSetChanged();
             } else if (pagelist.get(i) == 2) {
                 sqLiteDatabase.execSQL("update water set isplay = 1 where isplay = 2");
-                sqLiteDatabase.execSQL("update water set isplay = 2 where position = " + positionlist.get(i));
                 WaterPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 WaterPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 WaterPage.adapter.notifyDataSetChanged();
             } else if (pagelist.get(i) == 3) {
                 sqLiteDatabase.execSQL("update wind set isplay = 1 where isplay = 2");
-                sqLiteDatabase.execSQL("update wind set isplay = 2 where position = " + positionlist.get(i));
                 WindPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 WindPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 WindPage.adapter.notifyDataSetChanged();
             } else if (pagelist.get(i) == 4) {
                 sqLiteDatabase.execSQL("update nature set isplay = 1 where isplay = 2");
-                sqLiteDatabase.execSQL("update nature set isplay = 2 where position = " + positionlist.get(i));
                 NaturePage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 NaturePage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 NaturePage.adapter.notifyDataSetChanged();
             } else if (pagelist.get(i) == 5) {
                 sqLiteDatabase.execSQL("update chakra set isplay = 1 where isplay = 2");
-                sqLiteDatabase.execSQL("update chakra set isplay = 2 where position = " + positionlist.get(i));
                 ChakraPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 ChakraPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 ChakraPage.adapter.notifyDataSetChanged();
             } else if (pagelist.get(i) == 6) {
                 sqLiteDatabase.execSQL("update mantra set isplay = 1 where isplay = 2");
-                sqLiteDatabase.execSQL("update mantra set isplay = 2 where position = " + positionlist.get(i));
                 MantraPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 MantraPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 MantraPage.adapter.notifyDataSetChanged();
             } else if (pagelist.get(i) == 7) {
                 sqLiteDatabase.execSQL("update hz set isplay = 1 where isplay = 2");
-                sqLiteDatabase.execSQL("update hz set isplay = 2 where position = " + positionlist.get(i));
                 HzPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 HzPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 HzPage.adapter.notifyDataSetChanged();
@@ -677,6 +707,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("vacuum");
 
         addFavListInPlayinglist(title);
+    }
+
+    public void deleteAllPlayinglistWhenDeleteInBottomSheet() {
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("delete from playing");
+        sqLiteDatabase.execSQL("update rain set isplay = 1 where isplay = 2");
+        sqLiteDatabase.execSQL("update water set isplay = 1 where isplay = 2");
+        sqLiteDatabase.execSQL("update wind set isplay = 1 where isplay = 2");
+        sqLiteDatabase.execSQL("update nature set isplay = 1 where isplay = 2");
+        sqLiteDatabase.execSQL("update chakra set isplay = 1 where isplay = 2");
+        sqLiteDatabase.execSQL("update mantra set isplay = 1 where isplay = 2");
+        sqLiteDatabase.execSQL("update hz set isplay = 1 where isplay = 2");
     }
 
     public void addFavListInPlayinglist(String title) {
@@ -699,10 +741,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             contentValues.put("dark", cursor.getBlob(6));
             contentValues.put("seek", cursor.getInt(7));
             contentValues.put("isplay", 2);
-            contentValues.put("time", cursor.getInt(9));
-            contentValues.put("name", cursor.getString(10));
-            contentValues.put("ispro", cursor.getInt(11));
-            contentValues.put("needdownload", cursor.getInt(12));
+            contentValues.put("time", cursor.getInt(10));
+            contentValues.put("name", cursor.getString(11));
+            contentValues.put("ispro", cursor.getInt(12));
+            contentValues.put("needdownload", cursor.getInt(13));
+            setIsPlay2WhenPlayInFavTitle(cursor.getInt(0), cursor.getInt(1));
             sqLiteDatabase.insert("playing", null, contentValues);
             cursor.moveToNext();
         }
@@ -711,6 +754,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursor.close();
         closeDatabse();
         MainActivity.load.setVisibility(View.GONE);
+    }
+
+    private void setIsPlay2WhenPlayInFavTitle(int page, int position) {
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("update " + getPageName(page) + " set isplay = 2 where position = " + position);
     }
 
     public void whenAppKillTask() {
@@ -727,7 +775,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cursor.close();
             closeDatabse();
             return BitmapFactory.decodeByteArray(icon, 0, icon.length);
-        } else {
+        } else if (what.equals("pro")) {
             openDatabase();
             Cursor cursor = sqLiteDatabase.rawQuery("select pro from pageicon where _rowid_ = 1", null);
             cursor.moveToFirst();
@@ -735,7 +783,43 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cursor.close();
             closeDatabse();
             return BitmapFactory.decodeByteArray(icon, 0, icon.length);
+        } else if (what.equals("circlepro")) {
+            openDatabase();
+            Cursor cursor = sqLiteDatabase.rawQuery("select circlepro from pageicon where _rowid_ = 1", null);
+            cursor.moveToFirst();
+            byte[] icon = cursor.getBlob(0);
+            cursor.close();
+            closeDatabse();
+            return BitmapFactory.decodeByteArray(icon, 0, icon.length);
+        } else {
+            openDatabase();
+            Cursor cursor = sqLiteDatabase.rawQuery("select circledownload from pageicon where _rowid_ = 1", null);
+            cursor.moveToFirst();
+            byte[] icon = cursor.getBlob(0);
+            cursor.close();
+            closeDatabse();
+            return BitmapFactory.decodeByteArray(icon, 0, icon.length);
         }
+    }
+
+    public int getIsProUser() {
+        openDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT ispro FROM ispro", null);
+        cursor.moveToFirst();
+        int ispro = cursor.getInt(0);
+        cursor.close();
+        closeDatabse();
+        return ispro;
+    }
+
+    public String getNameInStorageManage(int page, int position) {
+        openDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select name from " + getPageName(page) + " where position = " + position, null);
+        cursor.moveToFirst();
+        String name = cursor.getString(0);
+        cursor.close();
+        closeDatabse();
+        return name;
     }
 
 //    public String getTest() {

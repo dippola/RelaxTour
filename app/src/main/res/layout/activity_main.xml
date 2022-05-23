@@ -92,7 +92,7 @@
                         android:id="@+id/activity_main_maincount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
+                        android:textColor="@color/text_color"
                         android:visibility="gone" />
 
                     <Button

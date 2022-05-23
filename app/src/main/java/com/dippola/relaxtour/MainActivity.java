@@ -27,6 +27,7 @@ import com.dippola.relaxtour.board.BoardMain;
 import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.AddFavDialog;
+import com.dippola.relaxtour.dialog.AskDeleteAllPlaylistDialog;
 import com.dippola.relaxtour.dialog.ThemeDialog;
 import com.dippola.relaxtour.maintablayout.MainTabAdapter;
 import com.dippola.relaxtour.maintablayout.MainTabItem;
@@ -370,9 +371,9 @@ public class MainActivity extends AppCompatActivity {
         HzPage hzPage = new HzPage();
         sectionsPagerAdapter.addItem(hzPage);
         viewPager = findViewById(R.id.activity_main_viewpager);
-        viewPager.setOffscreenPageLimit(7);
+        viewPager.setOffscreenPageLimit(0);
         viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(6);
     }
 
     private void setBottomSheet() {
@@ -397,6 +398,12 @@ public class MainActivity extends AppCompatActivity {
         pageitem_4_height_size = (int) (pageitem_4_width_size * 0.75);
 
         bottomRecyclerView.setMinimumHeight(y);
+
+        if (NotificationService.isPlaying) {
+            pands.setBackgroundResource(R.drawable.bottom_pause);
+        } else {
+            pands.setBackgroundResource(R.drawable.bottom_sheet_play);
+        }
 
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             bottomOutside.setVisibility(View.VISIBLE);
@@ -501,13 +508,7 @@ public class MainActivity extends AppCompatActivity {
         deletePlayingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (NotificationService.isPlaying) {
-                    Intent intent = new Intent(MainActivity.this, NotificationService.class);
-                    stopService(intent);
-                }
-                if (bottomSheetPlayList.size() != 0) {
-                    databaseHandler.deleteAllPlayingListTest();
-                }
+                AskDeleteAllPlaylistDialog.askDeleteAllPlaylistDialog(MainActivity.this);
             }
         });
 

@@ -18,7 +18,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="How to use"
-                android:layout_margin="25dp"/>
+                android:layout_margin="25dp"
+                android:textColor="@color/text_color"/>
 
             <Button
                 android:layout_width="24dp"
@@ -35,7 +36,8 @@
             android:layout_height="1dp"
             android:background="#ffffff"
             android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"/>
+            android:layout_marginLeft="15dp"
+            android:backgroundTint="@color/dialog_layout_line_color"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -48,7 +50,8 @@
                 android:text="App Version: "
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="25dp"
-                android:layout_marginLeft="25dp"/>
+                android:layout_marginLeft="25dp"
+                android:textColor="@color/text_color"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,7 +76,8 @@
             android:layout_height="1dp"
             android:background="#ffffff"
             android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"/>
+            android:layout_marginLeft="15dp"
+            android:backgroundTint="@color/dialog_layout_line_color"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -85,7 +89,8 @@
                 android:layout_height="wrap_content"
                 android:text="Notification"
                 android:layout_marginTop="18dp"
-                android:layout_marginLeft="25dp"/>
+                android:layout_marginLeft="25dp"
+                android:textColor="@color/text_color"/>
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/setting_notification_switch"
@@ -102,7 +107,8 @@
                 android:layout_below="@id/setting_notification_title"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="18dp"/>
+                android:layout_marginBottom="18dp"
+                android:textColor="@color/text_color"/>
 
         </RelativeLayout>
 
@@ -111,7 +117,8 @@
             android:layout_height="1dp"
             android:background="#ffffff"
             android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"/>
+            android:layout_marginLeft="15dp"
+            android:backgroundTint="@color/dialog_layout_line_color"/>
 
         <RelativeLayout
             android:id="@+id/setting_storage_manage"
@@ -122,7 +129,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="25dp"
-                android:text="Storage Manage"/>
+                android:text="Storage Manage"
+                android:textColor="@color/text_color"/>
 
             <Button
                 android:layout_width="24dp"

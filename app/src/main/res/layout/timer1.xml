@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="hour"
-            android:textColor="#ffff" />
+            android:textColor="@color/text_color" />
 
         <NumberPicker
             android:id="@+id/wheel_min1"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="minute"
-            android:textColor="#ffff" />
+            android:textColor="@color/text_color" />
 
     </LinearLayout>
 

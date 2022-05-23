@@ -51,7 +51,7 @@ public class WindPage extends Fragment {
     }
 
     private void setRecyclerView() {
-        arrayList = MainActivity.databaseHandler.getWindList();
+        arrayList = MainActivity.databaseHandler.getPageList(3);
         adapter = new PageAdapter(arrayList, getActivity());
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);

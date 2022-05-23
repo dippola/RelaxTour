@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class StorageManageDialog extends AppCompatActivity {
     ArrayList<StorageManageDialogItem> list;
     StorageManageAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
+
+    DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +48,8 @@ public class StorageManageDialog extends AppCompatActivity {
         int x = (int) (size.x * 0.9);
         int y = (int) (size.y * 0.8);
         getWindow().setLayout(x, y);
+
+        databaseHandler = new DatabaseHandler(StorageManageDialog.this);
 
         setInit();
     }
@@ -68,13 +73,13 @@ public class StorageManageDialog extends AppCompatActivity {
 
         if (files.length != 0) {
             for (int i = 0; i < files.length; i++) {
-                String pnp = files[i].getName().substring(5, 8);
+//                Log.d("StorageManageDialog>>>", "get file name: " + files.)
+                String pnp = files[i].getName().substring(5, 9);
                 int page = Integer.parseInt(pnp.substring(0, 1));
-                int position = Integer.parseInt(pnp.substring(2, 3));
-                list.add(new StorageManageDialogItem(getName(pnp), pnp, page, position));
+                int position = Integer.parseInt(pnp.substring(3, 4));
+                list.add(new StorageManageDialogItem(databaseHandler.getNameInStorageManage(page, position), pnp, page, position));
                 if (i+1 == files.length) {
                     setRecyclerView();
-                    Log.d("StorageManageDialog>>>", "finished: " + files.length);
                 }
             }
         } else {

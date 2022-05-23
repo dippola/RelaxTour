@@ -51,7 +51,7 @@ public class WaterPage extends Fragment {
     }
 
     private void setRecyclerView() {
-        arrayList = MainActivity.databaseHandler.getWaterList();
+        arrayList = MainActivity.databaseHandler.getPageList(2);
         adapter = new PageAdapter(arrayList, getActivity());
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);

@@ -14,4 +14,5 @@ public class memo {
 //    3. NotificationActionService > stopPage
 //    4. SeekController > changeSeekInBottom, changeSeekInFavList
 //    5. bottomSheetAdapter > changePageItemBackground
+//    6. StorageManageAdapter > resetPage, changePageItemBackground
 }
