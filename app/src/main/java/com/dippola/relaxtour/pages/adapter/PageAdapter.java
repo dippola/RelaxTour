@@ -9,7 +9,6 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +29,7 @@ import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.controller.SeekController;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.AskDownloadDialog;
+import com.dippola.relaxtour.dialog.PremiumDialog;
 import com.dippola.relaxtour.notification.NotificationService;
 import com.dippola.relaxtour.pages.NaturePage;
 import com.dippola.relaxtour.pages.item.PageItem;
@@ -212,7 +212,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         holder.pro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                context.startActivity(new Intent(context, PremiumDialog.class));
             }
         });
     }

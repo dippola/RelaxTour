@@ -19,6 +19,7 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.dialog.PremiumDialog;
 
 public class SettingDialog extends AppCompatActivity {
 
@@ -64,7 +65,12 @@ public class SettingDialog extends AppCompatActivity {
     }
 
     private void onClickPremiumBtn() {
-
+        premiumBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SettingDialog.this, PremiumDialog.class));
+            }
+        });
     }
 
     private void onClickStorageManage() {

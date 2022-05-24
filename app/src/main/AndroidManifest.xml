@@ -37,6 +37,7 @@
         <activity android:name=".setting.StorageManageDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <service android:name=".service.GetStateKillApp" />
         <activity android:name=".board.BoardMain" />
+        <activity android:name=".dialog.PremiumDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
 
         <service
             android:name=".service.FirebaseMessagingService"
