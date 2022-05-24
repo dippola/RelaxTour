@@ -48,4 +48,8 @@
 
     <color name="dialog_layout_color">#F8FEFF</color>
     <color name="dialog_layout_line_color">#C8C8C8</color>
+
+    <color name="button_design_color">#8DAAEC</color>
+    <color name="button_design_color_2">#fbfef9</color>
+    <color name="button_text_color">#5A5A5A</color>
 </resources>

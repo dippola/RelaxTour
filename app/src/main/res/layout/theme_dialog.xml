@@ -55,7 +55,12 @@
                     android:id="@+id/theme_dialog_okbtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ok" />
+                    android:text="ok"
+                    android:textColor="@color/button_text_color"
+                    android:background="@drawable/button_design"
+                    android:layout_marginHorizontal="6dp"
+                    android:layout_marginVertical="7dp"
+                    android:elevation="5dp"/>
 
             </LinearLayout>
         </LinearLayout>

@@ -46,6 +46,7 @@ import com.dippola.relaxtour.service.CheckOpenService;
 import com.dippola.relaxtour.service.GetStateKillApp;
 import com.dippola.relaxtour.service.TimerService;
 import com.dippola.relaxtour.setting.SettingDialog;
+import com.dippola.relaxtour.timer.Timer2;
 import com.dippola.relaxtour.timer.TimerDialog;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -212,6 +213,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, BoardMain.class));
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Timer2.stopTimer(MainActivity.this);
             }
         });
     }

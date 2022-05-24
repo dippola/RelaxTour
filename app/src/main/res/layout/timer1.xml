@@ -41,7 +41,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal">
@@ -51,12 +51,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="start"
-            android:textColor="#ffff" />
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button_design"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginVertical="7dp"
+            android:elevation="5dp"/>
         <Button
             android:id="@+id/wheel_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="cancel"
-            android:textColor="#ffff" />
+            android:textColor="@color/button_text_color"
+            android:background="@drawable/button_design_2"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginVertical="7dp"
+            android:elevation="5dp"/>
     </LinearLayout>
 </LinearLayout>

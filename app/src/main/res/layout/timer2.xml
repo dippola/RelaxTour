@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:layout_above="@+id/timer2_buttom"
+        android:layout_centerHorizontal="true">
 
         <TextView
             android:id="@+id/hourintent"
@@ -59,28 +60,38 @@
             android:textColor="@color/text_color"
             android:textSize="12dp" />
 
-        <LinearLayout
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/timer2_buttom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/countstart1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:text="stop"
+            android:textColor="#ffff"
+            android:background="@drawable/button_design"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginVertical="7dp"
+            android:elevation="5dp"
+            android:layout_weight="1"/>
 
-            <Button
-                android:id="@+id/countstart1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="stop"
-                android:textColor="#ffff" />
-
-            <Button
-                android:id="@+id/count_go_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="10dp"
-                android:text="close"
-                android:textColor="#ffff" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/count_go_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="close"
+            android:textColor="@color/button_text_color"
+            android:background="@drawable/button_design_2"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginVertical="7dp"
+            android:elevation="5dp"
+            android:layout_weight="1" />
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

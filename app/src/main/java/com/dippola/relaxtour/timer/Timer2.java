@@ -2,6 +2,7 @@ package com.dippola.relaxtour.timer;
 
 import static android.view.animation.Animation.RELATIVE_TO_SELF;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -70,16 +71,17 @@ public class Timer2 extends Fragment {
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TimerService.isCount = false;
-                getActivity().stopService(new Intent(getActivity(), TimerService.class));
-                Timer1.mTimerRunning = false;
-                DefaultNotification.defauleNotification(getActivity());
-                NotificationService.closeNotification(getActivity());
-
-                //stop audio
-                if (NotificationService.isPlaying) {
-                    getActivity().stopService(new Intent(getActivity(), NotificationService.class));
-                }
+//                TimerService.isCount = false;
+//                getActivity().stopService(new Intent(getActivity(), TimerService.class));
+//                Timer1.mTimerRunning = false;
+//                DefaultNotification.defauleNotification(getActivity());
+//                NotificationService.closeNotification(getActivity());
+//
+//                //stop audio
+//                if (NotificationService.isPlaying) {
+//                    getActivity().stopService(new Intent(getActivity(), NotificationService.class));
+//                }
+                stopTimer(getActivity());
             }
         });
 
@@ -91,5 +93,18 @@ public class Timer2 extends Fragment {
         });
 
         return rootView;
+    }
+
+    public static void stopTimer(Context context) {
+        TimerService.isCount = false;
+        context.stopService(new Intent(context, TimerService.class));
+        Timer1.mTimerRunning = false;
+        DefaultNotification.defauleNotification(context);
+        NotificationService.closeNotification(context);
+
+        //stop audio
+        if (NotificationService.isPlaying) {
+            context.stopService(new Intent(context, NotificationService.class));
+        }
     }
 }
