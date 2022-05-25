@@ -381,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.activity_main_viewpager);
         viewPager.setOffscreenPageLimit(0);
         viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.setCurrentItem(6);
+        viewPager.setCurrentItem(1);
     }
 
     private void setBottomSheet() {

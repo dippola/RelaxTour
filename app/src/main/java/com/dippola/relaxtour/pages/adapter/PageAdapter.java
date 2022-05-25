@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -159,6 +160,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             @Override
             public void onClick(View view) {
                 if (arrayList.get(positions).getPage() != 4) {//1,2,3page
+                    Log.d("PageAdapter>>>", "get page: " + arrayList.get(positions).getPage());
                     page(positions, holder.img);
                 } else {//4page nature일때
                     page4(positions, holder.img);
@@ -367,60 +369,55 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             MPList.initalMP(MainActivity.bottomSheetPlayList.get(count).getPnp(), context, MainActivity.bottomSheetPlayList.get(count).getSeek());
         }
         MPList.initalMP(arrayList.get(positions).getPnp(), context, arrayList.get(positions).getSeek());
-        if (arrayList.get(positions).getIspro() == 1) {
-            if (arrayList.get(positions).getIsplay() == 1) {//해당 아이템이 playing중이 아닐때
-                setPageImageOnClickChangeImage(positions, img);
-                for (int i = 0; i < arrayList.size(); i++) {//같은 page에 재생중인게 있으면 없애기
-                    if (arrayList.get(i).getIsplay() == 2) {//같은page에 재생중인게 있으면
-                        int index = checkPlayinglistPosition(arrayList.get(i).getPage());//같은페이지에 있는 다른 재생중인 트랙의 bottomSheetPlayList에서의 포지션 알아오기
-                        MainActivity.bottomSheetPlayList.remove(index);//같은페이지에 있는 다른 재생중인 트랙 지우고
-                        MainActivity.bottomSheetAdapter.notifyItemRemoved(index);//새로고침
-                        arrayList.get(i).setIsplay(1);//page에 있는 지운트랙 isplay 1로 바꾸고
-                        notifyItemChanged(i);//해당page 새로고침
-                        notifyDataSetChanged();
-                        AudioController.stopPage(arrayList.get(positions).getPage(), arrayList.get(positions).getPnp());//지운트랙 재생정지
-                        break;
-                    }
+        if (arrayList.get(positions).getIsplay() == 1) {//해당 아이템이 playing중이 아닐때
+            setPageImageOnClickChangeImage(positions, img);
+            for (int i = 0; i < arrayList.size(); i++) {//같은 page에 재생중인게 있으면 없애기
+                if (arrayList.get(i).getIsplay() == 2) {//같은page에 재생중인게 있으면
+                    int index = checkPlayinglistPosition(arrayList.get(i).getPage());//같은페이지에 있는 다른 재생중인 트랙의 bottomSheetPlayList에서의 포지션 알아오기
+                    MainActivity.bottomSheetPlayList.remove(index);//같은페이지에 있는 다른 재생중인 트랙 지우고
+                    MainActivity.bottomSheetAdapter.notifyItemRemoved(index);//새로고침
+                    arrayList.get(i).setIsplay(1);//page에 있는 지운트랙 isplay 1로 바꾸고
+                    notifyItemChanged(i);//해당page 새로고침
+                    notifyDataSetChanged();
+                    AudioController.stopPage(arrayList.get(positions).getPage(), arrayList.get(i).getPnp());//지운트랙 재생정지
+                    break;
                 }
-                //add 해당 아이템 재생목록에 추가
-                MainActivity.pands.setBackgroundResource(R.drawable.bottom_pause);
-                arrayList.get(positions).setIsplay(2);//새로 재생시킬 트랙 isplay 2로 바꾸기
-                MainActivity.bottomSheetPlayList.add(arrayList.get(positions));//bottom playlist에 새로 재생할거 넣기
-                databaseHandler.setPlay1(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//db에서 기존꺼,새로운거 isplay바꾸고 bottom list에도 새로운걸로 변경
-                MainActivity.bottomSheetAdapter.notifyItemInserted(MainActivity.bottomSheetPlayList.size());//bottom list 새로고침
-
-                if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0), context)) {//다른page에 이미 재생중인게 있을때 (pands버튼이 재생중일때)
-                    AudioController.startTrack(context, arrayList.get(positions));//새로 재생할 트랙 찾아서 재생
-                } else {//재생중인게 없을때(pands버튼이 재생 중이 아닐때)
-                    List<PageItem> pp = new ArrayList<>();
-                    for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {//bottom list에 모든 트랙 pnp 수집
-                        pp.add(MainActivity.bottomSheetPlayList.get(ii));
-                        if (ii == MainActivity.bottomSheetPlayList.size() - 1) {
-                            AudioController.startPlayingList(context, pp);//bottom list에 있는 목록 다 재생
-                        }
-                    }
-                }
-                checkOpenService();
-            } else {//해당 아이템이 playing중일때
-                //remove
-                setPageImageOnClickChangeImage(positions, img);
-                databaseHandler.deletePlayingList(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//db bottom list에서 지우고 page db에 isplay 1로 변경
-                for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-                    if (MainActivity.bottomSheetPlayList.get(i).getPnp().equals(arrayList.get(positions).getPnp())) {//bottom list에 있는 트랙이랑 누른트랙이랑 같을때
-                        MainActivity.bottomSheetPlayList.remove(i);
-                        MainActivity.bottomSheetAdapter.notifyItemRemoved(i);//지우고 새로고침
-                        MainActivity.bottomSheetAdapter.notifyDataSetChanged();
-                        break;
-                    }
-                }
-                arrayList.get(positions).setIsplay(1);
-                AudioController.stopPage(arrayList.get(positions).getPage(), arrayList.get(positions).getPnp());
-                stopServiceWhenPlaylistZero(context);
             }
-        } else {
+            //add 해당 아이템 재생목록에 추가
+            MainActivity.pands.setBackgroundResource(R.drawable.bottom_pause);
+            arrayList.get(positions).setIsplay(2);//새로 재생시킬 트랙 isplay 2로 바꾸기
+            MainActivity.bottomSheetPlayList.add(arrayList.get(positions));//bottom playlist에 새로 재생할거 넣기
+            databaseHandler.setPlay1(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//db에서 기존꺼,새로운거 isplay바꾸고 bottom list에도 새로운걸로 변경
+            MainActivity.bottomSheetAdapter.notifyItemInserted(MainActivity.bottomSheetPlayList.size());//bottom list 새로고침
 
+            if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0), context)) {//다른page에 이미 재생중인게 있을때 (pands버튼이 재생중일때)
+                AudioController.startTrack(context, arrayList.get(positions));//새로 재생할 트랙 찾아서 재생
+            } else {//재생중인게 없을때(pands버튼이 재생 중이 아닐때)
+                List<PageItem> pp = new ArrayList<>();
+                for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {//bottom list에 모든 트랙 pnp 수집
+                    pp.add(MainActivity.bottomSheetPlayList.get(ii));
+                    if (ii == MainActivity.bottomSheetPlayList.size() - 1) {
+                        AudioController.startPlayingList(context, pp);//bottom list에 있는 목록 다 재생
+                    }
+                }
+            }
+            checkOpenService();
+        } else {//해당 아이템이 playing중일때
+            //remove
+            setPageImageOnClickChangeImage(positions, img);
+            databaseHandler.deletePlayingList(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());//db bottom list에서 지우고 page db에 isplay 1로 변경
+            for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
+                if (MainActivity.bottomSheetPlayList.get(i).getPnp().equals(arrayList.get(positions).getPnp())) {//bottom list에 있는 트랙이랑 누른트랙이랑 같을때
+                    MainActivity.bottomSheetPlayList.remove(i);
+                    MainActivity.bottomSheetAdapter.notifyItemRemoved(i);//지우고 새로고침
+                    MainActivity.bottomSheetAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+            arrayList.get(positions).setIsplay(1);
+            AudioController.stopPage(arrayList.get(positions).getPage(), arrayList.get(positions).getPnp());
+            stopServiceWhenPlaylistZero(context);
         }
-
     }
 
     private void page4(int positions, ImageView img) {
