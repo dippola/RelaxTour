@@ -378,7 +378,6 @@ public class AudioController {
             case "1-6":
                 return MPList.p1p6_1;
 
-
             case "2-1":
                 return MPList.p2p1_1;
             case "2-2":
@@ -391,7 +390,6 @@ public class AudioController {
                 return MPList.p2p5_1;
             case "2-6":
                 return MPList.p2p6_1;
-
 
             case "3-1":
                 return MPList.p3p1_1;
@@ -425,11 +423,36 @@ public class AudioController {
             case "4-8":
                 return MPList.p4p8_1;
 
+            case "5-1":
+                return MPList.p5p1_1;
+            case "5-2":
+                return MPList.p5p2_1;
+            case "5-3":
+                return MPList.p5p3_1;
+            case "5-4":
+                return MPList.p5p4_1;
+            case "5-5":
+                return MPList.p5p5_1;
+            case "5-6":
+                return MPList.p5p6_1;
+            case "5-7":
+                return MPList.p5p7_1;
 
-//            case "4-1":
-//                return HzPage.p4p1;
-//            case "4-2":
-//                return HzPage.p4p2;
+            case "6-1":
+                return MPList.p6p1_1;
+            case "6-2":
+                return MPList.p6p2_1;
+            case "6-3":
+                return MPList.p6p3_1;
+            case "6-4":
+                return MPList.p6p4_1;
+            case "6-5":
+                return MPList.p6p5_1;
+            case "6-6":
+                return MPList.p6p6_1;
+            case "6-7":
+                return MPList.p6p7_1;
+
             default:
                 return null;
         }
@@ -463,7 +486,6 @@ public class AudioController {
             case "2-6":
                 return MPList.p2p6_2;
 
-
             case "3-1":
                 return MPList.p3p1_2;
             case "3-2":
@@ -496,11 +518,35 @@ public class AudioController {
             case "4-8":
                 return MPList.p4p8_2;
 
+            case "5-1":
+                return MPList.p5p1_2;
+            case "5-2":
+                return MPList.p5p2_2;
+            case "5-3":
+                return MPList.p5p3_2;
+            case "5-4":
+                return MPList.p5p4_2;
+            case "5-5":
+                return MPList.p5p5_2;
+            case "5-6":
+                return MPList.p5p6_2;
+            case "5-7":
+                return MPList.p5p7_2;
 
-//            case "4-1":
-//                return HzPage.p4p1;
-//            case "4-2":
-//                return HzPage.p4p2;
+            case "6-1":
+                return MPList.p6p1_2;
+            case "6-2":
+                return MPList.p6p2_2;
+            case "6-3":
+                return MPList.p6p3_2;
+            case "6-4":
+                return MPList.p6p4_2;
+            case "6-5":
+                return MPList.p6p5_2;
+            case "6-6":
+                return MPList.p6p6_2;
+            case "6-7":
+                return MPList.p6p7_2;
             default:
                 return null;
         }
