@@ -266,6 +266,64 @@ public class AudioController {
                 new NatureController.p4t1(pp).start();
                 break;
 
+            case "5-1":
+                MPList.p5p1_1.start();
+                new NatureController.p4t1(pp).start();
+                break;
+            case "5-2":
+                MPList.p5p2_1.start();
+                new NatureController.p4t1(pp).start();
+                break;
+            case "5-3":
+                MPList.p5p3_1.start();
+                new NatureController.p4t1(pp).start();
+                break;
+            case "5-4":
+                MPList.p5p4_1.start();
+                new NatureController.p4t1(pp).start();
+                break;
+            case "5-5":
+                MPList.p5p5_1.start();
+                new NatureController.p4t1(pp).start();
+                break;
+            case "5-6":
+                MPList.p5p6_1.start();
+                new NatureController.p4t1(pp).start();
+                break;
+            case "5-7":
+                MPList.p5p7_1.start();
+                new NatureController.p4t1(pp).start();
+                break;
+
+            case "6-1":
+                MPList.p6p1_1.start();
+                new NatureController.p4t1(pp).start();
+                break;
+            case "6-2":
+                MPList.p6p2_1.start();
+                new NatureController.p4t1(pp).start();
+                break;
+            case "6-3":
+                MPList.p6p3_1.start();
+                new NatureController.p4t1(pp).start();
+                break;
+            case "6-4":
+                MPList.p6p4_1.start();
+                new NatureController.p4t1(pp).start();
+                break;
+            case "6-5":
+                MPList.p6p5_1.start();
+                new NatureController.p4t1(pp).start();
+                break;
+            case "6-6":
+                MPList.p6p6_1.start();
+                new NatureController.p4t1(pp).start();
+                break;
+            case "6-7":
+                MPList.p6p7_1.start();
+                new NatureController.p4t1(pp).start();
+                break;
+
 //            case "4-1":
 //                NaturePage.p4p1_1.start();
 //                new NatureController
