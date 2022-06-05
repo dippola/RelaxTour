@@ -114,7 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_below="@+id/activity_main_topbar"
-                android:layout_marginTop="40dp">
+                android:layout_marginTop="30dp">
                 <Button
                     android:id="@+id/activity_main_tab_left"
                     android:layout_width="20dp"

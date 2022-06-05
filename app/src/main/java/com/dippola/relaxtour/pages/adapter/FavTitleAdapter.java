@@ -276,7 +276,7 @@ public class FavTitleAdapter  extends RecyclerView.Adapter<FavTitleAdapter.Custo
             }
             if (i == favListItems.size() - 1) {
                 if (pnps.size() != 0) {
-                    AskDownloadsDialog.askDownloadDialog(context, pnps, position);
+                    AskDownloadsDialog.askDownloadsDialog(context, pnps, position);
                 } else {
                     favListPlay(position);
                 }

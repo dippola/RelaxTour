@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.pages.item.PageItem;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,9 +28,9 @@ import java.util.ArrayList;
 public class StorageManageDialog extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    RelativeLayout nullScreen;
+    public static RelativeLayout nullScreen;
     public static RelativeLayout progressBar;
-    ArrayList<StorageManageDialogItem> list;
+    ArrayList<PageItem> list;
     StorageManageAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
 
@@ -73,13 +74,15 @@ public class StorageManageDialog extends AppCompatActivity {
 
         if (files.length != 0) {
             for (int i = 0; i < files.length; i++) {
+                if (files[i].getName().contains("audio")) {
 //                Log.d("StorageManageDialog>>>", "get file name: " + files.)
-                String pnp = files[i].getName().substring(5, 9);
-                int page = Integer.parseInt(pnp.substring(0, 1));
-                int position = Integer.parseInt(pnp.substring(3, 4));
-                list.add(new StorageManageDialogItem(databaseHandler.getNameInStorageManage(page, position), pnp, page, position));
-                if (i+1 == files.length) {
-                    setRecyclerView();
+                    String pnp = files[i].getName().substring(5, 9);
+                    int page = Integer.parseInt(pnp.substring(0, 1));
+                    int position = Integer.parseInt(pnp.substring(3, 4));
+                    list.add(databaseHandler.getPageItemInStorageManage(page, position));
+                    if (i + 1 == files.length) {
+                        setRecyclerView();
+                    }
                 }
             }
         } else {

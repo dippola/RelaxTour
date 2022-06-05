@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.CountDownTimer;
+import android.util.Log;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
@@ -16,6 +18,7 @@ import com.dippola.relaxtour.controller.RainController;
 import com.dippola.relaxtour.controller.WaterController;
 import com.dippola.relaxtour.controller.WindController;
 import com.dippola.relaxtour.pages.item.PageItem;
+import com.dippola.relaxtour.service.TimerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +53,14 @@ public class NotificationActionService extends BroadcastReceiver {
                 }
                 break;
             case DefaultNotification.ACTION_CLOSE:
+                Log.d("NotificationAction>>>", "1");
                 if (MainActivity.bottomSheetPlayList.size() != 0) {
                     MainActivity.pands.setBackgroundResource(R.drawable.bottom_sheet_play);
                     if (NotificationService.isPlaying) {
                         context.stopService(new Intent(context, NotificationService.class));
+                    }
+                    if (TimerService.isCount) {
+                        context.stopService(new Intent(context, TimerService.class));
                     }
                     stopAllSound();
                 }

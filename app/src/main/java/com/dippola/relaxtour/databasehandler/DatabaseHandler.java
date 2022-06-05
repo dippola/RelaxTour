@@ -818,14 +818,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         closeDatabse();
     }
 
-    public String getNameInStorageManage(int page, int position) {
+    public PageItem getPageItemInStorageManage(int page, int position) {
         openDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select name from " + getPageName(page) + " where position = " + position, null);
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from " + getPageName(page) + " where position = " + position, null);
         cursor.moveToFirst();
-        String name = cursor.getString(0);
+        PageItem pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
         cursor.close();
         closeDatabse();
-        return name;
+        return pageItem;
     }
 
 //    public String getTest() {

@@ -57,11 +57,8 @@ public class RainController {
 
     public static void stopPage1(String pnp) {
         int position = Integer.parseInt(pnp.substring(2, 3));
-        Log.d("RainController>>>", "1: " + position);
         if (position == 1) {
-            Log.d("RainController>>>", "2");
             if (MPList.p1p1_1 != null && MPList.p1p1_2 != null) {
-                Log.d("RainController>>>", "3");
                 MPList.p1p1_1.stop();
                 MPList.p1p1_1.prepareAsync();
                 MPList.p1p1_2.stop();

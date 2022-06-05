@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.pages.item.PageItem;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class StorageManageDialogAskSure {
     private static CheckBox checkBox;
     private static Button okbtn, cancel;
 
-    public static void storageManageDialogAskSure(Context context, ArrayList<StorageManageDialogItem> arrayList, RecyclerView.Adapter adapter, int i) {
+    public static void storageManageDialogAskSure(Context context, ArrayList<PageItem> arrayList, RecyclerView.Adapter adapter, int i) {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout layout = (LinearLayout) vi.inflate(R.layout.storage_manage_dialog_ask_sure, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
@@ -59,13 +60,16 @@ public class StorageManageDialogAskSure {
                 File file = new File(path);
                 if (file.exists()) {
                     file.delete();
-                    StorageManageDialogItem storageManageDialogItem = arrayList.get(i);
+                    PageItem pageItem = arrayList.get(i);
                     int index = arrayList.indexOf(arrayList.get(i));
                     arrayList.remove(index);
                     adapter.notifyItemRemoved(index);
                     adapter.notifyDataSetChanged();
                     Log.d(">>>MainActivity", "deleted");
-                    StorageManageAdapter.resetPage(storageManageDialogItem, context);
+                    StorageManageAdapter.resetPage(pageItem, context);
+                    if (arrayList.size() == 0) {
+                        StorageManageDialog.nullScreen.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     Log.d(">>>MainActivity", "no have");
                 }

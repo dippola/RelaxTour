@@ -5,23 +5,25 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
-import com.dippola.relaxtour.controller.RainController;
 import com.dippola.relaxtour.notification.NotificationService;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.HzPage;
@@ -30,16 +32,16 @@ import com.dippola.relaxtour.pages.NaturePage;
 import com.dippola.relaxtour.pages.RainPage;
 import com.dippola.relaxtour.pages.WaterPage;
 import com.dippola.relaxtour.pages.WindPage;
-import com.dippola.relaxtour.pages.adapter.FavListAdapter;
+import com.dippola.relaxtour.pages.item.PageItem;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class StorageManageAdapter extends  RecyclerView.Adapter<StorageManageAdapter.CustomViewHolder> {
-    ArrayList<StorageManageDialogItem> arrayList = new ArrayList<>();
+    ArrayList<PageItem> arrayList = new ArrayList<>();
     Context context;
 
-    public StorageManageAdapter(Context context, ArrayList<StorageManageDialogItem> arrayList) {
+    public StorageManageAdapter(Context context, ArrayList<PageItem> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
     }
@@ -55,7 +57,9 @@ public class StorageManageAdapter extends  RecyclerView.Adapter<StorageManageAda
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         int i = position;
-        holder.name.setText(arrayList.get(position).getName());
+        holder.page.setText(getPageName(arrayList.get(position).getPage()));
+        holder.position.setText(arrayList.get(position).getName());
+        setImage(holder.img, position);
 
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,13 +72,16 @@ public class StorageManageAdapter extends  RecyclerView.Adapter<StorageManageAda
                     File file = new File(path);
                     if (file.exists()) {
                         file.delete();
-                        StorageManageDialogItem storageManageDialogItem = arrayList.get(i);
+                        PageItem pageItem = arrayList.get(i);
                         int index = arrayList.indexOf(arrayList.get(i));
                         arrayList.remove(index);
                         notifyItemRemoved(index);
                         notifyDataSetChanged();
                         Log.d(">>>MainActivity", "deleted");
-                        resetPage(storageManageDialogItem, context);
+                        resetPage(pageItem, context);
+                        if (arrayList.size() == 0) {
+                            StorageManageDialog.nullScreen.setVisibility(View.VISIBLE);
+                        }
                     } else {
                         Log.d(">>>MainActivity", "no have");
                     }
@@ -91,40 +98,44 @@ public class StorageManageAdapter extends  RecyclerView.Adapter<StorageManageAda
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
+        ImageView img;
+        TextView page;
+        TextView position;
         Button deleteBtn;
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.name = itemView.findViewById(R.id.storage_manage_dialog_item_title);
+            this.img = itemView.findViewById(R.id.storage_manage_dialog_item_img);
+            this.page = itemView.findViewById(R.id.storage_manage_dialog_item_page);
+            this.position = itemView.findViewById(R.id.storage_manage_dialog_item_position);
             this.deleteBtn = itemView.findViewById(R.id.storage_manage_dialog_item_delete_btn);
         }
     }
 
-    public static void resetPage(StorageManageDialogItem storageManageDialogItem, Context context) {
-        if (storageManageDialogItem.getPage() == 1 && RainPage.arrayList.size() != 0) {
+    public static void resetPage(PageItem pageItem, Context context) {
+        if (pageItem.getPage() == 1 && RainPage.arrayList.size() != 0) {
             RainPage.adapter.notifyDataSetChanged();
-        } else if (storageManageDialogItem.getPage() == 2 && WaterPage.arrayList.size() != 0) {
+        } else if (pageItem.getPage() == 2 && WaterPage.arrayList.size() != 0) {
             WaterPage.adapter.notifyDataSetChanged();
-        } else if (storageManageDialogItem.getPage() == 3 && WindPage.arrayList.size() != 0) {
+        } else if (pageItem.getPage() == 3 && WindPage.arrayList.size() != 0) {
             WindPage.adapter.notifyDataSetChanged();
-        } else if (storageManageDialogItem.getPage() == 4 && NaturePage.arrayList.size() != 0) {
+        } else if (pageItem.getPage() == 4 && NaturePage.arrayList.size() != 0) {
             NaturePage.adapter.notifyDataSetChanged();
-        } else if (storageManageDialogItem.getPage() == 5 && ChakraPage.arrayList.size() != 0) {
+        } else if (pageItem.getPage() == 5 && ChakraPage.arrayList.size() != 0) {
             ChakraPage.adapter.notifyDataSetChanged();
-        } else if (storageManageDialogItem.getPage() == 6 && MantraPage.arrayList.size() != 0) {
+        } else if (pageItem.getPage() == 6 && MantraPage.arrayList.size() != 0) {
             MantraPage.adapter.notifyDataSetChanged();
-        } else if (storageManageDialogItem.getPage() == 7 && HzPage.arrayList.size() != 0) {
+        } else if (pageItem.getPage() == 7 && HzPage.arrayList.size() != 0) {
             HzPage.adapter.notifyDataSetChanged();
         }
-        deleteInBottomPlayList(storageManageDialogItem, context);
+        deleteInBottomPlayList(pageItem, context);
     }
 
-    public static void deleteInBottomPlayList(StorageManageDialogItem storageManageDialogItem, Context context) {
+    public static void deleteInBottomPlayList(PageItem pageItem, Context context) {
         if (MainActivity.bottomSheetPlayList.size() != 0) {
             for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-                if (MainActivity.bottomSheetPlayList.get(i).getPnp().equals(storageManageDialogItem.getPnp())) {
-                    MainActivity.databaseHandler.deletePlayingList(storageManageDialogItem.getPage(), storageManageDialogItem.getPosition());
-                    AudioController.stopPage(storageManageDialogItem.getPage(), storageManageDialogItem.getPnp());
+                if (MainActivity.bottomSheetPlayList.get(i).getPnp().equals(pageItem.getPnp())) {
+                    MainActivity.databaseHandler.deletePlayingList(pageItem.getPage(), pageItem.getPosition());
+                    AudioController.stopPage(pageItem.getPage(), pageItem.getPnp());
                     int index = MainActivity.bottomSheetPlayList.indexOf(MainActivity.bottomSheetPlayList.get(i));
                     MainActivity.bottomSheetPlayList.remove(index);
                     MainActivity.bottomSheetAdapter.notifyItemRemoved(index);
@@ -132,7 +143,7 @@ public class StorageManageAdapter extends  RecyclerView.Adapter<StorageManageAda
                     if (MainActivity.bottomSheetPlayList.size() == 0) {
                         stopServiceWhenPlaylistZero(context);
                     }
-                    changePageItemBackground(storageManageDialogItem.getPage(), storageManageDialogItem.getPosition());
+                    changePageItemBackground(pageItem.getPage(), pageItem.getPosition());
                 }
             }
         }
@@ -173,6 +184,49 @@ public class StorageManageAdapter extends  RecyclerView.Adapter<StorageManageAda
         } else if (page == 7 && HzPage.arrayList.size() != 0) {
             HzPage.arrayList.get(position - 1).setIsplay(1);
             HzPage.adapter.notifyItemChanged(position - 1);
+        }
+    }
+
+    private void setImage(ImageView img, int position) {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+            img.setImageBitmap(bitmap1);
+        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+            img.setImageBitmap(bitmap2);
+        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
+            Configuration config = context.getResources().getConfiguration();
+            int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            switch (currentNightMode) {
+                case Configuration.UI_MODE_NIGHT_NO://system light 모드
+                    Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+                    img.setImageBitmap(bitmap1);
+                    break;
+                case Configuration.UI_MODE_NIGHT_YES://system dark 모드
+                    Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+                    img.setImageBitmap(bitmap2);
+                    break;
+            }
+        }
+    }
+
+    private String getPageName(int page) {
+        if (page == 1) {
+            return "Rain";
+        } else if (page == 2) {
+            return "Water";
+        } else if (page == 3) {
+            return "Wind";
+        } else if (page == 4) {
+            return "Nature";
+        } else if (page == 5) {
+            return "chakra";
+        } else if (page == 6) {
+            return "Mantra";
+        } else if (page == 7) {
+            return "hz";
+        } else {
+            return "";
         }
     }
 }

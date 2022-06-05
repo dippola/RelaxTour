@@ -111,7 +111,6 @@ public class TimerService extends Service {
 
                 @Override
                 public void onFinish() {
-                    Log.d("TimerService>>>", "onCreate5");
                     isCount = false;
                     isFinish = true;
                     setProgress(Timer2.progress, Timer2.endTime);
@@ -162,9 +161,7 @@ public class TimerService extends Service {
     }
 
     public void startForegroundService(Context context, String time) {
-        Log.d("TimerService>>>", "startForegroundService, " + time);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            Log.d("TimerService>>>", "startForegroundService,1 " + time);
             MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(context, "tag");
             Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.main_head);
 

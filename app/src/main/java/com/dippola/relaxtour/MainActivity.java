@@ -190,6 +190,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                setLoadVisible();
                 startActivity(new Intent(MainActivity.this, SettingDialog.class));
+
+//                String s = "audio5to1";
+//                String ss = s.substring(5,9);
+//                Log.d("MainActivity>>>", "check: " + ss);
+
 //                application = getApplication();
 //                Qonversion.launch(application, "tvcyUzPvRUyPLwrjhoQwujcuc_vwZC3i", false);
 //                Qonversion.offerings(new QonversionOfferingsCallback() {
