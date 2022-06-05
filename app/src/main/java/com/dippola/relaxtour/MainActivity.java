@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +23,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,9 +54,22 @@ import com.dippola.relaxtour.setting.SettingDialog;
 import com.dippola.relaxtour.timer.Timer2;
 import com.dippola.relaxtour.timer.TimerDialog;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.qonversion.android.sdk.QUserProperties;
+import com.qonversion.android.sdk.Qonversion;
+import com.qonversion.android.sdk.QonversionError;
+import com.qonversion.android.sdk.QonversionOfferingsCallback;
+import com.qonversion.android.sdk.QonversionPermissionsCallback;
+import com.qonversion.android.sdk.QonversionProductsCallback;
+import com.qonversion.android.sdk.dto.QPermission;
+import com.qonversion.android.sdk.dto.offerings.QOffering;
+import com.qonversion.android.sdk.dto.offerings.QOfferings;
+import com.qonversion.android.sdk.dto.products.QProduct;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -96,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static RelativeLayout load;
 
+    Activity activity;
+    //    QProduct product;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -108,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        activity = MainActivity.this;
 
         startGetStateKillApp();
 
@@ -120,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
         load.bringToFront();
         load.setVisibility(View.GONE);
 
-//        testButton();
         setAudioManager();
         setTopButton();
         setDatabaseHandler();
@@ -133,36 +152,6 @@ public class MainActivity extends AppCompatActivity {
 //        ThemeHelper.applyTheme(mode);
 //        ThemeDialog.themeDialog(MainActivity.this);
     }
-
-//    private void testButton() {
-//        Button testButton1 = findViewById(R.id.testButton1);
-//        Button testButton2 = findViewById(R.id.testButton2);
-//        Button testButton3 = findViewById(R.id.testButton3);
-////        testButton1.setVisibility(View.GONE);
-////        testButton2.setVisibility(View.GONE);
-////        testButton3.setVisibility(View.GONE);
-//
-//        testButton1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ThemeHelper.applyTheme("light");
-//            }
-//        });
-//
-//        testButton2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ThemeHelper.applyTheme("dark");
-//            }
-//        });
-//
-//        testButton3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ThemeHelper.applyTheme("default");
-//            }
-//        });
-//    }
 
     private void startGetStateKillApp() {
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -199,14 +188,56 @@ public class MainActivity extends AppCompatActivity {
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                setLoadVisible();
                 startActivity(new Intent(MainActivity.this, SettingDialog.class));
+//                application = getApplication();
+//                Qonversion.launch(application, "tvcyUzPvRUyPLwrjhoQwujcuc_vwZC3i", false);
+//                Qonversion.offerings(new QonversionOfferingsCallback() {
+//                    @Override
+//                    public void onSuccess(@NotNull QOfferings offerings) {
+//                        QOffering offering = offerings.offeringForID("offering_id");
+//                        if (offering != null) {
+//                            Qonversion.products(new QonversionProductsCallback() {
+//                                @Override
+//                                public void onSuccess(@NotNull Map<String, QProduct> productsList) {
+//                                    Qonversion.purchase(activity, "dippola_relaxtour_premium", new QonversionPermissionsCallback() {
+//                                        @Override
+//                                        public void onSuccess(@NotNull Map<String, QPermission> permissions) {
+//                                            QPermission premiumPermission = permissions.get("dippola_relaxtour_premium");
+//                                            if (premiumPermission != null && premiumPermission.isActive()) {
+//                                                // handle active permission here
+//                                                setLoadGone();
+//                                            }
+//                                        }
+//
+//                                        @Override
+//                                        public void onError(@NotNull QonversionError error) {
+//                                            setLoadGone();
+//                                            Toast.makeText(MainActivity.this, "error: " + error.toString(), Toast.LENGTH_LONG).show();
+//                                        }
+//                                    });
+//                                }
+//
+//                                @Override
+//                                public void onError(@NotNull QonversionError error) {
+//                                    setLoadGone();
+//                                    Toast.makeText(MainActivity.this, "error: " + error.toString(), Toast.LENGTH_LONG).show();
+//                                }
+//                            });
+//                        }
+//                    }
+//                    @Override
+//                    public void onError(@NotNull QonversionError error) {
+//                        setLoadGone();
+//                        Toast.makeText(MainActivity.this, "error: " + error.toString(), Toast.LENGTH_LONG).show();
+//                    }
+//                });
             }
         });
 
         mode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, ThemeDialog.class));
                 ThemeDialog.themeDialog(MainActivity.this);
             }
         });

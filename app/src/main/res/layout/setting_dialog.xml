@@ -54,6 +54,7 @@
                 android:textColor="@color/text_color"/>
 
             <TextView
+                android:id="@+id/setting_version_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
@@ -67,7 +68,22 @@
                 android:layout_centerVertical="true"
                 android:text="Get Premium"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"/>
+                android:layout_marginRight="20dp"
+                android:background="@drawable/button_design"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/button_design_color_2"/>
+
+            <Button
+                android:id="@+id/setting_already_premium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Premium\nuser"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/button_design_2"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/button_text_color"/>
 
         </RelativeLayout>
 

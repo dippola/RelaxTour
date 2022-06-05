@@ -812,6 +812,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return ispro;
     }
 
+    public void changeIsProUser(int ispro) {
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("update ispro set ispro = " + ispro);
+        closeDatabse();
+    }
+
     public String getNameInStorageManage(int page, int position) {
         openDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("select name from " + getPageName(page) + " where position = " + position, null);

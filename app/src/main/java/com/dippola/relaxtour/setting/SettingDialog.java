@@ -2,6 +2,8 @@ package com.dippola.relaxtour.setting;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,21 +14,30 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.PremiumDialog;
+import com.qonversion.android.sdk.Qonversion;
+import com.qonversion.android.sdk.QonversionError;
+import com.qonversion.android.sdk.QonversionPermissionsCallback;
+import com.qonversion.android.sdk.dto.QPermission;
+
+import java.util.Map;
 
 public class SettingDialog extends AppCompatActivity {
 
     RelativeLayout howToUse, storageManage;
-    Button premiumBtn;
+    Button premiumBtn, already;
     SwitchCompat notifiSwitch;
-
+    TextView version;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +46,7 @@ public class SettingDialog extends AppCompatActivity {
         setContentView(R.layout.setting_dialog);
 
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        final Dialog dialog = new Dialog(this, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
+
 //        WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
 //        layoutParams.copyFrom(dialog.getWindow().getAttributes());
 //        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
@@ -51,13 +62,18 @@ public class SettingDialog extends AppCompatActivity {
         onClickPremiumBtn();
         onClickStorageManage();
         setNotifiSwitch();
+
+        checkPermission();
     }
 
     private void setInit() {
         howToUse = findViewById(R.id.setting_how_to_use);
         premiumBtn = findViewById(R.id.setting_go_to_premium);
+        already = findViewById(R.id.setting_already_premium);
         storageManage = findViewById(R.id.setting_storage_manage);
         notifiSwitch = findViewById(R.id.setting_notification_switch);
+        version = findViewById(R.id.setting_version_text);
+        version.setText(getAppVersion());
     }
 
     private void onClickHowToUse() {
@@ -100,5 +116,33 @@ public class SettingDialog extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void checkPermission() {
+        if (MainActivity.databaseHandler.getIsProUser() == 1) {
+            nullPermission();
+        } else if (MainActivity.databaseHandler.getIsProUser() == 2) {
+            havePermission();
+        }
+    }
+
+    private String getAppVersion() {
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = getPackageManager().getPackageInfo(this.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return packageInfo.versionName;
+    }
+
+    private void havePermission() {
+        premiumBtn.setVisibility(View.GONE);
+        already.setVisibility(View.VISIBLE);
+    }
+
+    private void nullPermission() {
+        premiumBtn.setVisibility(View.VISIBLE);
+        already.setVisibility(View.GONE);
     }
 }
