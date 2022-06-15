@@ -18,6 +18,7 @@ import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.dialog.AskDownloadsDialog;
+import com.dippola.relaxtour.dialog.ConstainProTrackDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
 import com.dippola.relaxtour.dialog.EditFavTitleDialog;
 import com.dippola.relaxtour.pages.ChakraPage;
@@ -34,7 +35,7 @@ import com.dippola.relaxtour.pages.item.PageItem;
 import java.io.File;
 import java.util.ArrayList;
 
-public class FavTitleAdapter  extends RecyclerView.Adapter<FavTitleAdapter.CustomViewHolder>{
+public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.CustomViewHolder> {
     ArrayList<FavTitleItem> arrayList;
     Context context;
     RecyclerView.LayoutManager layoutManager;
@@ -73,8 +74,7 @@ public class FavTitleAdapter  extends RecyclerView.Adapter<FavTitleAdapter.Custo
         holder.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.load.setVisibility(View.VISIBLE);
-                Log.d("FavTitleAdapter>>>", "play onClick");
+//                MainActivity.load.setVisibility(View.VISIBLE);
                 checkDownloadAready(arrayList.get(i).getTitle(), i);
             }
         });
@@ -265,24 +265,57 @@ public class FavTitleAdapter  extends RecyclerView.Adapter<FavTitleAdapter.Custo
     private void checkDownloadAready(String title, int position) {
         ArrayList<FavListItem> favListItems = new ArrayList<>();
         favListItems = MainActivity.databaseHandler.getFavListItem(title);
-        ArrayList<String> pnps = new ArrayList<>();
+//        for (int i = 0; i < favListItems.size(); i++) {
+//            if (favListItems.get(i).getNeeddownload() == 2) {
+//                String path = context.getApplicationInfo().dataDir + "/cache/audio" + favListItems.get(i).getPnp() + ".mp3";
+//                File file = new File(path);
+//                if (!file.exists()) {
+//                    pnps.add(favListItems.get(i).getPnp());
+//                }
+//            }
+//            if (i == favListItems.size() - 1) {
+//                if (pnps.size() != 0) {
+//                    AskDownloadsDialog.askDownloadsDialog(context, pnps, position);
+//                } else {
+//                    favListPlay(position);
+//                }
+//            }
+//        }
+
+        if (checkWillShowConstainProTrackDialog(favListItems)) {
+            ConstainProTrackDialog.showDialog(context);
+        } else {
+            if (checkNeedDownload(favListItems).size() != 0) {
+                AskDownloadsDialog.askDownloadsDialog(context, checkNeedDownload(favListItems), position);
+            } else {
+                favListPlay(position);
+            }
+        }
+    }
+
+    private boolean checkWillShowConstainProTrackDialog(ArrayList<FavListItem> favListItems) {
+        boolean needShow = false;
+        for (int i = 0; i < favListItems.size(); i++) {
+            if (favListItems.get(i).getIspro() == 2 && MainActivity.databaseHandler.getIsProUser() == 1) {
+                needShow = true;
+                break;
+            }
+        }
+        return needShow;
+    }
+
+    private ArrayList<String> checkNeedDownload(ArrayList<FavListItem> favListItems) {
+        ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < favListItems.size(); i++) {
             if (favListItems.get(i).getNeeddownload() == 2) {
                 String path = context.getApplicationInfo().dataDir + "/cache/audio" + favListItems.get(i).getPnp() + ".mp3";
                 File file = new File(path);
                 if (!file.exists()) {
-                    pnps.add(favListItems.get(i).getPnp());
-                }
-            }
-            if (i == favListItems.size() - 1) {
-                if (pnps.size() != 0) {
-                    AskDownloadsDialog.askDownloadsDialog(context, pnps, position);
-                } else {
-                    favListPlay(position);
+                    list.add(favListItems.get(i).getPnp());
                 }
             }
         }
-        favListPlay(position);
+        return list;
     }
 
     public void favListPlay(int position) {

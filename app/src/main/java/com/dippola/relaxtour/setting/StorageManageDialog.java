@@ -80,11 +80,9 @@ public class StorageManageDialog extends AppCompatActivity {
                     int page = Integer.parseInt(pnp.substring(0, 1));
                     int position = Integer.parseInt(pnp.substring(3, 4));
                     list.add(databaseHandler.getPageItemInStorageManage(page, position));
-                    if (i + 1 == files.length) {
-                        setRecyclerView();
-                    }
                 }
             }
+            setRecyclerView();
         } else {
             progressBar.setVisibility(View.GONE);
             nullScreen.setVisibility(View.VISIBLE);
@@ -92,6 +90,7 @@ public class StorageManageDialog extends AppCompatActivity {
     }
 
     private void setRecyclerView() {
+        Log.d("StorageManageDialog>>>", "4");
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         adapter = new StorageManageAdapter(StorageManageDialog.this, list);
@@ -100,15 +99,4 @@ public class StorageManageDialog extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    String getName(String pnp) {
-        if (pnp.equals("3-1")) {
-            return "audio3-1";
-        } else if (pnp.equals("3-2")) {
-            return "audio3-2";
-        } else if (pnp.equals("4-1")) {
-            return "audio4-1";
-        } else {
-            return "audio4-2";
-        }
-    }
 }

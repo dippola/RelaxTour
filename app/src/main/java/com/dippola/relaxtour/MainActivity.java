@@ -33,6 +33,7 @@ import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.AddFavDialog;
 import com.dippola.relaxtour.dialog.AskDeleteAllPlaylistDialog;
+import com.dippola.relaxtour.dialog.ConstainProTrackDialog;
 import com.dippola.relaxtour.dialog.ThemeDialog;
 import com.dippola.relaxtour.maintablayout.MainTabAdapter;
 import com.dippola.relaxtour.maintablayout.MainTabItem;
