@@ -42,7 +42,7 @@ public class Splash extends AppCompatActivity {
                 QPermission qPermission = map.get("dippola_relaxtour_premium");
                 if (qPermission != null && qPermission.isActive()) {
                     databaseHandler.changeIsProUser(2);
-                    Log.d("Splash>>>", "hvae permission");
+                    Log.d("Splash>>>", "have permission");
                 } else {
                     databaseHandler.changeIsProUser(1);
                     Log.d("Splash>>>", "null permission");

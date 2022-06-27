@@ -90,7 +90,6 @@ public class StorageManageDialog extends AppCompatActivity {
     }
 
     private void setRecyclerView() {
-        Log.d("StorageManageDialog>>>", "4");
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         adapter = new StorageManageAdapter(StorageManageDialog.this, list);

@@ -828,6 +828,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return pageItem;
     }
 
+    public String getTrackName(int page, int position) {
+        openDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select name from " + getPageName(page), null);
+        cursor.moveToFirst();
+        String name = cursor.getString(0);
+        cursor.close();
+        closeDatabse();
+        return name;
+    }
+
 //    public String getTest() {
 //        String pnp;
 //        openDatabase();

@@ -245,6 +245,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ThemeDialog.themeDialog(MainActivity.this);
+//                String s1 = "a";
+//                s1 += "ok";
+//                Log.d("MainActivity>>>", "test: " + s1);
             }
         });
 

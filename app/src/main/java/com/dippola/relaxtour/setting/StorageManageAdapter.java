@@ -210,7 +210,7 @@ public class StorageManageAdapter extends  RecyclerView.Adapter<StorageManageAda
         }
     }
 
-    private String getPageName(int page) {
+    public static String getPageName(int page) {
         if (page == 1) {
             return "Rain";
         } else if (page == 2) {

@@ -286,7 +286,8 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
             ConstainProTrackDialog.showDialog(context);
         } else {
             if (checkNeedDownload(favListItems).size() != 0) {
-                AskDownloadsDialog.askDownloadsDialog(context, checkNeedDownload(favListItems), position);
+                Log.d("FavTitleAdapter>>>", "null size: " + checkNeedDownload(favListItems).size());
+                AskDownloadsDialog.askDownloadsDialog(context, checkNeedDownload(favListItems));
             } else {
                 favListPlay(position);
             }
@@ -308,10 +309,12 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < favListItems.size(); i++) {
             if (favListItems.get(i).getNeeddownload() == 2) {
-                String path = context.getApplicationInfo().dataDir + "/cache/audio" + favListItems.get(i).getPnp() + ".mp3";
+                String path = context.getApplicationInfo().dataDir + "/cache/audio" + favListItems.get(i).getPage() + "to" + favListItems.get(i).getPosition() + ".mp3";
                 File file = new File(path);
                 if (!file.exists()) {
-                    list.add(favListItems.get(i).getPnp());
+                    if (file.getName().contains("audio")) {
+                        list.add(favListItems.get(i).getPnp());
+                    }
                 }
             }
         }

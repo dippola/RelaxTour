@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +24,14 @@ import java.util.ArrayList;
 
 public class AskDownloadsDialog {
     public static AlertDialog alertDialog;
-    private static Button okbtn, cancel;
+    private static Button okbtn, cancel, close;
     private static ProgressBar progressBar;
-    private static TextView count;
+    private static TextView title, count;
+    private static LinearLayout buttons1;
+    private static ProgressBar button2;
     public static boolean isDownloading = false;
 
-    public static void askDownloadsDialog(Context context, ArrayList<String> pnps, int position) {
+    public static void askDownloadsDialog(Context context, ArrayList<String> pnps) {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout layout = (LinearLayout) vi.inflate(R.layout.ask_downloads_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context, androidx.appcompat.R.style.Theme_AppCompat_Dialog).setOnKeyListener(new DialogInterface.OnKeyListener() {
@@ -51,6 +54,10 @@ public class AskDownloadsDialog {
 
         alertDialog.show();
 
+        title = layout.findViewById(R.id.ask_downloads_dialog_title);
+        buttons1 = layout.findViewById(R.id.ask_downloads_dialog_1);
+        button2 = layout.findViewById(R.id.ask_downloads_dialog_2);
+        close = layout.findViewById(R.id.ask_downloads_dialog_3);
         okbtn = layout.findViewById(R.id.ask_downloads_dialog_button_ok);
         cancel = layout.findViewById(R.id.ask_downloads_dialog_button_cancel);
         progressBar = layout.findViewById(R.id.ask_downloads_dialog_progressbar);
@@ -61,6 +68,9 @@ public class AskDownloadsDialog {
         okbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                title.setText("please wait for download");
+                buttons1.setVisibility(View.GONE);
+                button2.setVisibility(View.VISIBLE);
                 isDownloading = true;
                 alertDialog.setCancelable(false);
                 okbtn.setEnabled(false);
@@ -68,14 +78,22 @@ public class AskDownloadsDialog {
                 Intent intent = new Intent(context, DownloadsService.class);
                 if (Build.VERSION.SDK_INT >= 26) {
                     context.startForegroundService(intent);
-                    DownloadsService.downloads(context, progressBar, count, pnps);
+                    DownloadsService.downloads(context, progressBar, count, pnps, title, button2, close);
                 } else {
                     context.startService(intent);
+                    DownloadsService.downloads(context, progressBar, count, pnps, title, button2, close);
                 }
             }
         });
 
         cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 alertDialog.dismiss();
