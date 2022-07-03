@@ -162,7 +162,6 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             @Override
             public void onClick(View view) {
                 if (arrayList.get(positions).getPage() != 4) {//1,2,3page
-                    Log.d("PageAdapter>>>", "get isplay: " + arrayList.get(positions).getIsplay());
                     page(positions, holder.img);
                 } else {//4page nature일때
                     page4(positions, holder.img);
@@ -393,7 +392,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             MainActivity.bottomSheetAdapter.notifyItemInserted(MainActivity.bottomSheetPlayList.size());//bottom list 새로고침
 
             if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0), context)) {//다른page에 이미 재생중인게 있을때 (pands버튼이 재생중일때)
-                AudioController.startTrack(context, arrayList.get(positions));//새로 재생할 트랙 찾아서 재생
+                AudioController.startTrack(context, arrayList.get(positions));//새로 재생할 트랙 찾아서 다같이 재생
             } else {//재생중인게 없을때(pands버튼이 재생 중이 아닐때)
                 List<PageItem> pp = new ArrayList<>();
                 for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {//bottom list에 모든 트랙 pnp 수집

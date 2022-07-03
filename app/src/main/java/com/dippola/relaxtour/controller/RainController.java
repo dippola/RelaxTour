@@ -65,9 +65,7 @@ public class RainController {
                 MPList.p1p1_2.prepareAsync();
             }
         } else if (position == 2) {
-            Log.d("RainController>>>", "4");
             if (MPList.p1p2_1 != null && MPList.p1p2_2 != null) {
-                Log.d("RainController>>>", "5");
                 MPList.p1p2_1.stop();
                 MPList.p1p2_1.prepareAsync();
                 MPList.p1p2_2.stop();

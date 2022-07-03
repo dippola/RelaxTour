@@ -42,13 +42,15 @@ public class BoardMain extends AppCompatActivity {
         Context context = BoardMain.this;
         Button btn1 = findViewById(R.id.test1);
         Button btn2 = findViewById(R.id.test2);
-        MediaPlayer mp = new MediaPlayer();
-        try {
-            mp.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio5to2.mp3");
-            mp.prepareAsync();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        MediaPlayer mp = new MediaPlayer();
+//        try {
+//            mp.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio5to2.mp3");
+//            mp.prepareAsync();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        MediaPlayer mp =  MediaPlayer.create(context, R.raw.audio5to1);
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +66,7 @@ public class BoardMain extends AppCompatActivity {
             public void onClick(View view) {
                 if (mp.isPlaying()) {
                     mp.stop();
-                    mp.release();
+                    mp.prepareAsync();
                 }
             }
         });

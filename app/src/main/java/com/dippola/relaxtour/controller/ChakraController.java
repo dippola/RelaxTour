@@ -3,7 +3,6 @@ package com.dippola.relaxtour.controller;
 import android.util.Log;
 
 import com.dippola.relaxtour.MPList;
-import com.dippola.relaxtour.pages.ChakraPage;
 
 public class ChakraController {
     public static class p5t1 extends Thread {
@@ -64,14 +63,6 @@ public class ChakraController {
                 MPList.p5p1_1.prepareAsync();
                 MPList.p5p1_2.stop();
                 MPList.p5p1_2.prepareAsync();
-//                MPList.p5p1_1.stop();
-////                MPList.p5p1_1.prepareAsync();
-//                MPList.p5p1_1.release();
-//                MPList.p5p1_1 = null;
-//                MPList.p5p1_2.stop();
-////                MPList.p5p1_2.prepareAsync();
-//                MPList.p5p1_2.release();
-//                MPList.p5p1_2 = null;
             }
         } else if (position == 2) {
             if (MPList.p5p2_1 != null && MPList.p5p2_2 != null) {
@@ -116,27 +107,31 @@ public class ChakraController {
                 MPList.p5p7_2.prepareAsync();
             }
         }
+        Log.d("ChakraController>>>", "check: " + pnp);
         new p5t1(null).setStop(true);
         new p5t2(null).setStop(true);
     }
 
     private static int getSec(String pnp) {
-        if (pnp.equals("1-1")) {
+        if (pnp.equals("5-1")) {
             return 60000-3000;
         }
-        if (pnp.equals("1-2")) {
+        if (pnp.equals("5-2")) {
             return 60000-3000;
         }
-        if (pnp.equals("1-3")) {
+        if (pnp.equals("5-3")) {
             return 60000-3000;
         }
-        if (pnp.equals("1-4")) {
+        if (pnp.equals("5-4")) {
             return 60000-3000;
         }
-        if (pnp.equals("1-5")) {
+        if (pnp.equals("5-5")) {
             return 60000-3000;
         }
-        if (pnp.equals("1-6")) {
+        if (pnp.equals("5-6")) {
+            return 60000-3000;
+        }
+        if (pnp.equals("5-7")) {
             return 60000-3000;
         }
         return 0;
