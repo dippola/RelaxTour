@@ -1,5 +1,7 @@
 package com.dippola.relaxtour.controller;
 
+import android.util.Log;
+
 import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.pages.ChakraPage;
 
@@ -62,6 +64,14 @@ public class ChakraController {
                 MPList.p5p1_1.prepareAsync();
                 MPList.p5p1_2.stop();
                 MPList.p5p1_2.prepareAsync();
+//                MPList.p5p1_1.stop();
+////                MPList.p5p1_1.prepareAsync();
+//                MPList.p5p1_1.release();
+//                MPList.p5p1_1 = null;
+//                MPList.p5p1_2.stop();
+////                MPList.p5p1_2.prepareAsync();
+//                MPList.p5p1_2.release();
+//                MPList.p5p1_2 = null;
             }
         } else if (position == 2) {
             if (MPList.p5p2_1 != null && MPList.p5p2_2 != null) {

@@ -72,6 +72,8 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
                 holder.img.setMinimumWidth(MainActivity.pageitem_4_width_size);
                 holder.img.setMinimumHeight(MainActivity.pageitem_4_height_size);
             }
+            holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
+            holder.img.setMinimumHeight(MainActivity.pageitem_height_size);
         } else {
             holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
             holder.img.setMinimumHeight(MainActivity.pageitem_height_size);
@@ -80,30 +82,30 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         holder.progressBar.setVisibility(View.GONE);
 
         if (databaseHandler.getIsProUser() == 1) {
-            if (arrayList.get(position).getIspro() == 2) {
+            if (arrayList.get(positions).getIspro() == 2) {
                 holder.download.setVisibility(View.GONE);
                 holder.download.setEnabled(false);
                 holder.img.setEnabled(false);
                 holder.seekBar.setEnabled(false);
                 holder.pro.setEnabled(true);
-                setBackgroundPro(arrayList.get(position).getPage(), holder.pro);
-            } else if (arrayList.get(position).getIspro() == 1) {
-                if (arrayList.get(position).getNeeddownload() == 1) {
+                setBackgroundPro(arrayList.get(positions).getPage(), holder.pro);
+            } else if (arrayList.get(positions).getIspro() == 1) {
+                if (arrayList.get(positions).getNeeddownload() == 1) {
                     holder.pro.setVisibility(View.GONE);
                     holder.pro.setEnabled(false);
                     holder.download.setVisibility(View.GONE);
                     holder.download.setEnabled(false);
                     holder.img.setEnabled(true);
                     holder.seekBar.setEnabled(true);
-                } else if (arrayList.get(position).getNeeddownload() == 2) {
-                    File file = new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(position).getPage() + "to" + arrayList.get(position).getPosition() + ".mp3");
+                } else if (arrayList.get(positions).getNeeddownload() == 2) {
+                    File file = new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getPage() + "to" + arrayList.get(positions).getPosition() + ".mp3");
                     if (file.exists()) {
                         holder.download.setVisibility(View.GONE);
                         holder.download.setEnabled(false);
                         holder.img.setEnabled(true);
                         holder.seekBar.setEnabled(true);
                     } else {
-                        setBackgroundDownload(arrayList.get(position).getPage(), holder.download);
+                        setBackgroundDownload(arrayList.get(positions).getPage(), holder.download);
                         holder.download.setVisibility(View.VISIBLE);
                         holder.download.setEnabled(true);
                         holder.img.setEnabled(false);
@@ -114,17 +116,17 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         } else if (databaseHandler.getIsProUser() == 2) {
             holder.pro.setVisibility(View.GONE);
             holder.pro.setEnabled(false);
-            if (arrayList.get(position).getNeeddownload() == 1) {
+            if (arrayList.get(positions).getNeeddownload() == 1) {
                 holder.download.setVisibility(View.GONE);
                 holder.download.setEnabled(false);
                 holder.img.setEnabled(true);
                 holder.seekBar.setEnabled(true);
-            } else if (arrayList.get(position).getNeeddownload() == 2) {
-                if (new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(position).getPage() + "to" + arrayList.get(position).getPosition() + ".mp3").exists()) {
+            } else if (arrayList.get(positions).getNeeddownload() == 2) {
+                if (new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getPage() + "to" + arrayList.get(positions).getPosition() + ".mp3").exists()) {
                     holder.download.setVisibility(View.GONE);
                     holder.seekBar.setEnabled(true);
                 } else {
-                    setBackgroundDownload(arrayList.get(position).getPage(), holder.download);
+                    setBackgroundDownload(arrayList.get(positions).getPage(), holder.download);
                     holder.download.setVisibility(View.VISIBLE);
                     holder.download.setEnabled(true);
                     holder.img.setEnabled(false);
@@ -160,7 +162,7 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             @Override
             public void onClick(View view) {
                 if (arrayList.get(positions).getPage() != 4) {//1,2,3page
-                    Log.d("PageAdapter>>>", "get page: " + arrayList.get(positions).getPage());
+                    Log.d("PageAdapter>>>", "get isplay: " + arrayList.get(positions).getIsplay());
                     page(positions, holder.img);
                 } else {//4page nature일때
                     page4(positions, holder.img);
