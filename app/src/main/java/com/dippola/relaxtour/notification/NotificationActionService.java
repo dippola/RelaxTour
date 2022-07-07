@@ -30,7 +30,7 @@ public class NotificationActionService extends BroadcastReceiver {
         switch (ac) {
             case DefaultNotification.ACTION_PLAY:
                 checkOpenService(context);
-                if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0), context)) {//재생중
+                if (MainActivity.bottomSheetPlayList.size() != 0 && AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0), context)) {//재생중
                     MainActivity.pands.setBackgroundResource(R.drawable.bottom_sheet_play);
                     ArrayList<PageItem> page = new ArrayList<>();
                     for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {

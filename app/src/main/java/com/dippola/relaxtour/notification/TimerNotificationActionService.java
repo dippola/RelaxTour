@@ -62,13 +62,14 @@ public class TimerNotificationActionService extends BroadcastReceiver {
             case DefaultNotification.ACTION_CLOSE:
                 if (MainActivity.bottomSheetPlayList.size() != 0) {
                     MainActivity.pands.setBackgroundResource(R.drawable.bottom_sheet_play);
-                    if (NotificationService.isPlaying) {
-                        context.stopService(new Intent(context, NotificationService.class));
-                    }
-                    if (TimerService.isCount) {
-                        Timer2.stopTimer(context);
-                    }
                     stopAllSound();
+                }
+                if (NotificationService.isPlaying) {
+                    context.stopService(new Intent(context, NotificationService.class));
+                }
+                if (TimerService.isCount) {
+                    Log.d("TimerAction>>>", "1");
+                    Timer2.stopTimer(context);
                 }
                 break;
         }
