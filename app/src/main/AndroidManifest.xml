@@ -28,6 +28,7 @@
         <activity android:name=".MainActivity"/>
         <service android:name=".notification.NotificationService" android:stopWithTask="true"/>
         <receiver android:name=".notification.NotificationActionService"/>
+        <receiver android:name=".notification.TimerNotificationActionService"/>
         <service android:name=".service.GetStateKillApp" />
         <service android:name=".service.DownloadService"/>
         <service android:name=".service.DownloadsService"/>

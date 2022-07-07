@@ -18,11 +18,14 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.notification.DefaultNotification;
 import com.dippola.relaxtour.notification.NotificationActionService;
 import com.dippola.relaxtour.notification.NotificationService;
+import com.dippola.relaxtour.notification.TimerNotificationActionService;
 import com.dippola.relaxtour.timer.Timer2;
 import com.dippola.relaxtour.timer.TimerDialog;
 
@@ -170,9 +173,9 @@ public class TimerService extends Service {
             intent.setAction(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-            Intent intentPlay = new Intent(context, NotificationActionService.class)
+            Intent intentPlay = new Intent(context, TimerNotificationActionService.class)
                     .setAction(ACTION_PLAY);
-            Intent intentClose = new Intent(context, NotificationActionService.class)
+            Intent intentClose = new Intent(context, TimerNotificationActionService.class)
                     .setAction(ACTION_CLOSE);
             PendingIntent pendingIntentPlay = PendingIntent.getBroadcast(context, 0, intentPlay,
                     PendingIntent.FLAG_UPDATE_CURRENT);
@@ -196,7 +199,17 @@ public class TimerService extends Service {
             notification.setOnlyAlertOnce(true);//show notification for only first time
             notification.setShowWhen(false);
 
-            notification.addAction(R.drawable.bottom_pause, "Play", pendingIntentPlay);
+//            notification.addAction(R.drawable.bottom_pause, "Play", pendingIntentPlay);
+            if (MainActivity.bottomSheetPlayList.size() != 0) {
+                initMP(context);
+                if (AudioController.playingListindex0_1(MainActivity.bottomSheetPlayList.get(0).getPnp()).isPlaying() || AudioController.playingListindex0_2(MainActivity.bottomSheetPlayList.get(0).getPnp()).isPlaying()) {
+                    notification.addAction(R.drawable.bottom_pause, "Play", pendingIntentPlay);
+                } else {
+                    notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
+                }
+            } else {
+                notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
+            }
             notification.addAction(R.drawable.notification_close, "close", pendingIntentClose);
 
             notification.setContentIntent(pIntent);
@@ -210,6 +223,12 @@ public class TimerService extends Service {
 //            stopForeground(true);
 //            stopSelf();
 //            Log.d(">>>", "open foreground");
+        }
+    }
+
+    private void initMP(Context context) {
+        for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
+            MPList.initalMP(MainActivity.bottomSheetPlayList.get(i).getPnp(), context, MainActivity.bottomSheetPlayList.get(i).getSeek());
         }
     }
 }

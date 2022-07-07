@@ -99,12 +99,12 @@ public class Timer2 extends Fragment {
         TimerService.isCount = false;
         context.stopService(new Intent(context, TimerService.class));
         Timer1.mTimerRunning = false;
-        DefaultNotification.defauleNotification(context);
-        NotificationService.closeNotification(context);
+//        DefaultNotification.defauleNotification(context);
+//        NotificationService.closeNotification(context);
 
         //stop audio
-        if (NotificationService.isPlaying) {
-            context.stopService(new Intent(context, NotificationService.class));
-        }
+//        if (NotificationService.isPlaying) {
+//            context.stopService(new Intent(context, NotificationService.class));
+//        }
     }
 }

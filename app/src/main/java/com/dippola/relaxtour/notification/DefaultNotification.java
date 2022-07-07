@@ -14,6 +14,7 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
@@ -67,8 +68,17 @@ public class DefaultNotification {
 //            } else {
 //                notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
 //            }
-            notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
-
+//            notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
+            if (MainActivity.bottomSheetPlayList.size() != 0) {
+                initMP(context);
+                if (AudioController.playingListindex0_1(MainActivity.bottomSheetPlayList.get(0).getPnp()).isPlaying() || AudioController.playingListindex0_2(MainActivity.bottomSheetPlayList.get(0).getPnp()).isPlaying()) {
+                    notification.addAction(R.drawable.bottom_pause, "Play", pendingIntentPlay);
+                } else {
+                    notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
+                }
+            } else {
+                notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
+            }
 //            notification.addAction(R.drawable.bottom_play, "Play", pendingIntentPlay);
             notification.addAction(R.drawable.notification_close, "close", pendingIntentClose);
 
@@ -86,4 +96,9 @@ public class DefaultNotification {
         notificationManagerCompat.cancelAll();
     }
 
+    private static void initMP(Context context) {
+        for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
+            MPList.initalMP(MainActivity.bottomSheetPlayList.get(i).getPnp(), context, MainActivity.bottomSheetPlayList.get(i).getSeek());
+        }
+    }
 }
