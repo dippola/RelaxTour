@@ -31,6 +31,7 @@
         <receiver android:name=".notification.TimerNotificationActionService"/>
         <service android:name=".service.GetStateKillApp" />
         <service android:name=".service.DownloadService"/>
+        <service android:name=".board.TestService"/>
         <service android:name=".service.DownloadsService"/>
         <activity android:name=".timer.TimerDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".setting.SettingDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>

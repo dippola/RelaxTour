@@ -31,6 +31,7 @@ import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.HzPage;
 import com.dippola.relaxtour.pages.MantraPage;
 import com.dippola.relaxtour.pages.RainPage;
+import com.dippola.relaxtour.pages.item.DownloadItem;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -39,11 +40,14 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class DownloadService extends Service {
     public static boolean isDownloadOpen;
 
     public static final String CHANNEL_ID = "download";
+
+    public static ArrayList<DownloadItem> downloadList = new ArrayList<>();
 
 
     ProgressBar progressBar;
@@ -114,7 +118,7 @@ public class DownloadService extends Service {
         }
     }
 
-    public static void setOnClickDownload(Context context, ProgressBar progressBar, ImageView button, ImageView download, int page, int position, SeekBar seekBar) {
+    public static void setOnClickDownload(Context context, ProgressBar progressBar, ImageView button, ImageView download, int page, int position, SeekBar seekBar, DownloadItem downloadItem) {
         String ptop = page + "to" + position;
         progressBar.setVisibility(View.VISIBLE);
         button.setEnabled(false);
@@ -139,10 +143,17 @@ public class DownloadService extends Service {
                     progressBar.setVisibility(View.GONE);
                     seekBar.setEnabled(true);
 //                    stopSelf();
-                    Intent intent = new Intent(context, DownloadService.class);
-                    context.stopService(intent);
-                    SuccessDownloadNotification.successDownloadNotification(context);
-                    Log.d("StoragePageAdapter>>>", "download success");
+
+                    downloadList.remove(downloadItem);
+
+                    if (downloadList.size() == 0) {
+                        Intent intent = new Intent(context, DownloadService.class);
+                        context.stopService(intent);
+                        SuccessDownloadNotification.successDownloadNotification(context);
+                        Log.d("StoragePageAdapter>>>", "download success");
+                    } else {
+                        setOnClickDownload(context, progressBar, button, download, downloadList.get(0).getPage(), downloadList.get(0).getPosition(), seekBar, downloadList.get(0));
+                    }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

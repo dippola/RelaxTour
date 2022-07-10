@@ -33,6 +33,7 @@ import com.dippola.relaxtour.dialog.AskDownloadDialog;
 import com.dippola.relaxtour.dialog.PremiumDialog;
 import com.dippola.relaxtour.notification.NotificationService;
 import com.dippola.relaxtour.pages.NaturePage;
+import com.dippola.relaxtour.pages.item.DownloadItem;
 import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.service.DownloadService;
 
@@ -205,7 +206,9 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
                 boolean isChecked = sharedPreferences.getBoolean("isChecked", false);
                 if (isChecked) {
                     openDownloadService(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
-                    DownloadService.setOnClickDownload(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), holder.seekBar);
+                    DownloadItem downloadItem = new DownloadItem(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
+                    DownloadService.downloadList.add(downloadItem);
+                    DownloadService.setOnClickDownload(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), holder.seekBar, downloadItem);
                 } else {
                     AskDownloadDialog.askDownloadDialog(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), holder.seekBar);
                 }
@@ -485,12 +488,14 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
     }
 
     public static void openDownloadService(Context context, ProgressBar progressBar, ImageView img, ImageView download, int page, int position) {
-        DownloadService downloadService = new DownloadService(progressBar, img, download, page, position);
-        Intent intent = new Intent(context, downloadService.getClass());
-        if (Build.VERSION.SDK_INT >= 26) {
-            context.startForegroundService(intent);
-        } else {
-            context.startService(intent);
+        if (!DownloadService.isDownloadOpen) {
+            DownloadService downloadService = new DownloadService(progressBar, img, download, page, position);
+            Intent intent = new Intent(context, downloadService.getClass());
+            if (Build.VERSION.SDK_INT >= 26) {
+                context.startForegroundService(intent);
+            } else {
+                context.startService(intent);
+            }
         }
     }
 

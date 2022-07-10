@@ -22,6 +22,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.pages.adapter.PageAdapter;
+import com.dippola.relaxtour.pages.item.DownloadItem;
 import com.dippola.relaxtour.service.DownloadService;
 import com.dippola.relaxtour.service.DownloadsService;
 
@@ -59,7 +60,9 @@ public class AskDownloadDialog {
                 }
                 editor.apply();
                 PageAdapter.openDownloadService(context, progressBar, img, download, page, position);
-                DownloadService.setOnClickDownload(context, progressBar, img, download, page, position, seekBar);
+                DownloadItem downloadItem = new DownloadItem(page, position);
+                DownloadService.downloadList.add(downloadItem);
+                DownloadService.setOnClickDownload(context, progressBar, img, download, page, position, seekBar, downloadItem);
                 if (alertDialog.isShowing()) {
                     alertDialog.dismiss();
                 }
