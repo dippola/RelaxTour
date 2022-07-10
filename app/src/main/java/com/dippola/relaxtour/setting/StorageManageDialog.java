@@ -82,6 +82,10 @@ public class StorageManageDialog extends AppCompatActivity {
                     list.add(databaseHandler.getPageItemInStorageManage(page, position));
                 }
             }
+            if (list.size() == 0) {
+                progressBar.setVisibility(View.GONE);
+                nullScreen.setVisibility(View.VISIBLE);
+            }
             setRecyclerView();
         } else {
             progressBar.setVisibility(View.GONE);
