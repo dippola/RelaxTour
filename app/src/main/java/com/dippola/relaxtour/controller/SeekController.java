@@ -25,13 +25,9 @@ public class SeekController {
     public static boolean favMoving;
 
     public static void changeVolumn(String pp, float volumn) {
-        if (pp.charAt(0) != '7') {
-            if (AudioController.playingListindex0_1(pp) != null) {
-                AudioController.playingListindex0_1(pp).setVolume(volumn, volumn);
-                AudioController.playingListindex0_2(pp).setVolume(volumn, volumn);
-            }
-        } else {
-            MPList.p7.setVolume(volumn);
+        if (AudioController.playingListindex0_1(pp) != null) {
+            AudioController.playingListindex0_1(pp).setVolume(volumn, volumn);
+            AudioController.playingListindex0_2(pp).setVolume(volumn, volumn);
         }
     }
 

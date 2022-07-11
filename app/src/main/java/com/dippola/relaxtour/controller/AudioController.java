@@ -130,7 +130,22 @@ public class AudioController {
             }
             new MantraController.p6t1(pnp).start();
         } else if (page == 7) {
-            MPList.genTone((double) MPList.getHz(pnp), pnp, pageItem.getSeek());
+            if (position == 1) {
+                MPList.p7p1_1.start();
+            } else if (position == 2) {
+                MPList.p7p2_1.start();
+            } else if (position == 3) {
+                MPList.p7p3_1.start();
+            } else if (position == 4) {
+                MPList.p7p4_1.start();
+            } else if (position == 5) {
+                MPList.p7p5_1.start();
+            } else if (position == 6) {
+                MPList.p7p6_1.start();
+            } else if (position == 7) {
+                MPList.p7p7_1.start();
+            }
+            new HzController.p7t1(pnp).start();
         }
     }
 
@@ -324,6 +339,35 @@ public class AudioController {
                 new MantraController.p6t1(pp).start();
                 break;
 
+            case "7-1":
+                MPList.p7p1_1.start();
+                new HzController.p7t1(pp).start();
+                break;
+            case "7-2":
+                MPList.p7p2_1.start();
+                new HzController.p7t1(pp).start();
+                break;
+            case "7-3":
+                MPList.p7p3_1.start();
+                new HzController.p7t1(pp).start();
+                break;
+            case "7-4":
+                MPList.p7p4_1.start();
+                new HzController.p7t1(pp).start();
+                break;
+            case "7-5":
+                MPList.p7p5_1.start();
+                new HzController.p7t1(pp).start();
+                break;
+            case "7-6":
+                MPList.p7p6_1.start();
+                new HzController.p7t1(pp).start();
+                break;
+            case "7-7":
+                MPList.p7p7_1.start();
+                new HzController.p7t1(pp).start();
+                break;
+
 //            case "4-1":
 //                NaturePage.p4p1_1.start();
 //                new NatureController
@@ -350,73 +394,64 @@ public class AudioController {
     }
 
     public static boolean checkIsPlaying(PageItem pageItem, Context context) {//pp가 재생중인지 반환
-        int page = pageItem.getPage();
-        if (page != 7) {
-            List<String> pnpList = new ArrayList<>();
-            pnpList.add("1-1");
-            pnpList.add("1-2");
-            pnpList.add("1-3");
-            pnpList.add("1-4");
-            pnpList.add("1-5");
-            pnpList.add("1-6");
-            pnpList.add("2-1");
-            pnpList.add("2-2");
-            pnpList.add("2-3");
-            pnpList.add("2-4");
-            pnpList.add("2-5");
-            pnpList.add("2-6");
-            pnpList.add("3-1");
-            pnpList.add("3-2");
-            pnpList.add("3-3");
-            pnpList.add("3-4");
-            pnpList.add("3-5");
-            pnpList.add("3-6");
-            pnpList.add("3-7");
-            pnpList.add("4-1");
-            pnpList.add("4-2");
-            pnpList.add("4-3");
-            pnpList.add("4-4");
-            pnpList.add("4-5");
-            pnpList.add("4-6");
-            pnpList.add("4-7");
-            pnpList.add("4-8");
-            pnpList.add("5-1");
-            pnpList.add("5-2");
-            pnpList.add("5-3");
-            pnpList.add("5-4");
-            pnpList.add("5-5");
-            pnpList.add("5-6");
-            pnpList.add("5-7");
-            pnpList.add("6-1");
-            pnpList.add("6-2");
-            pnpList.add("6-3");
-            pnpList.add("6-4");
-            pnpList.add("6-5");
-            pnpList.add("6-6");
-            pnpList.add("6-7");
-            pnpList.add("6-7");
-            pnpList.add("7-1");
-            pnpList.add("7-2");
-            pnpList.add("7-3");
-            pnpList.add("7-4");
-            pnpList.add("7-5");
-            pnpList.add("7-6");
-            pnpList.add("7-7");
-            MPList.initalMP(pageItem.getPnp(), context, pageItem.getSeek());
-            if (pnpList.contains(pageItem.getPnp())) {
-                return playingListindex0_1(pageItem.getPnp()).isPlaying() || playingListindex0_2(pageItem.getPnp()).isPlaying();
-            } else {
-                if (playingListindex0_1(pageItem.getPnp()) == null) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
+        List<String> pnpList = new ArrayList<>();
+        pnpList.add("1-1");
+        pnpList.add("1-2");
+        pnpList.add("1-3");
+        pnpList.add("1-4");
+        pnpList.add("1-5");
+        pnpList.add("1-6");
+        pnpList.add("2-1");
+        pnpList.add("2-2");
+        pnpList.add("2-3");
+        pnpList.add("2-4");
+        pnpList.add("2-5");
+        pnpList.add("2-6");
+        pnpList.add("3-1");
+        pnpList.add("3-2");
+        pnpList.add("3-3");
+        pnpList.add("3-4");
+        pnpList.add("3-5");
+        pnpList.add("3-6");
+        pnpList.add("3-7");
+        pnpList.add("4-1");
+        pnpList.add("4-2");
+        pnpList.add("4-3");
+        pnpList.add("4-4");
+        pnpList.add("4-5");
+        pnpList.add("4-6");
+        pnpList.add("4-7");
+        pnpList.add("4-8");
+        pnpList.add("5-1");
+        pnpList.add("5-2");
+        pnpList.add("5-3");
+        pnpList.add("5-4");
+        pnpList.add("5-5");
+        pnpList.add("5-6");
+        pnpList.add("5-7");
+        pnpList.add("6-1");
+        pnpList.add("6-2");
+        pnpList.add("6-3");
+        pnpList.add("6-4");
+        pnpList.add("6-5");
+        pnpList.add("6-6");
+        pnpList.add("6-7");
+        pnpList.add("6-7");
+        pnpList.add("7-1");
+        pnpList.add("7-2");
+        pnpList.add("7-3");
+        pnpList.add("7-4");
+        pnpList.add("7-5");
+        pnpList.add("7-6");
+        pnpList.add("7-7");
+        MPList.initalMP(pageItem.getPnp(), context, pageItem.getSeek());
+        if (pnpList.contains(pageItem.getPnp())) {
+            return playingListindex0_1(pageItem.getPnp()).isPlaying() || playingListindex0_2(pageItem.getPnp()).isPlaying();
         } else {
-            if (MPList.p7.getPlayState() == AudioTrack.PLAYSTATE_PLAYING) {
-                return true;
-            } else {
+            if (playingListindex0_1(pageItem.getPnp()) == null) {
                 return false;
+            } else {
+                return true;
             }
         }
     }
@@ -510,6 +545,21 @@ public class AudioController {
                 return MPList.p6p6_1;
             case "6-7":
                 return MPList.p6p7_1;
+
+            case "7-1":
+                return MPList.p7p1_1;
+            case "7-2":
+                return MPList.p7p2_1;
+            case "7-3":
+                return MPList.p7p3_1;
+            case "7-4":
+                return MPList.p7p4_1;
+            case "7-5":
+                return MPList.p7p5_1;
+            case "7-6":
+                return MPList.p7p6_1;
+            case "7-7":
+                return MPList.p7p7_1;
 
             default:
                 return null;
@@ -605,6 +655,21 @@ public class AudioController {
                 return MPList.p6p6_2;
             case "6-7":
                 return MPList.p6p7_2;
+
+            case "7-1":
+                return MPList.p7p1_2;
+            case "7-2":
+                return MPList.p7p2_2;
+            case "7-3":
+                return MPList.p7p3_2;
+            case "7-4":
+                return MPList.p7p4_2;
+            case "7-5":
+                return MPList.p7p5_2;
+            case "7-6":
+                return MPList.p7p6_2;
+            case "7-7":
+                return MPList.p7p7_2;
             default:
                 return null;
         }
@@ -645,100 +710,56 @@ public class AudioController {
         float float13 = (float) 0.60375935;
         float float14 = (float) 0.75;
         float float15 = (float) 1.0;
-        if (pp.charAt(0) != '7') {
-            if (AudioController.playingListindex0_1(pp) != null && AudioController.playingListindex0_2(pp) != null) {
-                if (i == 0) {
-                    AudioController.playingListindex0_1(pp).setVolume(float0, float0);
-                    AudioController.playingListindex0_2(pp).setVolume(float0, float0);
-                } else if (i == 1) {
-                    AudioController.playingListindex0_1(pp).setVolume(float1, float1);
-                    AudioController.playingListindex0_2(pp).setVolume(float1, float1);
-                } else if (i == 2) {
-                    AudioController.playingListindex0_1(pp).setVolume(float2, float2);
-                    AudioController.playingListindex0_2(pp).setVolume(float2, float2);
-                } else if (i == 3) {
-                    AudioController.playingListindex0_1(pp).setVolume(float3, float3);
-                    AudioController.playingListindex0_2(pp).setVolume(float3, float3);
-                } else if (i == 4) {
-                    AudioController.playingListindex0_1(pp).setVolume(float4, float4);
-                    AudioController.playingListindex0_2(pp).setVolume(float4, float4);
-                } else if (i == 5) {
-                    AudioController.playingListindex0_1(pp).setVolume(float5, float5);
-                    AudioController.playingListindex0_2(pp).setVolume(float5, float5);
-                } else if (i == 6) {
-                    AudioController.playingListindex0_1(pp).setVolume(float6, float6);
-                    AudioController.playingListindex0_2(pp).setVolume(float6, float6);
-                } else if (i == 7) {
-                    AudioController.playingListindex0_1(pp).setVolume(float7, float7);
-                    AudioController.playingListindex0_2(pp).setVolume(float7, float7);
-                } else if (i == 8) {
-                    AudioController.playingListindex0_1(pp).setVolume(float8, float8);
-                    AudioController.playingListindex0_2(pp).setVolume(float8, float8);
-                } else if (i == 9) {
-                    AudioController.playingListindex0_1(pp).setVolume(float9, float9);
-                    AudioController.playingListindex0_2(pp).setVolume(float9, float9);
-                } else if (i == 10) {
-                    AudioController.playingListindex0_1(pp).setVolume(float10, float10);
-                    AudioController.playingListindex0_2(pp).setVolume(float10, float10);
-                } else if (i == 11) {
-                    AudioController.playingListindex0_1(pp).setVolume(float11, float11);
-                    AudioController.playingListindex0_2(pp).setVolume(float11, float11);
-                } else if (i == 12) {
-                    AudioController.playingListindex0_1(pp).setVolume(float12, float12);
-                    AudioController.playingListindex0_2(pp).setVolume(float12, float12);
-                } else if (i == 13) {
-                    AudioController.playingListindex0_1(pp).setVolume(float13, float13);
-                    AudioController.playingListindex0_2(pp).setVolume(float13, float13);
-                } else if (i == 14) {
-                    AudioController.playingListindex0_1(pp).setVolume(float14, float14);
-                    AudioController.playingListindex0_2(pp).setVolume(float14, float14);
-                } else if (i == 15) {
-                    AudioController.playingListindex0_1(pp).setVolume(float15, float15);
-                    AudioController.playingListindex0_2(pp).setVolume(float15, float15);
-                }
-            }
-        } else {
+        if (AudioController.playingListindex0_1(pp) != null && AudioController.playingListindex0_2(pp) != null) {
             if (i == 0) {
-                MPList.p7.setVolume(float0);
+                AudioController.playingListindex0_1(pp).setVolume(float0, float0);
+                AudioController.playingListindex0_2(pp).setVolume(float0, float0);
             } else if (i == 1) {
-                MPList.p7.setVolume(float1);
+                AudioController.playingListindex0_1(pp).setVolume(float1, float1);
+                AudioController.playingListindex0_2(pp).setVolume(float1, float1);
             } else if (i == 2) {
-                MPList.p7.setVolume(float2);
+                AudioController.playingListindex0_1(pp).setVolume(float2, float2);
+                AudioController.playingListindex0_2(pp).setVolume(float2, float2);
             } else if (i == 3) {
-                MPList.p7.setVolume(float3);
+                AudioController.playingListindex0_1(pp).setVolume(float3, float3);
+                AudioController.playingListindex0_2(pp).setVolume(float3, float3);
             } else if (i == 4) {
-                MPList.p7.setVolume(float4);
+                AudioController.playingListindex0_1(pp).setVolume(float4, float4);
+                AudioController.playingListindex0_2(pp).setVolume(float4, float4);
             } else if (i == 5) {
-                MPList.p7.setVolume(float5);
+                AudioController.playingListindex0_1(pp).setVolume(float5, float5);
+                AudioController.playingListindex0_2(pp).setVolume(float5, float5);
             } else if (i == 6) {
-                MPList.p7.setVolume(float6);
+                AudioController.playingListindex0_1(pp).setVolume(float6, float6);
+                AudioController.playingListindex0_2(pp).setVolume(float6, float6);
             } else if (i == 7) {
-                MPList.p7.setVolume(float7);
+                AudioController.playingListindex0_1(pp).setVolume(float7, float7);
+                AudioController.playingListindex0_2(pp).setVolume(float7, float7);
             } else if (i == 8) {
-                MPList.p7.setVolume(float8);
+                AudioController.playingListindex0_1(pp).setVolume(float8, float8);
+                AudioController.playingListindex0_2(pp).setVolume(float8, float8);
             } else if (i == 9) {
-                MPList.p7.setVolume(float9);
+                AudioController.playingListindex0_1(pp).setVolume(float9, float9);
+                AudioController.playingListindex0_2(pp).setVolume(float9, float9);
             } else if (i == 10) {
-                MPList.p7.setVolume(float10);
+                AudioController.playingListindex0_1(pp).setVolume(float10, float10);
+                AudioController.playingListindex0_2(pp).setVolume(float10, float10);
             } else if (i == 11) {
-                MPList.p7.setVolume(float11);
+                AudioController.playingListindex0_1(pp).setVolume(float11, float11);
+                AudioController.playingListindex0_2(pp).setVolume(float11, float11);
             } else if (i == 12) {
-                MPList.p7.setVolume(float12);
+                AudioController.playingListindex0_1(pp).setVolume(float12, float12);
+                AudioController.playingListindex0_2(pp).setVolume(float12, float12);
             } else if (i == 13) {
-                MPList.p7.setVolume(float13);
+                AudioController.playingListindex0_1(pp).setVolume(float13, float13);
+                AudioController.playingListindex0_2(pp).setVolume(float13, float13);
             } else if (i == 14) {
-                MPList.p7.setVolume(float14);
+                AudioController.playingListindex0_1(pp).setVolume(float14, float14);
+                AudioController.playingListindex0_2(pp).setVolume(float14, float14);
             } else if (i == 15) {
-                MPList.p7.setVolume(float15);
+                AudioController.playingListindex0_1(pp).setVolume(float15, float15);
+                AudioController.playingListindex0_2(pp).setVolume(float15, float15);
             }
-        }
-    }
-
-    public static void removeLoad() {
-        if (ChakraPage.load.getVisibility() == View.VISIBLE) {
-            ChakraPage.load.setVisibility(View.GONE);
-        } else if (HzPage.load.getVisibility() == View.VISIBLE) {
-            HzPage.load.setVisibility(View.GONE);
         }
     }
 
