@@ -19,6 +19,7 @@ import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.pages.adapter.PageAdapter;
 import com.dippola.relaxtour.pages.item.PageItem;
+import com.dippola.relaxtour.pages.item.ViewTypeCode;
 
 import java.util.ArrayList;
 
@@ -52,7 +53,7 @@ public class WindPage extends Fragment {
 
     private void setRecyclerView() {
         arrayList = MainActivity.databaseHandler.getPageList(3);
-        adapter = new PageAdapter(arrayList, getActivity());
+        adapter = new PageAdapter(arrayList, getActivity(), ViewTypeCode.ViewType.PAGE123);
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

@@ -20,6 +20,7 @@ import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.pages.adapter.PageAdapter;
 import com.dippola.relaxtour.pages.adapter.StoragePageAdapter;
 import com.dippola.relaxtour.pages.item.PageItem;
+import com.dippola.relaxtour.pages.item.ViewTypeCode;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,7 +57,7 @@ public class HzPage extends Fragment {
 
     private void setRecyclerView() {
         arrayList = MainActivity.databaseHandler.getPageList(7);
-        adapter = new PageAdapter(arrayList, getActivity());
+        adapter = new PageAdapter(arrayList, getActivity(), ViewTypeCode.ViewType.PAGE567);
         layoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

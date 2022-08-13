@@ -35,192 +35,245 @@ import com.dippola.relaxtour.notification.NotificationService;
 import com.dippola.relaxtour.pages.NaturePage;
 import com.dippola.relaxtour.pages.item.DownloadItem;
 import com.dippola.relaxtour.pages.item.PageItem;
+import com.dippola.relaxtour.pages.item.ViewTypeCode;
 import com.dippola.relaxtour.service.DownloadService;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHolder> {
+public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     ArrayList<PageItem> arrayList;
     Context context;
+    int viewTypeCode;
     DatabaseHandler databaseHandler;
 
-    public PageAdapter(ArrayList<PageItem> arrayList, Context context) {
+    public PageAdapter(ArrayList<PageItem> arrayList, Context context, int viewTypeCode) {
         this.arrayList = arrayList;
         this.context = context;
+        this.viewTypeCode = viewTypeCode;
     }
 
     @NonNull
     @Override
-    public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.page_item, parent, false);
-        CustomViewHolder holder = new CustomViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.page_item, parent, false);
+//        Page4ViewHolder holder = new Page4ViewHolder(view);
 
-        return holder;
+        Log.d("PageAdapter>>>", "viewtype: " + viewTypeCode);
+        View view;
+        if (viewTypeCode == ViewTypeCode.ViewType.PAGE123) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.page_item, parent, false);
+            return new Page123ViewHolder(view);
+        } else if (viewTypeCode == ViewTypeCode.ViewType.PAGE4) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.page_item4, parent, false);
+            return new Page4ViewHolder(view);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.page_item567, parent, false);
+            return new Page567ViewHolder(view);
+        }
+
+//        return holder;
+        //61memo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         databaseHandler = new DatabaseHandler(context);
         int positions = position;
 
-        setPageImageTheme(position, holder.img);
+        if (holder instanceof Page123ViewHolder) {
+            setViewHolder(
+                    0,
+                    position,
+                    ((Page123ViewHolder) holder).img,
+                    ((Page123ViewHolder) holder).download,
+                    ((Page123ViewHolder) holder).pro,
+                    ((Page123ViewHolder) holder).seekBar,
+                    ((Page123ViewHolder) holder).progressBar,
+                    ((Page123ViewHolder) holder).name
 
-        if (arrayList.get(position).getPage() != 1 && arrayList.get(position).getPage() != 2 && arrayList.get(position).getPage() != 3) {
-            if (arrayList.get(position).getPage() == 4) {
-                holder.img.setMinimumWidth(MainActivity.pageitem_4_width_size);
-                holder.img.setMinimumHeight(MainActivity.pageitem_4_height_size);
-            }
-            holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
-            holder.img.setMinimumHeight(MainActivity.pageitem_height_size);
-        } else {
-            holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
-            holder.img.setMinimumHeight(MainActivity.pageitem_height_size);
+            );
+        } else if (holder instanceof Page4ViewHolder) {
+            setViewHolder(
+                    1,
+                    position,
+                    ((Page4ViewHolder) holder).img,
+                    ((Page4ViewHolder) holder).download,
+                    ((Page4ViewHolder) holder).pro,
+                    ((Page4ViewHolder) holder).seekBar,
+                    ((Page4ViewHolder) holder).progressBar,
+                    ((Page4ViewHolder) holder).name
+            );
+        } else if (holder instanceof Page567ViewHolder) {
+            setViewHolder(
+                    2,
+                    position,
+                    ((Page567ViewHolder) holder).img,
+                    ((Page567ViewHolder) holder).download,
+                    ((Page567ViewHolder) holder).pro,
+                    ((Page567ViewHolder) holder).seekBar,
+                    ((Page567ViewHolder) holder).progressBar,
+                    ((Page567ViewHolder) holder).name
+            );
         }
 
-        holder.progressBar.setVisibility(View.GONE);
-
-        if (databaseHandler.getIsProUser() == 1) {
-            if (arrayList.get(positions).getIspro() == 2) {
-                holder.download.setVisibility(View.GONE);
-                holder.download.setEnabled(false);
-                holder.img.setEnabled(false);
-                holder.seekBar.setEnabled(false);
-                holder.pro.setEnabled(true);
-                setBackgroundPro(arrayList.get(positions).getPage(), holder.pro);
-            } else if (arrayList.get(positions).getIspro() == 1) {
-                if (arrayList.get(positions).getNeeddownload() == 1) {
-                    holder.pro.setVisibility(View.GONE);
-                    holder.pro.setEnabled(false);
-                    holder.download.setVisibility(View.GONE);
-                    holder.download.setEnabled(false);
-                    holder.img.setEnabled(true);
-                    holder.seekBar.setEnabled(true);
-                } else if (arrayList.get(positions).getNeeddownload() == 2) {
-                    File file = new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getPage() + "to" + arrayList.get(positions).getPosition() + ".mp3");
-                    if (file.exists()) {
-                        holder.download.setVisibility(View.GONE);
-                        holder.download.setEnabled(false);
-                        holder.img.setEnabled(true);
-                        holder.seekBar.setEnabled(true);
-                    } else {
-                        setBackgroundDownload(arrayList.get(positions).getPage(), holder.download);
-                        holder.download.setVisibility(View.VISIBLE);
-                        holder.download.setEnabled(true);
-                        holder.img.setEnabled(false);
-                        holder.seekBar.setEnabled(false);
-                    }
-                }
-            }
-        } else if (databaseHandler.getIsProUser() == 2) {
-            holder.pro.setVisibility(View.GONE);
-            holder.pro.setEnabled(false);
-            if (arrayList.get(positions).getNeeddownload() == 1) {
-                holder.download.setVisibility(View.GONE);
-                holder.download.setEnabled(false);
-                holder.img.setEnabled(true);
-                holder.seekBar.setEnabled(true);
-            } else if (arrayList.get(positions).getNeeddownload() == 2) {
-                if (new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getPage() + "to" + arrayList.get(positions).getPosition() + ".mp3").exists()) {
-                    holder.download.setVisibility(View.GONE);
-                    holder.seekBar.setEnabled(true);
-                } else {
-                    setBackgroundDownload(arrayList.get(positions).getPage(), holder.download);
-                    holder.download.setVisibility(View.VISIBLE);
-                    holder.download.setEnabled(true);
-                    holder.img.setEnabled(false);
-                    holder.seekBar.setEnabled(false);
-                }
-            }
-        }
-
-//        holder.pro.setVisibility(View.GONE);
-//        holder.pro.setEnabled(false);
-//        if (arrayList.get(position).getNeeddownload() == 1) {
-//            holder.download.setVisibility(View.GONE);
-//            holder.download.setEnabled(false);
-//            holder.img.setEnabled(true);
-//            holder.seekBar.setEnabled(true);
-//        } else if (arrayList.get(position).getNeeddownload() == 2) {
-//            if (new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(position).getPage() + "to" + arrayList.get(position).getPosition() + ".mp3").exists()) {
+//        setPageImageTheme(position, holder.img);
+//
+//        if (arrayList.get(position).getPage() != 1 && arrayList.get(position).getPage() != 2 && arrayList.get(position).getPage() != 3) {
+//            if (arrayList.get(position).getPage() == 4) {
+//                holder.img.setMinimumWidth(MainActivity.pageitem_4_width_size);
+//                holder.img.setMinimumHeight(MainActivity.pageitem_4_height_size);
+//            }
+//            holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
+//            holder.img.setMinimumHeight(MainActivity.pageitem_height_size);
+//        } else {
+//            holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
+//            holder.img.setMinimumHeight(MainActivity.pageitem_height_size);
+//        }
+//
+//        holder.progressBar.setVisibility(View.GONE);
+//
+//        if (databaseHandler.getIsProUser() == 1) {
+//            if (arrayList.get(positions).getIspro() == 2) {
 //                holder.download.setVisibility(View.GONE);
-//                holder.seekBar.setEnabled(true);
-//            } else {
-//                setBackgroundDownload(arrayList.get(position).getPage(), holder.download);
-//                holder.download.setVisibility(View.VISIBLE);
-//                holder.download.setEnabled(true);
+//                holder.download.setEnabled(false);
 //                holder.img.setEnabled(false);
 //                holder.seekBar.setEnabled(false);
+//                holder.pro.setEnabled(true);
+//                setBackgroundPro(arrayList.get(positions).getPage(), holder.pro);
+//            } else if (arrayList.get(positions).getIspro() == 1) {
+//                if (arrayList.get(positions).getNeeddownload() == 1) {
+//                    holder.pro.setVisibility(View.GONE);
+//                    holder.pro.setEnabled(false);
+//                    holder.download.setVisibility(View.GONE);
+//                    holder.download.setEnabled(false);
+//                    holder.img.setEnabled(true);
+//                    holder.seekBar.setEnabled(true);
+//                } else if (arrayList.get(positions).getNeeddownload() == 2) {
+//                    File file = new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getPage() + "to" + arrayList.get(positions).getPosition() + ".mp3");
+//                    if (file.exists()) {
+//                        holder.download.setVisibility(View.GONE);
+//                        holder.download.setEnabled(false);
+//                        holder.img.setEnabled(true);
+//                        holder.seekBar.setEnabled(true);
+//                    } else {
+//                        setBackgroundDownload(arrayList.get(positions).getPage(), holder.download);
+//                        holder.download.setVisibility(View.VISIBLE);
+//                        holder.download.setEnabled(true);
+//                        holder.img.setEnabled(false);
+//                        holder.seekBar.setEnabled(false);
+//                    }
+//                }
+//            }
+//        } else if (databaseHandler.getIsProUser() == 2) {
+//            holder.pro.setVisibility(View.GONE);
+//            holder.pro.setEnabled(false);
+//            if (arrayList.get(positions).getNeeddownload() == 1) {
+//                holder.download.setVisibility(View.GONE);
+//                holder.download.setEnabled(false);
+//                holder.img.setEnabled(true);
+//                holder.seekBar.setEnabled(true);
+//            } else if (arrayList.get(positions).getNeeddownload() == 2) {
+//                if (new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getPage() + "to" + arrayList.get(positions).getPosition() + ".mp3").exists()) {
+//                    holder.download.setVisibility(View.GONE);
+//                    holder.seekBar.setEnabled(true);
+//                } else {
+//                    setBackgroundDownload(arrayList.get(positions).getPage(), holder.download);
+//                    holder.download.setVisibility(View.VISIBLE);
+//                    holder.download.setEnabled(true);
+//                    holder.img.setEnabled(false);
+//                    holder.seekBar.setEnabled(false);
+//                }
 //            }
 //        }
-
-        holder.name.setText(arrayList.get(position).getName());
-        holder.seekBar.setProgress(arrayList.get(position).getSeek());
-
-        holder.img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (arrayList.get(positions).getPage() != 4) {//1,2,3page
-                    page(positions, holder.img);
-                } else {//4page nature일때
-                    page4(positions, holder.img);
-                }
-                page4Count();
-            }
-        });
-
-        holder.seekBar.setMax(MainActivity.maxVolumn);
-        holder.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {//터치
-                SeekController.pageMoving = true;
-            }
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {//변화
-                if (SeekController.pageMoving) {
-                    arrayList.get(positions).setSeek(seekBar.getProgress());
-//                    notifyItemChanged(positions);
-//                    notifyDataSetChanged();
-                    float volume = (float) (1 - (Math.log(SeekController.MAX_VOLUME - i) / Math.log(SeekController.MAX_VOLUME)));
-                    String pp = arrayList.get(positions).getPnp();
-                    SeekController.changeVolumn(pp, volume);
-                    SeekController.changeSeekInPage(context, arrayList.get(positions), seekBar.getProgress());
-                }
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {//끝
-                notifyItemChanged(positions);
-                notifyDataSetChanged();
-                SeekController.pageMoving = false;
-            }
-        });
-
-        holder.download.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences sharedPreferences = context.getSharedPreferences("download_dialog_checkbox", MODE_PRIVATE);
-                boolean isChecked = sharedPreferences.getBoolean("isChecked", false);
-                if (isChecked) {
-                    openDownloadService(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
-                    DownloadItem downloadItem = new DownloadItem(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
-                    DownloadService.downloadList.add(downloadItem);
-                    DownloadService.setOnClickDownload(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), holder.seekBar, downloadItem);
-                } else {
-                    AskDownloadDialog.askDownloadDialog(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), holder.seekBar);
-                }
-            }
-        });
-
-        holder.pro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(context, PremiumDialog.class));
-            }
-        });
+//
+////        holder.pro.setVisibility(View.GONE);
+////        holder.pro.setEnabled(false);
+////        if (arrayList.get(position).getNeeddownload() == 1) {
+////            holder.download.setVisibility(View.GONE);
+////            holder.download.setEnabled(false);
+////            holder.img.setEnabled(true);
+////            holder.seekBar.setEnabled(true);
+////        } else if (arrayList.get(position).getNeeddownload() == 2) {
+////            if (new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(position).getPage() + "to" + arrayList.get(position).getPosition() + ".mp3").exists()) {
+////                holder.download.setVisibility(View.GONE);
+////                holder.seekBar.setEnabled(true);
+////            } else {
+////                setBackgroundDownload(arrayList.get(position).getPage(), holder.download);
+////                holder.download.setVisibility(View.VISIBLE);
+////                holder.download.setEnabled(true);
+////                holder.img.setEnabled(false);
+////                holder.seekBar.setEnabled(false);
+////            }
+////        }
+//
+//        holder.name.setText(arrayList.get(position).getName());
+//        holder.seekBar.setProgress(arrayList.get(position).getSeek());
+//
+//        holder.img.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (arrayList.get(positions).getPage() != 4) {//1,2,3page
+//                    page(positions, holder.img);
+//                } else {//4page nature일때
+//                    page4(positions, holder.img);
+//                }
+//                page4Count();
+//            }
+//        });
+//
+//        holder.seekBar.setMax(MainActivity.maxVolumn);
+//        holder.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {//터치
+//                SeekController.pageMoving = true;
+//            }
+//
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {//변화
+//                if (SeekController.pageMoving) {
+//                    arrayList.get(positions).setSeek(seekBar.getProgress());
+////                    notifyItemChanged(positions);
+////                    notifyDataSetChanged();
+//                    float volume = (float) (1 - (Math.log(SeekController.MAX_VOLUME - i) / Math.log(SeekController.MAX_VOLUME)));
+//                    String pp = arrayList.get(positions).getPnp();
+//                    SeekController.changeVolumn(pp, volume);
+//                    SeekController.changeSeekInPage(context, arrayList.get(positions), seekBar.getProgress());
+//                }
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {//끝
+//                notifyItemChanged(positions);
+//                notifyDataSetChanged();
+//                SeekController.pageMoving = false;
+//            }
+//        });
+//
+//        holder.download.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                SharedPreferences sharedPreferences = context.getSharedPreferences("download_dialog_checkbox", MODE_PRIVATE);
+//                boolean isChecked = sharedPreferences.getBoolean("isChecked", false);
+//                if (isChecked) {
+//                    openDownloadService(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
+//                    DownloadItem downloadItem = new DownloadItem(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
+//                    DownloadService.downloadList.add(downloadItem);
+//                    DownloadService.setOnClickDownload(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), holder.seekBar, downloadItem);
+//                } else {
+//                    AskDownloadDialog.askDownloadDialog(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), holder.seekBar);
+//                }
+//            }
+//        });
+//
+//        holder.pro.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                context.startActivity(new Intent(context, PremiumDialog.class));
+//            }
+//        });
     }
 
     @Override
@@ -228,14 +281,14 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
         return arrayList.size();
     }
 
-    public static class CustomViewHolder extends RecyclerView.ViewHolder {
+    public static class Page123ViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
         SeekBar seekBar;
         ImageView download, pro;
         ProgressBar progressBar;
         TextView name;
 
-        public CustomViewHolder(@NonNull View itemView) {
+        public Page123ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.img = itemView.findViewById(R.id.page_item_img);
             this.seekBar = itemView.findViewById(R.id.page_item_seekbar);
@@ -243,6 +296,42 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             this.pro = itemView.findViewById(R.id.page_item_pro);
             this.progressBar = itemView.findViewById(R.id.page_item_progress);
             this.name = itemView.findViewById(R.id.page_item_name);
+        }
+    }
+
+    public static class Page4ViewHolder extends RecyclerView.ViewHolder {
+        ImageView img;
+        SeekBar seekBar;
+        ImageView download, pro;
+        ProgressBar progressBar;
+        TextView name;
+
+        public Page4ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.img = itemView.findViewById(R.id.page_item4_img);
+            this.seekBar = itemView.findViewById(R.id.page_item4_seekbar);
+            this.download = itemView.findViewById(R.id.page_item4_download);
+            this.pro = itemView.findViewById(R.id.page_item4_pro);
+            this.progressBar = itemView.findViewById(R.id.page_item4_progress);
+            this.name = itemView.findViewById(R.id.page_item4_name);
+        }
+    }
+
+    public static class Page567ViewHolder extends RecyclerView.ViewHolder {
+        ImageView img;
+        SeekBar seekBar;
+        ImageView download, pro;
+        ProgressBar progressBar;
+        TextView name;
+
+        public Page567ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.img = itemView.findViewById(R.id.page_item567_img);
+            this.seekBar = itemView.findViewById(R.id.page_item567_seekbar);
+            this.download = itemView.findViewById(R.id.page_item567_download);
+            this.pro = itemView.findViewById(R.id.page_item567_pro);
+            this.progressBar = itemView.findViewById(R.id.page_item567_progress);
+            this.name = itemView.findViewById(R.id.page_item567_name);
         }
     }
 
@@ -535,5 +624,166 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.CustomViewHold
             img.setMinimumHeight(MainActivity.pageitem_height_size);
             img.setMaxHeight(MainActivity.pageitem_height_size);
         }
+    }
+
+    private void setViewHolder(int viewTypeCode, int positions, ImageView img, ImageView download, ImageView pro, SeekBar seekBar, ProgressBar progressBar, TextView name) {
+        setPageImageTheme(positions, img);
+
+        if (viewTypeCode == ViewTypeCode.ViewType.PAGE123) {
+            setImageSizeCode0(img);
+        } else if (viewTypeCode == ViewTypeCode.ViewType.PAGE4) {
+            setImageSizeCode1(img);
+        } else {
+            setImageSizeCode2(img);
+        }
+
+        if (arrayList.get(positions).getPage() != 1 && arrayList.get(positions).getPage() != 2 && arrayList.get(positions).getPage() != 3) {
+            if (arrayList.get(positions).getPage() == 4) {
+                img.setMinimumWidth(MainActivity.pageitem_4_width_size);
+                img.setMinimumHeight(MainActivity.pageitem_4_height_size);
+            }
+            img.setMinimumWidth(MainActivity.pageitem_width_size);
+            img.setMinimumHeight(MainActivity.pageitem_height_size);
+        } else {
+            img.setMinimumWidth(MainActivity.pageitem_width_size);
+            img.setMinimumHeight(MainActivity.pageitem_height_size);
+        }
+
+        progressBar.setVisibility(View.GONE);
+
+        if (databaseHandler.getIsProUser() == 1) {
+            if (arrayList.get(positions).getIspro() == 2) {
+                download.setVisibility(View.GONE);
+                download.setEnabled(false);
+                img.setEnabled(false);
+                seekBar.setEnabled(false);
+                pro.setEnabled(true);
+                setBackgroundPro(arrayList.get(positions).getPage(), pro);
+            } else if (arrayList.get(positions).getIspro() == 1) {
+                if (arrayList.get(positions).getNeeddownload() == 1) {
+                    pro.setVisibility(View.GONE);
+                    pro.setEnabled(false);
+                    download.setVisibility(View.GONE);
+                    download.setEnabled(false);
+                    img.setEnabled(true);
+                    seekBar.setEnabled(true);
+                } else if (arrayList.get(positions).getNeeddownload() == 2) {
+                    File file = new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getPage() + "to" + arrayList.get(positions).getPosition() + ".mp3");
+                    if (file.exists()) {
+                        download.setVisibility(View.GONE);
+                        download.setEnabled(false);
+                        img.setEnabled(true);
+                        seekBar.setEnabled(true);
+                    } else {
+                        setBackgroundDownload(arrayList.get(positions).getPage(), download);
+                        download.setVisibility(View.VISIBLE);
+                        download.setEnabled(true);
+                        img.setEnabled(false);
+                        seekBar.setEnabled(false);
+                    }
+                }
+            }
+        } else if (databaseHandler.getIsProUser() == 2) {
+            pro.setVisibility(View.GONE);
+            pro.setEnabled(false);
+            if (arrayList.get(positions).getNeeddownload() == 1) {
+                download.setVisibility(View.GONE);
+                download.setEnabled(false);
+                img.setEnabled(true);
+                seekBar.setEnabled(true);
+            } else if (arrayList.get(positions).getNeeddownload() == 2) {
+                if (new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getPage() + "to" + arrayList.get(positions).getPosition() + ".mp3").exists()) {
+                    download.setVisibility(View.GONE);
+                    seekBar.setEnabled(true);
+                } else {
+                    setBackgroundDownload(arrayList.get(positions).getPage(), download);
+                    download.setVisibility(View.VISIBLE);
+                    download.setEnabled(true);
+                    img.setEnabled(false);
+                    seekBar.setEnabled(false);
+                }
+            }
+        }
+
+        name.setText(arrayList.get(positions).getName());
+        seekBar.setProgress(arrayList.get(positions).getSeek());
+
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (arrayList.get(positions).getPage() != 4) {//1,2,3page
+                    page(positions, img);
+                } else {//4page nature일때
+                    page4(positions, img);
+                }
+                page4Count();
+            }
+        });
+
+        seekBar.setMax(MainActivity.maxVolumn);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {//터치
+                SeekController.pageMoving = true;
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {//변화
+                if (SeekController.pageMoving) {
+                    arrayList.get(positions).setSeek(seekBar.getProgress());
+//                    notifyItemChanged(positions);
+//                    notifyDataSetChanged();
+                    float volume = (float) (1 - (Math.log(SeekController.MAX_VOLUME - i) / Math.log(SeekController.MAX_VOLUME)));
+                    String pp = arrayList.get(positions).getPnp();
+                    SeekController.changeVolumn(pp, volume);
+                    SeekController.changeSeekInPage(context, arrayList.get(positions), seekBar.getProgress());
+                }
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {//끝
+                notifyItemChanged(positions);
+                notifyDataSetChanged();
+                SeekController.pageMoving = false;
+            }
+        });
+
+        download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sharedPreferences = context.getSharedPreferences("download_dialog_checkbox", MODE_PRIVATE);
+                boolean isChecked = sharedPreferences.getBoolean("isChecked", false);
+                if (isChecked) {
+                    openDownloadService(context, progressBar, img, download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
+                    DownloadItem downloadItem = new DownloadItem(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
+                    DownloadService.downloadList.add(downloadItem);
+                    DownloadService.setOnClickDownload(context, progressBar, img, download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), seekBar, downloadItem);
+                } else {
+                    AskDownloadDialog.askDownloadDialog(context, progressBar, img, download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), seekBar);
+                }
+            }
+        });
+
+        pro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context, PremiumDialog.class));
+            }
+        });
+    }
+
+    private void setImageSizeCode0(ImageView img) {
+        img.setMinimumWidth(MainActivity.pageitem_width_size);
+        img.setMinimumHeight(MainActivity.pageitem_height_size);
+    }
+
+    private void setImageSizeCode1(ImageView img) {
+        img.setMinimumWidth(MainActivity.pageitem_4_width_size);
+        img.setMinimumHeight(MainActivity.pageitem_4_height_size);
+    }
+
+    private void setImageSizeCode2(ImageView img) {
+        img.setMinimumWidth(MainActivity.pageitem_width_size);
+        img.setMinimumHeight(MainActivity.pageitem_height_size);
     }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dippola.relaxtour"
-    android:versionCode="9"
-    android:versionName="1.0.9">
+    android:versionCode="10"
+    android:versionName="1.0.10">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
@@ -41,6 +41,7 @@
         <activity android:name=".board.BoardMain" />
         <activity android:name=".dialog.PremiumDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".dialog.ResetDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
+        <activity android:name=".dialog.InfoDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
 
         <service
             android:name=".service.FirebaseMessagingService"

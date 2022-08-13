@@ -16,3 +16,4 @@ public class memo {
 //    5. bottomSheetAdapter > changePageItemBackground
 //    6. StorageManageAdapter > resetPage, changePageItemBackground, getPageName
 }
+//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

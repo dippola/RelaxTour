@@ -11,6 +11,15 @@
         android:background="@drawable/page_round"
         android:elevation="15dp">
 
+        <ImageView
+            android:id="@+id/page_info"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/info_icon"
+            android:visibility="gone"/>
+
         <TextView
             android:id="@+id/page_4_count"
             android:layout_width="wrap_content"
