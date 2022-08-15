@@ -592,18 +592,12 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (page != 1 && page != 2 && page != 3) {
             if (page == 4) {
                 img.setImageBitmap(databaseHandler.getPageicon("pro"));
-                img.setMinimumWidth(MainActivity.pageitem_4_width_size);
-                img.setMinimumHeight(MainActivity.pageitem_4_height_size);
-                img.setMaxHeight(MainActivity.pageitem_height_size);
             }
             if (page == 5 || page == 6 || page == 7) {
                 img.setImageBitmap(databaseHandler.getPageicon("circlepro"));
             }
         } else {
             img.setImageBitmap(databaseHandler.getPageicon("pro"));
-            img.setMinimumWidth(MainActivity.pageitem_width_size);
-            img.setMinimumHeight(MainActivity.pageitem_height_size);
-            img.setMaxHeight(MainActivity.pageitem_height_size);
         }
     }
 
@@ -611,18 +605,12 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (page != 1 && page != 2 && page != 3) {
             if (page == 4) {
                 img.setImageBitmap(databaseHandler.getPageicon("download"));
-                img.setMinimumWidth(MainActivity.pageitem_4_width_size);
-                img.setMinimumHeight(MainActivity.pageitem_4_height_size);
-                img.setMaxHeight(MainActivity.pageitem_4_height_size);
             }
             if (page == 5 || page == 6 || page == 7) {
                 img.setImageBitmap(databaseHandler.getPageicon("circledownload"));
             }
         } else {
             img.setImageBitmap(databaseHandler.getPageicon("download"));
-            img.setMinimumWidth(MainActivity.pageitem_width_size);
-            img.setMinimumHeight(MainActivity.pageitem_height_size);
-            img.setMaxHeight(MainActivity.pageitem_height_size);
         }
     }
 
@@ -630,23 +618,11 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         setPageImageTheme(positions, img);
 
         if (viewTypeCode == ViewTypeCode.ViewType.PAGE123) {
-            setImageSizeCode0(img);
+            setImageSizeCode0(img, download, pro);
         } else if (viewTypeCode == ViewTypeCode.ViewType.PAGE4) {
-            setImageSizeCode1(img);
+            setImageSizeCode1(img, download, pro);
         } else {
-            setImageSizeCode2(img);
-        }
-
-        if (arrayList.get(positions).getPage() != 1 && arrayList.get(positions).getPage() != 2 && arrayList.get(positions).getPage() != 3) {
-            if (arrayList.get(positions).getPage() == 4) {
-                img.setMinimumWidth(MainActivity.pageitem_4_width_size);
-                img.setMinimumHeight(MainActivity.pageitem_4_height_size);
-            }
-            img.setMinimumWidth(MainActivity.pageitem_width_size);
-            img.setMinimumHeight(MainActivity.pageitem_height_size);
-        } else {
-            img.setMinimumWidth(MainActivity.pageitem_width_size);
-            img.setMinimumHeight(MainActivity.pageitem_height_size);
+            setImageSizeCode2(img, download, pro);
         }
 
         progressBar.setVisibility(View.GONE);
@@ -772,18 +748,30 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         });
     }
 
-    private void setImageSizeCode0(ImageView img) {
-        img.setMinimumWidth(MainActivity.pageitem_width_size);
-        img.setMinimumHeight(MainActivity.pageitem_height_size);
+    private void setImageSizeCode0(ImageView img, ImageView download, ImageView pro) {
+        img.setMinimumWidth(MainActivity.pageitem_code0_width_size);
+        img.setMinimumHeight(MainActivity.pageitem_code0_height_size);
+        download.setMinimumWidth(MainActivity.pageitem_code0_width_size);
+        download.setMinimumHeight(MainActivity.pageitem_code0_height_size);
+        pro.setMinimumWidth(MainActivity.pageitem_code0_width_size);
+        pro.setMinimumHeight(MainActivity.pageitem_code0_height_size);
     }
 
-    private void setImageSizeCode1(ImageView img) {
-        img.setMinimumWidth(MainActivity.pageitem_4_width_size);
-        img.setMinimumHeight(MainActivity.pageitem_4_height_size);
+    private void setImageSizeCode1(ImageView img, ImageView download, ImageView pro) {
+        img.setMinimumWidth(MainActivity.pageitem_code1_width_size);
+        img.setMinimumHeight(MainActivity.pageitem_code1_height_size);
+        download.setMinimumWidth(MainActivity.pageitem_code1_width_size);
+        download.setMinimumHeight(MainActivity.pageitem_code1_height_size);
+        pro.setMinimumWidth(MainActivity.pageitem_code1_width_size);
+        pro.setMinimumHeight(MainActivity.pageitem_code1_height_size);
     }
 
-    private void setImageSizeCode2(ImageView img) {
-        img.setMinimumWidth(MainActivity.pageitem_width_size);
-        img.setMinimumHeight(MainActivity.pageitem_height_size);
+    private void setImageSizeCode2(ImageView img, ImageView download, ImageView pro) {
+        img.setMinimumWidth(MainActivity.pageitem_code1_width_size);
+        img.setMinimumHeight(MainActivity.pageitem_code1_height_size);
+        download.setMinimumWidth(MainActivity.pageitem_code1_width_size);
+        download.setMinimumHeight(MainActivity.pageitem_code1_height_size);
+        pro.setMinimumWidth(MainActivity.pageitem_code1_width_size);
+        pro.setMinimumHeight(MainActivity.pageitem_code1_height_size);
     }
 }

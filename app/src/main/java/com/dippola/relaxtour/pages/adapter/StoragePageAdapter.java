@@ -20,8 +20,6 @@ import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.controller.SeekController;
 import com.dippola.relaxtour.notification.NotificationService;
-import com.dippola.relaxtour.pages.ChakraPage;
-import com.dippola.relaxtour.pages.HzPage;
 import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.service.DownloadService;
 
@@ -56,12 +54,12 @@ public class StoragePageAdapter extends RecyclerView.Adapter<StoragePageAdapter.
         Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
         Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
 
-        holder.download.setMinimumHeight(MainActivity.pageitem_width_size);
-        holder.download.setMinimumWidth(MainActivity.pageitem_width_size);
-        holder.progressBar.setMinimumHeight(MainActivity.pageitem_width_size);
-        holder.progressBar.setMinimumWidth(MainActivity.pageitem_width_size);
-        holder.button.setMinimumHeight(MainActivity.pageitem_width_size);
-        holder.button.setMinimumWidth(MainActivity.pageitem_width_size);
+        holder.download.setMinimumHeight(MainActivity.pageitem_code0_width_size);
+        holder.download.setMinimumWidth(MainActivity.pageitem_code0_width_size);
+        holder.progressBar.setMinimumHeight(MainActivity.pageitem_code0_width_size);
+        holder.progressBar.setMinimumWidth(MainActivity.pageitem_code0_width_size);
+        holder.button.setMinimumHeight(MainActivity.pageitem_code0_width_size);
+        holder.button.setMinimumWidth(MainActivity.pageitem_code0_width_size);
 
         if (arrayList.get(position).getIsplay() == 1) {
             holder.button.setImageBitmap(bitmap1);

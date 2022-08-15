@@ -42,6 +42,7 @@
         <activity android:name=".dialog.PremiumDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".dialog.ResetDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".dialog.InfoDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
+        <activity android:name=".dialog.credit_dialog.CreditDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
 
         <service
             android:name=".service.FirebaseMessagingService"

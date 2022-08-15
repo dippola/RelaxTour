@@ -1,6 +1,5 @@
 package com.dippola.relaxtour.setting;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -10,13 +9,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -24,17 +21,12 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.dialog.credit_dialog.CreditDialog;
 import com.dippola.relaxtour.dialog.PremiumDialog;
-import com.qonversion.android.sdk.Qonversion;
-import com.qonversion.android.sdk.QonversionError;
-import com.qonversion.android.sdk.QonversionPermissionsCallback;
-import com.qonversion.android.sdk.dto.QPermission;
-
-import java.util.Map;
 
 public class SettingDialog extends AppCompatActivity {
 
-    RelativeLayout howToUse, storageManage;
+    RelativeLayout howToUse, storageManage, credit;
     Button premiumBtn, already;
     SwitchCompat notifiSwitch;
     TextView version;
@@ -62,6 +54,7 @@ public class SettingDialog extends AppCompatActivity {
         onClickPremiumBtn();
         onClickStorageManage();
         setNotifiSwitch();
+        onClickCredit();
 
         checkPermission();
     }
@@ -74,6 +67,7 @@ public class SettingDialog extends AppCompatActivity {
         notifiSwitch = findViewById(R.id.setting_notification_switch);
         version = findViewById(R.id.setting_version_text);
         version.setText(getAppVersion());
+        credit = findViewById(R.id.setting_credit);
     }
 
     private void onClickHowToUse() {
@@ -114,6 +108,15 @@ public class SettingDialog extends AppCompatActivity {
                 } else {
                     databaseHandler.changeNotificationAgree(1);
                 }
+            }
+        });
+    }
+
+    private void onClickCredit() {
+        credit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SettingDialog.this, CreditDialog.class));
             }
         });
     }

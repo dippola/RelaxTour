@@ -11,19 +11,15 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.media.AudioManager;
-import android.media.AudioTrack;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +29,6 @@ import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.AddFavDialog;
 import com.dippola.relaxtour.dialog.AskDeleteAllPlaylistDialog;
-import com.dippola.relaxtour.dialog.ConstainProTrackDialog;
 import com.dippola.relaxtour.dialog.ThemeDialog;
 import com.dippola.relaxtour.maintablayout.MainTabAdapter;
 import com.dippola.relaxtour.maintablayout.MainTabItem;
@@ -55,30 +50,19 @@ import com.dippola.relaxtour.setting.SettingDialog;
 import com.dippola.relaxtour.timer.Timer2;
 import com.dippola.relaxtour.timer.TimerDialog;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.qonversion.android.sdk.QUserProperties;
-import com.qonversion.android.sdk.Qonversion;
-import com.qonversion.android.sdk.QonversionError;
-import com.qonversion.android.sdk.QonversionOfferingsCallback;
-import com.qonversion.android.sdk.QonversionPermissionsCallback;
-import com.qonversion.android.sdk.QonversionProductsCallback;
-import com.qonversion.android.sdk.dto.QPermission;
-import com.qonversion.android.sdk.dto.offerings.QOffering;
-import com.qonversion.android.sdk.dto.offerings.QOfferings;
-import com.qonversion.android.sdk.dto.products.QProduct;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     public static DatabaseHandler databaseHandler;
-    public static int pageitem_width_size;
-    public static int pageitem_height_size;
-    public static int pageitem_4_width_size;
-    public static int pageitem_4_height_size;
+    public static int pageitem_code0_width_size;
+    public static int pageitem_code0_height_size;
+    public static int pageitem_code1_width_size;
+    public static int pageitem_code1_height_size;
+    public static int pageitem_code2_width_size;
+    public static int pageitem_code2_height_size;
     AudioManager audioManager;
     public static int maxVolumn;
 
@@ -441,11 +425,13 @@ public class MainActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int y = (int) (size.y * 0.5);
-        pageitem_width_size = (int) (size.x * 0.37);
-        pageitem_height_size = (int) (pageitem_width_size * 0.75);
-        pageitem_4_width_size = (int) (size.x * 0.25);
-        pageitem_4_height_size = (int) (pageitem_4_width_size * 0.75);
+        int y = (int) (size.y * 0.5);//디바이스 세로의 50%
+        pageitem_code0_width_size = (int) (size.x * 0.37);//디바이스 가로의 1/3
+        pageitem_code0_height_size = (int) (pageitem_code0_width_size * 0.75);
+        pageitem_code1_width_size = (int) (size.x * 0.25);//디바이스 가로의 1/4
+        pageitem_code1_height_size = (int) (pageitem_code1_width_size * 0.75);
+        pageitem_code2_width_size = (int) (size.x * 0.25);
+        pageitem_code2_height_size = (int) (size.x * 0.25);
 
         bottomRecyclerView.setMinimumHeight(y);
 
@@ -602,7 +588,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        moveTaskToBack(true);
+//        moveTaskToBack(true);
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        } else {
+            moveTaskToBack(true);
+        }
     }
 
 }
