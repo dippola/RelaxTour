@@ -111,25 +111,25 @@ public class MantraController {
 
     private static int getSec(String pnp) {
         if (pnp.equals("6-1")) {
-            return 60000-3000;
+            return 226600-3000;
         }
         if (pnp.equals("6-2")) {
-            return 60000-3000;
+            return 226600-3000;
         }
         if (pnp.equals("6-3")) {
-            return 60000-3000;
+            return 226600-3000;
         }
         if (pnp.equals("6-4")) {
-            return 60000-3000;
+            return 226600-3000;
         }
         if (pnp.equals("6-5")) {
-            return 60000-3000;
+            return 226600-3000;
         }
         if (pnp.equals("6-6")) {
-            return 60000-3000;
+            return 226600-3000;
         }
         if (pnp.equals("6-7")) {
-            return 60000-3000;
+            return 226600-3000;
         }
         return 0;
     }

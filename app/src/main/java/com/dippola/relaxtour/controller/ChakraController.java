@@ -114,25 +114,25 @@ public class ChakraController {
 
     private static int getSec(String pnp) {
         if (pnp.equals("5-1")) {
-            return 60000-3000;
+            return 660000-3000;
         }
         if (pnp.equals("5-2")) {
-            return 60000-3000;
+            return 660000-3000;
         }
         if (pnp.equals("5-3")) {
-            return 60000-3000;
+            return 660000-3000;
         }
         if (pnp.equals("5-4")) {
-            return 60000-3000;
+            return 660000-3000;
         }
         if (pnp.equals("5-5")) {
-            return 60000-3000;
+            return 660000-3000;
         }
         if (pnp.equals("5-6")) {
-            return 60000-3000;
+            return 660000-3000;
         }
         if (pnp.equals("5-7")) {
-            return 60000-3000;
+            return 660000-3000;
         }
         return 0;
     }
