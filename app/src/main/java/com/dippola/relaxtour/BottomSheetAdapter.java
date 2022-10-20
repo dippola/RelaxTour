@@ -183,7 +183,7 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
         } else if (page == 6 && MantraPage.arrayList.size() != 0) {
             MantraPage.arrayList.get(position - 1).setIsplay(1);
             MantraPage.adapter.notifyItemChanged(position - 1);
-        } else if (page == 5 && HzPage.arrayList.size() != 0) {
+        } else if (page == 7 && HzPage.arrayList.size() != 0) {
             HzPage.arrayList.get(position - 1).setIsplay(1);
             HzPage.adapter.notifyItemChanged(position - 1);
         }
