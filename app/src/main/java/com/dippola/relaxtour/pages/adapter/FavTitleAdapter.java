@@ -14,9 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
+import com.dippola.relaxtour.controller.SeekController;
 import com.dippola.relaxtour.dialog.AskDownloadsDialog;
 import com.dippola.relaxtour.dialog.ConstainProTrackDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
@@ -341,8 +343,11 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         }
         ArrayList<PageItem> pageItems = new ArrayList<>();
         for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
+//            SeekController.changeVolumn(MainActivity.bottomSheetPlayList.get(i).getPnp(), MainActivity.bottomSheetPlayList.get(i).getSeek());
+            AudioController.setVolumn(MainActivity.bottomSheetPlayList.get(i).getPnp(), MainActivity.bottomSheetPlayList.get(i).getSeek());
             pageItems.add(MainActivity.bottomSheetPlayList.get(i));
             changePageImage(MainActivity.bottomSheetPlayList.get(i).getPage(), MainActivity.bottomSheetPlayList.get(i).getPosition() - 1);
+            MainActivity.databaseHandler.changePageSeekWhenPlayInFavTitle(MainActivity.bottomSheetPlayList.get(i).getPage(), MainActivity.bottomSheetPlayList.get(i).getPosition(), MainActivity.bottomSheetPlayList.get(i).getSeek());
             if (i == MainActivity.bottomSheetPlayList.size() - 1) {
                 AudioController.startPlayingList(context, pageItems);
                 AudioController.checkOpenService(context);

@@ -107,7 +107,6 @@ public class ChakraController {
                 MPList.p5p7_2.prepareAsync();
             }
         }
-        Log.d("ChakraController>>>", "check: " + pnp);
         new p5t1(null).setStop(true);
         new p5t2(null).setStop(true);
     }

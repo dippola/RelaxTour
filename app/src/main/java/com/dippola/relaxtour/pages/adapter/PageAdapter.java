@@ -61,7 +61,6 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 //        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.page_item, parent, false);
 //        Page4ViewHolder holder = new Page4ViewHolder(view);
 
-        Log.d("PageAdapter>>>", "viewtype: " + viewTypeCode);
         View view;
         if (viewTypeCode == ViewTypeCode.ViewType.PAGE123) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.page_item, parent, false);

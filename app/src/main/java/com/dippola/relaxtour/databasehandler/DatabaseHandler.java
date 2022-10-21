@@ -436,7 +436,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("update playing set seek = " + progress + " where pnp = " + "'" + pnp + "'");
         sqLiteDatabase.execSQL("update " + getPageName(page) + " set seek = " + progress + " where position = " + position);
-        sqLiteDatabase.execSQL("update favlist set seek = " + progress + " where pnp = " + "'" + pnp + "'");
+//        sqLiteDatabase.execSQL("update favlist set seek = " + progress + " where pnp = " + "'" + pnp + "'");
+    }
+
+    public void changeSeekInFavList(int progress, String favtitlename, String pnp) {
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("update favlist set seek = " + progress + " where favtitlename = " + "'" + favtitlename + "'" + " and pnp = " + "'" + pnp + "'");
     }
 
     public void checkTitleAlready(Context context, String title) {
@@ -667,37 +672,37 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //            sqLiteDatabase.execSQL("update hz set isplay = 1 where isplay = 2");
 //        }
         for (int i = 0; i < pagelist.size(); i++) {
-            if (pagelist.get(i) == 1) {
+            if (pagelist.get(i) == 1 && RainPage.arrayList.size() != 0) {
                 sqLiteDatabase.execSQL("update rain set isplay = 1 where isplay = 2");
                 RainPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 RainPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 RainPage.adapter.notifyDataSetChanged();
-            } else if (pagelist.get(i) == 2) {
+            } else if (pagelist.get(i) == 2 && WaterPage.arrayList.size() != 0) {
                 sqLiteDatabase.execSQL("update water set isplay = 1 where isplay = 2");
                 WaterPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 WaterPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 WaterPage.adapter.notifyDataSetChanged();
-            } else if (pagelist.get(i) == 3) {
+            } else if (pagelist.get(i) == 3 && WindPage.arrayList.size() != 0) {
                 sqLiteDatabase.execSQL("update wind set isplay = 1 where isplay = 2");
                 WindPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 WindPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 WindPage.adapter.notifyDataSetChanged();
-            } else if (pagelist.get(i) == 4) {
+            } else if (pagelist.get(i) == 4 && NaturePage.arrayList.size() != 0) {
                 sqLiteDatabase.execSQL("update nature set isplay = 1 where isplay = 2");
                 NaturePage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 NaturePage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 NaturePage.adapter.notifyDataSetChanged();
-            } else if (pagelist.get(i) == 5) {
+            } else if (pagelist.get(i) == 5 && ChakraPage.arrayList.size() != 0) {
                 sqLiteDatabase.execSQL("update chakra set isplay = 1 where isplay = 2");
                 ChakraPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 ChakraPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 ChakraPage.adapter.notifyDataSetChanged();
-            } else if (pagelist.get(i) == 6) {
+            } else if (pagelist.get(i) == 6 && MantraPage.arrayList.size() != 0) {
                 sqLiteDatabase.execSQL("update mantra set isplay = 1 where isplay = 2");
                 MantraPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 MantraPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 MantraPage.adapter.notifyDataSetChanged();
-            } else if (pagelist.get(i) == 7) {
+            } else if (pagelist.get(i) == 7 && HzPage.arrayList.size() != 0) {
                 sqLiteDatabase.execSQL("update hz set isplay = 1 where isplay = 2");
                 HzPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 HzPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
@@ -850,4 +855,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //    }
 
     //Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
+
+    public void changePageSeekWhenPlayInFavTitle(int page, int position, int volumn) {
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("update " + getPageName(page) + " set seek = " + volumn + " where position = " + position);
+    }
 }
