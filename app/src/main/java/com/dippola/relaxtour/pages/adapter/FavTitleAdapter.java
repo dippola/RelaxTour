@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,6 +55,10 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fav_page_item, parent, false);
         CustomViewHolder holder = new CustomViewHolder(view);
 
+        ViewGroup.LayoutParams params = holder.contr.getLayoutParams();
+        params.width = (int) (parent.getWidth() * 0.4);
+        holder.contr.setLayoutParams(params);
+
         return holder;
     }
 
@@ -64,10 +69,12 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         holder.title.setText(arrayList.get(position).getTitle());
 
         if (arrayList.get(i).getIsopen() == 1) {
+            holder.hide.setVisibility(View.GONE);
             holder.recyclerView.setVisibility(View.GONE);
             holder.uandd.setChecked(false);
             holder.uandd.setBackgroundResource(R.drawable.fav_page_item_down);
         } else {
+            holder.hide.setVisibility(View.VISIBLE);
             holder.recyclerView.setVisibility(View.VISIBLE);
             holder.uandd.setChecked(true);
             holder.uandd.setBackgroundResource(R.drawable.fav_page_item_up);
@@ -186,6 +193,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
             }
         });
 
+
 //        holder.uandd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //            @Override
 //            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -213,6 +221,8 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         CheckBox uandd;
         RecyclerView recyclerView;
         LinearLayout linearLayout;
+        LinearLayout hide;
+        RelativeLayout contr;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -224,10 +234,13 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
             this.recyclerView = itemView.findViewById(R.id.fav_page_inside_recyclerview);
             this.linearLayout = itemView.findViewById(R.id.fav_page_item_linear);
             this.recyclerView.setVisibility(View.GONE);
+            this.contr = itemView.findViewById(R.id.fav_page_item_controller_layout);
+
+            this.hide = itemView.findViewById(R.id.fav_page_item_hide);
             if (this.uandd.isChecked()) {
-                this.recyclerView.setVisibility(View.VISIBLE);
+                this.hide.setVisibility(View.VISIBLE);
             } else {
-                this.recyclerView.setVisibility(View.GONE);
+                this.hide.setVisibility(View.GONE);
             }
         }
     }
