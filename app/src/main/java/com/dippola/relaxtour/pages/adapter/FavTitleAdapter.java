@@ -83,8 +83,9 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         holder.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                MainActivity.load.setVisibility(View.VISIBLE);
-                checkDownloadAready(arrayList.get(i).getTitle(), i);
+                Log.d("FavTitleAdapter>>>", "start");
+                MainActivity.load.setVisibility(View.VISIBLE);
+                checkDownloadAready(arrayList.get(i).getTitle());
             }
         });
 
@@ -277,7 +278,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         }
     }
 
-    private void checkDownloadAready(String title, int position) {
+    private void checkDownloadAready(String title) {
         ArrayList<FavListItem> favListItems = new ArrayList<>();
         favListItems = MainActivity.databaseHandler.getFavListItem(title);
 //        for (int i = 0; i < favListItems.size(); i++) {
@@ -304,7 +305,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                 Log.d("FavTitleAdapter>>>", "null size: " + checkNeedDownload(favListItems).size());
                 AskDownloadsDialog.askDownloadsDialog(context, checkNeedDownload(favListItems));
             } else {
-                favListPlay(position);
+                favListPlay(title);
             }
         }
     }
@@ -336,7 +337,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         return list;
     }
 
-    public void favListPlay(int position) {
+    public void favListPlay(String title) {
         if (MainActivity.bottomSheetPlayList.size() != 0) {//만약 playinglist에 재생목록이 있다면
             ArrayList<Integer> pagelist = new ArrayList<>();
             ArrayList<Integer> positionlist = new ArrayList<>();
@@ -346,13 +347,14 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                 AudioController.stopPage(MainActivity.bottomSheetPlayList.get(ii).getPage(), MainActivity.bottomSheetPlayList.get(ii).getPnp());
                 if (ii == MainActivity.bottomSheetPlayList.size() - 1) {
                     MainActivity.bottomSheetPlayList.clear();
-                    MainActivity.bottomSheetAdapter.notifyItemRangeRemoved(0, MainActivity.bottomSheetPlayList.size() - 1);
-                    MainActivity.bottomSheetAdapter.notifyDataSetChanged();
-                    MainActivity.databaseHandler.deleteAllPlayinglist(pagelist, positionlist, arrayList.get(position).getTitle());
+//                    MainActivity.bottomSheetAdapter.notifyItemRangeRemoved(0, MainActivity.bottomSheetPlayList.size() - 1);
+//                    MainActivity.bottomSheetAdapter.notifyDataSetChanged();
+                    MainActivity.databaseHandler.deleteAllPlayinglist(pagelist, positionlist, title);
                 }
             }
+            Log.d("FavTitleAdapter>>>", "2");
         } else {//playinglist에 기존목록 없다면
-            MainActivity.databaseHandler.addFavListInPlayinglist(arrayList.get(position).getTitle());
+            MainActivity.databaseHandler.addFavListInPlayinglist(title);
         }
         ArrayList<PageItem> pageItems = new ArrayList<>();
         for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
@@ -368,5 +370,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
             }
         }
         PageAdapter.page4Count();
+        MainActivity.load.setVisibility(View.GONE);
+        Log.d("FavTitleAdapter>>>", "finished");
     }
 }

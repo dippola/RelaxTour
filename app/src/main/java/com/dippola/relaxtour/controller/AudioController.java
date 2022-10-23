@@ -694,7 +694,6 @@ public class AudioController {
     }
 
     public static void setVolumn(String pp, int i) {
-        Log.d("AudioController>>>", "setVoloumn");
         float float0 = (float) 0.0;
         float float1 = (float) 0.023277352;
         float float2 = (float) 0.04816127;
