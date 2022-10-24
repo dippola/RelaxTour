@@ -40,7 +40,7 @@ import java.util.Map;
 
 public class PremiumDialog extends AppCompatActivity {
 
-    Button ok;
+    Button ok, close;
     TextView cancel;
     Application application;
     Activity activity;
@@ -67,11 +67,19 @@ public class PremiumDialog extends AppCompatActivity {
 
     private void setInit() {
         ok = findViewById(R.id.premium_dialog_ok);
+        close = findViewById(R.id.premium_dialog_close);
         cancel = findViewById(R.id.premium_dialog_cancel);
         load = findViewById(R.id.premium_dialog_load);
         load.setVisibility(View.GONE);
         okSetOnClick();
         cancelSetOnClick();
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     private void okSetOnClick() {

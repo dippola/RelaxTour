@@ -51,6 +51,7 @@ public class TimerService extends Service {
         isCount = true;
         MainActivity.maincount.setVisibility(View.VISIBLE);
         MainActivity.cancel.setVisibility(View.VISIBLE);
+        MainActivity.mainTitle.setVisibility(View.GONE);
         Log.d("TimerService>>>", "onStartCommand");
         return super.onStartCommand(intent, flags, startId);
     }
@@ -129,6 +130,7 @@ public class TimerService extends Service {
                     MainActivity.maincount.setText("");
                     MainActivity.maincount.setVisibility(View.GONE);
                     MainActivity.cancel.setVisibility(View.GONE);
+                    MainActivity.mainTitle.setVisibility(View.VISIBLE);
                 }
             };
             cdt.start();
@@ -148,6 +150,7 @@ public class TimerService extends Service {
         MainActivity.maincount.setText("");
         MainActivity.maincount.setVisibility(View.GONE);
         MainActivity.cancel.setVisibility(View.GONE);
+        MainActivity.mainTitle.setVisibility(View.VISIBLE);
 
 
         if (NotificationService.isPlaying) {

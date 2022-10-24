@@ -17,9 +17,11 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     Button setting, timer, mode, board;
     public static TextView maincount;
     public static Button cancel;
+    public static LinearLayout mainTitle;
 
     //page view pager
     public static ViewPager viewPager;
@@ -153,14 +156,17 @@ public class MainActivity extends AppCompatActivity {
         timer = findViewById(R.id.activity_main_timer);
         maincount = findViewById(R.id.activity_main_maincount);
         cancel = findViewById(R.id.activity_main_timer_cancel);
+        mainTitle = findViewById(R.id.activity_main_title_layout);
         board = findViewById(R.id.activity_main_board);
 
         if (TimerService.isCount) {
             cancel.setVisibility(View.VISIBLE);
             maincount.setVisibility(View.VISIBLE);
+            MainActivity.mainTitle.setVisibility(View.GONE);
         } else {
             cancel.setVisibility(View.GONE);
             maincount.setVisibility(View.GONE);
+            MainActivity.mainTitle.setVisibility(View.VISIBLE);
         }
 
         timer.setOnClickListener(new View.OnClickListener() {
@@ -425,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int y = (int) (size.y * 0.5);//디바이스 세로의 50%
+        int y = (int) (size.y * 0.2);//디바이스 세로의 50%
         pageitem_code0_width_size = (int) (size.x * 0.37);//디바이스 가로의 1/3
         pageitem_code0_height_size = (int) (pageitem_code0_width_size * 0.75);
         pageitem_code1_width_size = (int) (size.x * 0.25);//디바이스 가로의 1/4
@@ -456,6 +462,12 @@ public class MainActivity extends AppCompatActivity {
                     bottomOutside.setVisibility(View.VISIBLE);
                 } else {
                     bottomOutside.setVisibility(View.GONE);
+                }
+
+                if (newState == 4) {
+                    upAndDown.setBackgroundResource(R.drawable.bottom_sheet_button_up);
+                } else if (newState == 3) {
+                    upAndDown.setBackgroundResource(R.drawable.bottom_sheet_button_down);
                 }
             }
 
@@ -544,7 +556,11 @@ public class MainActivity extends AppCompatActivity {
         deletePlayingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AskDeleteAllPlaylistDialog.askDeleteAllPlaylistDialog(MainActivity.this);
+                if (bottomSheetPlayList.size() != 0) {
+                    AskDeleteAllPlaylistDialog.askDeleteAllPlaylistDialog(MainActivity.this);
+                } else {
+                    Toast.makeText(MainActivity.this, "null playlist", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
