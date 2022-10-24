@@ -5,7 +5,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
@@ -15,10 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.setting.CreditAdapter;
-import com.dippola.relaxtour.setting.CreditItem;
-import com.dippola.relaxtour.setting.StorageManageAdapter;
-import com.dippola.relaxtour.setting.StorageManageDialog;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.dippola.relaxtour.setting;
+package com.dippola.relaxtour.dialog.credit_dialog;
 
 public class CreditItem {
     String track;

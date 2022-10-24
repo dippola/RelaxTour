@@ -27,7 +27,7 @@ import com.dippola.relaxtour.pages.WindPage;
 import com.dippola.relaxtour.pages.item.FavListItem;
 import com.dippola.relaxtour.pages.item.FavTitleItem;
 import com.dippola.relaxtour.pages.item.PageItem;
-import com.dippola.relaxtour.setting.CreditItem;
+import com.dippola.relaxtour.dialog.credit_dialog.CreditItem;
 
 import java.io.File;
 import java.io.FileOutputStream;

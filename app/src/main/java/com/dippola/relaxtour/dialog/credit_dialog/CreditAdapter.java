@@ -1,10 +1,8 @@
-package com.dippola.relaxtour.setting;
+package com.dippola.relaxtour.dialog.credit_dialog;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;

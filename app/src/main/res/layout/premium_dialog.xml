@@ -2,56 +2,213 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/dialog_layout"
-    android:layout_marginHorizontal="10dp"
-    android:layout_marginVertical="30dp">
+    android:background="@drawable/activity_main_background">
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="30dp"
-        android:padding="30dp">
+        android:layout_height="wrap_content">
 
-        <View
+        <!--        <View-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_above="@+id/premium_dialog_button_layout"-->
+        <!--            android:background="@color/dialog_layout_color"/>-->
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/premium_dialog_button_layout"
-            android:background="#BFB4B4"/>
+            android:layout_above="@+id/premium_dialog_button_layout">
+
+            <Button
+                android:id="@+id/premium_dialog_close"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/credit_close" />
+
+            <TextView
+                android:id="@+id/premium_dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/premium_dialog_close"
+                android:layout_centerHorizontal="true"
+                android:text="Relax Tour Premium"
+                android:textColor="@color/text_color"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/premium_dialog_text_layout"
+                android:layout_below="@+id/premium_dialog_title">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/download"
+                    android:scaleType="fitCenter"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/premium_dialog_text_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="30dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/premium_dialog_layout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp">
+
+                    <ImageView
+                        android:id="@+id/premium_dialog_textimg1"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/cancel" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_toRightOf="@+id/premium_dialog_textimg1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="can use our all service"
+                            android:textColor="@color/text_color"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="more many track you can play"
+                            android:textColor="@color/text_color" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/premium_dialog_layout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp">
+
+                    <ImageView
+                        android:id="@+id/premium_dialog_textimg2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/cancel" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_toRightOf="@+id/premium_dialog_textimg2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="can use board"
+                            android:textColor="@color/text_color"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="many customer you can talk to about meditarion and share my playlist fav"
+                            android:textColor="@color/text_color" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/premium_dialog_layout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp">
+
+                    <ImageView
+                        android:id="@+id/premium_dialog_textimg3"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/cancel" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_toRightOf="@+id/premium_dialog_textimg3"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="i presusf your meditation"
+                            android:textColor="@color/text_color"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="together open third eye. let's go"
+                            android:textColor="@color/text_color" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/premium_dialog_button_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginTop="40dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="20dp">
 
             <Button
                 android:id="@+id/premium_dialog_ok"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="6dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="7dp"
-                android:layout_weight="1"
                 android:background="@drawable/button_design"
                 android:elevation="5dp"
-                android:text="ok"
-                android:textColor="@color/button_text_color" />
+                android:text="2$ / 1 month"
+                android:textColor="@color/button_design_color_2" />
 
-            <Button
+            <TextView
                 android:id="@+id/premium_dialog_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="6dp"
-                android:layout_marginVertical="7dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_design_2"
+                android:layout_marginVertical="10dp"
                 android:elevation="5dp"
-                android:text="cancel"
-                android:textColor="@color/button_text_color" />
+                android:text="keep use free version"
+                android:textColor="@color/text_color" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -59,10 +216,12 @@
         android:id="@+id/premium_dialog_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/dialog_load_layout">
+        android:background="#7C000000"
+        android:visibility="gone">
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true" />
     </RelativeLayout>
 </RelativeLayout>

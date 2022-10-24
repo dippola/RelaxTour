@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -39,7 +40,8 @@ import java.util.Map;
 
 public class PremiumDialog extends AppCompatActivity {
 
-    Button ok, cancel;
+    Button ok;
+    TextView cancel;
     Application application;
     Activity activity;
     RelativeLayout load;
@@ -50,12 +52,12 @@ public class PremiumDialog extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+//        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.premium_dialog);
 
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog = new Dialog(this, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
+//        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        dialog = new Dialog(this, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
 
         application = getApplication();
         activity = PremiumDialog.this;
