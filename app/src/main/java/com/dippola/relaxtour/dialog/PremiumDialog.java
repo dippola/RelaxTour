@@ -9,8 +9,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +47,7 @@ public class PremiumDialog extends AppCompatActivity {
     Application application;
     Activity activity;
     RelativeLayout load;
+    ImageView img;
 
     Dialog dialog;
 
@@ -68,6 +71,7 @@ public class PremiumDialog extends AppCompatActivity {
     private void setInit() {
         ok = findViewById(R.id.premium_dialog_ok);
         close = findViewById(R.id.premium_dialog_close);
+        img = findViewById(R.id.premium_dialog_title_img);
         cancel = findViewById(R.id.premium_dialog_cancel);
         load = findViewById(R.id.premium_dialog_load);
         load.setVisibility(View.GONE);
@@ -80,6 +84,11 @@ public class PremiumDialog extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) img.getLayoutParams();
+        params.width = MainActivity.premium_dialog_title_img_size;
+        params.height = MainActivity.premium_dialog_title_img_size;
+        img.setLayoutParams(params);
     }
 
     private void okSetOnClick() {

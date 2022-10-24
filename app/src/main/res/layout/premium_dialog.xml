@@ -46,13 +46,13 @@
                 android:layout_below="@+id/premium_dialog_title">
 
                 <ImageView
+                    android:id="@+id/premium_dialog_title_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"
                     android:adjustViewBounds="true"
-                    android:background="@drawable/download"
-                    android:scaleType="fitCenter"
-                    android:layout_centerInParent="true"/>
+                    android:background="@drawable/premium_title_img"
+                    android:scaleType="centerInside" />
             </RelativeLayout>
 
             <LinearLayout
@@ -74,7 +74,8 @@
                         android:id="@+id/premium_dialog_textimg1"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/cancel" />
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/premium_img" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -111,7 +112,8 @@
                         android:id="@+id/premium_dialog_textimg2"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/cancel" />
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/premium_board_icon" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -148,7 +150,8 @@
                         android:id="@+id/premium_dialog_textimg3"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/cancel" />
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/premium_img3" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

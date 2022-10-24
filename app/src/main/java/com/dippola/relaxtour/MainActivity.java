@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     public static int pageitem_code1_height_size;
     public static int pageitem_code2_width_size;
     public static int pageitem_code2_height_size;
+    public static int premium_dialog_title_img_size;
     AudioManager audioManager;
     public static int maxVolumn;
 
@@ -431,13 +432,15 @@ public class MainActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int y = (int) (size.y * 0.2);//디바이스 세로의 50%
+        int y = (int) (size.y * 0.2);//디바이스 세로의 20%
         pageitem_code0_width_size = (int) (size.x * 0.37);//디바이스 가로의 1/3
         pageitem_code0_height_size = (int) (pageitem_code0_width_size * 0.75);
         pageitem_code1_width_size = (int) (size.x * 0.25);//디바이스 가로의 1/4
         pageitem_code1_height_size = (int) (pageitem_code1_width_size * 0.75);
         pageitem_code2_width_size = (int) (size.x * 0.25);
         pageitem_code2_height_size = (int) (size.x * 0.25);
+
+        premium_dialog_title_img_size = (int) (size.x * 0.45);
 
         bottomRecyclerView.setMinimumHeight(y);
 
