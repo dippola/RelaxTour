@@ -661,7 +661,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public void changeIsOpen(int isopen, String title) {
+    public void changeFavListIsOpen(int isopen, String title) {
         sqLiteDatabase = this.getWritableDatabase();
         if (isopen == 1) {
             sqLiteDatabase.execSQL("update favtitle set isopen = 1 where isopen = 2");

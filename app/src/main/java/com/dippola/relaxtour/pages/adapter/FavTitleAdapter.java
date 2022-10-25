@@ -1,10 +1,14 @@
 package com.dippola.relaxtour.pages.adapter;
 
 import android.content.Context;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Transformation;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -15,11 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
-import com.dippola.relaxtour.controller.SeekController;
 import com.dippola.relaxtour.dialog.AskDownloadsDialog;
 import com.dippola.relaxtour.dialog.ConstainProTrackDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
@@ -69,13 +71,17 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         holder.title.setText(arrayList.get(position).getTitle());
 
         if (arrayList.get(i).getIsopen() == 1) {
-            holder.hide.setVisibility(View.GONE);
-            holder.recyclerView.setVisibility(View.GONE);
+            collapse(holder.hide);
+
+//            holder.hide.setVisibility(View.GONE);
+//            holder.recyclerView.setVisibility(View.GONE);
             holder.uandd.setChecked(false);
             holder.uandd.setBackgroundResource(R.drawable.fav_page_item_down);
         } else {
-            holder.hide.setVisibility(View.VISIBLE);
-            holder.recyclerView.setVisibility(View.VISIBLE);
+            expand(holder.hide);
+
+//            holder.hide.setVisibility(View.VISIBLE);
+//            holder.recyclerView.setVisibility(View.VISIBLE);
             holder.uandd.setChecked(true);
             holder.uandd.setBackgroundResource(R.drawable.fav_page_item_up);
         }
@@ -110,7 +116,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                 if (arrayList.get(i).getIsopen() == 1) {
                     ArrayList<FavListItem> favListItemArrayList;
                     favListItemArrayList = MainActivity.databaseHandler.getFavListItem(arrayList.get(i).getTitle());
-                    MainActivity.databaseHandler.changeIsOpen(arrayList.get(i).getIsopen(), arrayList.get(i).getTitle());
+                    MainActivity.databaseHandler.changeFavListIsOpen(arrayList.get(i).getIsopen(), arrayList.get(i).getTitle());
 
                     for (int ii = 0; ii < arrayList.size(); ii++) {
                         if (arrayList.get(ii).getIsopen() == 2) {
@@ -127,7 +133,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                 } else {
                     ArrayList<FavListItem> favListItemArrayList;
                     favListItemArrayList = MainActivity.databaseHandler.getFavListItem(arrayList.get(i).getTitle());
-                    MainActivity.databaseHandler.changeIsOpen(arrayList.get(i).getIsopen(), arrayList.get(i).getTitle());
+                    MainActivity.databaseHandler.changeFavListIsOpen(arrayList.get(i).getIsopen(), arrayList.get(i).getTitle());
 
                     for (int ii = 0; ii < arrayList.size(); ii++) {
                         if (arrayList.get(ii).getIsopen() == 2) {
@@ -156,7 +162,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                 if (arrayList.get(i).getIsopen() == 1) {
                     ArrayList<FavListItem> favListItemArrayList;
                     favListItemArrayList = MainActivity.databaseHandler.getFavListItem(arrayList.get(i).getTitle());
-                    MainActivity.databaseHandler.changeIsOpen(arrayList.get(i).getIsopen(), arrayList.get(i).getTitle());
+                    MainActivity.databaseHandler.changeFavListIsOpen(arrayList.get(i).getIsopen(), arrayList.get(i).getTitle());
 
                     for (int ii = 0; ii < arrayList.size(); ii++) {
                         if (arrayList.get(ii).getIsopen() == 2) {
@@ -173,7 +179,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                 } else {
                     ArrayList<FavListItem> favListItemArrayList;
                     favListItemArrayList = MainActivity.databaseHandler.getFavListItem(arrayList.get(i).getTitle());
-                    MainActivity.databaseHandler.changeIsOpen(arrayList.get(i).getIsopen(), arrayList.get(i).getTitle());
+                    MainActivity.databaseHandler.changeFavListIsOpen(arrayList.get(i).getIsopen(), arrayList.get(i).getTitle());
 
                     for (int ii = 0; ii < arrayList.size(); ii++) {
                         if (arrayList.get(ii).getIsopen() == 2) {
@@ -234,7 +240,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
             this.uandd = itemView.findViewById(R.id.fav_page_item_uandd);
             this.recyclerView = itemView.findViewById(R.id.fav_page_inside_recyclerview);
             this.linearLayout = itemView.findViewById(R.id.fav_page_item_linear);
-            this.recyclerView.setVisibility(View.GONE);
+//            this.recyclerView.setVisibility(View.GONE);
             this.contr = itemView.findViewById(R.id.fav_page_item_controller_layout);
 
             this.hide = itemView.findViewById(R.id.fav_page_item_hide);
@@ -372,5 +378,61 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         PageAdapter.page4Count();
         MainActivity.load.setVisibility(View.GONE);
         Log.d("FavTitleAdapter>>>", "finished");
+    }
+
+    private void expand(final View v) {
+        int matchParentMeasureSpec = View.MeasureSpec.makeMeasureSpec(((View) v.getParent()).getWidth(), View.MeasureSpec.EXACTLY);
+        int wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        v.measure(matchParentMeasureSpec, wrapContentMeasureSpec);
+        final int targetHeight = v.getMeasuredHeight();
+
+        // Older versions of android (pre API 21) cancel animations for views with a height of 0.
+        v.getLayoutParams().height = 1;
+        v.setVisibility(View.VISIBLE);
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                v.getLayoutParams().height = interpolatedTime == 1
+                        ? ViewGroup.LayoutParams.WRAP_CONTENT
+                        : (int)(targetHeight * interpolatedTime);
+                v.requestLayout();
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // Expansion speed of 1dp/ms
+        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density) / 3);
+        v.startAnimation(a);
+    }
+
+    private void collapse(final View v) {
+        final int initialHeight = v.getMeasuredHeight();
+
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                if(interpolatedTime == 1){
+                    v.setVisibility(View.GONE);
+                }else{
+                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                    v.requestLayout();
+                }
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // Collapse speed of 1dp/ms
+        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density) / 3);
+        v.startAnimation(a);
     }
 }

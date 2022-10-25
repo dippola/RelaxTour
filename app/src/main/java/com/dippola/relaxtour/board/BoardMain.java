@@ -20,33 +20,6 @@ public class BoardMain extends AppCompatActivity {
         setContentView(R.layout.board_main);
 
 
-        View test = findViewById(R.id.testview);
 
-        Animation anim1 = AnimationUtils.loadAnimation(this, R.anim.favlist_open);
-        Animation anim2 = AnimationUtils.loadAnimation(this, R.anim.favlist_close);
-
-        Button btn1 = findViewById(R.id.btn1);
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                test.startAnimation(anim1);
-            }
-        });
-
-        Button btn2 = findViewById(R.id.btn2);
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                test.startAnimation(anim2);
-            }
-        });
-
-        Button btn3 = findViewById(R.id.btn3);
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                test.clearAnimation();
-            }
-        });
     }
 }

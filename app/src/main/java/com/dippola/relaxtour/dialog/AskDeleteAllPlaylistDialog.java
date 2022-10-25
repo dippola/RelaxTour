@@ -27,6 +27,7 @@ import com.dippola.relaxtour.pages.WaterPage;
 import com.dippola.relaxtour.pages.WindPage;
 import com.dippola.relaxtour.pages.adapter.PageAdapter;
 import com.dippola.relaxtour.service.DownloadsService;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.ArrayList;
 
@@ -65,6 +66,10 @@ public class AskDeleteAllPlaylistDialog {
                 }
                 MainActivity.bottomSheetPlayList.clear();
                 MainActivity.bottomSheetAdapter.notifyDataSetChanged();
+                if (MainActivity.bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    MainActivity.bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    MainActivity.upAndDown.setBackgroundResource(R.drawable.bottom_sheet_button_up);
+                }
                 alertDialog.dismiss();
             }
         });

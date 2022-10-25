@@ -88,11 +88,12 @@ public class MainActivity extends AppCompatActivity {
 
     //bottom sheet
     RelativeLayout bottomSheetTitleBar;
-    BottomSheetBehavior bottomSheetBehavior;
+    public static BottomSheetBehavior bottomSheetBehavior;
     RelativeLayout include, pandsBackground;
     RecyclerView bottomRecyclerView;
     public static Button pands;
-    Button upAndDown, deletePlayingList, addfav;
+    public static Button upAndDown;
+    Button deletePlayingList, addfav;
     public static ArrayList<PageItem> bottomSheetPlayList = new ArrayList<>();
     public static BottomSheetAdapter bottomSheetAdapter;
     RecyclerView.LayoutManager layoutManager;
