@@ -58,6 +58,8 @@ public class NotificationActionService extends BroadcastReceiver {
                     MainActivity.pands.setBackgroundResource(R.drawable.bottom_sheet_play);
                     if (NotificationService.isPlaying) {
                         context.stopService(new Intent(context, NotificationService.class));
+                    } else {
+                        NotificationService.closeNotification(context);
                     }
                     if (TimerService.isCount) {
                         context.stopService(new Intent(context, TimerService.class));

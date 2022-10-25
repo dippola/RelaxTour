@@ -83,7 +83,8 @@
                         android:layout_height="wrap_content"
                         android:text="Relax Tour"
                         android:textStyle="bold"
-                        android:textSize="18dp"/>
+                        android:textSize="18dp"
+                        android:textColor="@color/splash_text_color"/>
                 </LinearLayout>
 
                 <LinearLayout

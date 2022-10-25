@@ -13,6 +13,10 @@
     <color name="activity_main_background_start">#0b111b</color>
     <color name="activity_main_background_end">#141f39</color>
 
+    <color name="splash_background_start">#141f39</color>
+    <color name="splash_background_end">#00000000</color>
+    <color name="splash_text_color">#e6f5f8</color>
+
 <!--    <color name="activity_main_page_background_color_left">#F224334A</color>-->
 <!--    <color name="activity_main_page_background_color_right">#F20A1A34</color>-->
     <color name="activity_main_page_background_color_left">#112241</color>

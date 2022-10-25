@@ -1,34 +1,15 @@
 package com.dippola.relaxtour.board;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.media.session.MediaSessionCompat;
-import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 
-import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.controller.AudioController;
-import com.dippola.relaxtour.controller.RainController;
-import com.dippola.relaxtour.pages.item.DownloadItem;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class BoardMain extends AppCompatActivity {
 
@@ -39,5 +20,33 @@ public class BoardMain extends AppCompatActivity {
         setContentView(R.layout.board_main);
 
 
+        View test = findViewById(R.id.testview);
+
+        Animation anim1 = AnimationUtils.loadAnimation(this, R.anim.favlist_open);
+        Animation anim2 = AnimationUtils.loadAnimation(this, R.anim.favlist_close);
+
+        Button btn1 = findViewById(R.id.btn1);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                test.startAnimation(anim1);
+            }
+        });
+
+        Button btn2 = findViewById(R.id.btn2);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                test.startAnimation(anim2);
+            }
+        });
+
+        Button btn3 = findViewById(R.id.btn3);
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                test.clearAnimation();
+            }
+        });
     }
 }
