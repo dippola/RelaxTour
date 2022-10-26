@@ -148,7 +148,7 @@
                 android:text="Storage Manage"
                 android:textColor="@color/text_color"/>
 
-            <Button
+            <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentRight="true"
@@ -178,7 +178,7 @@
                 android:text="Credit"
                 android:textColor="@color/text_color"/>
 
-            <Button
+            <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentRight="true"

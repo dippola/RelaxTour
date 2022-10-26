@@ -1,12 +1,7 @@
 package com.dippola.relaxtour;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
 import android.app.Application;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,8 +19,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.qonversion.android.sdk.Qonversion;
@@ -125,9 +118,9 @@ public class Splash extends AppCompatActivity {
     }
 
     private void animation() {
-        Animation anim1 = AnimationUtils.loadAnimation(this, R.anim.anim_1);
+        Animation anim1 = AnimationUtils.loadAnimation(this, R.anim.favlist_anim_1);
         img.startAnimation(anim1);
-        Animation anim2 = AnimationUtils.loadAnimation(this, R.anim.anim_2);
+        Animation anim2 = AnimationUtils.loadAnimation(this, R.anim.favlist_anim_2);
         title.startAnimation(anim2);
 
         anim2.setAnimationListener(new Animation.AnimationListener() {

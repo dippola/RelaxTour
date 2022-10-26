@@ -1,6 +1,7 @@
 package com.dippola.relaxtour;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -8,6 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
@@ -341,7 +343,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 for (int i = 0; i < tabsList.size(); i++) {
-                    if (i != position) {//선택안된page
+                    if (i != position && tabsList.get(i).getOpen()) {//선택안된page
                         tabsList.get(i).setOpen(false);
                         if (i == 0) {
                             tabsList.get(i).setImg(R.drawable.tabicon_fav_default);
