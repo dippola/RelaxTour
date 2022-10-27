@@ -10,6 +10,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
@@ -33,6 +34,7 @@ public class StorageManageDialog extends AppCompatActivity {
     ArrayList<PageItem> list;
     StorageManageAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
+    Button close;
 
     DatabaseHandler databaseHandler;
 
@@ -57,6 +59,7 @@ public class StorageManageDialog extends AppCompatActivity {
 
     private void setInit() {
         recyclerView = findViewById(R.id.storage_manage_dialog_recyclerview);
+        close = findViewById(R.id.storage_manage_dialog_close);
         nullScreen = findViewById(R.id.storage_manage_dialog_null);
         progressBar = findViewById(R.id.storage_manage_dialog_progressbar);
         progressBar.setClickable(false);
@@ -64,6 +67,13 @@ public class StorageManageDialog extends AppCompatActivity {
         nullScreen.setVisibility(View.GONE);
 //        progressBar.setVisibility(View.GONE);
         getStorageList();
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     private void getStorageList() {

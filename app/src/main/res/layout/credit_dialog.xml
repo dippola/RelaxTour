@@ -21,7 +21,7 @@
                 android:id="@+id/credit_dialog_img"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                android:background="@drawable/pro"
+                android:background="@drawable/premium_title_img"
                 android:layout_centerHorizontal="true"/>
 
             <ImageButton
