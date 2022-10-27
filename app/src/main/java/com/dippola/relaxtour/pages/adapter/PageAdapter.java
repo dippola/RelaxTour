@@ -94,6 +94,7 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     ((Page123ViewHolder) holder).name
 
             );
+            setSeekbarDrawable(((Page123ViewHolder) holder).seekBar);
         } else if (holder instanceof Page4ViewHolder) {
             setViewHolder(
                     1,
@@ -105,6 +106,7 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     ((Page4ViewHolder) holder).progressBar,
                     ((Page4ViewHolder) holder).name
             );
+            setSeekbarDrawable(((Page4ViewHolder) holder).seekBar);
         } else if (holder instanceof Page567ViewHolder) {
             setViewHolder(
                     2,
@@ -116,6 +118,7 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     ((Page567ViewHolder) holder).progressBar,
                     ((Page567ViewHolder) holder).name
             );
+            setSeekbarDrawable(((Page567ViewHolder) holder).seekBar);
         }
 
 //        setPageImageTheme(position, holder.img);
@@ -772,5 +775,15 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         download.setMinimumHeight(MainActivity.pageitem_code1_height_size);
         pro.setMinimumWidth(MainActivity.pageitem_code1_width_size);
         pro.setMinimumHeight(MainActivity.pageitem_code1_height_size);
+    }
+
+    private void setSeekbarDrawable(SeekBar seekBar) {
+        if (seekBar.isEnabled()) {
+            seekBar.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_in_page_enable));
+            seekBar.setThumb(context.getResources().getDrawable(R.drawable.seekbar_in_page_thumb_enable));
+        } else {
+            seekBar.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_disable));
+            seekBar.setThumb(context.getResources().getDrawable(R.drawable.seekbar_disable_thumb));
+        }
     }
 }

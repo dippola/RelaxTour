@@ -401,55 +401,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 mainTabAdapter.notifyItemChanged(position);
 
-//                int before = -1;
-//                for (int i = 0; i < tabsList.size(); i++) {
-//                    if (i != position && tabsList.get(i).getOpen()) {//선택안된page
-//                        tabsList.get(i).setOpen(false);
-//                        before = i;
-//                        if (i == 0) {
-//                            tabsList.get(i).setImg(R.drawable.tabicon_fav_default);
-//                        } else if (i == 1) {
-//                            tabsList.get(i).setImg(R.drawable.tabicon_rain_default);
-//                        } else if (i == 2) {
-//                            tabsList.get(i).setImg(R.drawable.tabicon_water_default);
-//                        } else if (i == 3) {
-//                            tabsList.get(i).setImg(R.drawable.tabicon_wind_default);
-//                        } else if (i == 4) {
-//                            tabsList.get(i).setImg(R.drawable.tabicon_nature_default);
-//                        } else if (i == 5) {
-//                            tabsList.get(i).setImg(R.drawable.tabicon_chakra_default);
-//                        } else if (i == 6) {
-//                            tabsList.get(i).setImg(R.drawable.tabicon_mantra_default);
-//                        } else if (i == 7) {
-//                            tabsList.get(i).setImg(R.drawable.tabicon_hz_default);
-//                        }
-////                        mainTabAdapter.notifyItemChanged(i);
-//                    } else {//선택된 page
-//                        tabsList.get(position).setOpen(true);
-//                        if (position == 0) {
-//                            tabsList.get(position).setImg(R.drawable.tabicon_fav);
-//                        } else if (position == 1) {
-//                            tabsList.get(position).setImg(R.drawable.tabicon_rain);
-//                        } else if (position == 2) {
-//                            tabsList.get(position).setImg(R.drawable.tabicon_water);
-//                        } else if (position == 3) {
-//                            tabsList.get(position).setImg(R.drawable.tabicon_wind);
-//                        } else if (position == 4) {
-//                            tabsList.get(position).setImg(R.drawable.tabicon_nature);
-//                        } else if (position == 5) {
-//                            tabsList.get(position).setImg(R.drawable.tabicon_chakra);
-//                        } else if (position == 6) {
-//                            tabsList.get(position).setImg(R.drawable.tabicon_mantra);
-//                        } else if (position == 7) {
-//                            tabsList.get(position).setImg(R.drawable.tabicon_hz);
-//                        }
-////                        mainTabAdapter.notifyItemChanged(position);
-//                    }
-//                }
-//                tabRecycler.smoothScrollToPosition(position);
-//                mainTabAdapter.notifyItemChanged(position);
-//                mainTabAdapter.notifyItemChanged(before);
-//                MainTabAdapter.getPagePosition(before, position);
             }
 
             @Override
