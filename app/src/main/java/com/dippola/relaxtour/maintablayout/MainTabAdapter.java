@@ -1,8 +1,6 @@
 package com.dippola.relaxtour.maintablayout;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,17 +9,14 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.ThemeHelper;
 
 import java.util.ArrayList;
 
@@ -29,9 +24,7 @@ public class MainTabAdapter extends RecyclerView.Adapter<MainTabAdapter.CustomVi
     ArrayList<MainTabItem> arrayList;
     Context context;
 
-    int before, after;
-
-    public static int pageBefore, pageAfter;
+    public static int oldPosition, newPosition;
 
     public MainTabAdapter(ArrayList<MainTabItem> arrayList, Context context) {
         this.arrayList = arrayList;
@@ -52,7 +45,11 @@ public class MainTabAdapter extends RecyclerView.Adapter<MainTabAdapter.CustomVi
         int pos = position;
         holder.title2.bringToFront();
         holder.anim.setVisibility(View.INVISIBLE);
-        if (arrayList.get(position).isOpen) {
+        holder.img.setImageResource(arrayList.get(pos).getImg());
+        holder.title.setText(arrayList.get(pos).getTitle());
+        holder.title2.setText(arrayList.get(pos).getTitle());
+        holder.title2.setTextColor(Color.GRAY);
+        if (arrayList.get(position).getOpen()) {
             holder.title2.setTextColor(Color.WHITE);
             Animation animation = AnimationUtils.loadAnimation(context, R.anim.tab_anim_1);
             animation.setAnimationListener(new Animation.AnimationListener() {
@@ -73,33 +70,7 @@ public class MainTabAdapter extends RecyclerView.Adapter<MainTabAdapter.CustomVi
             });
             holder.anim.startAnimation(animation);
         } else {
-            holder.title2.setTextColor(Color.GRAY);
-        }
-        holder.img.setImageResource(arrayList.get(pos).getImg());
-        holder.title.setText(arrayList.get(pos).getTitle());
-        holder.title2.setText(arrayList.get(pos).getTitle());
-        if (pageAfter != -1) {
-            if (arrayList.get(position).getOpen()) {
-                holder.title2.setTextColor(Color.WHITE);
-                Animation animation = AnimationUtils.loadAnimation(context, R.anim.tab_anim_1);
-                animation.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        holder.anim.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-                holder.anim.startAnimation(animation);
-            } else {
+            if (oldPosition != -1) {
                 holder.title2.setTextColor(Color.GRAY);
                 Animation animation = AnimationUtils.loadAnimation(context, R.anim.tab_anim_2);
                 animation.setAnimationListener(new Animation.AnimationListener() {
@@ -128,6 +99,12 @@ public class MainTabAdapter extends RecyclerView.Adapter<MainTabAdapter.CustomVi
                 MainActivity.viewPager.setCurrentItem(pos);
             }
         });
+
+        if (arrayList.get(position).getOpen()) {
+            holder.anim.setVisibility(View.VISIBLE);
+        } else {
+            holder.anim.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -155,7 +132,12 @@ public class MainTabAdapter extends RecyclerView.Adapter<MainTabAdapter.CustomVi
     }
 
     public static void getPagePosition(int before, int after) {
-        pageBefore = before;
-        pageAfter = after;
+        oldPosition = before;
+        newPosition = after;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 }
