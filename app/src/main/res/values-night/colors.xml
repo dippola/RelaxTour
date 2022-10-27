@@ -58,5 +58,6 @@
     <color name="button_text_color">#80FFFFFF</color>
 
     <color name="seekbar_in_page_left_color">#8DAAEC</color>
+    <color name="seekbar_in_bottom_left_color">#8DAAEC</color>
     <color name="seekbar_in_page_right_color">#37FFFFFF</color>
 </resources>

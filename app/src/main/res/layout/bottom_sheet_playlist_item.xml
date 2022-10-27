@@ -45,8 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_weight="1"
-            android:progressDrawable="@drawable/seekbar_in_page_enable"
-            android:thumb="@drawable/seekbar_in_page_thumb_enable" />
+            android:progressDrawable="@drawable/seekbar_in_bottom"
+            android:thumb="@drawable/seekbar_in_bottom_thumb" />
     </LinearLayout>
 
 
