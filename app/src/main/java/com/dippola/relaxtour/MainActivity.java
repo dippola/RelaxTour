@@ -139,6 +139,13 @@ public class MainActivity extends AppCompatActivity {
         setTabLayout();
         setBottomSheet();
 
+
+        if (bottomSheetPlayList.size() != 0 && AudioController.checkIsPlaying(bottomSheetPlayList.get(0), MainActivity.this)) {
+            pands.setBackgroundResource(R.drawable.bottom_pause);
+        } else {
+            pands.setBackgroundResource(R.drawable.bottom_sheet_play);
+        }
+
 //        sharedPreferences = getSharedPreferences("modeTable", MODE_PRIVATE);
 //        String mode = sharedPreferences.getString("mode", "default");
 //        ThemeHelper.applyTheme(mode);
@@ -309,6 +316,9 @@ public class MainActivity extends AppCompatActivity {
         tabRecycler.setLayoutManager(layoutManager);
         MainTabAdapter mainTabAdapter = new MainTabAdapter(tabsList, MainActivity.this);
         mainTabAdapter.setHasStableIds(true);
+
+        MainTabAdapter.getPagePosition(1, -1);
+
         tabRecycler.setAdapter(mainTabAdapter);
 
         if (!tabRecycler.canScrollHorizontally(-1)) {
@@ -342,9 +352,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                int before = -1;
                 for (int i = 0; i < tabsList.size(); i++) {
                     if (i != position && tabsList.get(i).getOpen()) {//선택안된page
                         tabsList.get(i).setOpen(false);
+                        before = i;
                         if (i == 0) {
                             tabsList.get(i).setImg(R.drawable.tabicon_fav_default);
                         } else if (i == 1) {
@@ -386,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
                         tabRecycler.smoothScrollToPosition(position);
                     }
                 }
-
+//                MainTabAdapter.getPagePosition(before, position);
             }
 
             @Override

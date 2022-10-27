@@ -2,7 +2,9 @@ package com.dippola.relaxtour.maintablayout;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,10 @@ public class MainTabAdapter extends RecyclerView.Adapter<MainTabAdapter.CustomVi
     ArrayList<MainTabItem> arrayList;
     Context context;
 
+    int before, after;
+
+    public static int pageBefore, pageAfter;
+
     public MainTabAdapter(ArrayList<MainTabItem> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
@@ -45,10 +51,8 @@ public class MainTabAdapter extends RecyclerView.Adapter<MainTabAdapter.CustomVi
     public void onBindViewHolder(@NonNull MainTabAdapter.CustomViewHolder holder, int position) {
         int pos = position;
         holder.title2.bringToFront();
-        holder.img.setImageResource(arrayList.get(pos).getImg());
-        holder.title.setText(arrayList.get(pos).getTitle());
-        holder.title2.setText(arrayList.get(pos).getTitle());
-        if (arrayList.get(position).getOpen()) {
+        holder.anim.setVisibility(View.INVISIBLE);
+        if (arrayList.get(position).isOpen) {
             holder.title2.setTextColor(Color.WHITE);
             Animation animation = AnimationUtils.loadAnimation(context, R.anim.tab_anim_1);
             animation.setAnimationListener(new Animation.AnimationListener() {
@@ -70,24 +74,52 @@ public class MainTabAdapter extends RecyclerView.Adapter<MainTabAdapter.CustomVi
             holder.anim.startAnimation(animation);
         } else {
             holder.title2.setTextColor(Color.GRAY);
-            Animation animation = AnimationUtils.loadAnimation(context, R.anim.tab_anim_2);
-            animation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
+        }
+        holder.img.setImageResource(arrayList.get(pos).getImg());
+        holder.title.setText(arrayList.get(pos).getTitle());
+        holder.title2.setText(arrayList.get(pos).getTitle());
+        if (pageAfter != -1) {
+            if (arrayList.get(position).getOpen()) {
+                holder.title2.setTextColor(Color.WHITE);
+                Animation animation = AnimationUtils.loadAnimation(context, R.anim.tab_anim_1);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
 
-                }
+                    }
 
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    holder.anim.setVisibility(View.GONE);
-                }
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        holder.anim.setVisibility(View.VISIBLE);
+                    }
 
-                @Override
-                public void onAnimationRepeat(Animation animation) {
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
 
-                }
-            });
-            holder.anim.startAnimation(animation);
+                    }
+                });
+                holder.anim.startAnimation(animation);
+            } else {
+                holder.title2.setTextColor(Color.GRAY);
+                Animation animation = AnimationUtils.loadAnimation(context, R.anim.tab_anim_2);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        holder.anim.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                holder.anim.startAnimation(animation);
+            }
         }
 
         holder.button.setOnClickListener(new View.OnClickListener() {
@@ -120,5 +152,10 @@ public class MainTabAdapter extends RecyclerView.Adapter<MainTabAdapter.CustomVi
     @Override
     public long getItemId(int position) {
         return arrayList.get(position).hashCode();
+    }
+
+    public static void getPagePosition(int before, int after) {
+        pageBefore = before;
+        pageAfter = after;
     }
 }
