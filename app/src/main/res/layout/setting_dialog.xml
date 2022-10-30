@@ -21,7 +21,7 @@
                 android:layout_margin="25dp"
                 android:textColor="@color/text_color"/>
 
-            <Button
+            <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:background="@drawable/info_icon"

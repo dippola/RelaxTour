@@ -1,7 +1,9 @@
 package com.dippola.relaxtour;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.onboarding.OnBoarding;
 import com.qonversion.android.sdk.Qonversion;
 import com.qonversion.android.sdk.QonversionError;
 import com.qonversion.android.sdk.QonversionPermissionsCallback;
@@ -30,6 +33,7 @@ import java.util.Map;
 
 public class Splash extends AppCompatActivity {
 
+    private SharedPreferences preferences;
     Application application;
     DatabaseHandler databaseHandler;
 
@@ -45,6 +49,7 @@ public class Splash extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
+        preferences = getSharedPreferences("checkFirst", Activity.MODE_PRIVATE);
 
         bg = findViewById(R.id.splash_background);
 
@@ -81,12 +86,12 @@ public class Splash extends AppCompatActivity {
                     databaseHandler.changeIsProUser(2);
                     qper = true;
                     Log.d("Splash>>>", "have permission");
-                    goToMainActivity("qper finished");
+                    checkFirst();
                 } else {
                     databaseHandler.changeIsProUser(1);
                     qper = true;
                     Log.d("Splash>>>", "null permission");
-                    goToMainActivity("qper finished");
+                    checkFirst();
                 }
             }
 
@@ -94,7 +99,7 @@ public class Splash extends AppCompatActivity {
             public void onError(@NonNull QonversionError qonversionError) {
                 qper = true;
                 Log.d("Splash>>>", "qper error: " + qonversionError);
-                goToMainActivity("qper finished");
+                checkFirst();
             }
         });
 
@@ -103,7 +108,7 @@ public class Splash extends AppCompatActivity {
             public void run() {
                 if (!qper) {
                     qper = true;
-                    goToMainActivity("handler finished");
+                    checkFirst();
                 }
             }
         }, 5000);
@@ -133,7 +138,7 @@ public class Splash extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 anim = true;
                 progressBar.setVisibility(View.VISIBLE);
-                goToMainActivity("anim finished");
+                checkFirst();
             }
 
             @Override
@@ -143,12 +148,31 @@ public class Splash extends AppCompatActivity {
         });
     }
 
-
-    private void goToMainActivity(String log) {
-        Log.d("Splash>>>", log);
+    private void checkFirst() {
         if (qper && anim) {
-            startActivity(new Intent(Splash.this, MainActivity.class));
-            finish();
+            if (!preferences.getBoolean("checkFirst", false)) {
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean("checkFirst", true);
+                editor.apply();
+                goToOnBoarding();
+            } else {
+                goToMainActivity();
+            }
         }
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(Splash.this, MainActivity.class);
+        intent.putExtra("fromSplash", false);
+        startActivity(intent);
+        finish();
+    }
+
+    private void goToOnBoarding() {
+        Intent intent = new Intent(Splash.this, OnBoarding.class);
+        intent.putExtra("fromSplash", true);
+        startActivity(intent);
+        finish();
+
     }
 }

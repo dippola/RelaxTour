@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/onboarding_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/onboarding_bottom_layout"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="40dp"/>
+
+    <RelativeLayout
+        android:id="@+id/onboarding_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:gravity="center_horizontal">
+
+        <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
+            android:id="@+id/onboarding_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dampingRatio="0.5"
+            app:dotsColor="@color/button_design_color"
+            app:dotsStrokeColor="@color/qGray"
+            app:dotsCornerRadius="8dp"
+            app:dotsSize="16dp"
+            app:dotsSpacing="4dp"
+            app:dotsStrokeWidth="2dp"
+            app:stiffness="300"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"/>
+
+        <Button
+            android:id="@+id/onboarding_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_design"
+            android:text="Next"
+            android:textColor="@color/onboarding_button_text_color"
+            android:layout_below="@+id/onboarding_dot"
+            android:layout_centerHorizontal="true"
+            android:paddingHorizontal="18dp"
+            android:layout_margin="7dp"/>
+    </RelativeLayout>
+
+</RelativeLayout>

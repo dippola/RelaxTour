@@ -48,4 +48,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 
     implementation 'io.qonversion.android.sdk:sdk:3.+'
+
+    implementation("com.tbuonomo:dotsindicator:4.3")
 }
