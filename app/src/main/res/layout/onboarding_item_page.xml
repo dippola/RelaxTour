@@ -29,14 +29,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="title1" />
+            android:text="title1"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="30dp"/>
 
         <TextView
             android:id="@+id/onboarding_item_page_text2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="title1" />
+            android:text="title1"
+            android:layout_marginHorizontal="40dp"
+            android:gravity="center_horizontal"/>
     </LinearLayout>
 
 </LinearLayout>

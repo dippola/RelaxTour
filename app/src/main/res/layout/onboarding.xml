@@ -29,7 +29,7 @@
             app:dotsColor="@color/button_design_color"
             app:dotsStrokeColor="@color/qGray"
             app:dotsCornerRadius="8dp"
-            app:dotsSize="16dp"
+            app:dotsSize="11dp"
             app:dotsSpacing="4dp"
             app:dotsStrokeWidth="2dp"
             app:stiffness="300"
@@ -38,7 +38,7 @@
 
         <Button
             android:id="@+id/onboarding_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/button_design"
             android:text="Next"
@@ -46,7 +46,8 @@
             android:layout_below="@+id/onboarding_dot"
             android:layout_centerHorizontal="true"
             android:paddingHorizontal="18dp"
-            android:layout_margin="7dp"/>
+            android:layout_marginVertical="7dp"
+            android:layout_marginHorizontal="50dp"/>
     </RelativeLayout>
 
 </RelativeLayout>

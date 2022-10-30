@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -24,7 +25,6 @@ public class OnBoarding extends AppCompatActivity {
 
     private OnBoardingAdapter adapter;
     private ViewPager2 viewPager;
-    private ArrayList<OnBoardingItem> arrayList = new ArrayList<>();
     private SpringDotsIndicator dot;
     private Button btn;
 
@@ -55,18 +55,18 @@ public class OnBoarding extends AppCompatActivity {
 
         OnBoardingItem item1 = new OnBoardingItem();
         item1.setImg(R.drawable.premium_title_img);
-        item1.setText1("first page title1");
-        item1.setText2("first page small text1");
+        item1.setText1("Custom play list");
+        item1.setText2("up to you add in playlist. many track you can choice. you can choice many track what you like. enjoy meditation.");
 
         OnBoardingItem item2 = new OnBoardingItem();
         item2.setImg(R.drawable.premium_title_img);
-        item2.setText1("first page title2");
-        item2.setText2("first page small text2");
+        item2.setText1("Add favlist");
+        item2.setText2("you can add your favlist. and play easy.");
 
         OnBoardingItem item3 = new OnBoardingItem();
         item3.setImg(R.drawable.premium_title_img);
-        item3.setText1("first page title3");
-        item3.setText2("first page small text3");
+        item3.setText1("Board");
+        item3.setText2("talk with another people in board. and share your favlist.");
 
         lists.add(item1);
         lists.add(item2);
@@ -100,6 +100,7 @@ public class OnBoarding extends AppCompatActivity {
                         btn.setText("get started");
                     }
                 } else {
+                    btn.setEnabled(false);
                     closeOnBoarding();
                 }
             }
