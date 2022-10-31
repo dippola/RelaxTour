@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
-        android:text="change play list name"
+        android:text="Edit Playlist Name"
         android:textColor="@color/text_color" />
 
     <EditText

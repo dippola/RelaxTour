@@ -49,18 +49,18 @@ public class OnBoarding extends AppCompatActivity {
 
         OnBoardingItem item1 = new OnBoardingItem();
         item1.setImg(R.drawable.onboarding_1);
-        item1.setText1("Custom play list");
-        item1.setText2("up to you add in playlist. many track you can choice. you can choice many track what you like. enjoy meditation.");
+        item1.setText1("Play sound");
+        item1.setText2("Choose a variety of sounds. You can add sound to the playlist with the combination you want.\nThe sounds of nature, Chakra, Mantra\nEnjoy the perfect meditation sound with a combination of different sounds.");
 
         OnBoardingItem item2 = new OnBoardingItem();
         item2.setImg(R.drawable.onboarding_1);
-        item2.setText1("Add favlist");
-        item2.setText2("you can add your favlist. and play easy.");
+        item2.setText1("Add bookmark");
+        item2.setText2("Add the combination of sounds you often hear to bookmark. You can play your play list with a single click on the bookmark.");
 
         OnBoardingItem item3 = new OnBoardingItem();
         item3.setImg(R.drawable.onboarding_1);
-        item3.setText1("Board");
-        item3.setText2("talk with another people in board. and share your favlist.");
+        item3.setText1("Community");
+        item3.setText2("There is a community where you can share the experiences and information of meditators with other users. Share your meditation story and your play list.");
 
         lists.add(item1);
         lists.add(item2);
@@ -75,9 +75,9 @@ public class OnBoarding extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 if (position != 2) {
-                    btn.setText("next");
+                    btn.setText("Next");
                 } else {
-                    btn.setText("get started");
+                    btn.setText("Get started");
                 }
             }
         });
@@ -91,7 +91,7 @@ public class OnBoarding extends AppCompatActivity {
                 if (page != 2) {
                     viewPager.setCurrentItem(page + 1);
                     if (page + 1 == 2) {
-                        btn.setText("get started");
+                        btn.setText("Get started");
                     }
                 } else {
                     btn.setEnabled(false);
