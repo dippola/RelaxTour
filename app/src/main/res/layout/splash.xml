@@ -34,7 +34,8 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:indeterminateTint="@color/button_design_color"/>
     </LinearLayout>
 
     <TextView
