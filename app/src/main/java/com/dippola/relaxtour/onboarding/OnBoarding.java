@@ -4,15 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.dippola.relaxtour.MainActivity;
@@ -54,17 +48,17 @@ public class OnBoarding extends AppCompatActivity {
         ArrayList<OnBoardingItem> lists = new ArrayList<>();
 
         OnBoardingItem item1 = new OnBoardingItem();
-        item1.setImg(R.drawable.onboard_gif_1);
+        item1.setImg(R.drawable.onboarding_1);
         item1.setText1("Custom play list");
         item1.setText2("up to you add in playlist. many track you can choice. you can choice many track what you like. enjoy meditation.");
 
         OnBoardingItem item2 = new OnBoardingItem();
-        item2.setImg(R.drawable.premium_title_img);
+        item2.setImg(R.drawable.onboarding_1);
         item2.setText1("Add favlist");
         item2.setText2("you can add your favlist. and play easy.");
 
         OnBoardingItem item3 = new OnBoardingItem();
-        item3.setImg(R.drawable.premium_title_img);
+        item3.setImg(R.drawable.onboarding_1);
         item3.setText1("Board");
         item3.setText2("talk with another people in board. and share your favlist.");
 

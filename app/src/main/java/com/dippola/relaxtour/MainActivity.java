@@ -1,7 +1,6 @@
 package com.dippola.relaxtour;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -9,7 +8,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
@@ -28,7 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dippola.relaxtour.board.BoardMain;
+import com.dippola.relaxtour.board.CommunityMain;
 import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.AddFavDialog;
@@ -255,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
         board.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, BoardMain.class));
+                startActivity(new Intent(MainActivity.this, CommunityMain.class));
             }
         });
 

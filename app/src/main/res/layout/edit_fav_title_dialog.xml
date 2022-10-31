@@ -11,15 +11,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
         android:text="change play list name"
-        android:textColor="@color/text_color"
-        android:layout_marginBottom="10dp"/>
+        android:textColor="@color/text_color" />
 
     <EditText
         android:id="@+id/edit_fav_title_dialog_edittext"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"/>
+        android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/edittext"
+        android:gravity="center"
+        android:hint="playlist name"
+        android:maxLength="15"
+        android:paddingHorizontal="3dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -30,24 +35,24 @@
             android:id="@+id/edit_fav_title_dialog_button_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ok"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/button_design"
-            android:layout_weight="1"
             android:layout_marginHorizontal="6dp"
             android:layout_marginVertical="7dp"
-            android:elevation="5dp"/>
+            android:layout_weight="1"
+            android:background="@drawable/button_design"
+            android:elevation="5dp"
+            android:text="ok"
+            android:textColor="#FFFFFF" />
 
         <Button
             android:id="@+id/edit_fav_title_dialog_button_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="cancel"
-            android:textColor="@color/button_text_color"
-            android:background="@drawable/button_design_2"
-            android:layout_weight="1"
             android:layout_marginHorizontal="6dp"
             android:layout_marginVertical="7dp"
-            android:elevation="5dp"/>
+            android:layout_weight="1"
+            android:background="@drawable/button_design_2"
+            android:elevation="5dp"
+            android:text="cancel"
+            android:textColor="@color/button_text_color" />
     </LinearLayout>
 </LinearLayout>

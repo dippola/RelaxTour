@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.dippola.relaxtour.R;
 
-public class BoardLogin extends AppCompatActivity {
+public class CommunityLogin extends AppCompatActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.board_login);
+        setContentView(R.layout.community_login);
     }
 
 }

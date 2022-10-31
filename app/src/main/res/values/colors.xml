@@ -66,4 +66,6 @@
     <color name="seekbar_in_page_right_color_disable">#f3f3</color>
 
     <color name="onboarding_button_text_color">#ffffff</color>
+
+    <color name="gif_background">#a6c5ec</color>
 </resources>
