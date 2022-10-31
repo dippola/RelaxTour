@@ -32,7 +32,7 @@ public class ConstainProTrackDialog {
         okbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, PremiumDialog.class));
+                context.startActivity(new Intent(context, Premium.class));
                 alertDialog.dismiss();
             }
         });

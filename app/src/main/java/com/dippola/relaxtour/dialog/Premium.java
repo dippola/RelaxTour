@@ -4,13 +4,9 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -20,11 +16,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.billingclient.api.BillingClient;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
-import com.dippola.relaxtour.setting.SettingDialog;
 import com.qonversion.android.sdk.Qonversion;
 import com.qonversion.android.sdk.QonversionError;
 import com.qonversion.android.sdk.QonversionErrorCode;
@@ -40,7 +34,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class PremiumDialog extends AppCompatActivity {
+public class Premium extends AppCompatActivity {
 
     Button ok, close;
     TextView cancel;
@@ -57,13 +51,13 @@ public class PremiumDialog extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 //        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.premium_dialog);
+        setContentView(R.layout.premium_activity);
 
 //        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 //        dialog = new Dialog(this, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
 
         application = getApplication();
-        activity = PremiumDialog.this;
+        activity = Premium.this;
 
         setInit();
     }
@@ -113,7 +107,7 @@ public class PremiumDialog extends AppCompatActivity {
                                             if (premiumPermission != null && premiumPermission.isActive()) {
                                                 // handle active permission here
                                                 if (MainActivity.databaseHandler == null) {
-                                                    DatabaseHandler databaseHandler = new DatabaseHandler(PremiumDialog.this);
+                                                    DatabaseHandler databaseHandler = new DatabaseHandler(Premium.this);
                                                     databaseHandler.changeIsProUser(2);
                                                     databaseHandler.closeDatabse();
                                                     databaseHandler.close();
@@ -121,7 +115,7 @@ public class PremiumDialog extends AppCompatActivity {
                                                     MainActivity.databaseHandler.changeIsProUser(2);
                                                 }
 
-                                                startActivity(new Intent(PremiumDialog.this, ResetDialog.class));
+                                                startActivity(new Intent(Premium.this, ResetDialog.class));
                                             }
                                         }
 
@@ -129,7 +123,7 @@ public class PremiumDialog extends AppCompatActivity {
                                         public void onError(@NotNull QonversionError error) {
                                             setLoadGone();
                                             if (error.getCode() != QonversionErrorCode.CanceledPurchase) {
-                                                Toast.makeText(PremiumDialog.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
+                                                Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
                                             }
                                         }
                                     });
@@ -138,7 +132,7 @@ public class PremiumDialog extends AppCompatActivity {
                                 @Override
                                 public void onError(@NotNull QonversionError error) {
                                     setLoadGone();
-                                    Toast.makeText(PremiumDialog.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
@@ -146,7 +140,7 @@ public class PremiumDialog extends AppCompatActivity {
                     @Override
                     public void onError(@NotNull QonversionError error) {
                         setLoadGone();
-                        Toast.makeText(PremiumDialog.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
                     }
                 });
             }

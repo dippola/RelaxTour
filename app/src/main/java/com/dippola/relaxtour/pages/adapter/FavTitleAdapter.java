@@ -287,22 +287,6 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
     private void checkDownloadAready(String title) {
         ArrayList<FavListItem> favListItems = new ArrayList<>();
         favListItems = MainActivity.databaseHandler.getFavListItem(title);
-//        for (int i = 0; i < favListItems.size(); i++) {
-//            if (favListItems.get(i).getNeeddownload() == 2) {
-//                String path = context.getApplicationInfo().dataDir + "/cache/audio" + favListItems.get(i).getPnp() + ".mp3";
-//                File file = new File(path);
-//                if (!file.exists()) {
-//                    pnps.add(favListItems.get(i).getPnp());
-//                }
-//            }
-//            if (i == favListItems.size() - 1) {
-//                if (pnps.size() != 0) {
-//                    AskDownloadsDialog.askDownloadsDialog(context, pnps, position);
-//                } else {
-//                    favListPlay(position);
-//                }
-//            }
-//        }
 
         if (checkWillShowConstainProTrackDialog(favListItems)) {
             ConstainProTrackDialog.showDialog(context);

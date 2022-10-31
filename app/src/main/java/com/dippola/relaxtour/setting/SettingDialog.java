@@ -20,10 +20,9 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.Splash;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.credit_dialog.CreditDialog;
-import com.dippola.relaxtour.dialog.PremiumDialog;
+import com.dippola.relaxtour.dialog.Premium;
 import com.dippola.relaxtour.onboarding.OnBoarding;
 
 public class SettingDialog extends AppCompatActivity {
@@ -87,7 +86,7 @@ public class SettingDialog extends AppCompatActivity {
         premiumBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SettingDialog.this, PremiumDialog.class));
+                startActivity(new Intent(SettingDialog.this, Premium.class));
             }
         });
     }

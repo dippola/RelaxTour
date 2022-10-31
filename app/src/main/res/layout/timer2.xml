@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
-            android:text="App closes after countdown."
+            android:text="Play ends at the end of the countdown."
             android:textColor="@color/text_color"
             android:textSize="12dp" />
 

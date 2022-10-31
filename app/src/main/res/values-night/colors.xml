@@ -49,13 +49,14 @@
     <color name="fav_list_item_box_end">#275783</color>
 
     <color name="text_color">#D5D5D5</color>
+    <color name="download_ask_wifi_text_color">#9E9E9E</color>
 
     <color name="dialog_layout_color">#3A4251</color>
     <color name="dialog_layout_line_color">#8D97A8</color>
 
     <color name="button_design_color">#8093DC</color>
     <color name="button_design_color_2">#fbfef9</color>
-    <color name="button_text_color">#80FFFFFF</color>
+    <color name="button_text_color">#5A5A5A</color>
 
     <color name="seekbar_in_page_left_color">#8DAAEC</color>
     <color name="seekbar_in_bottom_left_color">#8DAAEC</color>

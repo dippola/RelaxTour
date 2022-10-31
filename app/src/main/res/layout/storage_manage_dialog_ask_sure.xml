@@ -19,8 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="20dp"
-            android:text="are you sure delete sound?"
-            android:textColor="@color/text_color" />
+            android:text="Are you sure you want to delete\nthe sound from the storage space?"
+            android:textColor="@color/text_color"
+            android:gravity="center_horizontal"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

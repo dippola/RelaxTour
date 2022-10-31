@@ -11,9 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="are you sure download sound?"
+        android:text="Contains track that require download.\nWould you like to download it?"
         android:textColor="@color/text_color"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:gravity="center_horizontal"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -36,7 +37,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
 
         <Button
             android:id="@+id/ask_download_dialog_ok"

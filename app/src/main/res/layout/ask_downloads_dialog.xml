@@ -12,8 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
-        android:text="are you download?"
-        android:textColor="@color/text_color" />
+        android:text="Contains tracks that require download.\nWould you like to download it?"
+        android:textColor="@color/text_color"
+        android:gravity="center_horizontal"/>
 
     <ProgressBar
         android:id="@+id/ask_downloads_dialog_progressbar"
@@ -21,6 +22,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="* If you are not connected to a Wi-Fi connection,\nyou may be charged for your data."
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/download_ask_wifi_text_color"/>
 
     <TextView
         android:id="@+id/ask_downloads_dialog_count"

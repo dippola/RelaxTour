@@ -24,12 +24,14 @@
         android:gravity="center"
         android:hint="playlist name"
         android:maxLength="15"
-        android:paddingHorizontal="3dp" />
+        android:paddingHorizontal="3dp"
+        android:layout_gravity="center_horizontal"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
 
         <Button
             android:id="@+id/edit_fav_title_dialog_button_ok"
