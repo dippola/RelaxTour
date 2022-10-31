@@ -54,7 +54,7 @@ public class OnBoarding extends AppCompatActivity {
         ArrayList<OnBoardingItem> lists = new ArrayList<>();
 
         OnBoardingItem item1 = new OnBoardingItem();
-        item1.setImg(R.drawable.premium_title_img);
+        item1.setImg(R.drawable.onboard_gif_1);
         item1.setText1("Custom play list");
         item1.setText2("up to you add in playlist. many track you can choice. you can choice many track what you like. enjoy meditation.");
 
@@ -72,7 +72,7 @@ public class OnBoarding extends AppCompatActivity {
         lists.add(item2);
         lists.add(item3);
 
-        adapter = new OnBoardingAdapter(lists);
+        adapter = new OnBoardingAdapter(lists, OnBoarding.this);
     }
 
     private void setViewPagerListener() {

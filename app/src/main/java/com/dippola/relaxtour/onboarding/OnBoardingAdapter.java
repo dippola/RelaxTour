@@ -1,5 +1,6 @@
 package com.dippola.relaxtour.onboarding;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
 
 import java.util.ArrayList;
@@ -16,9 +20,11 @@ import java.util.ArrayList;
 public class OnBoardingAdapter extends RecyclerView.Adapter<OnBoardingAdapter.OnBoringViewHolder> {
 
     ArrayList<OnBoardingItem> arrayList;
+    Context context;
 
-    public OnBoardingAdapter(ArrayList<OnBoardingItem> arrayList) {
+    public OnBoardingAdapter(ArrayList<OnBoardingItem> arrayList, Context context) {
         this.arrayList = arrayList;
+        this.context = context;
     }
 
     @NonNull
@@ -31,7 +37,9 @@ public class OnBoardingAdapter extends RecyclerView.Adapter<OnBoardingAdapter.On
 
     @Override
     public void onBindViewHolder(@NonNull OnBoringViewHolder holder, int position) {
-        holder.img.setImageResource(arrayList.get(position).getImg());
+//        holder.img.setImageResource(arrayList.get(position).getImg());
+//        Glide.with(context).load(arrayList.get(position).getImg()).circleCrop().into(holder.img);
+        Glide.with(context).load(arrayList.get(position).getImg()).transform(new CenterCrop(), new RoundedCorners(800)).into(holder.img);
         holder.text1.setText(arrayList.get(position).getText1());
         holder.text2.setText(arrayList.get(position).getText2());
     }
