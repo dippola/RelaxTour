@@ -95,7 +95,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String MANTRA_TEAM = "create table if not exists " + MANTRA_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
     private static final String HZ_TEAM = "create table if not exists " + HZ_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
 
-    private static final String FAV_TITLE_TEAM = "create table if not exists " + FAV_TITLE_TABLE_NAME + "(" + COLUMN_FAV_TITLE + " TEXT," + COLUMN_FAV_ISPLAY + " INTEGER," + COLUMN_FAV_ISEDIT + " INTEGER" + ");";
+    private static final String FAV_TITLE_TEAM = "create table if not exists favtitle(title TEXT, isopen INTEGER, isedit INTEGER);";
     private static final String FAV_LIST_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER," + COLUMN_FAVTITLENAME + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
 
     private static final String ISPRO_TEAM = "create table if not exists ispro (ispro INTEGER);";
@@ -520,7 +520,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase = this.getWritableDatabase();
 
         if (MainActivity.bottomSheetPlayList.size() != 0) {
-            sqLiteDatabase.execSQL("insert into favtitle values (" + "'" + title1 + "'" + "," + 1 + "," + 1 + ")");
+            String s = "'" + title1 + "'" + ", 1, 1";
+//            sqLiteDatabase.execSQL("insert into favtitle values (" + "'" + title1 + "'" + "," + 1 + "," + 1 + ")");
+            sqLiteDatabase.execSQL("insert into favtitle values (" + s + ")");
             favTitleItem = new FavTitleItem(title1, 1, 1);
             FavPage.favTitleItemArrayList.add(favTitleItem);
             FavPage.adapter.notifyItemInserted(FavPage.favTitleItemArrayList.size() - 1);
@@ -931,7 +933,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public int getFavTitleIsEdit(String title) {
         openDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select isedit from favtitle where title = " + title, null);
+        Cursor cursor = sqLiteDatabase.rawQuery("select isedit from favtitle where title = " + "'" + title + "'", null);
         cursor.moveToFirst();
         int isedit = cursor.getInt(0);
         cursor.close();
