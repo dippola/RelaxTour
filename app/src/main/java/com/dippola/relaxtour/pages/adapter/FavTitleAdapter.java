@@ -27,6 +27,7 @@ import com.dippola.relaxtour.dialog.ConstainProTrackDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
 import com.dippola.relaxtour.dialog.EditFavTitleDialog;
 import com.dippola.relaxtour.pages.ChakraPage;
+import com.dippola.relaxtour.pages.FavPage;
 import com.dippola.relaxtour.pages.HzPage;
 import com.dippola.relaxtour.pages.MantraPage;
 import com.dippola.relaxtour.pages.NaturePage;
@@ -122,7 +123,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                     MainActivity.databaseHandler.changeFavTitleIsEdit(arrayList.get(i).getTitle(), 2);
                     holder.title.setVisibility(View.INVISIBLE);
                     holder.editText.setVisibility(View.VISIBLE);
-                    holder.editText.setText(arrayList.get(position).getTitle());
+                    holder.editText.setText(arrayList.get(i).getTitle());
                     Animation animation = AnimationUtils.loadAnimation(context, R.anim.fav_edit_close);
                     animation.setAnimationListener(new Animation.AnimationListener() {
                         @Override
@@ -231,7 +232,13 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                for (int i = 0; i < FavPage.favTitleItemArrayList.size(); i++) {
+                    if (FavPage.favTitleItemArrayList.get(i).getIsedit() == 2) {
+                        FavPage.favTitleItemArrayList.get(i).setIsedit(1);
+                        MainActivity.databaseHandler.changeIsOpenWhenFavPageOnPause();
+                        break;
+                    }
+                }
                 if (arrayList.get(i).getIsopen() == 1) {
                     ArrayList<FavListItem> favListItemArrayList;
                     favListItemArrayList = MainActivity.databaseHandler.getFavListItem(arrayList.get(i).getTitle());
@@ -508,7 +515,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         };
 
         // Expansion speed of 1dp/ms
-        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density) / 3);
+        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
 
@@ -534,7 +541,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         };
 
         // Collapse speed of 1dp/ms
-        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density) / 3);
+        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
 }

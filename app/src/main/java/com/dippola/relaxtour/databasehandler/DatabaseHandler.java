@@ -463,10 +463,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //        sqLiteDatabase.execSQL("update favlist set seek = " + progress + " where pnp = " + "'" + pnp + "'");
     }
 
-    public void changeSeekInFavList(int progress, String favtitlename, String pnp) {
-        sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.execSQL("update favlist set seek = " + progress + " where favtitlename = " + "'" + favtitlename + "'" + " and pnp = " + "'" + pnp + "'");
-    }
+//    public void changeSeekInFavList(int progress, String favtitlename, String pnp) {
+//        sqLiteDatabase = this.getWritableDatabase();
+//        sqLiteDatabase.execSQL("update favlist set seek = " + progress + " where favtitlename = " + "'" + favtitlename + "'" + " and pnp = " + "'" + pnp + "'");
+//    }
 
     public void checkTitleAlready(Context context, String title) {
         List<String> titles = new ArrayList<>();

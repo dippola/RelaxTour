@@ -68,6 +68,7 @@ public class FavPage extends Fragment {
     }
 
     public static void setAgain() {
+        MainActivity.databaseHandler.changeIsOpenWhenFavPageOnPause();
         if (favTitleItemArrayList.size() != 0) {
             for (int i = 0; i < favTitleItemArrayList.size(); i++) {
                 favTitleItemArrayList.get(i).setIsopen(1);

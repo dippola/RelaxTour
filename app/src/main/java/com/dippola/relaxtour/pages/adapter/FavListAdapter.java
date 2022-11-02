@@ -93,10 +93,8 @@ public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomV
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 if (SeekController.favMoving) {
                     arrayList.get(positions).setSeek(seekBar.getProgress());
-//                    float volume = (float) (1 - (Math.log(SeekController.MAX_VOLUME - i) / Math.log(SeekController.MAX_VOLUME)));
-//                    String pp = arrayList.get(positions).getPnp();
-//                    SeekController.changeVolumn(pp, volume);
-                    SeekController.changeSeekInFavList(context, arrayList.get(positions), i);
+
+//                    SeekController.changeSeekInFavList(context, arrayList.get(positions), i);
                 }
             }
 

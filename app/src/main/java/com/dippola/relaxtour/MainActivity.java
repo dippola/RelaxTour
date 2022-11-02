@@ -358,7 +358,6 @@ public class MainActivity extends AppCompatActivity {
                         tabsList.get(i).setOpen(false);
                         if (i == 0) {
                             tabsList.get(i).setImg(R.drawable.tabicon_fav_default);
-                            databaseHandler.changeIsOpenWhenFavPageOnPause();
                             FavPage.setAgain();
                         } else if (i == 1) {
                             tabsList.get(i).setImg(R.drawable.tabicon_rain_default);

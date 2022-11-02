@@ -103,49 +103,49 @@ public class SeekController {
         MainActivity.databaseHandler.changePageSeek(pageItem.getPage(), progress, pageItem.getPosition(), pageItem.getPnp());
     }
 
-    public static void changeSeekInFavList(Context context, FavListItem favListItem, int progress) {
-//        int position = favListItem.getPosition() - 1;
-//        if (favListItem.getPage() == 1 && RainPage.arrayList.size() != 0) {
-//            RainPage.arrayList.get(position).setSeek(progress);
-//            RainPage.adapter.notifyItemChanged(position);
-//            RainPage.adapter.notifyDataSetChanged();
-//        } else if (favListItem.getPage() == 2 && WaterPage.arrayList.size() != 0) {
-//            WaterPage.arrayList.get(position).setSeek(progress);
-//            WaterPage.adapter.notifyItemChanged(position);
-//            WaterPage.adapter.notifyDataSetChanged();
-//        } else if (favListItem.getPage() == 3 && WindPage.arrayList.size() != 0) {
-//            WindPage.arrayList.get(position).setSeek(progress);
-//            WindPage.adapter.notifyItemChanged(position);
-//            WindPage.adapter.notifyDataSetChanged();
-//        } else if (favListItem.getPage() == 4 && NaturePage.arrayList.size() != 0) {
-//            NaturePage.arrayList.get(position).setSeek(progress);
-//            NaturePage.adapter.notifyItemChanged(position);
-//            NaturePage.adapter.notifyDataSetChanged();
-//        } else if (favListItem.getPage() == 4 && ChakraPage.arrayList.size() != 0) {
-//            ChakraPage.arrayList.get(position).setSeek(progress);
-//            ChakraPage.adapter.notifyItemChanged(position);
-//            ChakraPage.adapter.notifyDataSetChanged();
-//        } else if (favListItem.getPage() == 4 && MantraPage.arrayList.size() != 0) {
-//            MantraPage.arrayList.get(position).setSeek(progress);
-//            MantraPage.adapter.notifyItemChanged(position);
-//            MantraPage.adapter.notifyDataSetChanged();
-//        } else if (favListItem.getPage() == 4 && HzPage.arrayList.size() != 0) {
-//            HzPage.arrayList.get(position).setSeek(progress);
-//            HzPage.adapter.notifyItemChanged(position);
-//            HzPage.adapter.notifyDataSetChanged();
-//        }
+//    public static void changeSeekInFavList(Context context, FavListItem favListItem, int progress) {
+////        int position = favListItem.getPosition() - 1;
+////        if (favListItem.getPage() == 1 && RainPage.arrayList.size() != 0) {
+////            RainPage.arrayList.get(position).setSeek(progress);
+////            RainPage.adapter.notifyItemChanged(position);
+////            RainPage.adapter.notifyDataSetChanged();
+////        } else if (favListItem.getPage() == 2 && WaterPage.arrayList.size() != 0) {
+////            WaterPage.arrayList.get(position).setSeek(progress);
+////            WaterPage.adapter.notifyItemChanged(position);
+////            WaterPage.adapter.notifyDataSetChanged();
+////        } else if (favListItem.getPage() == 3 && WindPage.arrayList.size() != 0) {
+////            WindPage.arrayList.get(position).setSeek(progress);
+////            WindPage.adapter.notifyItemChanged(position);
+////            WindPage.adapter.notifyDataSetChanged();
+////        } else if (favListItem.getPage() == 4 && NaturePage.arrayList.size() != 0) {
+////            NaturePage.arrayList.get(position).setSeek(progress);
+////            NaturePage.adapter.notifyItemChanged(position);
+////            NaturePage.adapter.notifyDataSetChanged();
+////        } else if (favListItem.getPage() == 4 && ChakraPage.arrayList.size() != 0) {
+////            ChakraPage.arrayList.get(position).setSeek(progress);
+////            ChakraPage.adapter.notifyItemChanged(position);
+////            ChakraPage.adapter.notifyDataSetChanged();
+////        } else if (favListItem.getPage() == 4 && MantraPage.arrayList.size() != 0) {
+////            MantraPage.arrayList.get(position).setSeek(progress);
+////            MantraPage.adapter.notifyItemChanged(position);
+////            MantraPage.adapter.notifyDataSetChanged();
+////        } else if (favListItem.getPage() == 4 && HzPage.arrayList.size() != 0) {
+////            HzPage.arrayList.get(position).setSeek(progress);
+////            HzPage.adapter.notifyItemChanged(position);
+////            HzPage.adapter.notifyDataSetChanged();
+////        }
+////
+////        if (MainActivity.bottomSheetPlayList.size() != 0) {
+////            for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
+////                if (MainActivity.bottomSheetPlayList.get(i).getPnp().equals(favListItem.getPnp())) {
+////                    MainActivity.bottomSheetPlayList.get(i).setSeek(progress);
+////                    MainActivity.bottomSheetAdapter.notifyItemChanged(i);
+////                    MainActivity.bottomSheetAdapter.notifyDataSetChanged();
+////                    break;
+////                }
+////            }
+////        }
 //
-//        if (MainActivity.bottomSheetPlayList.size() != 0) {
-//            for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-//                if (MainActivity.bottomSheetPlayList.get(i).getPnp().equals(favListItem.getPnp())) {
-//                    MainActivity.bottomSheetPlayList.get(i).setSeek(progress);
-//                    MainActivity.bottomSheetAdapter.notifyItemChanged(i);
-//                    MainActivity.bottomSheetAdapter.notifyDataSetChanged();
-//                    break;
-//                }
-//            }
-//        }
-
-        MainActivity.databaseHandler.changeSeekInFavList(progress, favListItem.getFavtitlename(), favListItem.getPnp());
-    }
+//        MainActivity.databaseHandler.changeSeekInFavList(progress, favListItem.getFavtitlename(), favListItem.getPnp());
+//    }
 }
