@@ -73,6 +73,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String FAV_TITLE_TABLE_NAME = "favtitle";
     public static final String COLUMN_FAV_TITLE = "title";
     public static final String COLUMN_FAV_ISPLAY = "isopen";
+    public static final String COLUMN_FAV_ISEDIT = "isedit";
     private static final String FAV_LIST_TABLE_NAME = "favlist";
     public static final String COLUMN_FAVTITLENAME = "favtitlename";
 
@@ -94,7 +95,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String MANTRA_TEAM = "create table if not exists " + MANTRA_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
     private static final String HZ_TEAM = "create table if not exists " + HZ_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
 
-    private static final String FAV_TITLE_TEAM = "create table if not exists " + FAV_TITLE_TABLE_NAME + "(" + COLUMN_FAV_TITLE + " TEXT," + COLUMN_FAV_ISPLAY + " INTEGER" + ");";
+    private static final String FAV_TITLE_TEAM = "create table if not exists " + FAV_TITLE_TABLE_NAME + "(" + COLUMN_FAV_TITLE + " TEXT," + COLUMN_FAV_ISPLAY + " INTEGER," + COLUMN_FAV_ISEDIT + " INTEGER" + ");";
     private static final String FAV_LIST_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER," + COLUMN_FAVTITLENAME + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
 
     private static final String ISPRO_TEAM = "create table if not exists ispro (ispro INTEGER);";
@@ -519,8 +520,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase = this.getWritableDatabase();
 
         if (MainActivity.bottomSheetPlayList.size() != 0) {
-            sqLiteDatabase.execSQL("insert into favtitle values (" + "'" + title1 + "'" + "," + 1 + ")");
-            favTitleItem = new FavTitleItem(title1, 1);
+            sqLiteDatabase.execSQL("insert into favtitle values (" + "'" + title1 + "'" + "," + 1 + "," + 1 + ")");
+            favTitleItem = new FavTitleItem(title1, 1, 1);
             FavPage.favTitleItemArrayList.add(favTitleItem);
             FavPage.adapter.notifyItemInserted(FavPage.favTitleItemArrayList.size() - 1);
             FavPage.adapter.notifyDataSetChanged();
@@ -613,7 +614,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            favTitleItem = new FavTitleItem(cursor.getString(0), cursor.getInt(1));
+            favTitleItem = new FavTitleItem(cursor.getString(0), cursor.getInt(1), cursor.getInt(2));
             if (favTitleItem.getTitle() != null) {
                 favTitleItems.add(favTitleItem);
             }
@@ -674,6 +675,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void changeIsOpenWhenFavPageOnPause() {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("update favtitle set isopen = 1");
+        sqLiteDatabase.execSQL("update favtitle set isedit = 1");
     }
 
     public void deleteAllPlayinglist(ArrayList<Integer> pagelist, ArrayList<Integer> positionlist, String title) {
@@ -793,6 +795,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void whenAppKillTask() {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("update favtitle set isopen = 1 where isopen = 2");
+        sqLiteDatabase.execSQL("update favtitle set isedit = 1 where isedit = 2");
     }
 
     public Bitmap getPageicon(String what) {
@@ -883,5 +886,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void changePageSeekWhenPlayInFavTitle(int page, int position, int volumn) {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("update " + getPageName(page) + " set seek = " + volumn + " where position = " + position);
+    }
+
+    public void changeFavTitleIsEdit(String title, int isedit) {
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("update favtitle set isedit = " + isedit + " where title = " + title);
+    }
+
+//    public int getIsProUser() {
+//        openDatabase();
+//        Cursor cursor = sqLiteDatabase.rawQuery("SELECT ispro FROM ispro", null);
+//        cursor.moveToFirst();
+//        int ispro = cursor.getInt(0);
+//        cursor.close();
+//        closeDatabse();
+//        return ispro;
+//    }
+
+    public int getFavTitleIsEdit(String title) {
+        openDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select isedit from favtitle where title = " + title, null);
+        cursor.moveToFirst();
+        int isedit = cursor.getInt(0);
+        cursor.close();
+        closeDatabse();
+        return isedit;
     }
 }

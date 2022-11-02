@@ -64,6 +64,16 @@ public class FavPage extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        MainActivity.databaseHandler.changeIsOpenWhenFavPageOnPause();
+//        MainActivity.databaseHandler.changeIsOpenWhenFavPageOnPause();
+    }
+
+    public static void setAgain() {
+        if (favTitleItemArrayList.size() != 0) {
+            for (int i = 0; i < favTitleItemArrayList.size(); i++) {
+                favTitleItemArrayList.get(i).setIsopen(1);
+                favTitleItemArrayList.get(i).setIsedit(1);
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
 }

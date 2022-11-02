@@ -1,7 +1,6 @@
 package com.dippola.relaxtour.pages.adapter;
 
 import android.content.Context;
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Transformation;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -60,6 +60,9 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         ViewGroup.LayoutParams params = holder.contr.getLayoutParams();
         params.width = (int) (parent.getWidth() * 0.4);
         holder.contr.setLayoutParams(params);
+        ViewGroup.LayoutParams params1 = holder.editlayout.getLayoutParams();
+        params.width = (int) (parent.getWidth() * 0.4);
+        holder.editlayout.setLayoutParams(params);
 
         return holder;
     }
@@ -72,18 +75,33 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
 
         if (arrayList.get(i).getIsopen() == 1) {
             collapse(holder.hide);
-
-//            holder.hide.setVisibility(View.GONE);
-//            holder.recyclerView.setVisibility(View.GONE);
             holder.uandd.setChecked(false);
             holder.uandd.setBackgroundResource(R.drawable.fav_page_item_down);
         } else {
             expand(holder.hide);
-
-//            holder.hide.setVisibility(View.VISIBLE);
-//            holder.recyclerView.setVisibility(View.VISIBLE);
             holder.uandd.setChecked(true);
             holder.uandd.setBackgroundResource(R.drawable.fav_page_item_up);
+        }
+
+        if (arrayList.get(i).getIsedit() == 1) {
+            holder.contr.setVisibility(View.VISIBLE);
+            holder.editlayout.setVisibility(View.INVISIBLE);
+            holder.title.setVisibility(View.VISIBLE);
+            holder.editText.setVisibility(View.INVISIBLE);
+            holder.editBtn.setEnabled(true);
+            holder.delete.setEnabled(true);
+            holder.editok.setEnabled(false);
+            holder.editcancel.setEnabled(false);
+        } else {
+            holder.contr.setVisibility(View.INVISIBLE);
+            holder.editlayout.setVisibility(View.VISIBLE);
+            holder.title.setVisibility(View.INVISIBLE);
+            holder.editText.setVisibility(View.VISIBLE);
+            holder.editText.setText(arrayList.get(position).getTitle());
+            holder.editBtn.setEnabled(false);
+            holder.delete.setEnabled(false);
+            holder.editok.setEnabled(true);
+            holder.editcancel.setEnabled(true);
         }
 
         holder.play.setOnClickListener(new View.OnClickListener() {
@@ -95,10 +113,58 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
             }
         });
 
-        holder.edit.setOnClickListener(new View.OnClickListener() {
+        holder.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditFavTitleDialog.editFavTitleDialog(context, arrayList.get(i).getTitle(), i);
+//                EditFavTitleDialog.editFavTitleDialog(context, arrayList.get(i).getTitle(), i);
+                if (arrayList.get(i).getIsedit() == 1) {
+                    arrayList.get(i).setIsedit(2);
+                    MainActivity.databaseHandler.changeFavTitleIsEdit(arrayList.get(i).getTitle(), 2);
+                    holder.title.setVisibility(View.INVISIBLE);
+                    holder.editText.setVisibility(View.VISIBLE);
+                    holder.editText.setText(arrayList.get(position).getTitle());
+                    Animation animation = AnimationUtils.loadAnimation(context, R.anim.fav_edit_close);
+                    animation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            holder.contr.setVisibility(View.INVISIBLE);
+                            holder.editBtn.setEnabled(false);
+                            holder.delete.setEnabled(false);
+                            Animation anim = AnimationUtils.loadAnimation(context, R.anim.fav_edit_show);
+                            anim.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    holder.editlayout.setVisibility(View.VISIBLE);
+                                    holder.editok.setEnabled(true);
+                                    holder.editcancel.setEnabled(true);
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
+                            holder.editlayout.startAnimation(anim);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    holder.contr.startAnimation(animation);
+                    favListAdapter.notifyDataSetChanged();
+                }
             }
         });
 
@@ -106,6 +172,59 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
             @Override
             public void onClick(View view) {
                 DeleteFavTitleDialog.deleteFavTitleDialog(context, arrayList.get(i).getTitle());
+            }
+        });
+
+        holder.editcancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (arrayList.get(i).getIsedit() == 2) {
+                    arrayList.get(i).setIsedit(1);
+                    MainActivity.databaseHandler.changeFavTitleIsEdit(arrayList.get(i).getTitle(), 1);
+                    holder.title.setVisibility(View.VISIBLE);
+                    holder.editText.setVisibility(View.INVISIBLE);
+                    Animation animation = AnimationUtils.loadAnimation(context, R.anim.fav_edit_close);
+                    animation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            holder.editlayout.setVisibility(View.INVISIBLE);
+                            holder.editok.setEnabled(false);
+                            holder.editcancel.setEnabled(false);
+                            Animation anim = AnimationUtils.loadAnimation(context, R.anim.fav_edit_show);
+                            anim.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    holder.contr.setVisibility(View.VISIBLE);
+                                    holder.editBtn.setEnabled(true);
+                                    holder.delete.setEnabled(true);
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
+                            holder.contr.startAnimation(anim);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    holder.editlayout.startAnimation(animation);
+                    favListAdapter.notifyDataSetChanged();
+                }
             }
         });
 
@@ -224,31 +343,30 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
         TextView title;
-        Button play, edit, delete;
+        Button play, editBtn, delete, editok, editcancel;
+        EditText editText;
         CheckBox uandd;
         RecyclerView recyclerView;
         LinearLayout linearLayout;
-        LinearLayout hide;
-        RelativeLayout contr;
+        RelativeLayout hide;
+        RelativeLayout contr, editlayout;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.title = itemView.findViewById(R.id.fav_page_item_title);
             this.play = itemView.findViewById(R.id.fav_page_item_play);
-            this.edit = itemView.findViewById(R.id.fav_page_item_edit);
+            this.editBtn = itemView.findViewById(R.id.fav_page_item_edit);
+            this.editlayout = itemView.findViewById(R.id.fav_page_item_edit_layout);
             this.delete = itemView.findViewById(R.id.fav_page_item_delete);
+            this.editText = itemView.findViewById(R.id.fav_page_item_edit_title);
+            this.editok = itemView.findViewById(R.id.fav_page_item_ok);
+            this.editcancel = itemView.findViewById(R.id.fav_page_item_cancel);
             this.uandd = itemView.findViewById(R.id.fav_page_item_uandd);
             this.recyclerView = itemView.findViewById(R.id.fav_page_inside_recyclerview);
             this.linearLayout = itemView.findViewById(R.id.fav_page_item_linear);
 //            this.recyclerView.setVisibility(View.GONE);
             this.contr = itemView.findViewById(R.id.fav_page_item_controller_layout);
-
             this.hide = itemView.findViewById(R.id.fav_page_item_hide);
-            if (this.uandd.isChecked()) {
-                this.hide.setVisibility(View.VISIBLE);
-            } else {
-                this.hide.setVisibility(View.GONE);
-            }
         }
     }
 

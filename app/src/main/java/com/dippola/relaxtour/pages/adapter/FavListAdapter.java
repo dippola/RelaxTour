@@ -47,6 +47,14 @@ public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomV
 //        databaseHandler = new DatabaseHandler(context);
 //        arrayList = databaseHandler.getFavListItem(title);
 
+        if (MainActivity.databaseHandler.getFavTitleIsEdit(arrayList.get(position).getFavtitlename()) == 1) {
+            holder.seekBar.setEnabled(false);
+        } else {
+            holder.seekBar.setEnabled(true);
+        }
+
+        setSeekbarDrawable(holder.seekBar);
+
         if (arrayList.size() != 0) {
             if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
                 Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
@@ -120,6 +128,16 @@ public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomV
             this.img = itemView.findViewById(R.id.favlist_item_img);
             this.seekBar = itemView.findViewById(R.id.favlist_item_seekbar);
             this.name = itemView.findViewById(R.id.favlist_item_name);
+        }
+    }
+
+    private void setSeekbarDrawable(SeekBar seekBar) {
+        if (seekBar.isEnabled()) {
+            seekBar.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_in_page_enable));
+            seekBar.setThumb(context.getResources().getDrawable(R.drawable.seekbar_in_page_thumb_enable));
+        } else {
+            seekBar.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_disable));
+            seekBar.setThumb(context.getResources().getDrawable(R.drawable.seekbar_disable_thumb));
         }
     }
 }

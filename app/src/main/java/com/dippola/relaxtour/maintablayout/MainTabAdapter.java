@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.pages.FavPage;
 
 import java.util.ArrayList;
 

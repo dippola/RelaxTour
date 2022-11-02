@@ -350,7 +350,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.d("MainActivity>>>", "position: " + position);
                 tabRecycler.smoothScrollToPosition(position);
 //                tabRecycler.scrollToPosition(position);
                 for (int i = 0; i < tabsList.size(); i++) {
@@ -359,6 +358,8 @@ public class MainActivity extends AppCompatActivity {
                         tabsList.get(i).setOpen(false);
                         if (i == 0) {
                             tabsList.get(i).setImg(R.drawable.tabicon_fav_default);
+                            databaseHandler.changeIsOpenWhenFavPageOnPause();
+                            FavPage.setAgain();
                         } else if (i == 1) {
                             tabsList.get(i).setImg(R.drawable.tabicon_rain_default);
                         } else if (i == 2) {
@@ -403,7 +404,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.d("MainActivity>>>", "state: " + state);//0끝
             }
         });
     }
