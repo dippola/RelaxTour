@@ -446,7 +446,7 @@ public class MainActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int y = (int) (size.y * 0.2);//디바이스 세로의 20%
+        int y = (int) (size.y * 0.3);//디바이스 세로의 20%
         pageitem_code0_width_size = (int) (size.x * 0.37);//디바이스 가로의 1/3
         pageitem_code0_height_size = (int) (pageitem_code0_width_size * 0.75);
         pageitem_code1_width_size = (int) (size.x * 0.25);//디바이스 가로의 1/4

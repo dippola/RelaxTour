@@ -2,14 +2,14 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape android:shape="line">
-            <stroke android:width="2dp" android:color="#f3f3"/>
+            <stroke android:width="2dp" android:color="@color/seekbar_in_bottom_disable"/>
         </shape>
     </item>
 
     <item android:id="@android:id/secondaryProgress">
         <clip>
             <shape android:shape="line">
-                <stroke android:width="2dp" android:color="#f3f3"/>
+                <stroke android:width="2dp" android:color="@color/seekbar_in_bottom_disable"/>
             </shape>
         </clip>
     </item>
@@ -17,7 +17,7 @@
     <item android:id="@android:id/progress">
         <clip>
             <shape android:shape="line">
-                <stroke android:width="2dp" android:color="#f3f3"/>
+                <stroke android:width="2dp" android:color="@color/seekbar_in_bottom_disable"/>
             </shape>
         </clip>
     </item>

@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -19,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.controller.SeekController;
 import com.dippola.relaxtour.pages.item.FavListItem;
 
 import java.util.ArrayList;
@@ -27,9 +24,11 @@ import java.util.ArrayList;
 public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomViewHolder> {
     Context context;
     public static ArrayList<FavListItem> arrayList = new ArrayList<>();
+    public static ArrayList<FavListItem> editList = new ArrayList<>();
 
-    public FavListAdapter(ArrayList<FavListItem> arrayList, Context context) {
+    public FavListAdapter(ArrayList<FavListItem> arrayList, ArrayList<FavListItem> editList, Context context) {
         FavListAdapter.arrayList = arrayList;
+        FavListAdapter.editList = editList;
         this.context = context;
     }
 
@@ -88,26 +87,43 @@ public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomV
         holder.seekBar.setProgress(arrayList.get(position).getSeek());
         holder.seekBar.setMax(MainActivity.maxVolumn);
 
+//        holder.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+//                if (SeekController.favMoving) {
+//                    arrayList.get(positions).setSeek(seekBar.getProgress());
+//
+////                    SeekController.changeSeekInFavList(context, arrayList.get(positions), i);
+//                }
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//                SeekController.favMoving = true;
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//                notifyItemChanged(positions);
+//                notifyDataSetChanged();
+//                SeekController.favMoving = false;
+//            }
+//        });
+
         holder.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (SeekController.favMoving) {
-                    arrayList.get(positions).setSeek(seekBar.getProgress());
 
-//                    SeekController.changeSeekInFavList(context, arrayList.get(positions), i);
-                }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                SeekController.favMoving = true;
+
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                notifyItemChanged(positions);
-                notifyDataSetChanged();
-                SeekController.favMoving = false;
+                editList.get(positions).setSeek(seekBar.getProgress());
             }
         });
     }
@@ -131,11 +147,11 @@ public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomV
 
     private void setSeekbarDrawable(SeekBar seekBar) {
         if (seekBar.isEnabled()) {
-            seekBar.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_in_page_enable));
-            seekBar.setThumb(context.getResources().getDrawable(R.drawable.seekbar_in_page_thumb_enable));
+            seekBar.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_in_bottom_enable));
+            seekBar.setThumb(context.getResources().getDrawable(R.drawable.seekbar_in_bottom_disable_thumb));
         } else {
-            seekBar.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_disable));
-            seekBar.setThumb(context.getResources().getDrawable(R.drawable.seekbar_disable_thumb));
+            seekBar.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_in_bottom_disable));
+            seekBar.setThumb(context.getResources().getDrawable(R.drawable.seekbar_in_bottom_disable_thumb));
         }
     }
 }

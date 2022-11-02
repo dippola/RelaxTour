@@ -47,7 +47,7 @@ public class FavPage extends Fragment {
     private void setRecyclerView(ViewGroup rootView) {
         recyclerView = rootView.findViewById(R.id.fav_page_recyclerview);
         favTitleItemArrayList = MainActivity.databaseHandler.getFavTitleList();
-        adapter = new FavTitleAdapter(favTitleItemArrayList, getActivity());
+        adapter = new FavTitleAdapter(favTitleItemArrayList, getActivity(), getActivity());
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

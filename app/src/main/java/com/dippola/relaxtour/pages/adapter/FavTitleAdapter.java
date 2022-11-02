@@ -1,5 +1,8 @@
 package com.dippola.relaxtour.pages.adapter;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,12 +11,14 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Transformation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,7 +30,6 @@ import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.dialog.AskDownloadsDialog;
 import com.dippola.relaxtour.dialog.ConstainProTrackDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
-import com.dippola.relaxtour.dialog.EditFavTitleDialog;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.FavPage;
 import com.dippola.relaxtour.pages.HzPage;
@@ -44,12 +48,14 @@ import java.util.ArrayList;
 public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.CustomViewHolder> {
     ArrayList<FavTitleItem> arrayList;
     Context context;
+    Activity activity;
     RecyclerView.LayoutManager layoutManager;
     public static FavListAdapter favListAdapter;
 
-    public FavTitleAdapter(ArrayList<FavTitleItem> arrayList, Context context) {
+    public FavTitleAdapter(ArrayList<FavTitleItem> arrayList, Context context, Activity activity) {
         this.arrayList = arrayList;
         this.context = context;
+        this.activity = activity;
     }
 
     @NonNull
@@ -89,6 +95,9 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
             holder.editlayout.setVisibility(View.INVISIBLE);
             holder.title.setVisibility(View.VISIBLE);
             holder.editText.setVisibility(View.INVISIBLE);
+            holder.play.setVisibility(View.VISIBLE);
+            holder.linearLayout.setEnabled(true);
+            holder.uandd.setEnabled(true);
             holder.editBtn.setEnabled(true);
             holder.delete.setEnabled(true);
             holder.editok.setEnabled(false);
@@ -97,8 +106,11 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
             holder.contr.setVisibility(View.INVISIBLE);
             holder.editlayout.setVisibility(View.VISIBLE);
             holder.title.setVisibility(View.INVISIBLE);
+            holder.play.setVisibility(View.GONE);
             holder.editText.setVisibility(View.VISIBLE);
             holder.editText.setText(arrayList.get(position).getTitle());
+            holder.linearLayout.setEnabled(false);
+            holder.uandd.setEnabled(false);
             holder.editBtn.setEnabled(false);
             holder.delete.setEnabled(false);
             holder.editok.setEnabled(true);
@@ -108,7 +120,6 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         holder.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("FavTitleAdapter>>>", "start");
                 MainActivity.load.setVisibility(View.VISIBLE);
                 checkDownloadAready(arrayList.get(i).getTitle());
             }
@@ -121,7 +132,10 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                 if (arrayList.get(i).getIsedit() == 1) {
                     arrayList.get(i).setIsedit(2);
                     MainActivity.databaseHandler.changeFavTitleIsEdit(arrayList.get(i).getTitle(), 2);
+                    holder.linearLayout.setEnabled(false);
+                    holder.uandd.setEnabled(false);
                     holder.title.setVisibility(View.INVISIBLE);
+                    holder.play.setVisibility(View.GONE);
                     holder.editText.setVisibility(View.VISIBLE);
                     holder.editText.setText(arrayList.get(i).getTitle());
                     Animation animation = AnimationUtils.loadAnimation(context, R.anim.fav_edit_close);
@@ -176,6 +190,83 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
             }
         });
 
+        holder.editok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager manager = (InputMethodManager)context.getSystemService(INPUT_METHOD_SERVICE);
+                if (manager.isAcceptingText()) {
+                    manager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+                if (!arrayList.get(i).getTitle().equals(holder.editText.getText().toString())) {
+                    for (int i = 0; i < FavListAdapter.editList.size(); i++) {
+                        FavListAdapter.editList.get(i).setFavtitlename(holder.editText.getText().toString());
+                    }
+                }
+                MainActivity.databaseHandler.changeFavListToEdit(arrayList.get(i).getTitle(), holder.editText.getText().toString(), FavListAdapter.editList);
+                arrayList.get(i).setTitle(holder.editText.getText().toString());
+                arrayList.get(i).setIsedit(1);
+                MainActivity.databaseHandler.changeFavTitleIsEdit(arrayList.get(i).getTitle(), 1);
+                holder.title.setVisibility(View.VISIBLE);
+                holder.editText.setVisibility(View.INVISIBLE);
+                holder.play.setVisibility(View.VISIBLE);
+                Animation animation = AnimationUtils.loadAnimation(context, R.anim.fav_edit_close);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        holder.editlayout.setVisibility(View.INVISIBLE);
+                        holder.editok.setEnabled(false);
+                        holder.editcancel.setEnabled(false);
+                        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fav_edit_show);
+                        anim.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                holder.contr.setVisibility(View.VISIBLE);
+                                holder.linearLayout.setEnabled(true);
+                                holder.uandd.setEnabled(true);
+                                holder.editBtn.setEnabled(true);
+                                holder.delete.setEnabled(true);
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+
+                            }
+                        });
+                        holder.contr.startAnimation(anim);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                holder.editlayout.startAnimation(animation);
+
+                holder.title.setText(holder.editText.getText().toString());
+
+                ArrayList<FavListItem> favListItemArrayList;
+                ArrayList<FavListItem> favListItemEditList;
+                favListItemArrayList = FavListAdapter.editList;
+                favListItemEditList = MainActivity.databaseHandler.getFavListItem(arrayList.get(i).getTitle());
+                favListAdapter = new FavListAdapter(favListItemArrayList, favListItemEditList, context);
+                layoutManager = new LinearLayoutManager(context);
+                holder.recyclerView.setHasFixedSize(true);
+                holder.recyclerView.setLayoutManager(layoutManager);
+                holder.recyclerView.setAdapter(favListAdapter);
+                Toast.makeText(context, "The modification is complete.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         holder.editcancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -184,6 +275,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                     MainActivity.databaseHandler.changeFavTitleIsEdit(arrayList.get(i).getTitle(), 1);
                     holder.title.setVisibility(View.VISIBLE);
                     holder.editText.setVisibility(View.INVISIBLE);
+                    holder.play.setVisibility(View.VISIBLE);
                     Animation animation = AnimationUtils.loadAnimation(context, R.anim.fav_edit_close);
                     animation.setAnimationListener(new Animation.AnimationListener() {
                         @Override
@@ -206,6 +298,8 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                                 @Override
                                 public void onAnimationEnd(Animation animation) {
                                     holder.contr.setVisibility(View.VISIBLE);
+                                    holder.linearLayout.setEnabled(true);
+                                    holder.uandd.setEnabled(true);
                                     holder.editBtn.setEnabled(true);
                                     holder.delete.setEnabled(true);
                                 }
@@ -226,6 +320,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                     holder.editlayout.startAnimation(animation);
                     favListAdapter.notifyDataSetChanged();
                 }
+
             }
         });
 
@@ -239,9 +334,12 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                         break;
                     }
                 }
+
                 if (arrayList.get(i).getIsopen() == 1) {
                     ArrayList<FavListItem> favListItemArrayList;
+                    ArrayList<FavListItem> favListItemEditList;
                     favListItemArrayList = MainActivity.databaseHandler.getFavListItem(arrayList.get(i).getTitle());
+                    favListItemEditList = MainActivity.databaseHandler.getFavListItem(arrayList.get(i).getTitle());
                     MainActivity.databaseHandler.changeFavListIsOpen(arrayList.get(i).getIsopen(), arrayList.get(i).getTitle());
 
                     for (int ii = 0; ii < arrayList.size(); ii++) {
@@ -251,7 +349,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                     }
                     arrayList.get(i).setIsopen(2);
 
-                    favListAdapter = new FavListAdapter(favListItemArrayList, context);
+                    favListAdapter = new FavListAdapter(favListItemArrayList, favListItemEditList, context);
                     layoutManager = new LinearLayoutManager(context);
                     holder.recyclerView.setHasFixedSize(true);
                     holder.recyclerView.setLayoutManager(layoutManager);
@@ -267,7 +365,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                         }
                     }
 
-                    favListAdapter = new FavListAdapter(favListItemArrayList, context);
+                    favListAdapter = new FavListAdapter(favListItemArrayList, favListItemArrayList, context);
                     layoutManager = new LinearLayoutManager(context);
                     holder.recyclerView.setHasFixedSize(true);
                     holder.recyclerView.setLayoutManager(layoutManager);
@@ -284,10 +382,19 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         holder.uandd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                for (int i = 0; i < FavPage.favTitleItemArrayList.size(); i++) {
+                    if (FavPage.favTitleItemArrayList.get(i).getIsedit() == 2) {
+                        FavPage.favTitleItemArrayList.get(i).setIsedit(1);
+                        MainActivity.databaseHandler.changeIsOpenWhenFavPageOnPause();
+                        break;
+                    }
+                }
 
                 if (arrayList.get(i).getIsopen() == 1) {
                     ArrayList<FavListItem> favListItemArrayList;
+                    ArrayList<FavListItem> favListItemEditList;
                     favListItemArrayList = MainActivity.databaseHandler.getFavListItem(arrayList.get(i).getTitle());
+                    favListItemEditList = MainActivity.databaseHandler.getFavListItem(arrayList.get(i).getTitle());
                     MainActivity.databaseHandler.changeFavListIsOpen(arrayList.get(i).getIsopen(), arrayList.get(i).getTitle());
 
                     for (int ii = 0; ii < arrayList.size(); ii++) {
@@ -297,7 +404,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                     }
                     arrayList.get(i).setIsopen(2);
 
-                    favListAdapter = new FavListAdapter(favListItemArrayList, context);
+                    favListAdapter = new FavListAdapter(favListItemArrayList, favListItemEditList, context);
                     layoutManager = new LinearLayoutManager(context);
                     holder.recyclerView.setHasFixedSize(true);
                     holder.recyclerView.setLayoutManager(layoutManager);
@@ -313,7 +420,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                         }
                     }
 
-                    favListAdapter = new FavListAdapter(favListItemArrayList, context);
+                    favListAdapter = new FavListAdapter(favListItemArrayList, favListItemArrayList, context);
                     layoutManager = new LinearLayoutManager(context);
                     holder.recyclerView.setHasFixedSize(true);
                     holder.recyclerView.setLayoutManager(layoutManager);
@@ -371,7 +478,6 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
             this.uandd = itemView.findViewById(R.id.fav_page_item_uandd);
             this.recyclerView = itemView.findViewById(R.id.fav_page_inside_recyclerview);
             this.linearLayout = itemView.findViewById(R.id.fav_page_item_linear);
-//            this.recyclerView.setVisibility(View.GONE);
             this.contr = itemView.findViewById(R.id.fav_page_item_controller_layout);
             this.hide = itemView.findViewById(R.id.fav_page_item_hide);
         }

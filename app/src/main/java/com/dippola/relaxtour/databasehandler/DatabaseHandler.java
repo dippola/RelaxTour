@@ -678,6 +678,32 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("update favtitle set isedit = 1");
     }
 
+    public void changeFavListToEdit(String beforeTitle, String afterTitle, ArrayList<FavListItem> arrayList) {
+        sqLiteDatabase = this.getWritableDatabase();
+        if (!beforeTitle.equals(afterTitle)) {
+            sqLiteDatabase.execSQL("update favtitle set title = " + afterTitle + " where title = " + beforeTitle);
+        }
+        sqLiteDatabase.execSQL("delete from favlist where favtitlename = " + beforeTitle);
+        for (int i = 0; i < arrayList.size(); i++) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("page", arrayList.get(i).getPage());
+            contentValues.put("position", arrayList.get(i).getPosition());
+            contentValues.put("pnp", arrayList.get(i).getPnp());
+            contentValues.put("imagedefault", arrayList.get(i).getImgdefault());
+            contentValues.put("img", arrayList.get(i).getImg());
+            contentValues.put("darkdefault", arrayList.get(i).getDarkdefault());
+            contentValues.put("dark", arrayList.get(i).getDark());
+            contentValues.put("seek", arrayList.get(i).getSeek());
+            contentValues.put("isplay", arrayList.get(i).getIsplay());
+            contentValues.put("favtitlename", arrayList.get(i).getFavtitlename());
+            contentValues.put("time", arrayList.get(i).getTime());
+            contentValues.put("name", arrayList.get(i).getName());
+            contentValues.put("ispro", arrayList.get(i).getIspro());
+            contentValues.put("needdownload", arrayList.get(i).getNeeddownload());
+            sqLiteDatabase.insert("favlist", null, contentValues);
+        }
+    }
+
     public void deleteAllPlayinglist(ArrayList<Integer> pagelist, ArrayList<Integer> positionlist, String title) {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("delete from playing");

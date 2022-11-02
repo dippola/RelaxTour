@@ -781,8 +781,8 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             seekBar.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_in_page_enable));
             seekBar.setThumb(context.getResources().getDrawable(R.drawable.seekbar_in_page_thumb_enable));
         } else {
-            seekBar.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_disable));
-            seekBar.setThumb(context.getResources().getDrawable(R.drawable.seekbar_disable_thumb));
+            seekBar.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_in_page_disable));
+            seekBar.setThumb(context.getResources().getDrawable(R.drawable.seekbar_in_page_disable_thumb));
         }
     }
 }

@@ -96,18 +96,21 @@ public class ThemeDialog {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if (i == R.id.theme_dialog_light) {
+                    MainActivity.databaseHandler.changeIsOpenWhenFavPageOnPause();
                     ThemeHelper.applyTheme("light");
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("mode", "light");
                     editor.apply();
                     alertDialog.cancel();
                 } else if (i == R.id.theme_dialog_dark) {
+                    MainActivity.databaseHandler.changeIsOpenWhenFavPageOnPause();
                     ThemeHelper.applyTheme("dark");
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("mode", "dark");
                     editor.apply();
                     alertDialog.cancel();
                 } else {
+                    MainActivity.databaseHandler.changeIsOpenWhenFavPageOnPause();
                     ThemeHelper.applyTheme("system");
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("mode", "system");

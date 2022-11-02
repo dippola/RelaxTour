@@ -62,9 +62,8 @@
     <color name="seekbar_in_bottom_left_color">#628CEC</color>
     <color name="seekbar_in_page_right_color">#25000000</color>
 
-    <color name="seekbar_in_page_left_color_disable">#f3f3</color>
-    <color name="seekbar_in_bottom_left_color_disable">#f3f3</color>
-    <color name="seekbar_in_page_right_color_disable">#f3f3</color>
+    <color name="seekbar_in_page_disable">#CFD7E6</color>
+    <color name="seekbar_in_bottom_disable">#8DAAEC</color>
 
     <color name="onboarding_button_text_color">#ffffff</color>
 
