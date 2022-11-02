@@ -42,7 +42,7 @@
                 android:layout_toLeftOf="@+id/fav_page_item_uandd"
                 android:layout_marginEnd="10dp"
                 android:gravity="center_vertical"
-                android:textColor="@color/fav_items_icons_color"
+                android:textColor="@color/fav_edittext_color"
                 android:background="@drawable/edittext"
                 android:maxLength="15"
                 android:text="doskd"

@@ -35,6 +35,7 @@
     <color name="tab_arrow_color">#B0B9C8</color>
 
     <color name="fav_items_icons_color">#0b111b</color>
+    <color name="fav_edittext_color">#0b111b</color>
 
     <color name="bottom_sheet_item_box_start">#C8AFEE</color>
     <color name="bottom_sheet_item_box_end">#ABC0EF</color>
