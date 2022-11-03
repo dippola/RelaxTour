@@ -58,7 +58,7 @@ public class OnBoarding extends AppCompatActivity {
         item2.setText2("Add the combination of sounds you often hear to bookmark. You can play your play list with a single click on the bookmark.");
 
         OnBoardingItem item3 = new OnBoardingItem();
-        item3.setImg(R.drawable.onboarding_1);
+        item3.setImg(R.drawable.onboarding_3);
         item3.setText1("Community");
         item3.setText2("There is a community where you can share the experiences and information of meditators with other users. Share your meditation story and your play list.");
 
@@ -66,7 +66,7 @@ public class OnBoarding extends AppCompatActivity {
         lists.add(item2);
         lists.add(item3);
 
-        adapter = new OnBoardingAdapter(lists, OnBoarding.this);
+        adapter = new OnBoardingAdapter(lists, OnBoarding.this, OnBoarding.this);
     }
 
     private void setViewPagerListener() {
