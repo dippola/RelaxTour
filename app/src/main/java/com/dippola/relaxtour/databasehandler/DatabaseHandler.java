@@ -481,7 +481,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursor.close();
         closeDatabse();
         if (titles.contains(title)) {
-            Toast.makeText(context, "A playlist with the same name already exists", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "'" + title + "' playlist with the same name already exists", Toast.LENGTH_SHORT).show();
         } else {
 //            checkSameFavList(context, title);
             addFavTitleList(context, title);

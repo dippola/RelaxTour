@@ -12,31 +12,51 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
-        android:text="Contains tracks that require download.\nWould you like to download it?"
-        android:textColor="@color/text_color"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"
+        android:textColor="@color/text_color" />
 
     <ProgressBar
         android:id="@+id/ask_downloads_dialog_progressbar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:progressTint="@color/button_design_color"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="* If you are not connected to a Wi-Fi connection,\nyou may be charged for your data."
-        android:gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:textColor="@color/download_ask_wifi_text_color"/>
+        android:gravity="center_horizontal"
+        android:text="* If you are not connected to a Wi-Fi connection,\nyou may be charged for your data."
+        android:textColor="@color/download_ask_wifi_text_color" />
 
-    <TextView
-        android:id="@+id/ask_downloads_dialog_count"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/text_color" />
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/ask_downloads_dialog_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/text_color"/>
+
+        <ProgressBar
+            android:id="@+id/ask_downloads_dialog_2"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/ask_downloads_dialog_count"
+            android:layout_marginStart="8dp"
+            android:indeterminateTint="@color/button_design_color"
+            android:visibility="gone"/>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -74,24 +94,18 @@
                 android:textColor="@color/button_text_color" />
         </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/ask_downloads_dialog_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"/>
 
         <Button
             android:id="@+id/ask_downloads_dialog_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_marginHorizontal="6dp"
             android:layout_marginVertical="7dp"
-            android:layout_centerInParent="true"
             android:background="@drawable/button_design"
             android:elevation="5dp"
-            android:text="ok"
+            android:text="finished"
             android:textColor="#FFFFFF"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </RelativeLayout>
 </LinearLayout>

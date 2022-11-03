@@ -4,6 +4,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +29,8 @@ import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.dialog.AskDownloadsDialog;
-import com.dippola.relaxtour.dialog.ConstainProTrackDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
+import com.dippola.relaxtour.dialog.Premium;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.FavPage;
 import com.dippola.relaxtour.pages.HzPage;
@@ -266,7 +267,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
                     holder.recyclerView.setAdapter(favListAdapter);
                     Toast.makeText(context, "The modification is complete.", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, "A playlist with the same name already exists", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "'" + holder.editText.getText().toString() + "' A playlist with the same name already exists", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -524,10 +525,11 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         favListItems = MainActivity.databaseHandler.getFavListItem(title);
 
         if (checkWillShowConstainProTrackDialog(favListItems)) {
-            ConstainProTrackDialog.showDialog(context);
+            Toast.makeText(context, "Premium sound is included.\nUpgrade to premium version is required.", Toast.LENGTH_SHORT).show();
+            context.startActivity(new Intent(context, Premium.class));
         } else {
+            ArrayList<FavListItem> list = new ArrayList<>();
             if (checkNeedDownload(favListItems).size() != 0) {
-                Log.d("FavTitleAdapter>>>", "null size: " + checkNeedDownload(favListItems).size());
                 AskDownloadsDialog.askDownloadsDialog(context, checkNeedDownload(favListItems));
             } else {
                 favListPlay(title);
