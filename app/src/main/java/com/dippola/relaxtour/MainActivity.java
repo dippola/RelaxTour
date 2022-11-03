@@ -17,7 +17,6 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     //top button
-    Button setting, timer, mode, board;
+    Button setting, timer, mode, community;
     public static TextView maincount;
     public static Button cancel;
     public static LinearLayout mainTitle;
@@ -166,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         maincount = findViewById(R.id.activity_main_maincount);
         cancel = findViewById(R.id.activity_main_timer_cancel);
         mainTitle = findViewById(R.id.activity_main_title_layout);
-        board = findViewById(R.id.activity_main_board);
+        community = findViewById(R.id.activity_main_board);
 
         if (TimerService.isCount) {
             cancel.setVisibility(View.VISIBLE);
@@ -250,10 +249,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        board.setOnClickListener(new View.OnClickListener() {
+        community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, CommunityMain.class));
+//                startActivity(new Intent(MainActivity.this, CommunityMain.class));
             }
         });
 
