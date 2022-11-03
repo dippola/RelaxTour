@@ -53,7 +53,7 @@ public class OnBoarding extends AppCompatActivity {
         item1.setText2("Choose a variety of sounds. You can add sound to the playlist with the combination you want.\nThe sounds of nature, Chakra, Mantra\nEnjoy the perfect meditation sound with a combination of different sounds.");
 
         OnBoardingItem item2 = new OnBoardingItem();
-        item2.setImg(R.drawable.onboarding_1);
+        item2.setImg(R.drawable.onboarding_2);
         item2.setText1("Add bookmark");
         item2.setText2("Add the combination of sounds you often hear to bookmark. You can play your play list with a single click on the bookmark.");
 

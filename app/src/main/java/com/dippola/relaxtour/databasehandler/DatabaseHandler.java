@@ -683,9 +683,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void changeFavListToEdit(String beforeTitle, String afterTitle, ArrayList<FavListItem> arrayList) {
         sqLiteDatabase = this.getWritableDatabase();
         if (!beforeTitle.equals(afterTitle)) {
-            sqLiteDatabase.execSQL("update favtitle set title = " + afterTitle + " where title = " + beforeTitle);
+            sqLiteDatabase.execSQL("update favtitle set title = " + "'" + afterTitle + "'" + " where title = " + "'" + beforeTitle + "'");
         }
-        sqLiteDatabase.execSQL("delete from favlist where favtitlename = " + beforeTitle);
+        sqLiteDatabase.execSQL("delete from favlist where favtitlename = " + "'" + beforeTitle + "'");
         for (int i = 0; i < arrayList.size(); i++) {
             ContentValues contentValues = new ContentValues();
             contentValues.put("page", arrayList.get(i).getPage());
@@ -918,7 +918,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void changeFavTitleIsEdit(String title, int isedit) {
         sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.execSQL("update favtitle set isedit = " + isedit + " where title = " + title);
+        sqLiteDatabase.execSQL("update favtitle set isedit = " + isedit + " where title = " + "'" + title + "'");
     }
 
 //    public int getIsProUser() {
