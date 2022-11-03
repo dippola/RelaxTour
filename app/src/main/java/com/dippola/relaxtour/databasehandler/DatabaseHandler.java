@@ -481,39 +481,59 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursor.close();
         closeDatabse();
         if (titles.contains(title)) {
-            Toast.makeText(context, "same name have already", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "A playlist with the same name already exists", Toast.LENGTH_SHORT).show();
         } else {
-            checkSameFavList(context, title);
+//            checkSameFavList(context, title);
+            addFavTitleList(context, title);
         }
     }
 
-    public void checkSameFavList(Context context, String title) {
-        List<String> nowPnps = new ArrayList<>();//현제 playinglist의 pnp list
-        for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-            nowPnps.add(MainActivity.bottomSheetPlayList.get(i).getPnp());
-            if (i == MainActivity.bottomSheetPlayList.size() - 1) {
-                sqLiteDatabase = this.getWritableDatabase();
-                List<String> favtitles = new ArrayList<>();//현제 favtitle들의 title list
-                Cursor cursor = sqLiteDatabase.rawQuery("select title from favtitle", null);
-                cursor.moveToFirst();
-                while (!cursor.isAfterLast()) {
-                    favtitles.add(cursor.getString(0));
-                    cursor.moveToNext();
-                }
-
-
-                if (favtitles.size() != 0) {
-                    if (haveSame(nowPnps, favtitles)) {
-                        Toast.makeText(context, "same list have already", Toast.LENGTH_SHORT).show();
-                    } else {
-                        addFavTitleList(context, title);
-                    }
-                } else {
-                    addFavTitleList(context, title);
-                }
-            }
+    public boolean isContainsTitleAlreadyWhenEditTitle(Context context, String title) {
+        List<String> titles = new ArrayList<>();
+        sqLiteDatabase = this.getWritableDatabase();
+        openDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select title from favtitle", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            titles.add(cursor.getString(0));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        closeDatabse();
+        if (titles.contains(title)) {
+            return true;
+        } else {
+            return false;
         }
     }
+
+//    public void checkSameFavList(Context context, String title) {
+//        List<String> nowPnps = new ArrayList<>();//현제 playinglist의 pnp list
+//        for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
+//            nowPnps.add(MainActivity.bottomSheetPlayList.get(i).getPnp());
+//            if (i == MainActivity.bottomSheetPlayList.size() - 1) {
+//                sqLiteDatabase = this.getWritableDatabase();
+//                List<String> favtitles = new ArrayList<>();//현제 favtitle들의 title list
+//                Cursor cursor = sqLiteDatabase.rawQuery("select title from favtitle", null);
+//                cursor.moveToFirst();
+//                while (!cursor.isAfterLast()) {
+//                    favtitles.add(cursor.getString(0));
+//                    cursor.moveToNext();
+//                }
+//
+//
+//                if (favtitles.size() != 0) {
+//                    if (haveSame(nowPnps, favtitles)) {
+//                        Toast.makeText(context, "same list have already", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        addFavTitleList(context, title);
+//                    }
+//                } else {
+//                    addFavTitleList(context, title);
+//                }
+//            }
+//        }
+//    }
 
     public void addFavTitleList(Context context, String title1) {
         FavTitleItem favTitleItem = null;

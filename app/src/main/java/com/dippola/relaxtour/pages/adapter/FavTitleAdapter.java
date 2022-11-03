@@ -193,77 +193,81 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         holder.editok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager manager = (InputMethodManager)context.getSystemService(INPUT_METHOD_SERVICE);
-                if (manager.isAcceptingText()) {
-                    manager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                if (!MainActivity.databaseHandler.isContainsTitleAlreadyWhenEditTitle(context, holder.editText.getText().toString())) {
+                    InputMethodManager manager = (InputMethodManager)context.getSystemService(INPUT_METHOD_SERVICE);
+                    if (manager.isAcceptingText()) {
+                        manager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                    if (!arrayList.get(i).getTitle().equals(holder.editText.getText().toString())) {
+                        for (int i = 0; i < FavListAdapter.editList.size(); i++) {
+                            FavListAdapter.editList.get(i).setFavtitlename(holder.editText.getText().toString());
+                        }
+                    }
+                    MainActivity.databaseHandler.changeFavListToEdit(arrayList.get(i).getTitle(), holder.editText.getText().toString(), FavListAdapter.editList);
+                    arrayList.get(i).setTitle(holder.editText.getText().toString());
+                    arrayList.get(i).setIsedit(1);
+                    MainActivity.databaseHandler.changeFavTitleIsEdit(arrayList.get(i).getTitle(), 1);
+                    holder.title.setVisibility(View.VISIBLE);
+                    holder.editText.setVisibility(View.INVISIBLE);
+                    holder.play.setVisibility(View.VISIBLE);
+                    Animation animation = AnimationUtils.loadAnimation(context, R.anim.fav_edit_close);
+                    animation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            holder.editlayout.setVisibility(View.INVISIBLE);
+                            holder.editok.setEnabled(false);
+                            holder.editcancel.setEnabled(false);
+                            Animation anim = AnimationUtils.loadAnimation(context, R.anim.fav_edit_show);
+                            anim.setAnimationListener(new Animation.AnimationListener() {
+                                @Override
+                                public void onAnimationStart(Animation animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animation animation) {
+                                    holder.contr.setVisibility(View.VISIBLE);
+                                    holder.linearLayout.setEnabled(true);
+                                    holder.uandd.setEnabled(true);
+                                    holder.editBtn.setEnabled(true);
+                                    holder.delete.setEnabled(true);
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animation animation) {
+
+                                }
+                            });
+                            holder.contr.startAnimation(anim);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    holder.editlayout.startAnimation(animation);
+
+                    holder.title.setText(holder.editText.getText().toString());
+
+                    ArrayList<FavListItem> favListItemArrayList;
+                    ArrayList<FavListItem> favListItemEditList;
+                    favListItemArrayList = FavListAdapter.editList;
+                    favListItemEditList = MainActivity.databaseHandler.getFavListItem(arrayList.get(i).getTitle());
+                    favListAdapter = new FavListAdapter(favListItemArrayList, favListItemEditList, context);
+                    layoutManager = new LinearLayoutManager(context);
+                    holder.recyclerView.setHasFixedSize(true);
+                    holder.recyclerView.setLayoutManager(layoutManager);
+                    holder.recyclerView.setAdapter(favListAdapter);
+                    Toast.makeText(context, "The modification is complete.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "A playlist with the same name already exists", Toast.LENGTH_SHORT).show();
                 }
-                if (!arrayList.get(i).getTitle().equals(holder.editText.getText().toString())) {
-                    for (int i = 0; i < FavListAdapter.editList.size(); i++) {
-                        FavListAdapter.editList.get(i).setFavtitlename(holder.editText.getText().toString());
-                    }
-                }
-                MainActivity.databaseHandler.changeFavListToEdit(arrayList.get(i).getTitle(), holder.editText.getText().toString(), FavListAdapter.editList);
-                arrayList.get(i).setTitle(holder.editText.getText().toString());
-                arrayList.get(i).setIsedit(1);
-                MainActivity.databaseHandler.changeFavTitleIsEdit(arrayList.get(i).getTitle(), 1);
-                holder.title.setVisibility(View.VISIBLE);
-                holder.editText.setVisibility(View.INVISIBLE);
-                holder.play.setVisibility(View.VISIBLE);
-                Animation animation = AnimationUtils.loadAnimation(context, R.anim.fav_edit_close);
-                animation.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        holder.editlayout.setVisibility(View.INVISIBLE);
-                        holder.editok.setEnabled(false);
-                        holder.editcancel.setEnabled(false);
-                        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fav_edit_show);
-                        anim.setAnimationListener(new Animation.AnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {
-
-                            }
-
-                            @Override
-                            public void onAnimationEnd(Animation animation) {
-                                holder.contr.setVisibility(View.VISIBLE);
-                                holder.linearLayout.setEnabled(true);
-                                holder.uandd.setEnabled(true);
-                                holder.editBtn.setEnabled(true);
-                                holder.delete.setEnabled(true);
-                            }
-
-                            @Override
-                            public void onAnimationRepeat(Animation animation) {
-
-                            }
-                        });
-                        holder.contr.startAnimation(anim);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-                holder.editlayout.startAnimation(animation);
-
-                holder.title.setText(holder.editText.getText().toString());
-
-                ArrayList<FavListItem> favListItemArrayList;
-                ArrayList<FavListItem> favListItemEditList;
-                favListItemArrayList = FavListAdapter.editList;
-                favListItemEditList = MainActivity.databaseHandler.getFavListItem(arrayList.get(i).getTitle());
-                favListAdapter = new FavListAdapter(favListItemArrayList, favListItemEditList, context);
-                layoutManager = new LinearLayoutManager(context);
-                holder.recyclerView.setHasFixedSize(true);
-                holder.recyclerView.setLayoutManager(layoutManager);
-                holder.recyclerView.setAdapter(favListAdapter);
-                Toast.makeText(context, "The modification is complete.", Toast.LENGTH_SHORT).show();
             }
         });
 
