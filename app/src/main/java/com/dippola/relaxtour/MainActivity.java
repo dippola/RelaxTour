@@ -500,8 +500,10 @@ public class MainActivity extends AppCompatActivity {
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     upAndDown.setBackgroundResource(R.drawable.bottom_sheet_button_up);
                 } else if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    upAndDown.setBackgroundResource(R.drawable.bottom_sheet_button_down);
+                    if (load.getVisibility() == View.GONE) {
+                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        upAndDown.setBackgroundResource(R.drawable.bottom_sheet_button_down);
+                    }
                 }
             }
         });
@@ -546,8 +548,10 @@ public class MainActivity extends AppCompatActivity {
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     upAndDown.setBackgroundResource(R.drawable.bottom_sheet_button_up);
                 } else if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    upAndDown.setBackgroundResource(R.drawable.bottom_sheet_button_down);
+                    if (load.getVisibility() == View.GONE) {
+                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        upAndDown.setBackgroundResource(R.drawable.bottom_sheet_button_down);
+                    }
                 }
             }
         });

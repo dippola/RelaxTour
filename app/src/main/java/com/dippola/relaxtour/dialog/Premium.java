@@ -5,6 +5,7 @@ import android.app.Application;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -123,6 +125,25 @@ public class Premium extends AppCompatActivity {
                                         public void onError(@NotNull QonversionError error) {
                                             setLoadGone();
                                             if (error.getCode() != QonversionErrorCode.CanceledPurchase) {
+                                                if (error.getCode() == QonversionErrorCode.ProductAlreadyOwned) {
+                                                    Log.d("Premium>>>", "1: " + error.getCode());
+                                                    Qonversion.restore(new QonversionPermissionsCallback() {
+                                                        @Override
+                                                        public void onSuccess(@NonNull Map<String, QPermission> map) {
+                                                            QPermission qPermission = map.get("dippola_relaxtour_premium");
+                                                            if (qPermission != null && qPermission.isActive()) {
+                                                                Log.d("Premium>>>", "restored");
+                                                            } else {
+                                                                Log.d("Premium>>>", "no restore");
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onError(@NonNull QonversionError qonversionError) {
+
+                                                        }
+                                                    });
+                                                }
                                                 Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
                                             }
                                         }
@@ -132,6 +153,7 @@ public class Premium extends AppCompatActivity {
                                 @Override
                                 public void onError(@NotNull QonversionError error) {
                                     setLoadGone();
+                                    Log.d("Premium>>>", "2");
                                     Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
                                 }
                             });
@@ -140,6 +162,7 @@ public class Premium extends AppCompatActivity {
                     @Override
                     public void onError(@NotNull QonversionError error) {
                         setLoadGone();
+                        Log.d("Premium>>>", "3");
                         Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
                     }
                 });

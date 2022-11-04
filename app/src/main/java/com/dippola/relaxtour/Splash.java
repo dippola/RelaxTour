@@ -28,6 +28,7 @@ import com.qonversion.android.sdk.Qonversion;
 import com.qonversion.android.sdk.QonversionError;
 import com.qonversion.android.sdk.QonversionPermissionsCallback;
 import com.qonversion.android.sdk.dto.QPermission;
+import com.qonversion.android.sdk.dto.products.QProductRenewState;
 
 import java.util.Map;
 
@@ -82,6 +83,7 @@ public class Splash extends AppCompatActivity {
             @Override
             public void onSuccess(@NonNull Map<String, QPermission> map) {
                 QPermission qPermission = map.get("dippola_relaxtour_premium");
+
                 if (qPermission != null && qPermission.isActive()) {
                     databaseHandler.changeIsProUser(2);
                     qper = true;
@@ -90,7 +92,7 @@ public class Splash extends AppCompatActivity {
                 } else {
                     databaseHandler.changeIsProUser(1);
                     qper = true;
-                    Log.d("Splash>>>", "null permission");
+                    Log.d("Splash>>>", "null permission: ");
                     checkFirst();
                 }
             }

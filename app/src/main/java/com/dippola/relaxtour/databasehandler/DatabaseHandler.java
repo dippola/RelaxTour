@@ -166,8 +166,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE " + WATER_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + WIND_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + NATURE_TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE " + FAV_TITLE_TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE " + FAV_LIST_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + CHAKRA_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + MANTRA_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + HZ_TABLE_NAME);
@@ -183,8 +181,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CHAKRA_TEAM);
         sqLiteDatabase.execSQL(MANTRA_TEAM);
         sqLiteDatabase.execSQL(HZ_TEAM);
-        sqLiteDatabase.execSQL(FAV_TITLE_TEAM);
-        sqLiteDatabase.execSQL(FAV_LIST_TEAM);
         sqLiteDatabase.execSQL(CREDIT_TEAM);
     }
 

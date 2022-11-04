@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,16 +31,22 @@ import com.dippola.relaxtour.controller.SeekController;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.AskDownloadDialog;
 import com.dippola.relaxtour.dialog.Premium;
+import com.dippola.relaxtour.dialog.RestoreDialog;
 import com.dippola.relaxtour.notification.NotificationService;
 import com.dippola.relaxtour.pages.NaturePage;
 import com.dippola.relaxtour.pages.item.DownloadItem;
 import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.pages.item.ViewTypeCode;
 import com.dippola.relaxtour.service.DownloadService;
+import com.qonversion.android.sdk.Qonversion;
+import com.qonversion.android.sdk.QonversionError;
+import com.qonversion.android.sdk.QonversionPermissionsCallback;
+import com.qonversion.android.sdk.dto.QPermission;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -744,7 +751,30 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         pro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, Premium.class));
+                MainActivity.load.setVisibility(View.VISIBLE);
+                MainActivity.bottomSheetBehavior.setDraggable(false);
+                Qonversion.restore(new QonversionPermissionsCallback() {
+                    @Override
+                    public void onSuccess(@NonNull Map<String, QPermission> map) {
+                        QPermission qPermission = map.get("dippola_relaxtour_premium");
+                        if (qPermission != null && qPermission.isActive()) {
+                            Log.d("Premium>>>", "restored");
+                            RestoreDialog.restoreDialog(context);
+                        } else {
+                            Log.d("Premium>>>", "no restore");
+                            context.startActivity(new Intent(context, Premium.class));
+                            MainActivity.load.setVisibility(View.GONE);
+                            MainActivity.bottomSheetBehavior.setDraggable(true);
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull QonversionError qonversionError) {
+                        Toast.makeText(context, "Error: " + qonversionError.getDescription(), Toast.LENGTH_SHORT).show();
+                        MainActivity.load.setVisibility(View.GONE);
+                        MainActivity.bottomSheetBehavior.setDraggable(true);
+                    }
+                });
             }
         });
     }
