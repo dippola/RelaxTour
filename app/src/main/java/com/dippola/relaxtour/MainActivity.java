@@ -253,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                startActivity(new Intent(MainActivity.this, CommunityMain.class));
+                Toast.makeText(MainActivity.this, "Service is being prepared.", Toast.LENGTH_SHORT).show();
             }
         });
 

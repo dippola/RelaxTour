@@ -85,6 +85,7 @@ public class DefaultNotification {
             notification.setContentIntent(pIntent);
             notification.setStyle(new androidx.media.app.NotificationCompat.MediaStyle().setShowActionsInCompactView(0, 1).
                     setMediaSession(mediaSessionCompat.getSessionToken()));
+            mediaSessionCompat.release();
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
 
             notificationManagerCompat.notify(1, notification.build());

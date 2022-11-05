@@ -10,8 +10,8 @@ android {
         applicationId "com.dippola.relaxtour"
         minSdk 21
         targetSdk 31
-        versionCode 14
-        versionName "1.0.14"
+        versionCode 15
+        versionName "1.0.15"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -54,10 +54,9 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
-//    implementation 'com.scwang.wave:MultiWaveHeader:1.0.0'
-//    implementation 'com.scwang.wave:MultiWaveHeader:1.0.0-andx'
-//    implementation 'com.scwang.wave:MultiWaveHeader:1.0.0-alpha-1'
 
     def lottieVersion = "5.2.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    implementation 'androidx.work:work-runtime:2.7.1'
 }

@@ -23,7 +23,6 @@ public class SuccessDownloadNotification {
     public static void successDownloadNotification(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
-            MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(context, "tag");
             Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.main_head);
 
             Intent intent = new Intent(context, MainActivity.class);
@@ -59,7 +58,6 @@ public class SuccessDownloadNotification {
     public static void failedDownloadNotification(Context context, String e) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
-            MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(context, "tag");
             Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.main_head);
 
             Intent intent = new Intent(context, MainActivity.class);
