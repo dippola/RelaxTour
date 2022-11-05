@@ -69,4 +69,6 @@
     <color name="onboarding_button_text_color">#ffffff</color>
 
     <color name="gif_background">#a6c5ec</color>
+
+    <color name="radiobutton_color">#8DAAEC</color>
 </resources>
