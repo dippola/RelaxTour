@@ -32,6 +32,7 @@ public class RestoreDialog {
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         alertDialog.show();
+        alertDialog.setCancelable(false);
 
         btn = layout.findViewById(R.id.restore_dialog_btn);
         btn.setOnClickListener(new View.OnClickListener() {

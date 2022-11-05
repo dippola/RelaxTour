@@ -41,7 +41,7 @@
                     android:layout_below="@+id/fav_page_message_icon"
                     android:layout_centerInParent="true"
                     android:gravity="center_horizontal"
-                    android:text="null fav list.\nadd play list !"
+                    android:text="The playlist is empty.\nTry adding a playlist!"
                     android:textColor="@color/text_color" />
             </RelativeLayout>
         </RelativeLayout>

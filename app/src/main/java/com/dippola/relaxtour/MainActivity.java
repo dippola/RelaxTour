@@ -512,7 +512,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (bottomSheetPlayList.size() == 0) {
-                    Toast.makeText(MainActivity.this, "null play list", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "The playlist is empty.", Toast.LENGTH_SHORT).show();
                 } else {
                     CheckOpenService.checkOpenService(MainActivity.this);
                     if (AudioController.checkIsPlaying(bottomSheetPlayList.get(0), MainActivity.this)) {//재생중
@@ -562,7 +562,7 @@ public class MainActivity extends AppCompatActivity {
                 if (bottomSheetPlayList.size() != 0) {
                     AddFavDialog.addTitleDialog(MainActivity.this);
                 } else {
-                    Toast.makeText(MainActivity.this, "null playinglist", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "The playlist is empty.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -579,7 +579,7 @@ public class MainActivity extends AppCompatActivity {
                 if (bottomSheetPlayList.size() != 0) {
                     AskDeleteAllPlaylistDialog.askDeleteAllPlaylistDialog(MainActivity.this);
                 } else {
-                    Toast.makeText(MainActivity.this, "null playlist", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "The playlist is empty.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
