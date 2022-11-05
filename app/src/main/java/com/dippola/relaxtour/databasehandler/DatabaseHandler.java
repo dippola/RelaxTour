@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.dialog.AddFavDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
-import com.dippola.relaxtour.dialog.EditFavTitleDialog;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.FavPage;
 import com.dippola.relaxtour.pages.HzPage;
@@ -484,7 +483,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public boolean isContainsTitleAlreadyWhenEditTitle(Context context, String title) {
+    public boolean isContainsTitleAlreadyWhenEditTitle(String beforeTitle, String newTitle) {
         List<String> titles = new ArrayList<>();
         sqLiteDatabase = this.getWritableDatabase();
         openDatabase();
@@ -496,10 +495,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         cursor.close();
         closeDatabse();
-        if (titles.contains(title)) {
+        titles.remove(newTitle);
+        if (titles.contains(newTitle)) {
             return true;
         } else {
-            return false;
+            if (newTitle.equals(beforeTitle)) {
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 
@@ -604,23 +608,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public static <T> boolean listEqualsIgnoreOrder(List<T> list1, List<T> list2) {//순서 무시 똑같으면 true
         return new HashSet<>(list1).equals(new HashSet<>(list2));
-    }
-
-    public void changeFavTitleName(String oldTitle, String newTitle) {
-        sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.execSQL("update favtitle set title = " + "'" + newTitle + "' where title = " + "'" + oldTitle + "'");
-        sqLiteDatabase.execSQL("update favlist set favtitlename = " + "'" + newTitle + "' where favtitlename = " + "'" + oldTitle + "'");
-        for (int i = 0; i < FavPage.favTitleItemArrayList.size(); i++) {
-            if (FavPage.favTitleItemArrayList.get(i).getTitle().equals(oldTitle)) {
-                FavPage.favTitleItemArrayList.get(i).setTitle(newTitle);
-                FavPage.adapter.notifyItemChanged(i);
-                FavPage.adapter.notifyDataSetChanged();
-                if (EditFavTitleDialog.alertDialog.isShowing()) {
-                    EditFavTitleDialog.alertDialog.dismiss();
-                }
-                break;
-            }
-        }
     }
 
     public ArrayList<FavTitleItem> getFavTitleList() {

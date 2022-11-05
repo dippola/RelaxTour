@@ -45,6 +45,7 @@ import com.dippola.relaxtour.pages.item.PageItem;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.CustomViewHolder> {
     ArrayList<FavTitleItem> arrayList;
@@ -194,7 +195,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         holder.editok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!MainActivity.databaseHandler.isContainsTitleAlreadyWhenEditTitle(context, holder.editText.getText().toString())) {
+                if (!MainActivity.databaseHandler.isContainsTitleAlreadyWhenEditTitle(arrayList.get(i).getTitle(), holder.editText.getText().toString())) {
                     InputMethodManager manager = (InputMethodManager)context.getSystemService(INPUT_METHOD_SERVICE);
                     if (manager.isAcceptingText()) {
                         manager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

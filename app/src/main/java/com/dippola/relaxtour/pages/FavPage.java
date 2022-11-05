@@ -64,7 +64,7 @@ public class FavPage extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-//        MainActivity.databaseHandler.changeIsOpenWhenFavPageOnPause();
+        setAgain();
     }
 
     public static void setAgain() {
