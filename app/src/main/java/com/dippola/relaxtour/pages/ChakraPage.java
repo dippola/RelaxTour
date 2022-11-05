@@ -1,14 +1,10 @@
 package com.dippola.relaxtour.pages;
 
-import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -20,15 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.dialog.InfoDialog;
 import com.dippola.relaxtour.pages.adapter.PageAdapter;
-import com.dippola.relaxtour.pages.adapter.StoragePageAdapter;
 import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.pages.item.ViewTypeCode;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ChakraPage extends Fragment {

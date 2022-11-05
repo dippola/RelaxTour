@@ -81,7 +81,7 @@ public class DownloadService extends Service {
     }
 
     private void openDownloadNotification(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(context, "tag");
             Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.main_head);
 
@@ -118,10 +118,11 @@ public class DownloadService extends Service {
         }
     }
 
-    public static void setOnClickDownload(Context context, ProgressBar progressBar, ImageView button, ImageView download, int page, int position, SeekBar seekBar, DownloadItem downloadItem) {
+    public static void setOnClickDownload(Context context, ProgressBar loading, ImageView img, ImageView download, int page, int position, SeekBar seekBar, DownloadItem downloadItem) {
+        Log.d("DownloadService>>>", "start");
         String ptop = page + "to" + position;
-        progressBar.setVisibility(View.VISIBLE);
-        button.setEnabled(false);
+        loading.setVisibility(View.VISIBLE);
+        img.setEnabled(false);
         download.setEnabled(false);
         String fileName = "audio" + ptop + ".mp3";
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -138,29 +139,29 @@ public class DownloadService extends Service {
                         from.renameTo(to);
                     }
                     resetMediaPlayer(page + "-" + position, context);
-                    button.setEnabled(true);
+                    img.setEnabled(true);
                     download.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
+                    loading.setVisibility(View.GONE);
                     seekBar.setEnabled(true);
+                    seekBar.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_in_page_enable));
+                    seekBar.setThumb(context.getResources().getDrawable(R.drawable.seekbar_in_page_thumb_enable));
 //                    stopSelf();
 
                     downloadList.remove(downloadItem);
 
-                    if (downloadList.size() == 0) {
+                    if (isDownloadOpen) {
                         Intent intent = new Intent(context, DownloadService.class);
                         context.stopService(intent);
                         SuccessDownloadNotification.successDownloadNotification(context);
-                        Log.d("StoragePageAdapter>>>", "download success");
-                    } else {
-                        setOnClickDownload(context, progressBar, button, download, downloadList.get(0).getPage(), downloadList.get(0).getPosition(), seekBar, downloadList.get(0));
                     }
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d("StoragePageAdapter>>>", "download failed: " + e.toString());
+                    Log.d("DownloadService>>>", "download failed: " + e.toString());
                     download.setEnabled(true);
-                    progressBar.setVisibility(View.GONE);
+                    loading.setVisibility(View.GONE);
                     Toast.makeText(context, "failed download. please try again. (" + e.toString() + ")", Toast.LENGTH_LONG).show();
                     SuccessDownloadNotification.failedDownloadNotification(context, e.toString());
                 }

@@ -1,6 +1,5 @@
 package com.dippola.relaxtour.pages;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,14 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.pages.adapter.PageAdapter;
-import com.dippola.relaxtour.pages.adapter.StoragePageAdapter;
 import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.pages.item.ViewTypeCode;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class HzPage extends Fragment {

@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dippola.relaxtour.MainActivity;
+import com.dippola.relaxtour.NetworkStatus;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.qonversion.android.sdk.Qonversion;
@@ -91,81 +92,12 @@ public class Premium extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setLoadVisible();
-                application = getApplication();
-                Qonversion.launch(application, "tvcyUzPvRUyPLwrjhoQwujcuc_vwZC3i", false);
-                Qonversion.offerings(new QonversionOfferingsCallback() {
-                    @Override
-                    public void onSuccess(@NotNull QOfferings offerings) {
-                        QOffering offering = offerings.offeringForID("offering_id");
-                        if (offering != null) {
-                            Qonversion.products(new QonversionProductsCallback() {
-                                @Override
-                                public void onSuccess(@NotNull Map<String, QProduct> productsList) {
-                                    Qonversion.purchase(activity, "dippola_relaxtour_premium", new QonversionPermissionsCallback() {
-                                        @Override
-                                        public void onSuccess(@NotNull Map<String, QPermission> permissions) {
-                                            QPermission premiumPermission = permissions.get("dippola_relaxtour_premium");
-                                            if (premiumPermission != null && premiumPermission.isActive()) {
-                                                // handle active permission here
-                                                if (MainActivity.databaseHandler == null) {
-                                                    DatabaseHandler databaseHandler = new DatabaseHandler(Premium.this);
-                                                    databaseHandler.changeIsProUser(2);
-                                                    databaseHandler.closeDatabse();
-                                                    databaseHandler.close();
-                                                } else {
-                                                    MainActivity.databaseHandler.changeIsProUser(2);
-                                                }
-
-                                                startActivity(new Intent(Premium.this, ResetDialog.class));
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onError(@NotNull QonversionError error) {
-                                            setLoadGone();
-                                            if (error.getCode() != QonversionErrorCode.CanceledPurchase) {
-                                                if (error.getCode() == QonversionErrorCode.ProductAlreadyOwned) {
-                                                    Log.d("Premium>>>", "1: " + error.getCode());
-                                                    Qonversion.restore(new QonversionPermissionsCallback() {
-                                                        @Override
-                                                        public void onSuccess(@NonNull Map<String, QPermission> map) {
-                                                            QPermission qPermission = map.get("dippola_relaxtour_premium");
-                                                            if (qPermission != null && qPermission.isActive()) {
-                                                                Log.d("Premium>>>", "restored");
-                                                            } else {
-                                                                Log.d("Premium>>>", "no restore");
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onError(@NonNull QonversionError qonversionError) {
-
-                                                        }
-                                                    });
-                                                }
-                                                Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
-                                            }
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void onError(@NotNull QonversionError error) {
-                                    setLoadGone();
-                                    Log.d("Premium>>>", "2");
-                                    Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
-                    }
-                    @Override
-                    public void onError(@NotNull QonversionError error) {
-                        setLoadGone();
-                        Log.d("Premium>>>", "3");
-                        Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
-                    }
-                });
+                int i = NetworkStatus.getNetworkStatus(getApplicationContext());
+                if (i == NetworkStatus.NO) {
+                    Toast.makeText(Premium.this, "Internet connection is not present or unstable.\nPlease check and try again.", Toast.LENGTH_SHORT).show();
+                } else {
+                    startShowQonversion();
+                }
             }
         });
     }
@@ -197,5 +129,83 @@ public class Premium extends AppCompatActivity {
         if (!isLoading) {
             super.onBackPressed();
         }
+    }
+
+    private void startShowQonversion() {
+        setLoadVisible();
+        application = getApplication();
+        Qonversion.launch(application, "tvcyUzPvRUyPLwrjhoQwujcuc_vwZC3i", false);
+        Qonversion.offerings(new QonversionOfferingsCallback() {
+            @Override
+            public void onSuccess(@NotNull QOfferings offerings) {
+                QOffering offering = offerings.offeringForID("offering_id");
+                if (offering != null) {
+                    Qonversion.products(new QonversionProductsCallback() {
+                        @Override
+                        public void onSuccess(@NotNull Map<String, QProduct> productsList) {
+                            Qonversion.purchase(activity, "dippola_relaxtour_premium", new QonversionPermissionsCallback() {
+                                @Override
+                                public void onSuccess(@NotNull Map<String, QPermission> permissions) {
+                                    QPermission premiumPermission = permissions.get("dippola_relaxtour_premium");
+                                    if (premiumPermission != null && premiumPermission.isActive()) {
+                                        // handle active permission here
+                                        if (MainActivity.databaseHandler == null) {
+                                            DatabaseHandler databaseHandler = new DatabaseHandler(Premium.this);
+                                            databaseHandler.changeIsProUser(2);
+                                            databaseHandler.closeDatabse();
+                                            databaseHandler.close();
+                                        } else {
+                                            MainActivity.databaseHandler.changeIsProUser(2);
+                                        }
+
+                                        startActivity(new Intent(Premium.this, ResetDialog.class));
+                                    }
+                                }
+
+                                @Override
+                                public void onError(@NotNull QonversionError error) {
+                                    setLoadGone();
+                                    if (error.getCode() != QonversionErrorCode.CanceledPurchase) {
+                                        if (error.getCode() == QonversionErrorCode.ProductAlreadyOwned) {
+                                            Log.d("Premium>>>", "1: " + error.getCode());
+                                            Qonversion.restore(new QonversionPermissionsCallback() {
+                                                @Override
+                                                public void onSuccess(@NonNull Map<String, QPermission> map) {
+                                                    QPermission qPermission = map.get("dippola_relaxtour_premium");
+                                                    if (qPermission != null && qPermission.isActive()) {
+                                                        Log.d("Premium>>>", "restored");
+                                                    } else {
+                                                        Log.d("Premium>>>", "no restore");
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onError(@NonNull QonversionError qonversionError) {
+
+                                                }
+                                            });
+                                        }
+                                        Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError(@NotNull QonversionError error) {
+                            setLoadGone();
+                            Log.d("Premium>>>", "2");
+                            Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onError(@NotNull QonversionError error) {
+                setLoadGone();
+                Log.d("Premium>>>", "3");
+                Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

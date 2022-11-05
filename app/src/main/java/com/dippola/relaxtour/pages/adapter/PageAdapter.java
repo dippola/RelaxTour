@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.MainActivity;
+import com.dippola.relaxtour.NetworkStatus;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.controller.SeekController;
@@ -126,162 +127,6 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             );
             setSeekbarDrawable(((Page567ViewHolder) holder).seekBar);
         }
-
-//        setPageImageTheme(position, holder.img);
-//
-//        if (arrayList.get(position).getPage() != 1 && arrayList.get(position).getPage() != 2 && arrayList.get(position).getPage() != 3) {
-//            if (arrayList.get(position).getPage() == 4) {
-//                holder.img.setMinimumWidth(MainActivity.pageitem_4_width_size);
-//                holder.img.setMinimumHeight(MainActivity.pageitem_4_height_size);
-//            }
-//            holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
-//            holder.img.setMinimumHeight(MainActivity.pageitem_height_size);
-//        } else {
-//            holder.img.setMinimumWidth(MainActivity.pageitem_width_size);
-//            holder.img.setMinimumHeight(MainActivity.pageitem_height_size);
-//        }
-//
-//        holder.progressBar.setVisibility(View.GONE);
-//
-//        if (databaseHandler.getIsProUser() == 1) {
-//            if (arrayList.get(positions).getIspro() == 2) {
-//                holder.download.setVisibility(View.GONE);
-//                holder.download.setEnabled(false);
-//                holder.img.setEnabled(false);
-//                holder.seekBar.setEnabled(false);
-//                holder.pro.setEnabled(true);
-//                setBackgroundPro(arrayList.get(positions).getPage(), holder.pro);
-//            } else if (arrayList.get(positions).getIspro() == 1) {
-//                if (arrayList.get(positions).getNeeddownload() == 1) {
-//                    holder.pro.setVisibility(View.GONE);
-//                    holder.pro.setEnabled(false);
-//                    holder.download.setVisibility(View.GONE);
-//                    holder.download.setEnabled(false);
-//                    holder.img.setEnabled(true);
-//                    holder.seekBar.setEnabled(true);
-//                } else if (arrayList.get(positions).getNeeddownload() == 2) {
-//                    File file = new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getPage() + "to" + arrayList.get(positions).getPosition() + ".mp3");
-//                    if (file.exists()) {
-//                        holder.download.setVisibility(View.GONE);
-//                        holder.download.setEnabled(false);
-//                        holder.img.setEnabled(true);
-//                        holder.seekBar.setEnabled(true);
-//                    } else {
-//                        setBackgroundDownload(arrayList.get(positions).getPage(), holder.download);
-//                        holder.download.setVisibility(View.VISIBLE);
-//                        holder.download.setEnabled(true);
-//                        holder.img.setEnabled(false);
-//                        holder.seekBar.setEnabled(false);
-//                    }
-//                }
-//            }
-//        } else if (databaseHandler.getIsProUser() == 2) {
-//            holder.pro.setVisibility(View.GONE);
-//            holder.pro.setEnabled(false);
-//            if (arrayList.get(positions).getNeeddownload() == 1) {
-//                holder.download.setVisibility(View.GONE);
-//                holder.download.setEnabled(false);
-//                holder.img.setEnabled(true);
-//                holder.seekBar.setEnabled(true);
-//            } else if (arrayList.get(positions).getNeeddownload() == 2) {
-//                if (new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getPage() + "to" + arrayList.get(positions).getPosition() + ".mp3").exists()) {
-//                    holder.download.setVisibility(View.GONE);
-//                    holder.seekBar.setEnabled(true);
-//                } else {
-//                    setBackgroundDownload(arrayList.get(positions).getPage(), holder.download);
-//                    holder.download.setVisibility(View.VISIBLE);
-//                    holder.download.setEnabled(true);
-//                    holder.img.setEnabled(false);
-//                    holder.seekBar.setEnabled(false);
-//                }
-//            }
-//        }
-//
-////        holder.pro.setVisibility(View.GONE);
-////        holder.pro.setEnabled(false);
-////        if (arrayList.get(position).getNeeddownload() == 1) {
-////            holder.download.setVisibility(View.GONE);
-////            holder.download.setEnabled(false);
-////            holder.img.setEnabled(true);
-////            holder.seekBar.setEnabled(true);
-////        } else if (arrayList.get(position).getNeeddownload() == 2) {
-////            if (new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(position).getPage() + "to" + arrayList.get(position).getPosition() + ".mp3").exists()) {
-////                holder.download.setVisibility(View.GONE);
-////                holder.seekBar.setEnabled(true);
-////            } else {
-////                setBackgroundDownload(arrayList.get(position).getPage(), holder.download);
-////                holder.download.setVisibility(View.VISIBLE);
-////                holder.download.setEnabled(true);
-////                holder.img.setEnabled(false);
-////                holder.seekBar.setEnabled(false);
-////            }
-////        }
-//
-//        holder.name.setText(arrayList.get(position).getName());
-//        holder.seekBar.setProgress(arrayList.get(position).getSeek());
-//
-//        holder.img.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (arrayList.get(positions).getPage() != 4) {//1,2,3page
-//                    page(positions, holder.img);
-//                } else {//4page nature일때
-//                    page4(positions, holder.img);
-//                }
-//                page4Count();
-//            }
-//        });
-//
-//        holder.seekBar.setMax(MainActivity.maxVolumn);
-//        holder.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {//터치
-//                SeekController.pageMoving = true;
-//            }
-//
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {//변화
-//                if (SeekController.pageMoving) {
-//                    arrayList.get(positions).setSeek(seekBar.getProgress());
-////                    notifyItemChanged(positions);
-////                    notifyDataSetChanged();
-//                    float volume = (float) (1 - (Math.log(SeekController.MAX_VOLUME - i) / Math.log(SeekController.MAX_VOLUME)));
-//                    String pp = arrayList.get(positions).getPnp();
-//                    SeekController.changeVolumn(pp, volume);
-//                    SeekController.changeSeekInPage(context, arrayList.get(positions), seekBar.getProgress());
-//                }
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {//끝
-//                notifyItemChanged(positions);
-//                notifyDataSetChanged();
-//                SeekController.pageMoving = false;
-//            }
-//        });
-//
-//        holder.download.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                SharedPreferences sharedPreferences = context.getSharedPreferences("download_dialog_checkbox", MODE_PRIVATE);
-//                boolean isChecked = sharedPreferences.getBoolean("isChecked", false);
-//                if (isChecked) {
-//                    openDownloadService(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
-//                    DownloadItem downloadItem = new DownloadItem(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
-//                    DownloadService.downloadList.add(downloadItem);
-//                    DownloadService.setOnClickDownload(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), holder.seekBar, downloadItem);
-//                } else {
-//                    AskDownloadDialog.askDownloadDialog(context, holder.progressBar, holder.img, holder.download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), holder.seekBar);
-//                }
-//            }
-//        });
-//
-//        holder.pro.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                context.startActivity(new Intent(context, PremiumDialog.class));
-//            }
-//        });
     }
 
     @Override
@@ -735,15 +580,20 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedPreferences = context.getSharedPreferences("download_dialog_checkbox", MODE_PRIVATE);
-                boolean isChecked = sharedPreferences.getBoolean("isChecked", false);
-                if (isChecked) {
-                    openDownloadService(context, progressBar, img, download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
-                    DownloadItem downloadItem = new DownloadItem(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
-                    DownloadService.downloadList.add(downloadItem);
-                    DownloadService.setOnClickDownload(context, progressBar, img, download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), seekBar, downloadItem);
+                int i = NetworkStatus.getNetworkStatus(context.getApplicationContext());
+                if (i == NetworkStatus.NO) {
+                    Toast.makeText(context, "Internet connection is not present or unstable.\nPlease check and try again.", Toast.LENGTH_SHORT).show();
                 } else {
-                    AskDownloadDialog.askDownloadDialog(context, progressBar, img, download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), seekBar);
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("download_dialog_checkbox", MODE_PRIVATE);
+                    boolean isChecked = sharedPreferences.getBoolean("isChecked", false);
+                    if (isChecked) {
+                        openDownloadService(context, progressBar, img, download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
+                        DownloadItem downloadItem = new DownloadItem(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
+                        DownloadService.downloadList.add(downloadItem);
+                        DownloadService.setOnClickDownload(context, progressBar, img, download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), seekBar, downloadItem);
+                    } else {
+                        AskDownloadDialog.askDownloadDialog(context, progressBar, img, download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), seekBar);
+                    }
                 }
             }
         });
