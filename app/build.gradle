@@ -10,8 +10,8 @@ android {
         applicationId "com.dippola.relaxtour"
         minSdk 21
         targetSdk 31
-        versionCode 15
-        versionName "1.0.15"
+        versionCode 16
+        versionName "1.0.16"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -58,5 +58,6 @@ dependencies {
     def lottieVersion = "5.2.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
 
+    //sdk31target
     implementation 'androidx.work:work-runtime:2.7.1'
 }

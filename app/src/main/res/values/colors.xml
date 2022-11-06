@@ -71,4 +71,7 @@
     <color name="gif_background">#a6c5ec</color>
 
     <color name="radiobutton_color">#8DAAEC</color>
+
+    <color name="switch_thumb_color">#8DAAEC</color>
+    <color name="switch_track_color">#B4C5EC</color>
 </resources>
