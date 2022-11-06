@@ -30,7 +30,7 @@ public class SuccessDownloadNotification {
             intent.setAction(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-            PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE);
+            PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
             NotificationCompat.Builder notification;
             if (Build.VERSION.SDK_INT >= 26) {

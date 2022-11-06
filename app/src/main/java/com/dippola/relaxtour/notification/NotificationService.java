@@ -80,7 +80,7 @@ public class NotificationService extends Service {
                     PendingIntent.FLAG_UPDATE_CURRENT);
             PendingIntent pendingIntentClose = PendingIntent.getBroadcast(context, 0, intentClose,
                     PendingIntent.FLAG_UPDATE_CURRENT);
-            PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE);
+            PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
             NotificationCompat.Builder notification;
             if (Build.VERSION.SDK_INT >= 26) {
