@@ -3,4 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Community Main Activity"
+        android:layout_centerInParent="true"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+    <RelativeLayout
+        android:id="@+id/community_main_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#4D000000">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/button_design_color"/>
+    </RelativeLayout>
+
 </RelativeLayout>

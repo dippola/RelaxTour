@@ -12,9 +12,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/appicon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/appicon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RelaxTour">
         <activity
@@ -41,6 +41,7 @@
         <activity android:name=".setting.StorageManageDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <service android:name=".service.GetStateKillApp" />
         <activity android:name=".board.CommunityMain" android:screenOrientation="portrait" />
+        <activity android:name=".board.CommunityLogin" android:screenOrientation="portrait" />
         <activity android:name=".dialog.Premium" android:screenOrientation="portrait"/>
         <activity android:name=".dialog.ResetDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".dialog.InfoDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>

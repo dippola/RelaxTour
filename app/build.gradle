@@ -60,4 +60,8 @@ dependencies {
 
     //sdk31target
     implementation 'androidx.work:work-runtime:2.7.1'
+
+    implementation platform('com.google.firebase:firebase-bom:31.0.2')
+    implementation 'com.google.firebase:firebase-auth'
+
 }
