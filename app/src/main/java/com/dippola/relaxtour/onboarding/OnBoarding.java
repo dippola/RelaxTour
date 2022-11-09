@@ -60,7 +60,7 @@ public class OnBoarding extends AppCompatActivity {
         OnBoardingItem item3 = new OnBoardingItem();
         item3.setImg(R.drawable.onboarding_3);
         item3.setText1("Community");
-        item3.setText2("There is a community where you can share the experiences and information of meditators with other users. Share your meditation story and your play list.");
+        item3.setText2("There is a community where you can share the experiences and information of meditators with other users. Share your meditation story and your play list.\n(Service is being prepared.)");
 
         lists.add(item1);
         lists.add(item2);

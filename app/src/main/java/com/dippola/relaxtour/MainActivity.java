@@ -17,7 +17,6 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -31,8 +30,6 @@ import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.AddFavDialog;
 import com.dippola.relaxtour.dialog.AskDeleteAllPlaylistDialog;
-import com.dippola.relaxtour.dialog.Premium;
-import com.dippola.relaxtour.dialog.RestoreDialog;
 import com.dippola.relaxtour.dialog.ThemeDialog;
 import com.dippola.relaxtour.maintablayout.MainTabAdapter;
 import com.dippola.relaxtour.maintablayout.MainTabItem;
@@ -54,14 +51,9 @@ import com.dippola.relaxtour.setting.SettingDialog;
 import com.dippola.relaxtour.timer.Timer2;
 import com.dippola.relaxtour.timer.TimerDialog;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.qonversion.android.sdk.Qonversion;
-import com.qonversion.android.sdk.QonversionError;
-import com.qonversion.android.sdk.QonversionPermissionsCallback;
-import com.qonversion.android.sdk.dto.QPermission;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -173,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         maincount = findViewById(R.id.activity_main_maincount);
         cancel = findViewById(R.id.activity_main_timer_cancel);
         mainTitle = findViewById(R.id.activity_main_title_layout);
-        community = findViewById(R.id.activity_main_board);
+        community = findViewById(R.id.activity_main_community);
 
         if (TimerService.isCount) {
             cancel.setVisibility(View.VISIBLE);
@@ -260,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
         community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, CommunityMain.class));
+//                startActivity(new Intent(MainActivity.this, CommunityMain.class));
             }
         });
 

@@ -484,25 +484,26 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public boolean isContainsTitleAlreadyWhenEditTitle(String beforeTitle, String newTitle) {
-        List<String> titles = new ArrayList<>();
-        sqLiteDatabase = this.getWritableDatabase();
-        openDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select title from favtitle", null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            titles.add(cursor.getString(0));
-            cursor.moveToNext();
-        }
-        cursor.close();
-        closeDatabse();
-        titles.remove(newTitle);
-        if (titles.contains(newTitle)) {
-            return true;
+        if (beforeTitle.equals(newTitle)) {
+            return false;
         } else {
-            if (newTitle.equals(beforeTitle)) {
-                return false;
-            } else {
+            List<String> titles = new ArrayList<>();
+            sqLiteDatabase = this.getWritableDatabase();
+            openDatabase();
+            Cursor cursor = sqLiteDatabase.rawQuery("select title from favtitle", null);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                if (cursor.getString(0).equals(newTitle)) {
+                    titles.add(cursor.getString(0));
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+            closeDatabse();
+            if (titles.contains(newTitle)) {
                 return true;
+            } else {
+                return false;
             }
         }
     }
