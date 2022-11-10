@@ -25,7 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dippola.relaxtour.board.CommunityMain;
+import com.dippola.relaxtour.community.CommunityMain;
 import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.AddFavDialog;
@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
         community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, CommunityMain.class));
+                startActivity(new Intent(MainActivity.this, CommunityMain.class));
             }
         });
 

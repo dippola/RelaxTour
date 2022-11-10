@@ -1,4 +1,4 @@
-package com.dippola.relaxtour.board;
+package com.dippola.relaxtour.community;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.board.signIn.CommunitySignInMain;
+import com.dippola.relaxtour.community.signIn.CommunitySignIn;
+import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.Premium;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -36,39 +37,84 @@ public class CommunityMain extends AppCompatActivity {
 
     private RelativeLayout load;
     private FirebaseAuth auth;
+    private Button gosignin;
+    private Button test;
+
+    private DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.community_main);
 
+        setDatabaseHandler();
+
         load = findViewById(R.id.community_main_load);
         load.setVisibility(View.VISIBLE);
 
-        auth = FirebaseAuth.getInstance();
+        goToSignInButton();
 
 //        checkPremium();
-        checkAuth();
+//        checkAuth();
         test();
     }
 
+    private void setDatabaseHandler() {
+        databaseHandler.setDB(CommunityMain.this);
+        databaseHandler = new DatabaseHandler(CommunityMain.this);
+    }
 
-    private void test() {
-        Button btn;
-        btn = findViewById(R.id.community_main_testbtn);
-        btn.setOnClickListener(new View.OnClickListener() {
+    private void goToSignInButton() {
+        gosignin = findViewById(R.id.community_main_go_to_signin);
+        gosignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestIdToken(getString(R.string.default_web_client_id))
-                        .requestEmail()
-                        .build();
-                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(CommunityMain.this, gso);
-                Intent signInIntent = googleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, 9001);
+//                if (databaseHandler.getIsProUser() == 1) {
+//                    Toast.makeText(CommunityMain.this, "The community is available to premium users.", Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(CommunityMain.this, Premium.class));
+//                } else {
+//                    startActivity(new Intent(CommunityMain.this, CommunitySignIn.class));
+//                }
+                startActivity(new Intent(CommunityMain.this, CommunitySignIn.class));
             }
         });
     }
+
+    private void test() {
+        test = findViewById(R.id.community_main_testbtn);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (auth.getCurrentUser() != null) {
+                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestIdToken(getString(R.string.default_web_client_id))
+                            .requestEmail()
+                            .build();
+                    GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(CommunityMain.this, gso);
+                    Intent signInIntent = googleSignInClient.getSignInIntent();
+                    startActivityForResult(signInIntent, 9001);
+                }
+            }
+        });
+    }
+
+
+//    private void test() {
+//        Button btn;
+//        btn = findViewById(R.id.community_main_go_to_signin);
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                        .requestIdToken(getString(R.string.default_web_client_id))
+//                        .requestEmail()
+//                        .build();
+//                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(CommunityMain.this, gso);
+//                Intent signInIntent = googleSignInClient.getSignInIntent();
+//                startActivityForResult(signInIntent, 9001);
+//            }
+//        });
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -126,7 +172,7 @@ public class CommunityMain extends AppCompatActivity {
 
     private void checkAuth() {
         if (auth.getCurrentUser() == null) {
-            startActivity(new Intent(CommunityMain.this, CommunitySignInMain.class));
+            startActivity(new Intent(CommunityMain.this, CommunitySignIn.class));
         }
         load.setVisibility(View.GONE);
         loadCommunity();

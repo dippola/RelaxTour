@@ -1,18 +1,18 @@
-package com.dippola.relaxtour.board.signIn;
+package com.dippola.relaxtour.community.signIn;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.dippola.relaxtour.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -28,18 +28,20 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class CommunitySignInMain extends AppCompatActivity {
+public class CommunitySignIn extends AppCompatActivity {
 
-    private Button signin;
-    private LinearLayout signup;
-    private View view;
+    private EditText editEmail, editPassword;
+    private TextView errorMessage, signUpBtn, forgot;
+    private Button signInBtn;
+
+    ConstraintLayout googleBtn;
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth auth;
     private static final int RC_SIGN_IN = 9001;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.community_signin_main);
+        setContentView(R.layout.community_signin);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -56,51 +58,56 @@ public class CommunitySignInMain extends AppCompatActivity {
     }
 
     private void setInit() {
-        signin = findViewById(R.id.community_signin_screen_signin);
-        signup = findViewById(R.id.community_signin_main_signup);
-        view = findViewById(R.id.community_signin_screen_blank);
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int x = (int) (size.x * 0.75);
+        editEmail = findViewById(R.id.community_signin_edit_email);
+        editPassword = findViewById(R.id.community_signin_edit_password);
+        errorMessage = findViewById(R.id.community_signin_error_message);
+        signUpBtn = findViewById(R.id.community_signin_signup_btn);
+        googleBtn = findViewById(R.id.community_signin_googlebtn);
+        signInBtn = findViewById(R.id.community_signin_signin_btn);
+        forgot = findViewById(R.id.community_signin_forgot_password);
+        setOnClickSignIn();
+        setOnClickGoogleBtn();
+        setOnClickSignUp();
+    }
 
-        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) signin.getLayoutParams();
-        params.width = x;
-        signin.setLayoutParams(params);
-
-        ViewGroup.LayoutParams params2 = (ViewGroup.LayoutParams) view.getLayoutParams();
-        params2.height = (int)(size.y * 0.08);
-        view.setLayoutParams(params2);
-
-        signin.setOnClickListener(new View.OnClickListener() {
+    private void setOnClickSignIn() {
+        signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn();
-            }
-        });
 
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signUp();
             }
         });
     }
 
-    private void signIn() {
-        startActivity(new Intent(CommunitySignInMain.this, CommunitySignIn.class));
+    private void setOnClickGoogleBtn() {
+        googleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                googleBtn.setEnabled(false);
+                startSignIn();
+            }
+        });
     }
 
-    private void signUp() {
-        startActivity(new Intent(CommunitySignInMain.this, CommunitySignUp.class));
+    private void setOnClickSignUp() {
+        signUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CommunitySignIn.this, CommunitySignUp.class));
+            }
+        });
     }
 
-
+    private void startSignIn() {
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
+            googleBtn.setEnabled(true);
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful, authenticate with Firebase
@@ -112,11 +119,6 @@ public class CommunitySignInMain extends AppCompatActivity {
                 Log.w("CommunityLogin>>>", "Google sign in failed", e);
             }
         }
-    }
-
-    private void startSignIn() {
-        Intent signInIntent = googleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void firebaseAuthWithGoogle(String idToken) {

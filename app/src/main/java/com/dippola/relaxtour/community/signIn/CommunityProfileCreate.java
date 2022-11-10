@@ -1,4 +1,4 @@
-package com.dippola.relaxtour.board.signIn;
+package com.dippola.relaxtour.community.signIn;
 
 import android.os.Bundle;
 
@@ -7,11 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.dippola.relaxtour.R;
 
-public class CommunitySignUp extends AppCompatActivity {
+public class CommunityProfileCreate extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.community_signup);
+        setContentView(R.layout.community_profile_create);
     }
 }

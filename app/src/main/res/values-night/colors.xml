@@ -70,5 +70,9 @@
 
     <color name="radiobutton_color">#E6F5F8</color>
 
-    <color name="signup_text_color">#517EE4</color>
+    <color name="signup_text_color_in_signin_page">#4F81FD</color>
+    <color name="google_round_color1">#fbfef9</color>
+    <color name="google_round_color2">#fbfef9</color>
+
+    <color name="icon_in_edittext_color">#8E8E8E</color>
 </resources>

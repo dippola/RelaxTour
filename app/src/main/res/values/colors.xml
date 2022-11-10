@@ -75,5 +75,9 @@
     <color name="switch_thumb_color">#8DAAEC</color>
     <color name="switch_track_color">#B4C5EC</color>
 
-    <color name="signup_text_color">#4175EA</color>
+    <color name="signup_text_color_in_signin_page">#4F81FD</color>
+    <color name="google_round_color1">#fbfef9</color>
+    <color name="google_round_color2">#fbfef9</color>
+
+    <color name="icon_in_edittext_color">#8E8E8E</color>
 </resources>
