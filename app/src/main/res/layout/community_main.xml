@@ -23,4 +23,11 @@
             android:indeterminateTint="@color/button_design_color"/>
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/community_main_testbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="delete"/>
 </RelativeLayout>

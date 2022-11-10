@@ -74,4 +74,6 @@
 
     <color name="switch_thumb_color">#8DAAEC</color>
     <color name="switch_track_color">#B4C5EC</color>
+
+    <color name="signup_text_color">#4175EA</color>
 </resources>

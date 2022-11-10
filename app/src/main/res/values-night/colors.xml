@@ -69,4 +69,6 @@
     <color name="onboarding_button_text_color">#ffffff</color>
 
     <color name="radiobutton_color">#E6F5F8</color>
+
+    <color name="signup_text_color">#517EE4</color>
 </resources>

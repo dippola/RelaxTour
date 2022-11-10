@@ -41,7 +41,9 @@
         <activity android:name=".setting.StorageManageDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <service android:name=".service.GetStateKillApp" />
         <activity android:name=".board.CommunityMain" android:screenOrientation="portrait" />
-        <activity android:name=".board.CommunityLogin" android:screenOrientation="portrait" />
+        <activity android:name=".board.signIn.CommunitySignInMain" android:screenOrientation="portrait" />
+        <activity android:name=".board.signIn.CommunitySignIn" android:screenOrientation="portrait" />
+        <activity android:name=".board.signIn.CommunitySignUp" android:screenOrientation="portrait" />
         <activity android:name=".dialog.Premium" android:screenOrientation="portrait"/>
         <activity android:name=".dialog.ResetDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".dialog.InfoDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
