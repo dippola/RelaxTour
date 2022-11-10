@@ -21,6 +21,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.onboarding.OnBoarding;
@@ -38,7 +39,7 @@ public class Splash extends AppCompatActivity {
     Application application;
     DatabaseHandler databaseHandler;
 
-    RelativeLayout bg;
+    ConstraintLayout bg;
 
     TextView title, dippola;
     ImageView img;
@@ -59,21 +60,11 @@ public class Splash extends AppCompatActivity {
         databaseHandler.setDB(Splash.this);
         databaseHandler = new DatabaseHandler(Splash.this);
 
-
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int x = (int) (size.x * 0.3);
         title = findViewById(R.id.splash_title);
         dippola = findViewById(R.id.splash_dippola);
         img = findViewById(R.id.splash_img);
         progressBar = findViewById(R.id.splash_progressbar);
         progressBar.setVisibility(View.INVISIBLE);
-
-        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) img.getLayoutParams();
-        params.width = x;
-        params.height = x;
-        img.setLayoutParams(params);
 
         checkPermission();
     }
