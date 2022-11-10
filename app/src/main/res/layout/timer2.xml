@@ -28,12 +28,6 @@
             android:text="0"
             android:textColor="@color/text_color" />
 
-        <EditText
-            android:id="@+id/edittime1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal" />
-
         <ProgressBar
             android:id="@+id/progress_count1"
             style="?android:attr/progressBarStyleHorizontal"

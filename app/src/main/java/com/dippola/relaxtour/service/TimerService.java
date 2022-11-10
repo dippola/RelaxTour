@@ -59,7 +59,7 @@ public class TimerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (Timer2.et_timer.getText().toString().length() > 0) {
+        if (Timer2.et_timer.length() > 0) {
             Timer2.myProgress = 0;
 
             try {
@@ -69,7 +69,7 @@ public class TimerService extends Service {
 
             }
 
-            String timeInterval = Timer2.et_timer.getText().toString();
+            String timeInterval = Timer2.et_timer.toString();
             Timer2.progress = 1;
             Timer2.endTime = Integer.parseInt(timeInterval);
 
@@ -181,11 +181,11 @@ public class TimerService extends Service {
             Intent intentClose = new Intent(context, TimerNotificationActionService.class)
                     .setAction(ACTION_CLOSE);
             PendingIntent pendingIntentPlay = PendingIntent.getBroadcast(context, 0, intentPlay,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent.FLAG_IMMUTABLE);
             PendingIntent pendingIntentClose = PendingIntent.getBroadcast(context, 0, intentClose,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent.FLAG_IMMUTABLE);
             PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent,
-                    0);
+                    PendingIntent.FLAG_IMMUTABLE);
 
             NotificationCompat.Builder notification;
             if (Build.VERSION.SDK_INT >= 26) {

@@ -4,14 +4,14 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.dippola.relaxtour"
         minSdk 21
-        targetSdk 31
-        versionCode 19
-        versionName "1.0.19"
+        targetSdk 33
+        versionCode 21
+        versionName "1.0.21"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -59,8 +59,8 @@ dependencies {
     implementation "com.airbnb.android:lottie:$lottieVersion"
 
     //sdk31target
-    implementation 'androidx.work:work-runtime:2.7.1'
-//    implementation 'androidx.work:work-runtime:2.8.0-alpha04'
+//    implementation 'androidx.work:work-runtime:2.7.1'
+    implementation 'androidx.work:work-runtime:2.8.0-alpha04'
 
     implementation platform('com.google.firebase:firebase-bom:31.0.2')
     implementation ('com.google.firebase:firebase-auth') {

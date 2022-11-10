@@ -66,7 +66,9 @@ public class Timer1 extends Fragment {
                 if (max11 == 0 && max22 != 0) {
                     int max1122 = max22;
                     String maxintent = Integer.toString(max1122);
-                    Timer2.et_timer.setText(maxintent);
+//                    Timer2.et_timer.setText(maxintent);
+                    Timer2.et_timer = maxintent;
+                    Log.d("Timer1>>>", "check et_timer: " + Timer2.et_timer);
 //                    fn_countdown();
                     if (Build.VERSION.SDK_INT >= 26) {
                         getActivity().startForegroundService(intent);
@@ -79,7 +81,8 @@ public class Timer1 extends Fragment {
                 if (max11 != 0 && max22 == 0) {
                     int max1122 = max11;
                     String maxintent = Integer.toString(max1122);
-                    Timer2.et_timer.setText(maxintent);
+//                    Timer2.et_timer.setText(maxintent);
+                    Timer2.et_timer = maxintent;
 //                    fn_countdown();
                     if (Build.VERSION.SDK_INT >= 26) {
                         getActivity().startForegroundService(intent);
@@ -95,8 +98,9 @@ public class Timer1 extends Fragment {
                 if (max11 != 0 && max22 != 0) {
                     int max1122 = max11 + max22;
                     String maxintent = Integer.toString(max1122);
-                    Timer2.et_timer.setText(maxintent);
+//                    Timer2.et_timer.setText(maxintent);
 //                    fn_countdown();
+                    Timer2.et_timer = maxintent;
                     if (Build.VERSION.SDK_INT >= 26) {
                         getActivity().startForegroundService(intent);
                     } else {

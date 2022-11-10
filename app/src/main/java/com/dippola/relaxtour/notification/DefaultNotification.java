@@ -42,9 +42,9 @@ public class DefaultNotification {
             Intent intentClose = new Intent(context, NotificationActionService.class)
                     .setAction(ACTION_CLOSE);
             PendingIntent pendingIntentPlay = PendingIntent.getBroadcast(context, 0, intentPlay,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent.FLAG_IMMUTABLE);
             PendingIntent pendingIntentClose = PendingIntent.getBroadcast(context, 0, intentClose,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent.FLAG_IMMUTABLE);
             PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
             NotificationCompat.Builder notification;

@@ -31,7 +31,7 @@ public class Timer2 extends Fragment {
     public static ProgressBar progressBarView;
     public static Button btn_stop, btn_close;
     public static TextView tv_time;
-    public static EditText et_timer;
+    public static String et_timer;
     public static int progress;
     public static CountDownTimer countDownTimer;
     public static int endTime;
@@ -57,10 +57,10 @@ public class Timer2 extends Fragment {
         btn_stop = (Button) rootView.findViewById(R.id.countstart1);
         btn_close = rootView.findViewById(R.id.count_go_back);
         tv_time = (TextView) rootView.findViewById(R.id.text_timer1);
-        et_timer = (EditText) rootView.findViewById(R.id.edittime1);
+//        et_timer = (EditText) rootView.findViewById(R.id.edittime1);
         hourintent = (TextView) rootView.findViewById(R.id.hourintent);
         minintent = (TextView) rootView.findViewById(R.id.minintent);
-        et_timer.setTextColor(Color.WHITE);
+//        et_timer.setTextColor(Color.WHITE);
 
         RotateAnimation makeVertical = new RotateAnimation(0, -90, RELATIVE_TO_SELF, 0.5f, RELATIVE_TO_SELF, 0.5f);
         makeVertical.setFillAfter(true);
