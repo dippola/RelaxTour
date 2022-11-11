@@ -3,41 +3,58 @@ package com.dippola.relaxtour.community.signIn;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.CommunityMain;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 public class CommunitySignIn extends AppCompatActivity {
 
     private EditText editEmail, editPassword;
     private TextView errorMessage, signUpBtn, forgot;
     private Button signInBtn;
+    private RelativeLayout load;
 
     ConstraintLayout googleBtn;
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth auth;
     private static final int RC_SIGN_IN = 9001;
+    public static final int ASK_SIGNIN_RESULT_CODE = 100;
+    public static final int FROM_SIGN_UP = 101;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,15 +82,39 @@ public class CommunitySignIn extends AppCompatActivity {
         googleBtn = findViewById(R.id.community_signin_googlebtn);
         signInBtn = findViewById(R.id.community_signin_signin_btn);
         forgot = findViewById(R.id.community_signin_forgot_password);
-        setOnClickSignIn();
+        load = findViewById(R.id.community_signin_load);
+        load.setVisibility(View.GONE);
+        setOnClickSignInEmail();
         setOnClickGoogleBtn();
         setOnClickSignUp();
     }
 
-    private void setOnClickSignIn() {
+    private void setOnClickSignInEmail() {
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                errorMessage.setText("");
+                editEmail.setBackground(getResources().getDrawable(R.drawable.edittext));
+                editPassword.setBackground(getResources().getDrawable(R.drawable.edittext));
+                if (editEmail.getText().toString().length() == 0) {
+                    errorMessage.setText("Please enter your email");
+                    editEmail.setBackground(getResources().getDrawable(R.drawable.edittext_error));
+                } else {
+                    Pattern pattern = Patterns.EMAIL_ADDRESS;
+                    if (pattern.matcher(editEmail.getText().toString()).matches()) {
+                        if (editPassword.getText().toString().length() < 8) {
+                            errorMessage.setText("Password must be at least 8 digits.");
+                            editPassword.setBackground(getResources().getDrawable(R.drawable.edittext_error));
+                        } else {
+                            load.setVisibility(View.VISIBLE);
+                            signInBtn.setEnabled(false);
+                            checkUserAreadyWhenEmail(editEmail.getText().toString());
+                        }
+                    } else {
+                        errorMessage.setText("This is not in email format.");
+                        editEmail.setBackground(getResources().getDrawable(R.drawable.edittext_error));
+                    }
+                }
 
             }
         });
@@ -83,6 +124,7 @@ public class CommunitySignIn extends AppCompatActivity {
         googleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                load.setVisibility(View.VISIBLE);
                 googleBtn.setEnabled(false);
                 startSignIn();
             }
@@ -93,7 +135,7 @@ public class CommunitySignIn extends AppCompatActivity {
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CommunitySignIn.this, CommunitySignUp.class));
+                launcher.launch(new Intent(CommunitySignIn.this, CommunitySignUp.class));
             }
         });
     }
@@ -107,18 +149,104 @@ public class CommunitySignIn extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
-            googleBtn.setEnabled(true);
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 Log.d("CommunityLogin>>>", "firebaseAuthWithGoogle:" + account.getId());
-                firebaseAuthWithGoogle(account.getIdToken());
+                checkUserAreadyWhenGoogle(account.getEmail(), account.getIdToken());
+//                firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
+                load.setVisibility(View.GONE);
+                googleBtn.setEnabled(true);
                 // Google Sign In failed, update UI appropriately
                 Log.w("CommunityLogin>>>", "Google sign in failed", e);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (load.getVisibility() == View.GONE) {
+            super.onBackPressed();
+        }
+    }
+
+    private void checkUserAreadyWhenEmail(String email) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot.exists()) {
+                        auth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(CommunitySignIn.this, "Sign In Successful", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                } else {
+                                    Toast.makeText(CommunitySignIn.this, "failed: " + task.getException(), Toast.LENGTH_SHORT).show();
+                                    load.setVisibility(View.GONE);
+                                    signInBtn.setEnabled(true);
+                                }
+                            }
+                        });
+                    } else {
+                        load.setVisibility(View.GONE);
+                        googleBtn.setEnabled(true);
+                        signInBtn.setEnabled(true);
+                        Intent intent = new Intent(CommunitySignIn.this, CommunityAskSignUpDialog.class);
+                        launcher.launch(intent);
+                    }
+                } else {
+                    Log.d("CommunityMain>>>", "get data: error");
+                }
+            }
+        });
+    }
+
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == ASK_SIGNIN_RESULT_CODE) {
+                if (result.getData().getStringExtra("click").equals("ok")) {
+                    launcher.launch(new Intent(CommunitySignIn.this, CommunitySignUp.class));
+                }
+            } else if (result.getResultCode() == FROM_SIGN_UP) {
+                if (result.getData().getBooleanExtra("isSignUp", false)) {
+                    load.setVisibility(View.VISIBLE);
+                    Intent intent = new Intent(CommunitySignIn.this, CommunityMain.class);
+                    intent.putExtra("need_create_profile", true);
+                    setResult(CommunityMain.NEED_CREATE_PROFILE, intent);
+                    finish();
+                }
+            }
+        }
+    });
+
+    private void checkUserAreadyWhenGoogle(String email, String idToken) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot.exists()) {
+                        firebaseAuthWithGoogle(idToken);
+                    } else {
+                        load.setVisibility(View.GONE);
+                        googleBtn.setEnabled(true);
+                        signInBtn.setEnabled(true);
+                        Intent intent = new Intent(CommunitySignIn.this, CommunityAskSignUpDialog.class);
+                        launcher.launch(intent);
+                    }
+                } else {
+                    Log.d("CommunityMain>>>", "get data: error");
+                }
+            }
+        });
     }
 
     private void firebaseAuthWithGoogle(String idToken) {
@@ -129,10 +257,13 @@ public class CommunitySignIn extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("CommunityLogin>>>", "signInWithCredential:success");
-                            FirebaseUser user = auth.getCurrentUser();
+                            Toast.makeText(CommunitySignIn.this, "Sign In Successful", Toast.LENGTH_SHORT).show();
+                            finish();
 //                            updateUI(user);
                         } else {
+                            load.setVisibility(View.GONE);
+                            googleBtn.setEnabled(true);
+                            Toast.makeText(CommunitySignIn.this, "failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             // If sign in fails, display a message to the user.
                             Log.w("CommunityLogin>>>", "signInWithCredential:failure", task.getException());
 //                            updateUI(null);
@@ -140,4 +271,12 @@ public class CommunitySignIn extends AppCompatActivity {
                     }
                 });
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        editEmail.setText("");
+        editPassword.setText("");
+    }
+
 }

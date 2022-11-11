@@ -41,11 +41,38 @@
         android:layout_marginEnd="10dp"/>
 
     <Button
-        android:id="@+id/community_main_testbtn"
+        android:id="@+id/community_main_firestore_test1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="google탈퇴"/>
+
+    <Button
+        android:id="@+id/community_main_firestore_test2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="email탈퇴"/>
+
+    <Button
+        android:id="@+id/community_main_firestore_test3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="logout"/>
+
+    <Button
+        android:id="@+id/community_main_firestore_test4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="test"/>
+        android:text="연결해제"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

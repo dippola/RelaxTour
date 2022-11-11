@@ -45,7 +45,7 @@
                 android:textColor="@color/fav_edittext_color"
                 android:background="@drawable/edittext"
                 android:maxLength="15"
-                android:text="doskd"
+                android:textCursorDrawable="@drawable/edittext_cursor"
                 android:paddingHorizontal="10dp"/>
 
             <Button

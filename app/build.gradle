@@ -66,6 +66,7 @@ dependencies {
     implementation ('com.google.firebase:firebase-auth') {
         exclude group: 'com.google.android.gms', module: 'play-services-safetynet'
     }
+    implementation 'com.google.firebase:firebase-firestore'
 
     implementation 'com.google.android.gms:play-services-auth:20.3.0'
 

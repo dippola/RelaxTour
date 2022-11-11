@@ -1,11 +1,9 @@
 package com.dippola.relaxtour.pages;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -16,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.dialog.InfoDialog;
 import com.dippola.relaxtour.pages.adapter.PageAdapter;
 import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.pages.item.ViewTypeCode;
@@ -30,7 +27,6 @@ public class ChakraPage extends Fragment {
     public static PageAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
-    ImageView info;
 
     public static RelativeLayout load;
 
@@ -49,9 +45,6 @@ public class ChakraPage extends Fragment {
         pageBox = rootView.findViewById(R.id.page_box);
         SetPageBoxMargin.setPageBoxMargin(getActivity(), pageBox);
         recyclerView = rootView.findViewById(R.id.page_recyclerview);
-        info = rootView.findViewById(R.id.page_info);
-        info.setVisibility(View.VISIBLE);
-        setOnClickInfo();
     }
 
     private void setRecyclerView() {
@@ -64,14 +57,5 @@ public class ChakraPage extends Fragment {
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) recyclerView.getLayoutParams();
         params.topMargin = 40;
         recyclerView.setLayoutParams(params);
-    }
-
-    private void setOnClickInfo() {
-        info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), InfoDialog.class));
-            }
-        });
     }
 }
