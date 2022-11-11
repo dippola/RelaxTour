@@ -129,7 +129,8 @@
                 android:textCursorDrawable="@drawable/edittext_cursor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/community_signin_main_password_text"
-                android:hint="8 or more digits"/>
+                android:hint="8-14"
+                android:maxLength="14"/>
 
             <TextView
                 android:id="@+id/community_signin_forgot_password"
@@ -145,7 +146,7 @@
             android:id="@+id/community_signin_error_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#D63636"
+            android:textColor="@color/error_text_color"
             app:layout_constraintBottom_toTopOf="@+id/community_signin_signin_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

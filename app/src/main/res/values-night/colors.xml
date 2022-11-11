@@ -75,4 +75,6 @@
     <color name="google_round_color2">#fbfef9</color>
 
     <color name="icon_in_edittext_color">#8E8E8E</color>
+
+    <color name="error_text_color">#D63636</color>
 </resources>

@@ -41,13 +41,6 @@ dependencies {
 
     implementation "androidx.media:media:1.5.0"
 
-    implementation platform('com.google.firebase:firebase-bom:29.2.1')
-    implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-storage'
-
-    implementation 'com.google.firebase:firebase-messaging'
-    implementation 'com.google.firebase:firebase-analytics'
-
     implementation 'io.qonversion.android.sdk:sdk:3.+'
 
     implementation("com.tbuonomo:dotsindicator:4.3")
@@ -63,6 +56,13 @@ dependencies {
     implementation 'androidx.work:work-runtime:2.8.0-alpha04'
 
     implementation platform('com.google.firebase:firebase-bom:31.0.2')
+
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-storage'
+
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
+
     implementation ('com.google.firebase:firebase-auth') {
         exclude group: 'com.google.android.gms', module: 'play-services-safetynet'
     }

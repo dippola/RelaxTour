@@ -57,6 +57,7 @@ public class CommunityMain extends AppCompatActivity {
     private DatabaseHandler databaseHandler;
 
     public static final int NEED_CREATE_PROFILE = 105;
+    public static final int FROM_CREATE_PROFILE = 106;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +84,12 @@ public class CommunityMain extends AppCompatActivity {
             if (result.getResultCode() == NEED_CREATE_PROFILE) {
                 if (result.getData().getBooleanExtra("need_create_profile", false)) {
                     launcher.launch(new Intent(CommunityMain.this, CommunityProfileCreate.class));
+                }
+            } else if (result.getResultCode() == FROM_CREATE_PROFILE) {
+                if (result.getData().getBooleanExtra("isCreate", false)) {
+                    //create profile
+                } else {
+                    //no create profile
                 }
             }
         }
@@ -184,6 +191,15 @@ public class CommunityMain extends AppCompatActivity {
                         .build();
                 GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(CommunityMain.this, gso);
                 googleSignInClient.signOut();
+            }
+        });
+
+        Button test5;
+        test5 = findViewById(R.id.community_main_firestore_test5);
+        test5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launcher.launch(new Intent(CommunityMain.this, CommunityProfileCreate.class));
             }
         });
     }

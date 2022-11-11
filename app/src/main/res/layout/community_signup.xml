@@ -128,7 +128,8 @@
                 android:paddingHorizontal="10dp"
                 android:textCursorDrawable="@drawable/edittext_cursor"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/community_signup_main_password_text" />
+                app:layout_constraintTop_toBottomOf="@+id/community_signup_main_password_text"
+                android:maxLength="14"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
@@ -171,7 +172,8 @@
                 android:paddingHorizontal="10dp"
                 android:textCursorDrawable="@drawable/edittext_cursor"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/community_signup_main_password_text2" />
+                app:layout_constraintTop_toBottomOf="@+id/community_signup_main_password_text2"
+                android:maxLength="14"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
@@ -185,7 +187,7 @@
             android:id="@+id/community_signup_error_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#D63636"
+            android:textColor="@color/error_text_color"
             app:layout_constraintBottom_toTopOf="@+id/community_signup_signup_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
