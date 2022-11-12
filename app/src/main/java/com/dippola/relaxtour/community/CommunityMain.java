@@ -318,6 +318,15 @@ public class CommunityMain extends AppCompatActivity {
                 });
             }
         });
+
+        Button test9;
+        test9 = findViewById(R.id.community_main_firestore_test9);
+        test9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CommunityMain.this, CommunityAuth.class));
+            }
+        });
     }
 
 

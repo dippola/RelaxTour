@@ -77,4 +77,11 @@
     <color name="icon_in_edittext_color">#8E8E8E</color>
 
     <color name="error_text_color">#D63636</color>
+
+    <color name="auth_background">#0b111b</color>
+    <color name="auth_background_view_color1">#141f39</color>
+    <color name="auth_background_view_color2">#1E2C4E</color>
+    <color name="auth_box_color1">#123657</color>
+    <color name="auth_box_color2">#112241</color>
+    <color name="auth_email_icon_color">#fbfef9</color>
 </resources>
