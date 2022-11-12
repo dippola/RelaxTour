@@ -105,6 +105,7 @@
                 android:drawablePadding="10dp"
                 android:elevation="4dp"
                 android:maxLength="14"
+                android:textColorHint="#aaaaaa"
                 android:paddingHorizontal="10dp"
                 android:textCursorDrawable="@drawable/edittext_cursor"
                 app:layout_constraintEnd_toEndOf="parent"

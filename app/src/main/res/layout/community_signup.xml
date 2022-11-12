@@ -83,6 +83,7 @@
                 android:inputType="textWebEmailAddress"
                 android:paddingHorizontal="10dp"
                 android:textColor="@color/fav_edittext_color"
+                android:textColorHint="#aaaaaa"
                 android:textCursorDrawable="@drawable/edittext_cursor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/community_signup_main_email_text" />
@@ -124,6 +125,7 @@
                 android:background="@drawable/edittext"
                 android:drawableLeft="@drawable/community_icon_password"
                 android:drawablePadding="10dp"
+                android:textColorHint="#aaaaaa"
                 android:elevation="4dp"
                 android:inputType="textPassword"
                 android:maxLength="14"
@@ -172,6 +174,7 @@
                 android:drawablePadding="10dp"
                 android:elevation="4dp"
                 android:inputType="textPassword"
+                android:textColorHint="#aaaaaa"
                 android:maxLength="14"
                 android:paddingHorizontal="10dp"
                 android:textColor="@color/fav_edittext_color"

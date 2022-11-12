@@ -82,6 +82,7 @@
                 android:elevation="4dp"
                 android:inputType="textWebEmailAddress"
                 android:paddingHorizontal="10dp"
+                android:textColorHint="#aaaaaa"
                 android:textColor="@color/fav_edittext_color"
                 android:textCursorDrawable="@drawable/edittext_cursor"
                 app:layout_constraintStart_toStartOf="parent"
@@ -131,6 +132,7 @@
                 android:paddingHorizontal="10dp"
                 android:textColor="@color/fav_edittext_color"
                 android:textCursorDrawable="@drawable/edittext_cursor"
+                android:textColorHint="#aaaaaa"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/community_signin_main_password_text" />
 
