@@ -40,6 +40,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.qonversion.android.sdk.Qonversion;
 import com.qonversion.android.sdk.QonversionError;
 import com.qonversion.android.sdk.QonversionPermissionsCallback;
@@ -200,6 +204,49 @@ public class CommunityMain extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 launcher.launch(new Intent(CommunityMain.this, CommunityProfileCreate.class));
+            }
+        });
+
+        Button test6;
+        test6 = findViewById(R.id.community_main_firestore_test6);
+        test6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        Button test7;
+        test7 = findViewById(R.id.community_main_firestore_test7);
+        test7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseStorage.getInstance().getReference().child("userimages/kmj654649@gmail.coma").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                    @Override
+                    public void onSuccess(ListResult listResult) {
+                        if (listResult.getItems().size() != 0) {
+                            for(StorageReference storageReference : listResult.getItems()) {
+                                Log.d("CommunityMain>>>", "filename: " + storageReference.getName());
+                            }
+                        } else {
+                            Log.d("CommunityMain>>>", "size0");
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("CommunityMain>>>", "error: " + e.getMessage());
+                    }
+                });
+            }
+        });
+
+        Button test8;
+        test8 = findViewById(R.id.community_main_firestore_test8);
+        test8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }

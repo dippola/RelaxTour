@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -93,6 +94,7 @@ public class CommunitySignIn extends AppCompatActivity {
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard(view);
                 errorMessage.setText("");
                 editEmail.setBackground(getResources().getDrawable(R.drawable.edittext));
                 editPassword.setBackground(getResources().getDrawable(R.drawable.edittext));
@@ -124,6 +126,7 @@ public class CommunitySignIn extends AppCompatActivity {
         googleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard(view);
                 load.setVisibility(View.VISIBLE);
                 googleBtn.setEnabled(false);
                 startSignIn();
@@ -135,6 +138,7 @@ public class CommunitySignIn extends AppCompatActivity {
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard(view);
                 launcher.launch(new Intent(CommunitySignIn.this, CommunitySignUp.class));
             }
         });
@@ -277,6 +281,11 @@ public class CommunitySignIn extends AppCompatActivity {
         super.onPause();
         editEmail.setText("");
         editPassword.setText("");
+    }
+
+    private void hideKeyboard(View v) {
+        InputMethodManager manager = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -83,6 +84,7 @@ public class CommunitySignUp extends AppCompatActivity {
         signUpEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard(view);
                 errorMessage.setText("");
                 editEmail.setBackground(getResources().getDrawable(R.drawable.edittext));
                 editPassword1.setBackground(getResources().getDrawable(R.drawable.edittext));
@@ -97,12 +99,17 @@ public class CommunitySignUp extends AppCompatActivity {
                             errorMessage.setText("Password must be at least 8 digits.");
                             editPassword1.setBackground(getResources().getDrawable(R.drawable.edittext_error));
                         } else {
-                            if (!editPassword1.getText().toString().equals(editPassword2.getText().toString())) {
-                                errorMessage.setText("Password does not match.");
-                                editPassword2.setBackground(getResources().getDrawable(R.drawable.edittext_error));
+                            if (editPassword1.getText().toString().length() > 14) {
+                                errorMessage.setText("Password Must be less than 14 digits.");
+                                editPassword1.setBackground(getResources().getDrawable(R.drawable.edittext_error));
                             } else {
-                                load.setVisibility(View.VISIBLE);
-                                checkUserAreadyWhenEmail(editEmail.getText().toString());
+                                if (!editPassword1.getText().toString().equals(editPassword2.getText().toString())) {
+                                    errorMessage.setText("Password does not match.");
+                                    editPassword2.setBackground(getResources().getDrawable(R.drawable.edittext_error));
+                                } else {
+                                    load.setVisibility(View.VISIBLE);
+                                    checkUserAreadyWhenEmail(editEmail.getText().toString());
+                                }
                             }
                         }
                     } else {
@@ -164,6 +171,7 @@ public class CommunitySignUp extends AppCompatActivity {
         signUpGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard(view);
                 load.setVisibility(View.VISIBLE);
                 if (auth.getCurrentUser() == null) {
                     GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -272,6 +280,7 @@ public class CommunitySignUp extends AppCompatActivity {
         goToSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard(view);
                 goBackToSignIn(false);
             }
         });
@@ -299,6 +308,11 @@ public class CommunitySignUp extends AppCompatActivity {
         } else {
             return "";
         }
+    }
+
+    private void hideKeyboard(View v) {
+        InputMethodManager manager = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }
 
