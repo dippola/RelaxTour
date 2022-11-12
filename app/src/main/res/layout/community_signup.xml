@@ -82,6 +82,7 @@
                 android:elevation="4dp"
                 android:inputType="textWebEmailAddress"
                 android:paddingHorizontal="10dp"
+                android:textColor="@color/fav_edittext_color"
                 android:textCursorDrawable="@drawable/edittext_cursor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/community_signup_main_email_text" />
@@ -125,11 +126,13 @@
                 android:drawablePadding="10dp"
                 android:elevation="4dp"
                 android:inputType="textPassword"
+                android:maxLength="14"
                 android:paddingHorizontal="10dp"
+                android:textColor="@color/fav_edittext_color"
                 android:textCursorDrawable="@drawable/edittext_cursor"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/community_signup_main_password_text"
-                android:maxLength="14"/>
+                app:layout_constraintTop_toBottomOf="@+id/community_signup_main_password_text" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
@@ -169,11 +172,13 @@
                 android:drawablePadding="10dp"
                 android:elevation="4dp"
                 android:inputType="textPassword"
+                android:maxLength="14"
                 android:paddingHorizontal="10dp"
+                android:textColor="@color/fav_edittext_color"
                 android:textCursorDrawable="@drawable/edittext_cursor"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/community_signup_main_password_text2"
-                android:maxLength="14"/>
+                app:layout_constraintTop_toBottomOf="@+id/community_signup_main_password_text2" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
@@ -204,17 +209,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/community_signup_error_message"
-            app:layout_constraintWidth_percent="0.8"/>
+            app:layout_constraintWidth_percent="0.8" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/community_signup_orwith"
+            android:layout_marginHorizontal="15dp"
+            android:background="@color/dialog_layout_line_color"
             app:layout_constraintBottom_toBottomOf="@+id/community_signup_orwith"
             app:layout_constraintEnd_toStartOf="@+id/community_signup_orwith"
-            android:background="@color/dialog_layout_line_color"
-            android:layout_marginHorizontal="15dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/community_signup_orwith" />
 
         <TextView
             android:id="@+id/community_signup_orwith"
@@ -229,12 +234,12 @@
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/community_signup_orwith"
-            app:layout_constraintBottom_toBottomOf="@+id/community_signup_orwith"
-            app:layout_constraintStart_toEndOf="@+id/community_signup_orwith"
+            android:layout_marginHorizontal="15dp"
             android:background="@color/dialog_layout_line_color"
-            android:layout_marginHorizontal="15dp"/>
+            app:layout_constraintBottom_toBottomOf="@+id/community_signup_orwith"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/community_signup_orwith"
+            app:layout_constraintTop_toTopOf="@+id/community_signup_orwith" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/community_signup_googlebtn"
@@ -293,17 +298,17 @@
         android:layout_height="match_parent"
         android:background="#7C000000"
         android:clickable="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:translationZ="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:translationZ="4dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:indeterminateTint="@color/button_design_color"
-            />
+            android:indeterminateTint="@color/button_design_color" />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

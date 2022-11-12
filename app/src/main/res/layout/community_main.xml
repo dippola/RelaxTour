@@ -7,108 +7,136 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Community Main Activity"
         android:layout_centerInParent="true"
+        android:text="Community Main Activity"
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
         android:id="@+id/community_main_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#4D000000">
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:indeterminateTint="@color/button_design_color"/>
+            android:indeterminateTint="@color/button_design_color" />
     </RelativeLayout>
 
     <Button
         android:id="@+id/community_main_go_to_signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:text="Go To SignIn"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/community_main_auth"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="Go To SignIn"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"/>
+        app:layout_constraintWidth_percent="0.1" />
+
+    <ProgressBar
+        android:id="@+id/community_main_iconload"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:indeterminateTint="@color/button_design_color"
+        app:layout_constraintBottom_toBottomOf="@+id/community_main_auth"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@+id/community_main_auth"
+        app:layout_constraintStart_toStartOf="@+id/community_main_auth"
+        app:layout_constraintTop_toTopOf="@+id/community_main_auth"
+        app:layout_constraintWidth_percent="0.06" />
 
     <Button
         android:id="@+id/community_main_firestore_test1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="google탈퇴"
         app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test2"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="google탈퇴"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/community_main_firestore_test2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="email탈퇴"
         app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test3"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="email탈퇴"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/community_main_firestore_test3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="logout"
         app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test4"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="logout"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/community_main_firestore_test4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="연결해제"
         app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test5"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="연결해제"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/community_main_firestore_test5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="profile"
         app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test6"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="profile"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/community_main_firestore_test6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="upload"
         app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test7"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="upload"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/community_main_firestore_test7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="search"
         app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test8"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="search"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/community_main_firestore_test8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="store test"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="delete"/>
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

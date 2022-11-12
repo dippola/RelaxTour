@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -16,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.signIn.CommunityAskSignUpDialog;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
@@ -56,6 +60,11 @@ public class CommunityMain extends AppCompatActivity {
 
     private RelativeLayout load;
     private FirebaseAuth auth;
+    private FirebaseFirestore db;
+    private ImageView authicon;
+    private ProgressBar iconload;
+
+    //test
     private Button gosignin;
 
     private DatabaseHandler databaseHandler;
@@ -69,17 +78,63 @@ public class CommunityMain extends AppCompatActivity {
         setContentView(R.layout.community_main);
 
         auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         setDatabaseHandler();
 
-        load = findViewById(R.id.community_main_load);
-        load.setVisibility(View.VISIBLE);
+        setInit();
+        setImageAuthIcon();
+        onClickAuth();
 
         goToSignInButton();
 
 //        checkPremium();
 //        checkAuth();
         test();
+    }
+
+    private void setInit() {
+        load = findViewById(R.id.community_main_load);
+        load.setVisibility(View.VISIBLE);
+        authicon = findViewById(R.id.community_main_auth);
+        iconload = findViewById(R.id.community_main_iconload);
+    }
+
+    private void setImageAuthIcon() {
+        if (auth.getCurrentUser() == null) {
+            Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nulluser)).transform(new CircleCrop()).into(authicon);
+            iconload.setVisibility(View.GONE);
+        } else {
+            db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        if (documentSnapshot.get("imageurl") != null) {
+                            Log.d("CommunityMain>>>", "1");
+                            Glide.with(CommunityMain.this).load(documentSnapshot.get("imageurl").toString()).transform(new CircleCrop()).into(authicon);
+                        } else {
+                            Log.d("CommunityMain>>>", "2");
+                            Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(authicon);
+                        }
+                        iconload.setVisibility(View.GONE);
+                    }
+                }
+            });
+        }
+    }
+
+    private void onClickAuth() {
+        authicon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (auth.getCurrentUser() == null) {
+                    launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
+                } else {
+                    startActivity(new Intent(CommunityMain.this, CommunityAuth.class));
+                }
+            }
+        });
     }
 
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -92,6 +147,7 @@ public class CommunityMain extends AppCompatActivity {
             } else if (result.getResultCode() == FROM_CREATE_PROFILE) {
                 if (result.getData().getBooleanExtra("isCreate", false)) {
                     //create profile
+                    iconload.setVisibility(View.VISIBLE);//reset
                 } else {
                     //no create profile
                 }
@@ -246,7 +302,20 @@ public class CommunityMain extends AppCompatActivity {
         test8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            if (documentSnapshot.get("providerr") == null) {
+                                Log.d("CommunityMain>>>", "is null");
+                            } else {
+                                Log.d("CommunityMain>>>", "is: " + documentSnapshot.get("provider").toString());
+                            }
+//                            Log.d("CommunityMain>>>", "get: " + documentSnapshot.get("providerr").toString());
+                        }
+                    }
+                });
             }
         });
     }
@@ -272,6 +341,26 @@ public class CommunityMain extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Log.d("CommunityMain>>>", "firestore delete user successed");
+                                    FirebaseStorage.getInstance().getReference().child("userimages/kmj654649@gmail.coma").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                                        @Override
+                                        public void onSuccess(ListResult listResult) {
+                                            if (listResult.getItems().size() != 0) {
+                                                for(StorageReference storageReference : listResult.getItems()) {
+                                                    Log.d("CommunityMain>>>", "filename: " + storageReference.getName());
+                                                    storageReference.delete();
+                                                }
+                                            } else {
+                                                Log.d("CommunityMain>>>", "size0");
+                                            }
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d("CommunityMain>>>", "error: " + e.getMessage());
+                                        }
+                                    });
+
+
                                     auth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {

@@ -220,7 +220,7 @@ public class CommunityProfileCreate extends AppCompatActivity {
         Map<String, Object> map = new HashMap<>();
         map.put("nickname", editNickname.getText().toString());
         if (uri != null && uri.length() != 0) {
-            map.put("imageuri", uri);
+            map.put("imageurl", uri);
         }
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users").document(auth.getCurrentUser().getEmail()).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
