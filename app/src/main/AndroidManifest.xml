@@ -46,7 +46,7 @@
         <activity android:name=".community.signIn.CommunityProfileCreate" android:screenOrientation="portrait" />
         <activity android:name=".community.signIn.CommunityAskSignUpDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".community.signIn.CommunityAlreadyUserDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
-        <activity android:name=".community.CommunityAuth" android:screenOrientation="portrait" />
+        <activity android:name=".community.auth.CommunityAuth" android:screenOrientation="portrait" />
         <activity android:name=".dialog.Premium" android:screenOrientation="portrait"/>
         <activity android:name=".dialog.ResetDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".dialog.credit_dialog.CreditDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>

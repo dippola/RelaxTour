@@ -5,6 +5,22 @@
     android:layout_height="match_parent"
     android:background="@color/auth_background">
 
+    <RelativeLayout
+        android:id="@+id/community_auth_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#7C000000"
+        android:clickable="true"
+        android:translationZ="9dp"
+        android:visibility="gone">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/button_design_color"
+            />
+    </RelativeLayout>
+
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -34,14 +50,15 @@
         android:id="@+id/community_auth_topbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingStart="10dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="10dp"
+        android:paddingStart="20dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
+            android:id="@+id/community_auth_goback"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:background="@drawable/community_auth_back"
@@ -49,6 +66,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+            android:id="@+id/community_auth_change_profile"
             android:layout_width="33dp"
             android:layout_height="33dp"
             android:background="@drawable/community_auth_edit_icon"
@@ -94,7 +112,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.1"
-            app:layout_constraintWidth_percent="0.25" />
+            app:layout_constraintWidth_percent="0.3" />
 
         <View
             android:id="@+id/community_auth_line1"
@@ -146,7 +164,6 @@
                 android:id="@+id/community_auth_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_chainStyle="packed"
@@ -162,7 +179,7 @@
         android:id="@+id/community_auth_bottom_bigbox"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -180,7 +197,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/community_auth_sbox0_in1"
+            android:id="@+id/community_auth_post_box"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
@@ -188,7 +205,8 @@
             android:background="@drawable/community_auth_box_round"
             android:elevation="5dp"
             android:paddingVertical="15dp"
-            app:layout_constraintEnd_toStartOf="@+id/community_auth_sbox0_in2"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/community_auth_comment_box"
             app:layout_constraintStart_toStartOf="@+id/community_auth_guide3"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -218,15 +236,16 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/community_auth_sbox0_in2"
+            android:id="@+id/community_auth_comment_box"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
             android:background="@drawable/community_auth_box_round"
             android:elevation="5dp"
             android:paddingVertical="15dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintEnd_toEndOf="@+id/community_auth_guide3"
-            app:layout_constraintStart_toEndOf="@+id/community_auth_sbox0_in1"
+            app:layout_constraintStart_toEndOf="@+id/community_auth_post_box"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
@@ -234,7 +253,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="My Commend"
+                android:text="My Comment"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/community_auth_commend_count"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -265,7 +284,7 @@
             app:layout_constraintBottom_toTopOf="@+id/community_auth_bottom_sbox2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_auth_sbox0_in1"
+            app:layout_constraintTop_toBottomOf="@+id/community_auth_post_box"
             app:layout_constraintWidth_percent="0.8">
 
             <TextView
@@ -310,7 +329,7 @@
                 android:id="@+id/community_auth_delete_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sign Out"
+                android:text="Delete Account"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/community_auth_goto2"

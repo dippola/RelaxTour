@@ -1,10 +1,8 @@
-package com.dippola.relaxtour.community.signIn;
+package com.dippola.relaxtour.community.auth;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -23,10 +21,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.community.CommunityMain;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
@@ -40,7 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class CommunityProfileCreate extends AppCompatActivity {
+public class CommunityProfileChange extends AppCompatActivity {
 
     private ImageView img;
     private TextView addPic, count, skip, error;
@@ -49,47 +49,65 @@ public class CommunityProfileCreate extends AppCompatActivity {
     private RelativeLayout load;
     private Uri imageUri;
     private FirebaseAuth auth;
+    private FirebaseFirestore db;
+    private String beforeNickname;
+    private boolean isChangePic;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.community_profile_create);
+        setContentView(R.layout.community_profile_change);
 
         setInit();
-        setImage();
-        onClickSkip();
+        setUserData();
+        onClickDeletePic();
         onClickAddPic();
         onClickOk();
-        onClickDeletePic();
-        editTextSetCount();
     }
 
     private void setInit() {
         auth = FirebaseAuth.getInstance();
-        img = findViewById(R.id.community_profile_create_img);
-        addPic = findViewById(R.id.community_profile_create_photobtn);
-        count = findViewById(R.id.community_profile_create_count);
-        skip = findViewById(R.id.community_profile_create_skip);
-        deletePic = findViewById(R.id.community_profile_create_cancel_img);
-        ok = findViewById(R.id.community_profile_create_okbtn);
-        editNickname = findViewById(R.id.community_profile_create_edit_nickname);
-        error = findViewById(R.id.community_profile_create_errortext);
-        load = findViewById(R.id.community_profile_create_load);
+        db = FirebaseFirestore.getInstance();
+        img = findViewById(R.id.community_profile_change_img);
+        addPic = findViewById(R.id.community_profile_change_photobtn);
+        count = findViewById(R.id.community_profile_change_count);
+        skip = findViewById(R.id.community_profile_change_skip);
+        deletePic = findViewById(R.id.community_profile_change_cancel_img);
+        ok = findViewById(R.id.community_profile_change_okbtn);
+        editNickname = findViewById(R.id.community_profile_change_edit_nickname);
+        error = findViewById(R.id.community_profile_change_errortext);
+        load = findViewById(R.id.community_profile_change_load);
         load.setVisibility(View.GONE);
+    }
+
+    private void setUserData() {
+        db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().get("imageurl") != null) {
+                        Glide.with(CommunityProfileChange.this).load(task.getResult().get("imageurl").toString()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                    } else {
+                        Glide.with(CommunityProfileChange.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                    }
+                    editNickname.setText(task.getResult().get("nickname").toString());
+                    beforeNickname = task.getResult().get("nickname").toString();
+                } else {
+                    Toast.makeText(CommunityProfileChange.this, "Profile load failed due to unstable internet.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void onClickDeletePic() {
         deletePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isChangePic = true;
                 imageUri = null;
-                Glide.with(CommunityProfileCreate.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(100)).into(img);
+                Glide.with(CommunityProfileChange.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(100)).into(img);
             }
         });
-    }
-
-    private void setImage() {
-        Glide.with(CommunityProfileCreate.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(100)).into(img);
     }
 
     private void onClickAddPic() {
@@ -116,10 +134,10 @@ public class CommunityProfileCreate extends AppCompatActivity {
                 int dataSize = fileInputStream.available();
                 Log.d("ProfileCreate>>>", "size: " + dataSize);
                 if (dataSize < 5242880) {
-                    Glide.with(CommunityProfileCreate.this).load(imageUri).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                    Glide.with(CommunityProfileChange.this).load(imageUri).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                 } else {
                     imageUri = null;
-                    Toast.makeText(CommunityProfileCreate.this, "Maximum image capacity available for selection is 5 MB", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CommunityProfileChange.this, "Maximum image capacity available for selection is 5 MB", Toast.LENGTH_SHORT).show();
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -153,7 +171,7 @@ public class CommunityProfileCreate extends AppCompatActivity {
                     } else {
                         if (auth.getCurrentUser() != null) {
                             load.setVisibility(View.VISIBLE);
-                            uploadPic();
+                            uploadPic1();
                         }
                     }
                 }
@@ -161,28 +179,52 @@ public class CommunityProfileCreate extends AppCompatActivity {
         });
     }
 
-    private void editTextSetCount() {
-        editNickname.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    private void uploadPic1() {
+        if (imageUri != null) {//add or change
+            FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail()).listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                @Override
+                public void onSuccess(ListResult listResult) {
+                    if (listResult.getItems().size() == 0) {
+                        uploadPic2(null);
+                    } else {
+                        for (StorageReference storageReference : listResult.getItems()) {
+                            storageReference.delete();
+                        }
+                        uploadPic2(auth.getCurrentUser().getEmail().toString().substring(auth.getCurrentUser().getEmail().toString().length() - 1));
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
 
-            }
+                }
+            });
+        } else {//no have or delete
+            FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail()).listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                @Override
+                public void onSuccess(ListResult listResult) {
+                    if (listResult.getItems().size() == 0) {
+                        updateUserFirestore(null);
+                    } else {
+                        for (StorageReference storageReference : listResult.getItems()) {
+                            storageReference.delete();
+                        }
+                        updateUserFirestore(null);
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                count.setText(editNickname.getText().toString().length() + " / 14");
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
+                }
+            });
+        }
     }
 
-    private void uploadPic() {
-        if (imageUri != null) {
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail() + "1/" + auth.getCurrentUser().getEmail());
+    private void uploadPic2(String lastword) {
+        StorageReference storageReference;
+        if (lastword == null || lastword.equals("1")) {
+            storageReference = FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail() + "2/" + auth.getCurrentUser().getEmail());
             storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -202,11 +244,33 @@ public class CommunityProfileCreate extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.d("CommunityMain>>>", "failed");
-                    Toast.makeText(CommunityProfileCreate.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CommunityProfileChange.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
-        } else {
-            updateUserFirestore(null);
+        } else if (lastword.equals("2")) {
+            storageReference = FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail() + "1/" + auth.getCurrentUser().getEmail());
+            storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            updateUserFirestore(uri.toString());
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("CommunityMain>>>", "failed");
+                    Toast.makeText(CommunityProfileChange.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
@@ -214,18 +278,19 @@ public class CommunityProfileCreate extends AppCompatActivity {
         Map<String, Object> map = new HashMap<>();
         map.put("nickname", editNickname.getText().toString());
         if (uri != null && uri.length() != 0) {
+            isChangePic = true;
             map.put("imageurl", uri);
         }
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users").document(auth.getCurrentUser().getEmail()).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                goToMain();
+                goToAuth();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(CommunityProfileCreate.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CommunityProfileChange.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 FirebaseStorage.getInstance().getReference().listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
                     @Override
                     public void onSuccess(ListResult listResult) {
@@ -234,28 +299,29 @@ public class CommunityProfileCreate extends AppCompatActivity {
                                 FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail() + "/" + storageReference.getName()).delete();
                             }
                         }
-                        goToMain();
+                        goToAuth();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CommunityProfileCreate.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CommunityProfileChange.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
     }
 
-    private void onClickSkip() {
-        skip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CommunityProfileCreate.this, CommunityMain.class);
-                intent.putExtra("isCreate", false);
-                setResult(CommunityMain.FROM_CREATE_PROFILE, intent);
-                finish();
-            }
-        });
+    private void goToAuth() {
+        Toast.makeText(CommunityProfileChange.this, "Create Profile Successful", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(CommunityProfileChange.this, CommunityAuth.class);
+        if (beforeNickname.equals(editNickname.getText().toString())) {
+            intent.putExtra("isNicknameChange", false);
+        } else {
+            intent.putExtra("isNicknameChange", true);
+        }
+        intent.putExtra("isPicChange", isChangePic);
+        setResult(CommunityAuth.FROM_CHANGE_PROFILE, intent);
+        finish();
     }
 
     @Override
@@ -268,17 +334,5 @@ public class CommunityProfileCreate extends AppCompatActivity {
     private void hideKeyboard(View v) {
         InputMethodManager manager = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
-    private void goToMain() {
-        Toast.makeText(CommunityProfileCreate.this, "Create Profile Successful", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(CommunityProfileCreate.this, CommunityMain.class);
-        if (imageUri != null) {
-            intent.putExtra("isCreatePic", true);
-        } else {
-            intent.putExtra("isCreatePic", false);
-        }
-
-        finish();
     }
 }
