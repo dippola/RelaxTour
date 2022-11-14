@@ -190,7 +190,7 @@ public class CommunityProfileCreate extends AppCompatActivity {
 
     private void uploadPic() {
         if (imageUri != null) {
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail() + "1/" + auth.getCurrentUser().getEmail());
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail() + "/" + auth.getCurrentUser().getEmail() + "1");
             storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

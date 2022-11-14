@@ -187,10 +187,12 @@ public class CommunityProfileChange extends AppCompatActivity {
                     if (listResult.getItems().size() == 0) {
                         uploadPic2(null);
                     } else {
+                        String itemname = "";
                         for (StorageReference storageReference : listResult.getItems()) {
+                            itemname = storageReference.getName().toString();
                             storageReference.delete();
                         }
-                        uploadPic2(auth.getCurrentUser().getEmail().toString().substring(auth.getCurrentUser().getEmail().toString().length() - 1));
+                        uploadPic2(itemname.substring(itemname.length() - 1));
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -224,7 +226,7 @@ public class CommunityProfileChange extends AppCompatActivity {
     private void uploadPic2(String lastword) {
         StorageReference storageReference;
         if (lastword == null || lastword.equals("1")) {
-            storageReference = FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail() + "2/" + auth.getCurrentUser().getEmail());
+            storageReference = FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail() + "/" + auth.getCurrentUser().getEmail() + "2");
             storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -248,7 +250,7 @@ public class CommunityProfileChange extends AppCompatActivity {
                 }
             });
         } else if (lastword.equals("2")) {
-            storageReference = FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail() + "1/" + auth.getCurrentUser().getEmail());
+            storageReference = FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail() + "/" + auth.getCurrentUser().getEmail() + "1");
             storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -319,7 +321,7 @@ public class CommunityProfileChange extends AppCompatActivity {
         } else {
             intent.putExtra("isNicknameChange", true);
         }
-        intent.putExtra("isPicChange", isChangePic);
+        intent.putExtra("isChangePic", isChangePic);
         setResult(CommunityAuth.FROM_CHANGE_PROFILE, intent);
         finish();
     }

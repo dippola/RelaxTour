@@ -144,7 +144,7 @@
         android:id="@+id/community_main_firestore_test9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="go to auth"
+        android:text="비밀번호 맞는지"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

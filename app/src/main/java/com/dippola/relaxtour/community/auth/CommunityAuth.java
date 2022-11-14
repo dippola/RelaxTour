@@ -2,9 +2,11 @@ package com.dippola.relaxtour.community.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -23,16 +26,32 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.CommunityMain;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
 
 public class CommunityAuth extends AppCompatActivity {
 
     public static final int FROM_CHANGE_PROFILE = 100;
     public static final int FROM_CREATE_PROFILE = 99;
+    public static final int FROM_ASK_SIGNOUT = 98;
+    public static final int FROM_DELETE_ACCOUNT = 97;
+    public static final int FROM_GOOGLE_CLIENT = 96;
 
     private ImageView img;
     private TextView nickname, email;
@@ -40,6 +59,8 @@ public class CommunityAuth extends AppCompatActivity {
     private FirebaseAuth auth;
     private RelativeLayout load;
     private Button back, editprofile;
+    private ProgressBar imgload;
+    private ConstraintLayout signout, deleteaccount;
     private boolean isChangePic;
 
     @Override
@@ -48,9 +69,10 @@ public class CommunityAuth extends AppCompatActivity {
         setContentView(R.layout.community_auth);
 
         setInit();
-        setProfile();
         onClickEditProfile();
         setBack();
+        onClickSignOut();
+        onClickDeleteAccount();
     }
 
     private void setInit() {
@@ -61,8 +83,12 @@ public class CommunityAuth extends AppCompatActivity {
         email = findViewById(R.id.community_auth_email);
         back = findViewById(R.id.community_auth_goback);
         editprofile = findViewById(R.id.community_auth_change_profile);
+        imgload = findViewById(R.id.community_auth_img_progressbar);
         load = findViewById(R.id.community_auth_load);
-        load.setVisibility(View.VISIBLE);
+        load.setVisibility(View.GONE);
+        signout = findViewById(R.id.community_auth_sign_out);
+        deleteaccount = findViewById(R.id.community_auth_delete_account);
+        setProfile();
     }
 
     private void setBack() {
@@ -73,6 +99,36 @@ public class CommunityAuth extends AppCompatActivity {
                 intent.putExtra("isChangePic", isChangePic);
                 setResult(CommunityMain.FROM_AUTH, intent);
                 finish();
+            }
+        });
+    }
+
+    private void onClickSignOut() {
+        signout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityAuth.this, CommunityAskSignOutDialog.class);
+                intent.putExtra("email", auth.getCurrentUser().getEmail().toString());
+                launcher.launch(intent);
+            }
+        });
+    }
+
+    private void onClickDeleteAccount() {
+        deleteaccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            Intent intent = new Intent(CommunityAuth.this, CommunityAskDeleteAccountDialog.class);
+                            intent.putExtra("email", auth.getCurrentUser().getEmail().toString());
+                            intent.putExtra("provider", task.getResult().get("provider").toString());
+                            launcher.launch(intent);
+                        }
+                    }
+                });
             }
         });
     }
@@ -93,6 +149,7 @@ public class CommunityAuth extends AppCompatActivity {
                         nickname.setText("nickname not set");
                     }
                     email.setText(auth.getCurrentUser().getEmail());
+                    imgload.setVisibility(View.GONE);
                     load.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(CommunityAuth.this, "Profile load failed due to unstable internet.", Toast.LENGTH_SHORT).show();
@@ -134,6 +191,7 @@ public class CommunityAuth extends AppCompatActivity {
         public void onActivityResult(ActivityResult result) {
             if (result.getResultCode() == FROM_CHANGE_PROFILE) {
                 if (result.getData().getBooleanExtra("isChangePic", false)) {
+                    imgload.setVisibility(View.VISIBLE);
                     isChangePic = true;
                     db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -144,6 +202,7 @@ public class CommunityAuth extends AppCompatActivity {
                                 } else {
                                     Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                                 }
+                                imgload.setVisibility(View.GONE);
                             }
                         }
                     });
@@ -172,31 +231,183 @@ public class CommunityAuth extends AppCompatActivity {
                 }
 
                 if (result.getData().getBooleanExtra("isCreatePic", false)) {
-                    if (result.getData().getBooleanExtra("isChangeNickname", false)) {
-                        isChangePic = true;
-                        db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    if (task.getResult().get("imageurl") != null) {
-                                        Glide.with(CommunityAuth.this).load(task.getResult().get("imageurl").toString()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
-                                    } else {
-                                        Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
-                                    }
+                    imgload.setVisibility(View.VISIBLE);
+                    isChangePic = true;
+                    db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                if (task.getResult().get("imageurl") != null) {
+                                    Glide.with(CommunityAuth.this).load(task.getResult().get("imageurl").toString()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                                } else {
+                                    Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                                 }
+                                imgload.setVisibility(View.GONE);
                             }
-                        });
+                        }
+                    });
+                }
+            } else if (result.getResultCode() == FROM_ASK_SIGNOUT) {
+                if (result.getData().getBooleanExtra("willSignout", false)) {
+                    load.setVisibility(View.VISIBLE);
+                    auth.signOut();
+                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestIdToken(getString(R.string.default_web_client_id))
+                            .requestEmail()
+                            .build();
+                    GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(CommunityAuth.this, gso);
+                    googleSignInClient.signOut();
+                    Toast.makeText(CommunityAuth.this, "Signed Out", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CommunityAuth.this, CommunityMain.class);
+                    intent.putExtra("isSignout", true);
+                    setResult(CommunityMain.FROM_AUTH, intent);
+                    finish();
+                }
+            } else if (result.getResultCode() == FROM_DELETE_ACCOUNT) {
+                if (result.getData().getBooleanExtra("willDelete", false)) {
+                    load.setVisibility(View.VISIBLE);
+                    if (result.getData().getStringExtra("provider").equals("email")) {
+                        deleteEmailUser(result.getData().getStringExtra("password"));
+                    } else {
+                        deleteGoogleUser();
                     }
                 }
             }
         }
     });
 
+    private void deleteEmailUser(String password) {
+        AuthCredential authCredential = EmailAuthProvider.getCredential(auth.getCurrentUser().getEmail(), password);
+        auth.getCurrentUser().reauthenticate(authCredential).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("users").document(auth.getCurrentUser().getEmail()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        FirebaseStorage.getInstance().getReference().child("userimages/kmj654649@gmail.coma").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                            @Override
+                            public void onSuccess(ListResult listResult) {
+                                if (listResult.getItems().size() != 0) {
+                                    for(StorageReference storageReference : listResult.getItems()) {
+                                        storageReference.delete();
+                                    }
+                                } else {
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("CommunityMain>>>", "error: " + e.getMessage());
+                            }
+                        });
+
+                        auth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Toast.makeText(CommunityAuth.this, "delete success", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(CommunityAuth.this, CommunityMain.class);
+                                intent.putExtra("isDeleteUser", true);
+                                setResult(CommunityMain.FROM_AUTH, intent);
+                                finish();
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("CommunityMain>>>", "firestore delete user failed");
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("CommunityMain>>>", "onFailure");
+            }
+        });
+    }
+
+    private void deleteGoogleUser() {
+        if (auth.getCurrentUser() != null) {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
+            GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(CommunityAuth.this, gso);
+            Intent signInIntent = googleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, FROM_GOOGLE_CLIENT);
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == FROM_GOOGLE_CLIENT) {
+            load.setVisibility(View.VISIBLE);
+            if (auth.getCurrentUser() != null) {
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                try {
+                    // Google Sign In was successful, authenticate with Firebase
+                    GoogleSignInAccount account = task.getResult(ApiException.class);
+                    AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+                    auth.getCurrentUser().reauthenticate(authCredential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            db.collection("users").document(auth.getCurrentUser().getEmail()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    FirebaseStorage.getInstance().getReference().child("userimages/kmj654649@gmail.coma").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                                        @Override
+                                        public void onSuccess(ListResult listResult) {
+                                            if (listResult.getItems().size() != 0) {
+                                                for(StorageReference storageReference : listResult.getItems()) {
+                                                    storageReference.delete();
+                                                }
+                                            } else {
+                                            }
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d("CommunityMain>>>", "error: " + e.getMessage());
+                                        }
+                                    });
+
+                                    auth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Toast.makeText(CommunityAuth.this, "delete success", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(CommunityAuth.this, CommunityMain.class);
+                                            intent.putExtra("isDeleteUser", true);
+                                            setResult(CommunityMain.FROM_AUTH, intent);
+                                            finish();
+                                        }
+                                    });
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("CommunityMain>>>", "firestore delete user failed");
+                                }
+                            });
+                        }
+                    });
+                } catch (ApiException e) {
+                    // Google Sign In failed, update UI appropriately
+                    Log.d("CommunityLogin>>>", "Google sign in failed", e);
+                }
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(CommunityAuth.this, CommunityMain.class);
-        intent.putExtra("isChangePic", isChangePic);
-        setResult(CommunityMain.FROM_AUTH, intent);
-        super.onBackPressed();
+        if (load.getVisibility() == View.GONE) {
+            Intent intent = new Intent(CommunityAuth.this, CommunityMain.class);
+            intent.putExtra("isChangePic", isChangePic);
+            setResult(CommunityMain.FROM_AUTH, intent);
+            super.onBackPressed();
+        }
     }
 }

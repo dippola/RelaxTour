@@ -138,8 +138,7 @@ public class CommunityMain extends AppCompatActivity {
                 }
             } else if (result.getResultCode() == FROM_CREATE_PROFILE) {
                 if (result.getData().getBooleanExtra("isCreatePic", false)) {
-                    //create profile
-                    iconload.setVisibility(View.VISIBLE);//reset
+                    iconload.setVisibility(View.VISIBLE);
                     db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -158,8 +157,8 @@ public class CommunityMain extends AppCompatActivity {
                     Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(authicon);
                 }
             } else if (result.getResultCode() == FROM_AUTH) {
-                iconload.setVisibility(View.VISIBLE);
                 if (result.getData().getBooleanExtra("isChangePic", false)) {
+                    iconload.setVisibility(View.VISIBLE);
                     db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -174,6 +173,20 @@ public class CommunityMain extends AppCompatActivity {
                             }
                         }
                     });
+                }
+                if (result.getData().getBooleanExtra("isSignout", false)) {
+                    if (auth.getCurrentUser() == null) {
+                        iconload.setVisibility(View.VISIBLE);
+                        Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nulluser)).transform(new CircleCrop()).into(authicon);
+                        iconload.setVisibility(View.GONE);
+                    }
+                }
+                if (result.getData().getBooleanExtra("isDeleteUser", false)) {
+                    if (auth.getCurrentUser() == null) {
+                        iconload.setVisibility(View.VISIBLE);
+                        Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nulluser)).transform(new CircleCrop()).into(authicon);
+                        iconload.setVisibility(View.GONE);
+                    }
                 }
             }
         }
@@ -349,7 +362,18 @@ public class CommunityMain extends AppCompatActivity {
         test9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launcher.launch(new Intent(CommunityMain.this, CommunityAuth.class));
+                AuthCredential authCredential = EmailAuthProvider.getCredential("kmj654649@gmail.com", "shangus12!");
+                auth.getCurrentUser().reauthenticate(authCredential).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("CommunityMain>>>", "onSuccess");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("CommunityMain>>>", "onFailure");
+                    }
+                });
             }
         });
     }

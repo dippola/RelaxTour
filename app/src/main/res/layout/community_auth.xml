@@ -102,8 +102,8 @@
         app:layout_constraintTop_toBottomOf="@+id/community_auth_title"
         app:layout_constraintWidth_percent="0.8">
 
-        <ImageView
-            android:id="@+id/community_auth_img"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/community_auth_img_layout"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -112,7 +112,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.1"
-            app:layout_constraintWidth_percent="0.3" />
+            app:layout_constraintWidth_percent="0.3">
+            <ProgressBar
+                android:id="@+id/community_auth_img_progressbar"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5"
+                android:indeterminateTint="@color/button_design_color"/>
+            <ImageView
+                android:id="@+id/community_auth_img"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <View
             android:id="@+id/community_auth_line1"
@@ -123,7 +147,7 @@
             app:layout_constraintBottom_toTopOf="@+id/community_auth_nickname"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_auth_img"
+            app:layout_constraintTop_toBottomOf="@+id/community_auth_img_layout"
             app:layout_constraintWidth_percent="0.8" />
 
         <TextView
@@ -273,7 +297,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/community_auth_bottom_sbox1"
+            android:id="@+id/community_auth_sign_out"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -281,7 +305,7 @@
             android:elevation="5dp"
             android:paddingHorizontal="30dp"
             android:paddingVertical="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/community_auth_bottom_sbox2"
+            app:layout_constraintBottom_toTopOf="@+id/community_auth_delete_account"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/community_auth_post_box"
@@ -312,7 +336,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/community_auth_bottom_sbox2"
+            android:id="@+id/community_auth_delete_account"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -322,7 +346,7 @@
             android:paddingVertical="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_auth_bottom_sbox1"
+            app:layout_constraintTop_toBottomOf="@+id/community_auth_sign_out"
             app:layout_constraintWidth_percent="0.8">
 
             <TextView
