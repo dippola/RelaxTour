@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -121,7 +122,6 @@ public class CommunityMain extends AppCompatActivity {
                     launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
                 } else {
                     launcher.launch(new Intent(CommunityMain.this, CommunityAuth.class));
-                    startActivity(new Intent(CommunityMain.this, CommunityAuth.class));
                 }
             }
         });
@@ -130,9 +130,11 @@ public class CommunityMain extends AppCompatActivity {
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
-            if (result.getResultCode() == NEED_CREATE_PROFILE) {
+            if (result.getResultCode() == NEED_CREATE_PROFILE) {//when sign up
                 if (result.getData().getBooleanExtra("need_create_profile", false)) {
-                    launcher.launch(new Intent(CommunityMain.this, CommunityProfileCreate.class));
+                    Intent intent = new Intent(CommunityMain.this, CommunityProfileCreate.class);
+                    intent.putExtra("from", "main");
+                    launcher.launch(intent);
                 }
             } else if (result.getResultCode() == FROM_CREATE_PROFILE) {
                 if (result.getData().getBooleanExtra("isCreatePic", false)) {

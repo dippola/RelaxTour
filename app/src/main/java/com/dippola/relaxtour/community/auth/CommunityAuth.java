@@ -32,13 +32,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class CommunityAuth extends AppCompatActivity {
 
     public static final int FROM_CHANGE_PROFILE = 100;
+    public static final int FROM_CREATE_PROFILE = 99;
 
     private ImageView img;
     private TextView nickname, email;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private RelativeLayout load;
-    private Button back, changeprofile;
+    private Button back, editprofile;
     private boolean isChangePic;
 
     @Override
@@ -48,7 +49,7 @@ public class CommunityAuth extends AppCompatActivity {
 
         setInit();
         setProfile();
-        onClickChangeProfile();
+        onClickEditProfile();
         setBack();
     }
 
@@ -59,7 +60,7 @@ public class CommunityAuth extends AppCompatActivity {
         nickname = findViewById(R.id.community_auth_nickname);
         email = findViewById(R.id.community_auth_email);
         back = findViewById(R.id.community_auth_goback);
-        changeprofile = findViewById(R.id.community_auth_change_profile);
+        editprofile = findViewById(R.id.community_auth_change_profile);
         load = findViewById(R.id.community_auth_load);
         load.setVisibility(View.VISIBLE);
     }
@@ -89,7 +90,7 @@ public class CommunityAuth extends AppCompatActivity {
                     if (task.getResult().get("nickname") != null) {
                         nickname.setText(task.getResult().get("nickname").toString());
                     } else {
-                        nickname.setText("nickname");
+                        nickname.setText("nickname not set");
                     }
                     email.setText(auth.getCurrentUser().getEmail());
                     load.setVisibility(View.GONE);
@@ -100,11 +101,30 @@ public class CommunityAuth extends AppCompatActivity {
         });
     }
 
-    private void onClickChangeProfile() {
-        changeprofile.setOnClickListener(new View.OnClickListener() {
+    private void onClickEditProfile() {
+        editprofile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launcher.launch(new Intent(CommunityAuth.this, CommunityProfileChange.class));
+                load.setVisibility(View.VISIBLE);
+
+                if (nickname.getText().toString().equals("nickname not set")) {
+                    Intent intent = new Intent(CommunityAuth.this, CommunityProfileCreate.class);
+                    intent.putExtra("from", "auth");
+                    launcher.launch(intent);
+                    load.setVisibility(View.GONE);
+                } else {
+                    db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                if (task.getResult().get("nickname") != null) {
+                                    launcher.launch(new Intent(CommunityAuth.this, CommunityProfileChange.class));
+                                    load.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+                    });
+                }
             }
         });
     }
@@ -138,6 +158,35 @@ public class CommunityAuth extends AppCompatActivity {
                             }
                         }
                     });
+                }
+            } else if (result.getResultCode() == FROM_CREATE_PROFILE) {
+                if (result.getData().getBooleanExtra("isCreate", false)) {
+                    db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                nickname.setText(task.getResult().get("nickname").toString());
+                            }
+                        }
+                    });
+                }
+
+                if (result.getData().getBooleanExtra("isCreatePic", false)) {
+                    if (result.getData().getBooleanExtra("isChangeNickname", false)) {
+                        isChangePic = true;
+                        db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    if (task.getResult().get("imageurl") != null) {
+                                        Glide.with(CommunityAuth.this).load(task.getResult().get("imageurl").toString()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                                    } else {
+                                        Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                                    }
+                                }
+                            }
+                        });
+                    }
                 }
             }
         }

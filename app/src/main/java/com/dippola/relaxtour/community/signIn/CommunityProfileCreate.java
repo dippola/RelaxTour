@@ -24,6 +24,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.CommunityMain;
+import com.dippola.relaxtour.community.auth.CommunityAuth;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,6 +50,8 @@ public class CommunityProfileCreate extends AppCompatActivity {
     private RelativeLayout load;
     private Uri imageUri;
     private FirebaseAuth auth;
+    private String from;
+    private boolean isCreate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class CommunityProfileCreate extends AppCompatActivity {
         setContentView(R.layout.community_profile_create);
 
         setInit();
+        getFrom();
         setImage();
         onClickSkip();
         onClickAddPic();
@@ -76,6 +80,10 @@ public class CommunityProfileCreate extends AppCompatActivity {
         error = findViewById(R.id.community_profile_create_errortext);
         load = findViewById(R.id.community_profile_create_load);
         load.setVisibility(View.GONE);
+    }
+
+    private void getFrom() {
+        from = getIntent().getStringExtra("from");
     }
 
     private void onClickDeletePic() {
@@ -220,7 +228,8 @@ public class CommunityProfileCreate extends AppCompatActivity {
         db.collection("users").document(auth.getCurrentUser().getEmail()).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                goToMain();
+                isCreate = true;
+                goToBack();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -234,7 +243,7 @@ public class CommunityProfileCreate extends AppCompatActivity {
                                 FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail() + "/" + storageReference.getName()).delete();
                             }
                         }
-                        goToMain();
+                        goToBack();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -270,15 +279,28 @@ public class CommunityProfileCreate extends AppCompatActivity {
         manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    private void goToMain() {
-        Toast.makeText(CommunityProfileCreate.this, "Create Profile Successful", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(CommunityProfileCreate.this, CommunityMain.class);
-        if (imageUri != null) {
-            intent.putExtra("isCreatePic", true);
-        } else {
-            intent.putExtra("isCreatePic", false);
+    private void goToBack() {
+        if (from.equals("main")) {
+            Toast.makeText(CommunityProfileCreate.this, "Create Profile Successful", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CommunityProfileCreate.this, CommunityMain.class);
+            if (imageUri != null) {
+                intent.putExtra("isCreatePic", true);
+            } else {
+                intent.putExtra("isCreatePic", false);
+            }
+            setResult(CommunityMain.FROM_CREATE_PROFILE, intent);
+            finish();
+        } else if (from.equals("auth")) {
+            Toast.makeText(CommunityProfileCreate.this, "Create Profile Successful", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CommunityProfileCreate.this, CommunityAuth.class);
+            if (imageUri != null) {
+                intent.putExtra("isCreatePic", true);
+            } else {
+                intent.putExtra("isCreatePic", false);
+            }
+            intent.putExtra("isCreate", isCreate);
+            setResult(CommunityAuth.FROM_CREATE_PROFILE, intent);
+            finish();
         }
-
-        finish();
     }
 }
