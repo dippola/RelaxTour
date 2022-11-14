@@ -53,7 +53,7 @@ public class CommunityAuth extends AppCompatActivity {
     public static final int FROM_DELETE_ACCOUNT = 97;
     public static final int FROM_GOOGLE_CLIENT = 96;
 
-    private ImageView img;
+    private ImageView img, provicerIcon;
     private TextView nickname, email;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
@@ -62,6 +62,7 @@ public class CommunityAuth extends AppCompatActivity {
     private ProgressBar imgload;
     private ConstraintLayout signout, deleteaccount;
     private boolean isChangePic;
+    private String provider;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,6 +89,7 @@ public class CommunityAuth extends AppCompatActivity {
         load.setVisibility(View.GONE);
         signout = findViewById(R.id.community_auth_sign_out);
         deleteaccount = findViewById(R.id.community_auth_delete_account);
+        provicerIcon = findViewById(R.id.community_auth_email_icon);
         setProfile();
     }
 
@@ -109,6 +111,7 @@ public class CommunityAuth extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(CommunityAuth.this, CommunityAskSignOutDialog.class);
                 intent.putExtra("email", auth.getCurrentUser().getEmail().toString());
+                intent.putExtra("provider", provider);
                 launcher.launch(intent);
             }
         });
@@ -118,6 +121,7 @@ public class CommunityAuth extends AppCompatActivity {
         deleteaccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                load.setVisibility(View.VISIBLE);
                 db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -126,6 +130,7 @@ public class CommunityAuth extends AppCompatActivity {
                             intent.putExtra("email", auth.getCurrentUser().getEmail().toString());
                             intent.putExtra("provider", task.getResult().get("provider").toString());
                             launcher.launch(intent);
+                            load.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -148,6 +153,12 @@ public class CommunityAuth extends AppCompatActivity {
                     } else {
                         nickname.setText("nickname not set");
                     }
+                    if (task.getResult().get("provider").toString().equals("google")) {
+                        provicerIcon.setBackground(getResources().getDrawable(R.drawable.google_white_icon));
+                    } else {
+                        provicerIcon.setBackground(getResources().getDrawable(R.drawable.community_auth_email_icon));
+                    }
+                    provider = task.getResult().get("provider").toString();
                     email.setText(auth.getCurrentUser().getEmail());
                     imgload.setVisibility(View.GONE);
                     load.setVisibility(View.GONE);

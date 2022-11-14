@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -18,6 +19,7 @@ public class CommunityAskSignOutDialog extends AppCompatActivity {
 
     private TextView email;
     private Button ok, cancel;
+    private ImageView providerIcon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +32,11 @@ public class CommunityAskSignOutDialog extends AppCompatActivity {
         email = findViewById(R.id.community_ask_signout_email);
         ok = findViewById(R.id.community_ask_signout_ok);
         cancel = findViewById(R.id.community_ask_signout_cancel);
+        providerIcon = findViewById(R.id.community_ask_signout_email_icon);
+
+        if (getIntent().getStringExtra("provider").equals("google")) {
+            providerIcon.setBackground(getResources().getDrawable(R.drawable.google_white_icon));
+        }
 
         email.setText(getIntent().getStringExtra("email"));
         ok.setOnClickListener(new View.OnClickListener() {

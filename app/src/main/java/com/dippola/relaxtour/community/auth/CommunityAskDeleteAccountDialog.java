@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,7 @@ public class CommunityAskDeleteAccountDialog extends AppCompatActivity {
     private Button ok, cancel;
     private EditText password;
     private String provider;
+    private ImageView icon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,9 +48,12 @@ public class CommunityAskDeleteAccountDialog extends AppCompatActivity {
         passwordText = findViewById(R.id.community_ask_delete_account_password_text);
         password = findViewById(R.id.community_ask_delete_account_password);
         error = findViewById(R.id.community_ask_delete_account_error);
+        icon = findViewById(R.id.community_ask_delete_account_icon);
         if (provider.equals("google")) {
+            icon.setBackground(getResources().getDrawable(R.drawable.google_white_icon));
             passwordText.setVisibility(View.GONE);
             password.setVisibility(View.GONE);
+            error.setVisibility(View.GONE);
         }
 
         email.setText(getIntent().getStringExtra("email"));

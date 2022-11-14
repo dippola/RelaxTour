@@ -29,6 +29,7 @@
         android:gravity="center_horizontal">
 
         <ImageView
+            android:id="@+id/community_ask_delete_account_icon"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:background="@drawable/community_auth_email_icon"
@@ -54,6 +55,7 @@
         android:hint="Password"
         android:maxLength="15"
         android:paddingHorizontal="10dp"
+        android:inputType="textPassword"
         android:textColor="@color/fav_edittext_color"
         android:textColorHint="#aaaaaa"
         android:textCursorDrawable="@drawable/edittext_cursor" />
@@ -94,7 +96,7 @@
         android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"
         android:lineSpacingMultiplier="1.1"
-        android:text="※If you delete an account, the posts and comments you created with that account will also be deleted." />
+        android:text="※If you delete an account, the posts and comments you created with that account will also be deleted.\nAnd it's not recoverable." />
 
     <LinearLayout
         android:layout_width="wrap_content"

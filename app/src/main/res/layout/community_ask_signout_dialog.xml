@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
     android:background="@drawable/dialog_layout"
     android:orientation="vertical"
-    android:padding="30dp"
-    android:layout_gravity="center_horizontal">
+    android:padding="30dp">
 
     <TextView
         android:id="@+id/community_ask_signout_title1"
@@ -13,22 +13,38 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
-        android:text="Sign Out"
-        android:textStyle="bold"
-        android:textSize="16dp"
+        android:gravity="center_horizontal"
         android:lineSpacingMultiplier="1.5"
+        android:text="Sign Out"
         android:textColor="@color/text_color"
-        android:gravity="center_horizontal" />
+        android:textSize="16dp"
+        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/community_ask_signout_email"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
-        android:lineSpacingMultiplier="1.5"
-        android:textColor="@color/text_color"
-        android:gravity="center_horizontal" />
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:id="@+id/community_ask_signout_email_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/community_auth_email_icon"
+            android:translationZ="10dp"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/community_ask_signout_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:lineSpacingMultiplier="1.5"
+            android:textColor="@color/text_color"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/community_ask_signout_title3"
@@ -36,16 +52,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
+        android:gravity="center_horizontal"
+        android:lineSpacingMultiplier="1.1"
         android:text="Are you sure you want to Sign Out?"
-        android:lineSpacingMultiplier="1.5"
-        android:textColor="@color/text_color"
-        android:gravity="center_horizontal" />
+        android:textColor="@color/text_color" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/community_ask_signout_ok"
