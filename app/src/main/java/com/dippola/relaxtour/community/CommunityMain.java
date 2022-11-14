@@ -17,7 +17,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityOptionsCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -58,7 +57,7 @@ public class CommunityMain extends AppCompatActivity {
 
     private DatabaseHandler databaseHandler;
 
-    public static final int NEED_CREATE_PROFILE = 105;
+    public static final int FROM_SIGNIN = 105;
     public static final int FROM_CREATE_PROFILE = 106;
     public static final int FROM_AUTH = 107;
 
@@ -130,11 +129,27 @@ public class CommunityMain extends AppCompatActivity {
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
-            if (result.getResultCode() == NEED_CREATE_PROFILE) {//when sign up
+            if (result.getResultCode() == FROM_SIGNIN) {//when sign up
                 if (result.getData().getBooleanExtra("need_create_profile", false)) {
                     Intent intent = new Intent(CommunityMain.this, CommunityProfileCreate.class);
                     intent.putExtra("from", "main");
                     launcher.launch(intent);
+                } else if (result.getData().getBooleanExtra("isSignIn", false)) {
+                    iconload.setVisibility(View.VISIBLE);
+                    db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot documentSnapshot = task.getResult();
+                                if (documentSnapshot.get("imageurl") != null) {
+                                    Glide.with(CommunityMain.this).load(documentSnapshot.get("imageurl").toString()).transform(new CircleCrop()).into(authicon);
+                                } else {
+                                    Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(authicon);
+                                }
+                                iconload.setVisibility(View.GONE);
+                            }
+                        }
+                    });
                 }
             } else if (result.getResultCode() == FROM_CREATE_PROFILE) {
                 if (result.getData().getBooleanExtra("isCreatePic", false)) {
@@ -340,17 +355,16 @@ public class CommunityMain extends AppCompatActivity {
         test8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                db.collection("users").document("kmj654649@gmail.coma").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot documentSnapshot = task.getResult();
-                            if (documentSnapshot.get("providerr") == null) {
-                                Log.d("CommunityMain>>>", "is null");
+                            if (documentSnapshot.exists()) {
+                                Log.d("CommunityMain>>>", "1");
                             } else {
-                                Log.d("CommunityMain>>>", "is: " + documentSnapshot.get("provider").toString());
+                                Log.d("CommunityMain>>>", "2");
                             }
-//                            Log.d("CommunityMain>>>", "get: " + documentSnapshot.get("providerr").toString());
                         }
                     }
                 });
@@ -362,16 +376,17 @@ public class CommunityMain extends AppCompatActivity {
         test9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AuthCredential authCredential = EmailAuthProvider.getCredential("kmj654649@gmail.com", "shangus12!");
-                auth.getCurrentUser().reauthenticate(authCredential).addOnSuccessListener(new OnSuccessListener<Void>() {
+                db.collection("users").document("kmj654649@gmail.com").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onSuccess(Void unused) {
-                        Log.d("CommunityMain>>>", "onSuccess");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("CommunityMain>>>", "onFailure");
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            if (documentSnapshot.exists()) {
+                                Log.d("CommunityMain>>>", "1");
+                            } else {
+                                Log.d("CommunityMain>>>", "2");
+                            }
+                        }
                     }
                 });
             }

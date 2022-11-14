@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
@@ -277,13 +278,15 @@ public class CommunityProfileChange extends AppCompatActivity {
     }
 
     private void updateUserFirestore(String uri) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> map = new HashMap<>();
         map.put("nickname", editNickname.getText().toString());
         if (uri != null && uri.length() != 0) {
             isChangePic = true;
             map.put("imageurl", uri);
+        } if (uri == null) {
+            map.put("imageurl", FieldValue.delete());
         }
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users").document(auth.getCurrentUser().getEmail()).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {

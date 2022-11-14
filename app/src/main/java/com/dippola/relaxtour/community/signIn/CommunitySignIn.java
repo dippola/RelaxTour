@@ -23,14 +23,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.CommunityMain;
+import com.dippola.relaxtour.community.auth.CommunityAuthResetPasswordDialog;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -39,8 +38,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 public class CommunitySignIn extends AppCompatActivity {
@@ -88,6 +85,7 @@ public class CommunitySignIn extends AppCompatActivity {
         setOnClickSignInEmail();
         setOnClickGoogleBtn();
         setOnClickSignUp();
+        setOnClickForgot();
     }
 
     private void setOnClickSignInEmail() {
@@ -109,7 +107,6 @@ public class CommunitySignIn extends AppCompatActivity {
                             editPassword.setBackground(getResources().getDrawable(R.drawable.edittext_error));
                         } else {
                             load.setVisibility(View.VISIBLE);
-                            signInBtn.setEnabled(false);
                             checkUserAreadyWhenEmail(editEmail.getText().toString());
                         }
                     } else {
@@ -128,8 +125,18 @@ public class CommunitySignIn extends AppCompatActivity {
             public void onClick(View view) {
                 hideKeyboard(view);
                 load.setVisibility(View.VISIBLE);
-                googleBtn.setEnabled(false);
                 startSignIn();
+            }
+        });
+    }
+
+    private void setOnClickForgot() {
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunitySignIn.this, CommunityAuthResetPasswordDialog.class);
+                intent.putExtra("from", "signin");
+                launcher.launch(intent);
             }
         });
     }
@@ -162,7 +169,6 @@ public class CommunitySignIn extends AppCompatActivity {
 //                firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 load.setVisibility(View.GONE);
-                googleBtn.setEnabled(true);
                 // Google Sign In failed, update UI appropriately
                 Log.w("CommunityLogin>>>", "Google sign in failed", e);
             }
@@ -184,23 +190,30 @@ public class CommunitySignIn extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     if (documentSnapshot.exists()) {
-                        auth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(CommunitySignIn.this, "Sign In Successful", Toast.LENGTH_SHORT).show();
-                                    finish();
-                                } else {
-                                    Toast.makeText(CommunitySignIn.this, "failed: " + task.getException(), Toast.LENGTH_SHORT).show();
-                                    load.setVisibility(View.GONE);
-                                    signInBtn.setEnabled(true);
+                        if (!documentSnapshot.get("provider").toString().equals("email")) {
+                            Intent intent = new Intent(CommunitySignIn.this, CommunitySignInAnotherProviderDialog.class);
+                            intent.putExtra("showProvider", "Google");
+                            startActivity(intent);
+                            load.setVisibility(View.GONE);
+                        } else {
+                            auth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(CommunitySignIn.this, "Sign In Successful", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(CommunitySignIn.this, CommunityMain.class);
+                                        intent.putExtra("isSignIn", true);
+                                        setResult(CommunityMain.FROM_SIGNIN, intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(CommunitySignIn.this, "failed: " + task.getException(), Toast.LENGTH_SHORT).show();
+                                        load.setVisibility(View.GONE);
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     } else {
                         load.setVisibility(View.GONE);
-                        googleBtn.setEnabled(true);
-                        signInBtn.setEnabled(true);
                         Intent intent = new Intent(CommunitySignIn.this, CommunityAskSignUpDialog.class);
                         launcher.launch(intent);
                     }
@@ -223,7 +236,7 @@ public class CommunitySignIn extends AppCompatActivity {
                     load.setVisibility(View.VISIBLE);
                     Intent intent = new Intent(CommunitySignIn.this, CommunityMain.class);
                     intent.putExtra("need_create_profile", true);
-                    setResult(CommunityMain.NEED_CREATE_PROFILE, intent);
+                    setResult(CommunityMain.FROM_SIGNIN, intent);
                     finish();
                 }
             }
@@ -238,11 +251,16 @@ public class CommunitySignIn extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     if (documentSnapshot.exists()) {
-                        firebaseAuthWithGoogle(idToken);
+                        if (!documentSnapshot.get("provider").equals("google")) {
+                            Intent intent = new Intent(CommunitySignIn.this, CommunitySignInAnotherProviderDialog.class);
+                            intent.putExtra("showProvider", "Email/Password");
+                            startActivity(intent);
+                            load.setVisibility(View.GONE);
+                        } else {
+                            firebaseAuthWithGoogle(idToken);
+                        }
                     } else {
                         load.setVisibility(View.GONE);
-                        googleBtn.setEnabled(true);
-                        signInBtn.setEnabled(true);
                         Intent intent = new Intent(CommunitySignIn.this, CommunityAskSignUpDialog.class);
                         launcher.launch(intent);
                     }
@@ -262,11 +280,13 @@ public class CommunitySignIn extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(CommunitySignIn.this, "Sign In Successful", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(CommunitySignIn.this, CommunityMain.class);
+                            intent.putExtra("isSignIn", true);
+                            setResult(CommunityMain.FROM_SIGNIN, intent);
                             finish();
 //                            updateUI(user);
                         } else {
                             load.setVisibility(View.GONE);
-                            googleBtn.setEnabled(true);
                             Toast.makeText(CommunitySignIn.this, "failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             // If sign in fails, display a message to the user.
                             Log.w("CommunityLogin>>>", "signInWithCredential:failure", task.getException());

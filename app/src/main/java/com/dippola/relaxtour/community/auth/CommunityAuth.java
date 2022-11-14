@@ -25,6 +25,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.CommunityMain;
+import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -60,9 +61,10 @@ public class CommunityAuth extends AppCompatActivity {
     private RelativeLayout load;
     private Button back, editprofile;
     private ProgressBar imgload;
-    private ConstraintLayout signout, deleteaccount;
+    private ConstraintLayout signout, deleteaccount, findPassword;
     private boolean isChangePic;
     private String provider;
+    private String imageurl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class CommunityAuth extends AppCompatActivity {
         setBack();
         onClickSignOut();
         onClickDeleteAccount();
+        onClickFindPassword();
     }
 
     private void setInit() {
@@ -90,7 +93,19 @@ public class CommunityAuth extends AppCompatActivity {
         signout = findViewById(R.id.community_auth_sign_out);
         deleteaccount = findViewById(R.id.community_auth_delete_account);
         provicerIcon = findViewById(R.id.community_auth_email_icon);
+        findPassword = findViewById(R.id.community_auth_find_password_in_auth);
         setProfile();
+
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityAuth.this, ImageViewer.class);
+                if (imageurl != null) {
+                    intent.putExtra("url", imageurl);
+                }
+                startActivity(intent);
+            }
+        });
     }
 
     private void setBack() {
@@ -101,6 +116,18 @@ public class CommunityAuth extends AppCompatActivity {
                 intent.putExtra("isChangePic", isChangePic);
                 setResult(CommunityMain.FROM_AUTH, intent);
                 finish();
+            }
+        });
+    }
+
+    private void onClickFindPassword() {
+        findPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityAuth.this, CommunityAuthResetPasswordDialog.class);
+                intent.putExtra("from", "auth");
+                intent.putExtra("email", auth.getCurrentUser().getEmail());
+                launcher.launch(intent);
             }
         });
     }
@@ -144,6 +171,7 @@ public class CommunityAuth extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     if (task.getResult().get("imageurl") != null) {
+                        imageurl = task.getResult().get("imageurl").toString();
                         Glide.with(CommunityAuth.this).load(task.getResult().get("imageurl").toString()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                     } else {
                         Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
@@ -154,8 +182,11 @@ public class CommunityAuth extends AppCompatActivity {
                         nickname.setText("nickname not set");
                     }
                     if (task.getResult().get("provider").toString().equals("google")) {
+                        findPassword.setVisibility(View.GONE);
+                        findPassword.setEnabled(false);
                         provicerIcon.setBackground(getResources().getDrawable(R.drawable.google_white_icon));
                     } else {
+                        findPassword.setVisibility(View.VISIBLE);
                         provicerIcon.setBackground(getResources().getDrawable(R.drawable.community_auth_email_icon));
                     }
                     provider = task.getResult().get("provider").toString();
@@ -209,8 +240,10 @@ public class CommunityAuth extends AppCompatActivity {
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
                                 if (task.getResult().get("imageurl") != null) {
+                                    imageurl = task.getResult().get("imageurl").toString();
                                     Glide.with(CommunityAuth.this).load(task.getResult().get("imageurl").toString()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                                 } else {
+                                    imageurl = null;
                                     Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                                 }
                                 imgload.setVisibility(View.GONE);
@@ -249,6 +282,7 @@ public class CommunityAuth extends AppCompatActivity {
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
                                 if (task.getResult().get("imageurl") != null) {
+                                    imageurl = task.getResult().get("imageurl").toString();
                                     Glide.with(CommunityAuth.this).load(task.getResult().get("imageurl").toString()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                                 } else {
                                     Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);

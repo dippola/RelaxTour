@@ -135,7 +135,7 @@
         android:id="@+id/community_main_firestore_test8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="store test"
+        android:text="test1"
         app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -144,7 +144,7 @@
         android:id="@+id/community_main_firestore_test9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="비밀번호 맞는지"
+        android:text="test2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

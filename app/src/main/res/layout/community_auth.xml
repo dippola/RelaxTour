@@ -295,6 +295,45 @@
                 app:layout_constraintTop_toBottomOf="@+id/community_auth_commend" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/community_auth_find_password_in_auth"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/community_auth_box_round"
+            android:elevation="5dp"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/community_auth_post_box"
+            app:layout_constraintWidth_percent="0.8"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/community_auth_reset_password_in_auth_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Find Password"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/community_auth_reset_password_in_auth_icon"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/community_auth_reset_password_in_auth_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/community_auth_goto_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toEndOf="@+id/community_auth_reset_password_in_auth_text"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/community_auth_sign_out"
@@ -308,7 +347,7 @@
             app:layout_constraintBottom_toTopOf="@+id/community_auth_delete_account"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_auth_post_box"
+            app:layout_constraintTop_toBottomOf="@+id/community_auth_find_password_in_auth"
             app:layout_constraintWidth_percent="0.8">
 
             <TextView

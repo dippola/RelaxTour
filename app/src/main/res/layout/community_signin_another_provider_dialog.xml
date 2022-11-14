@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_layout"
+    android:orientation="vertical"
+    android:padding="30dp"
+    android:layout_gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/community_signin_another_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:lineSpacingMultiplier="1.2"
+        android:textColor="@color/text_color"
+        android:gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/community_signin_another_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginVertical="7dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_design"
+            android:elevation="5dp"
+            android:text="ok"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+</LinearLayout>
