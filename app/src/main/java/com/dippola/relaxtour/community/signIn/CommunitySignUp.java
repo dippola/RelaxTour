@@ -22,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -35,12 +37,15 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CommunitySignUp extends AppCompatActivity {
 
@@ -122,36 +127,38 @@ public class CommunitySignUp extends AppCompatActivity {
     }
 
     private void checkUserAreadyWhenEmail(String email) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users").document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        Call<List<UserModel>> call;
+        call = RetrofitClient.getApiService().searchEmail(email);
+        call.enqueue(new Callback<List<UserModel>>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    if (documentSnapshot.exists()) {
+            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().size() != 0) {
                         load.setVisibility(View.GONE);
-                        signUpEmail.setEnabled(true);
-                        signUpGoogle.setEnabled(true);
                         Intent intent = new Intent(CommunitySignUp.this, CommunityAlreadyUserDialog.class);
-                        intent.putExtra("provider", getProvider(documentSnapshot.get("provider").toString()));
+                        intent.putExtra("provider", response.body().get(0).getProvider());
                         launcher.launch(intent);
                     } else {
                         auth.createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword2.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    saveUserInFirestore("email");
+                                    saveUserInServer("Email/Password");
                                 } else {
                                     Toast.makeText(CommunitySignUp.this, "failed: " + task.getException(), Toast.LENGTH_SHORT).show();
                                     load.setVisibility(View.GONE);
-                                    signUpEmail.setEnabled(true);
                                 }
                             }
                         });
                     }
-                } else {
-                    Log.d("CommunityMain>>>", "get data: error");
                 }
+            }
+
+            @Override
+            public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                Toast.makeText(CommunitySignUp.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                load.setVisibility(View.GONE);
+                Log.d("CommunityMain>>>", "3: " + t.getMessage());
             }
         });
     }
@@ -199,7 +206,6 @@ public class CommunitySignUp extends AppCompatActivity {
 //                firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 load.setVisibility(View.GONE);
-                signUpGoogle.setEnabled(true);
                 // Google Sign In failed, update UI appropriately
                 Log.w("CommunityLogin>>>", "Google sign in failed", e);
             }
@@ -207,25 +213,27 @@ public class CommunitySignUp extends AppCompatActivity {
     }
 
     private void checkUserAreadyWhenGoogle(String email, String idToken) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users").document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        Call<List<UserModel>> call;
+        call = RetrofitClient.getApiService().searchEmail(email);
+        call.enqueue(new Callback<List<UserModel>>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    if (documentSnapshot.exists()) {
+            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().size() != 0) {
                         load.setVisibility(View.GONE);
-                        signUpEmail.setEnabled(true);
-                        signUpGoogle.setEnabled(true);
                         Intent intent = new Intent(CommunitySignUp.this, CommunityAlreadyUserDialog.class);
-                        intent.putExtra("provider", getProvider(documentSnapshot.get("provider").toString()));
+                        intent.putExtra("provider", response.body().get(0).getProvider());
                         launcher.launch(intent);
                     } else {
                         firebaseAuthWithGoogle(idToken);
                     }
-                } else {
-                    Log.d("CommunityMain>>>", "get data: error");
                 }
+            }
+            @Override
+            public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                Toast.makeText(CommunitySignUp.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                load.setVisibility(View.GONE);
+                Log.d("CommunityMain>>>", "3: " + t.getMessage());
             }
         });
     }
@@ -238,12 +246,10 @@ public class CommunitySignUp extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            saveUserInFirestore("google");
+                            saveUserInServer("Google");
 //                            updateUI(user);
                         } else {
                             load.setVisibility(View.GONE);
-                            signUpGoogle.setEnabled(true);
-                            signUpEmail.setEnabled(true);
                             Toast.makeText(CommunitySignUp.this, "failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             // If sign in fails, display a message to the user.
                             Log.w("CommunityLogin>>>", "signInWithCredential:failure", task.getException());
@@ -253,25 +259,28 @@ public class CommunitySignUp extends AppCompatActivity {
                 });
     }
 
-    private void saveUserInFirestore(String provider) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Map<String, Object> map = new HashMap<>();
-        map.put("uid", auth.getCurrentUser().getUid());
-        map.put("email", auth.getCurrentUser().getEmail());
-        map.put("provider", provider);
-        db.collection("users").document(auth.getCurrentUser().getEmail()).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+    private void saveUserInServer(String provider) {
+        UserModel userModel = new UserModel();
+        userModel.setUid(auth.getCurrentUser().getUid());
+        userModel.setEmail(auth.getCurrentUser().getEmail());
+        userModel.setNickname("");
+        userModel.setImageurl("");
+        userModel.setProvider(provider);
+        RetrofitClient.getApiService().createUser(userModel).enqueue(new Callback<UserModel>() {
             @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(CommunitySignUp.this, "Sign Up Successful", Toast.LENGTH_SHORT).show();
-                goBackToSignIn(true);
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                if (response.isSuccessful()) {
+                    goBackToSignIn(true);
+                } else {
+                    Toast.makeText(CommunitySignUp.this, "Error: " + response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+                    load.setVisibility(View.GONE);
+                }
             }
-        }).addOnFailureListener(new OnFailureListener() {
+
             @Override
-            public void onFailure(@NonNull Exception e) {
+            public void onFailure(Call<UserModel> call, Throwable t) {
+                Toast.makeText(CommunitySignUp.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 load.setVisibility(View.GONE);
-                signUpGoogle.setEnabled(true);
-                signUpEmail.setEnabled(true);
-                Toast.makeText(CommunitySignUp.this, "failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -298,16 +307,6 @@ public class CommunitySignUp extends AppCompatActivity {
         intent.putExtra("isSignUp", isSignUp);
         setResult(CommunitySignIn.FROM_SIGN_UP, intent);
         finish();
-    }
-
-    private String getProvider(String provider) {
-        if (provider.equals("email")) {
-            return "Email/Password";
-        } else if (provider.equals("google")) {
-            return "Google";
-        } else {
-            return "";
-        }
     }
 
     private void hideKeyboard(View v) {

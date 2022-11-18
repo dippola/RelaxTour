@@ -25,10 +25,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.CommunityMain;
 import com.dippola.relaxtour.community.auth.CommunityAuth;
+import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -37,9 +38,11 @@ import com.google.firebase.storage.UploadTask;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CommunityProfileCreate extends AppCompatActivity {
 
@@ -197,7 +200,7 @@ public class CommunityProfileCreate extends AppCompatActivity {
                     storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            updateUserFirestore(uri.toString());
+                            updateUserInServer(uri.toString());
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -214,27 +217,28 @@ public class CommunityProfileCreate extends AppCompatActivity {
                 }
             });
         } else {
-            updateUserFirestore(null);
+            updateUserInServer(null);
         }
     }
 
-    private void updateUserFirestore(String uri) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("nickname", editNickname.getText().toString());
+    private void updateUserInServer(String uri) {
+        UserModel userModel = new UserModel();
+        userModel.setNickname(editNickname.getText().toString());
         if (uri != null && uri.length() != 0) {
-            map.put("imageurl", uri);
+            userModel.setImageurl(uri);
         }
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users").document(auth.getCurrentUser().getEmail()).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+        RetrofitClient.getApiService().updateUser(auth.getCurrentUser().getUid(), userModel).enqueue(new Callback<UserModel>() {
             @Override
-            public void onSuccess(Void unused) {
-                isCreate = true;
-                goToBack();
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                if (response.isSuccessful()) {
+                    isCreate = true;
+                    goToBack();
+                }
             }
-        }).addOnFailureListener(new OnFailureListener() {
+
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(CommunityProfileCreate.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<UserModel> call, Throwable t) {
+                Toast.makeText(CommunityProfileCreate.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 FirebaseStorage.getInstance().getReference().listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
                     @Override
                     public void onSuccess(ListResult listResult) {

@@ -25,6 +25,8 @@ import com.dippola.relaxtour.community.auth.CommunityAuth;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.community.signIn.CommunitySignIn;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -43,6 +45,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CommunityMain extends AppCompatActivity {
 
@@ -94,20 +102,27 @@ public class CommunityMain extends AppCompatActivity {
             Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nulluser)).transform(new CircleCrop()).into(authicon);
             iconload.setVisibility(View.GONE);
         } else {
-            db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            Call<List<UserModel>> call;
+            call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+            call.enqueue(new Callback<List<UserModel>>() {
                 @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot documentSnapshot = task.getResult();
-                        if (documentSnapshot.get("imageurl") != null) {
+                public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body().get(0).getImageurl().length() != 0) {
                             Log.d("CommunityMain>>>", "1");
-                            Glide.with(CommunityMain.this).load(documentSnapshot.get("imageurl").toString()).transform(new CircleCrop()).into(authicon);
+                            Glide.with(CommunityMain.this).load(response.body().get(0).getImageurl()).transform(new CircleCrop()).into(authicon);
                         } else {
                             Log.d("CommunityMain>>>", "2");
                             Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(authicon);
                         }
                         iconload.setVisibility(View.GONE);
                     }
+                }
+
+                @Override
+                public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                    Log.d("CommunityMain>>>", "failed1: " + call.toString());
+                    Log.d("CommunityMain>>>", "failed2: " + t.toString());
                 }
             });
         }
@@ -136,36 +151,48 @@ public class CommunityMain extends AppCompatActivity {
                     launcher.launch(intent);
                 } else if (result.getData().getBooleanExtra("isSignIn", false)) {
                     iconload.setVisibility(View.VISIBLE);
-                    db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    Call<List<UserModel>> call;
+                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call.enqueue(new Callback<List<UserModel>>() {
                         @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot documentSnapshot = task.getResult();
-                                if (documentSnapshot.get("imageurl") != null) {
-                                    Glide.with(CommunityMain.this).load(documentSnapshot.get("imageurl").toString()).transform(new CircleCrop()).into(authicon);
+                        public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                            if (response.isSuccessful()) {
+                                if (response.body().get(0).getImageurl().length() != 0) {
+                                    Glide.with(CommunityMain.this).load(response.body().get(0).getImageurl()).transform(new CircleCrop()).into(authicon);
                                 } else {
                                     Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(authicon);
                                 }
                                 iconload.setVisibility(View.GONE);
                             }
                         }
+
+                        @Override
+                        public void onFailure(Call<List<UserModel>> call, Throwable t) {
+
+                        }
                     });
                 }
             } else if (result.getResultCode() == FROM_CREATE_PROFILE) {
                 if (result.getData().getBooleanExtra("isCreatePic", false)) {
                     iconload.setVisibility(View.VISIBLE);
-                    db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    Call<List<UserModel>> call;
+                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call.enqueue(new Callback<List<UserModel>>() {
                         @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot documentSnapshot = task.getResult();
-                                if (documentSnapshot.get("imageurl") != null) {
-                                    Glide.with(CommunityMain.this).load(documentSnapshot.get("imageurl").toString()).transform(new CircleCrop()).into(authicon);
+                        public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                            if (response.isSuccessful()) {
+                                if (response.body().get(0).getImageurl().length() != 0) {
+                                    Glide.with(CommunityMain.this).load(response.body().get(0).getImageurl()).transform(new CircleCrop()).into(authicon);
                                 } else {
                                     Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(authicon);
                                 }
                                 iconload.setVisibility(View.GONE);
                             }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<UserModel>> call, Throwable t) {
+
                         }
                     });
                 } else {
@@ -174,18 +201,24 @@ public class CommunityMain extends AppCompatActivity {
             } else if (result.getResultCode() == FROM_AUTH) {
                 if (result.getData().getBooleanExtra("isChangePic", false)) {
                     iconload.setVisibility(View.VISIBLE);
-                    db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    Call<List<UserModel>> call;
+                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call.enqueue(new Callback<List<UserModel>>() {
                         @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot documentSnapshot = task.getResult();
-                                if (documentSnapshot.get("imageurl") != null) {
-                                    Glide.with(CommunityMain.this).load(documentSnapshot.get("imageurl").toString()).transform(new CircleCrop()).into(authicon);
+                        public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                            if (response.isSuccessful()) {
+                                if (response.body().get(0).getImageurl().length() != 0) {
+                                    Glide.with(CommunityMain.this).load(response.body().get(0).getImageurl()).transform(new CircleCrop()).into(authicon);
                                 } else {
                                     Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(authicon);
                                 }
                                 iconload.setVisibility(View.GONE);
                             }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<UserModel>> call, Throwable t) {
+
                         }
                     });
                 }
@@ -391,6 +424,153 @@ public class CommunityMain extends AppCompatActivity {
                 });
             }
         });
+
+        Button test10;
+        test10 = findViewById(R.id.community_main_firestore_test10);
+        test10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<List<UserModel>> call;
+                call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                call.enqueue(new Callback<List<UserModel>>() {
+                    @Override
+                    public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                        List<UserModel> model = response.body();
+                        Log.d("CommunityMain>>>", "get: " + model.get(0).getNickname());
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                        Log.d("CommunityMain>>>", "failed1: " + call.toString());
+                        Log.d("CommunityMain>>>", "failed2: " + t.toString());
+                    }
+                });
+            }
+        });
+
+        Button test11;
+        test11 = findViewById(R.id.community_main_firestore_test11);
+        test11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserModel userModel = new UserModel();
+                userModel.setEmail("kmj654649@gmail.com");
+                userModel.setImageurl("");
+                userModel.setNickname("nickname2");
+                userModel.setUid("testuid2testuid2testuid2");
+                RetrofitClient.getApiService().createUser(userModel).enqueue(new Callback<UserModel>() {
+                    @Override
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("CommunityMain>>>", "1");
+                        } else {
+                            Log.d("CommunityMain>>>", "2: " + response.errorBody().toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserModel> call, Throwable t) {
+                        Log.d("CommunityMain>>>", "3: " + t.toString());
+                    }
+                });
+            }
+        });
+
+        Button test12 = findViewById(R.id.community_main_firestore_test12);
+        test12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserModel userModel = new UserModel();
+                userModel.setEmail("dippolas@gmail.com");
+                userModel.setUid("v5agRuBuyibhqwXHuazrTyIXU3y2");
+                userModel.setNickname("changeNick");
+                userModel.setImageurl("");
+                RetrofitClient.getApiService().updateUser(auth.getCurrentUser().getUid(), userModel).enqueue(new Callback<UserModel>() {
+                    @Override
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("CommunityMain>>>", "1: " + response.message());
+                        } else {
+                            Log.d("CommunityMain>>>", "2: " + response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserModel> call, Throwable t) {
+                        Log.d("CommunityMain>>>", "3: " + t.getMessage());
+                    }
+                });
+            }
+        });
+
+        Button test13 = findViewById(R.id.community_main_firestore_test13);
+        test13.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<String> call;
+                call = RetrofitClient.getApiService().deleteUser("testuid2testuid2testuid2");
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("CommunityMain>>>", "1: " + response.message());
+                        } else {
+                            Log.d("CommunityMain>>>", "2: " + response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.d("CommunityMain>>>", "failed1: " + call.toString());
+                        Log.d("CommunityMain>>>", "failed2: " + t.toString());
+                    }
+                });
+            }
+        });
+
+        Button test14 = findViewById(R.id.community_main_firestore_test14);
+        test14.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<List<UserModel>> call;
+                call = RetrofitClient.getApiService().searchNickname("changeNick");
+                call.enqueue(new Callback<List<UserModel>>() {
+                    @Override
+                    public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("CommunityMain>>>", "size: " + response.body().size());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                        Log.d("CommunityMain>>>", "3: " + t.getMessage());
+                    }
+                });
+            }
+        });
+
+        Button test15 = findViewById(R.id.community_main_firestore_test15);
+        test15.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<List<UserModel>> call;
+                call = RetrofitClient.getApiService().searchNickname("changeNicka");
+                call.enqueue(new Callback<List<UserModel>>() {
+                    @Override
+                    public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("CommunityMain>>>", "size: " + response.body().size());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                        Log.d("CommunityMain>>>", "3: " + t.getMessage());
+                    }
+                });
+            }
+        });
     }
 
 
@@ -409,42 +589,47 @@ public class CommunityMain extends AppCompatActivity {
                     auth.getCurrentUser().reauthenticate(authCredential).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            FirebaseFirestore db = FirebaseFirestore.getInstance();
-                            db.collection("users").document(auth.getCurrentUser().getEmail()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            Call<String> call;
+                            call = RetrofitClient.getApiService().deleteUser(auth.getCurrentUser().getUid());
+                            call.enqueue(new Callback<String>() {
                                 @Override
-                                public void onSuccess(Void unused) {
-                                    Log.d("CommunityMain>>>", "firestore delete user successed");
-                                    FirebaseStorage.getInstance().getReference().child("userimages/kmj654649@gmail.coma").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-                                        @Override
-                                        public void onSuccess(ListResult listResult) {
-                                            if (listResult.getItems().size() != 0) {
-                                                for(StorageReference storageReference : listResult.getItems()) {
-                                                    Log.d("CommunityMain>>>", "filename: " + storageReference.getName());
-                                                    storageReference.delete();
+                                public void onResponse(Call<String> call, Response<String> response) {
+                                    if (response.isSuccessful()) {
+                                        Log.d("CommunityMain>>>", "firestore delete user successed");
+                                        FirebaseStorage.getInstance().getReference().child("userimages/kmj654649@gmail.coma").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                                            @Override
+                                            public void onSuccess(ListResult listResult) {
+                                                if (listResult.getItems().size() != 0) {
+                                                    for(StorageReference storageReference : listResult.getItems()) {
+                                                        Log.d("CommunityMain>>>", "filename: " + storageReference.getName());
+                                                        storageReference.delete();
+                                                    }
+                                                } else {
+                                                    Log.d("CommunityMain>>>", "size0");
                                                 }
-                                            } else {
-                                                Log.d("CommunityMain>>>", "size0");
                                             }
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.d("CommunityMain>>>", "error: " + e.getMessage());
-                                        }
-                                    });
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.d("CommunityMain>>>", "error: " + e.getMessage());
+                                            }
+                                        });
 
 
-                                    auth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            Toast.makeText(CommunityMain.this, "delete success", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                        auth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                Toast.makeText(CommunityMain.this, "delete success", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    } else {
+                                        Log.d("CommunityMain>>>", "2: " + response.message());
+                                    }
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
+
                                 @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("CommunityMain>>>", "firestore delete user failed");
+                                public void onFailure(Call<String> call, Throwable t) {
+                                    Log.d("CommunityMain>>>", "user delete user failed");
                                 }
                             });
                         }

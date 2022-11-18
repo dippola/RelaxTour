@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +24,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.signIn.CommunitySignIn;
+import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.List;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CommunityAuthResetPasswordDialog extends AppCompatActivity {
 
@@ -98,13 +104,13 @@ public class CommunityAuthResetPasswordDialog extends AppCompatActivity {
                         editEmail.setBackground(getResources().getDrawable(R.drawable.edittext_error));
                     } else if (pattern.matcher(editEmail.getText().toString()).matches()) {
                         loadVissibility();
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        db.collection("users").document(editEmail.getText().toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        Call<List<UserModel>> call;
+                        call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                        call.enqueue(new Callback<List<UserModel>>() {
                             @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot documentSnapshot = task.getResult();
-                                    if (documentSnapshot.exists()) {
+                            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                                if (response.isSuccessful()) {
+                                    if (response.body().size() != 0) {
                                         auth.sendPasswordResetEmail(editEmail.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
@@ -119,11 +125,16 @@ public class CommunityAuthResetPasswordDialog extends AppCompatActivity {
                                                 }
                                             }
                                         });
-                                    } else {
-                                        error.setText("This email is not registered for the Relax Tour.");
-                                        editEmail.setBackground(getResources().getDrawable(R.drawable.edittext_error));
                                     }
+                                } else {
+                                    error.setText("This email is not registered for the Relax Tour.");
+                                    editEmail.setBackground(getResources().getDrawable(R.drawable.edittext_error));
                                 }
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<UserModel>> call, Throwable t) {
+
                             }
                         });
                     } else {

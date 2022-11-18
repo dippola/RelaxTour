@@ -27,6 +27,8 @@ import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.CommunityMain;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
+import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -40,11 +42,15 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CommunityAuth extends AppCompatActivity {
 
@@ -56,7 +62,6 @@ public class CommunityAuth extends AppCompatActivity {
 
     private ImageView img, provicerIcon;
     private TextView nickname, email;
-    private FirebaseFirestore db;
     private FirebaseAuth auth;
     private RelativeLayout load;
     private Button back, editprofile;
@@ -80,7 +85,6 @@ public class CommunityAuth extends AppCompatActivity {
     }
 
     private void setInit() {
-        db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         img = findViewById(R.id.community_auth_img);
         nickname = findViewById(R.id.community_auth_nickname);
@@ -148,17 +152,23 @@ public class CommunityAuth extends AppCompatActivity {
         deleteaccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                load.setVisibility(View.VISIBLE);
-                db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                Call<List<UserModel>> call;
+                call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                call.enqueue(new Callback<List<UserModel>>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
+                    public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                        if (response.isSuccessful()) {
                             Intent intent = new Intent(CommunityAuth.this, CommunityAskDeleteAccountDialog.class);
                             intent.putExtra("email", auth.getCurrentUser().getEmail().toString());
-                            intent.putExtra("provider", task.getResult().get("provider").toString());
+                            intent.putExtra("provider", response.body().get(0).getProvider());
                             launcher.launch(intent);
                             load.setVisibility(View.GONE);
                         }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<UserModel>> call, Throwable t) {
+
                     }
                 });
             }
@@ -166,22 +176,24 @@ public class CommunityAuth extends AppCompatActivity {
     }
 
     private void setProfile() {
-        db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        Call<List<UserModel>> call;
+        call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+        call.enqueue(new Callback<List<UserModel>>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    if (task.getResult().get("imageurl") != null) {
-                        imageurl = task.getResult().get("imageurl").toString();
-                        Glide.with(CommunityAuth.this).load(task.getResult().get("imageurl").toString()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().get(0).getImageurl().length() != 0) {
+                        imageurl = response.body().get(0).getImageurl();
+                        Glide.with(CommunityAuth.this).load(response.body().get(0).getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                     } else {
                         Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                     }
-                    if (task.getResult().get("nickname") != null) {
-                        nickname.setText(task.getResult().get("nickname").toString());
+                    if (response.body().get(0).getNickname().length() != 0) {
+                        nickname.setText(response.body().get(0).getNickname());
                     } else {
                         nickname.setText("nickname not set");
                     }
-                    if (task.getResult().get("provider").toString().equals("google")) {
+                    if (response.body().get(0).getProvider().equals("Google")) {
                         findPassword.setVisibility(View.GONE);
                         findPassword.setEnabled(false);
                         provicerIcon.setBackground(getResources().getDrawable(R.drawable.google_white_icon));
@@ -189,13 +201,16 @@ public class CommunityAuth extends AppCompatActivity {
                         findPassword.setVisibility(View.VISIBLE);
                         provicerIcon.setBackground(getResources().getDrawable(R.drawable.community_auth_email_icon));
                     }
-                    provider = task.getResult().get("provider").toString();
+                    provider = response.body().get(0).getProvider();
                     email.setText(auth.getCurrentUser().getEmail());
                     imgload.setVisibility(View.GONE);
                     load.setVisibility(View.GONE);
-                } else {
-                    Toast.makeText(CommunityAuth.this, "Profile load failed due to unstable internet.", Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            public void onFailure(Call<List<UserModel>> call, Throwable t) {
+
             }
         });
     }
@@ -212,15 +227,22 @@ public class CommunityAuth extends AppCompatActivity {
                     launcher.launch(intent);
                     load.setVisibility(View.GONE);
                 } else {
-                    db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    Call<List<UserModel>> call;
+                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call.enqueue(new Callback<List<UserModel>>() {
                         @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                if (task.getResult().get("nickname") != null) {
+                        public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                            if (response.isSuccessful()) {
+                                if (response.body().get(0).getNickname().length() != 0) {
                                     launcher.launch(new Intent(CommunityAuth.this, CommunityProfileChange.class));
                                     load.setVisibility(View.GONE);
                                 }
                             }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<UserModel>> call, Throwable t) {
+
                         }
                     });
                 }
@@ -235,13 +257,15 @@ public class CommunityAuth extends AppCompatActivity {
                 if (result.getData().getBooleanExtra("isChangePic", false)) {
                     imgload.setVisibility(View.VISIBLE);
                     isChangePic = true;
-                    db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    Call<List<UserModel>> call;
+                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call.enqueue(new Callback<List<UserModel>>() {
                         @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                if (task.getResult().get("imageurl") != null) {
-                                    imageurl = task.getResult().get("imageurl").toString();
-                                    Glide.with(CommunityAuth.this).load(task.getResult().get("imageurl").toString()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                        public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                            if (response.isSuccessful()) {
+                                if (response.body().get(0).getImageurl().length() != 0) {
+                                    imageurl = response.body().get(0).getImageurl();
+                                    Glide.with(CommunityAuth.this).load(response.body().get(0).getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                                 } else {
                                     imageurl = null;
                                     Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
@@ -249,27 +273,46 @@ public class CommunityAuth extends AppCompatActivity {
                                 imgload.setVisibility(View.GONE);
                             }
                         }
+
+                        @Override
+                        public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                            Toast.makeText(CommunityAuth.this, "Image load error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     });
                 }
 
                 if (result.getData().getBooleanExtra("isChangeNickname", false)) {
-                    db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    Call<List<UserModel>> call;
+                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call.enqueue(new Callback<List<UserModel>>() {
                         @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                nickname.setText(task.getResult().get("nickname").toString());
+                        public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                            if (response.isSuccessful()) {
+                                nickname.setText(response.body().get(0).getNickname());
                             }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                            Toast.makeText(CommunityAuth.this, "Nickname load error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             } else if (result.getResultCode() == FROM_CREATE_PROFILE) {
                 if (result.getData().getBooleanExtra("isCreate", false)) {
-                    db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    Call<List<UserModel>> call;
+                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call.enqueue(new Callback<List<UserModel>>() {
                         @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                nickname.setText(task.getResult().get("nickname").toString());
+                        public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                            if (response.isSuccessful()) {
+                                nickname.setText(response.body().get(0).getNickname());
                             }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                            Toast.makeText(CommunityAuth.this, "Nickname load error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -277,18 +320,25 @@ public class CommunityAuth extends AppCompatActivity {
                 if (result.getData().getBooleanExtra("isCreatePic", false)) {
                     imgload.setVisibility(View.VISIBLE);
                     isChangePic = true;
-                    db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    Call<List<UserModel>> call;
+                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call.enqueue(new Callback<List<UserModel>>() {
                         @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                if (task.getResult().get("imageurl") != null) {
-                                    imageurl = task.getResult().get("imageurl").toString();
-                                    Glide.with(CommunityAuth.this).load(task.getResult().get("imageurl").toString()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                        public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                            if (response.isSuccessful()) {
+                                if (response.body().get(0).getImageurl().length() != 0) {
+                                    imageurl = response.body().get(0).getImageurl();
+                                    Glide.with(CommunityAuth.this).load(response.body().get(0).getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                                 } else {
                                     Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                                 }
                                 imgload.setVisibility(View.GONE);
                             }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                            Toast.makeText(CommunityAuth.this, "Image load error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -326,42 +376,44 @@ public class CommunityAuth extends AppCompatActivity {
         auth.getCurrentUser().reauthenticate(authCredential).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                db.collection("users").document(auth.getCurrentUser().getEmail()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                Call<String> call;
+                call = RetrofitClient.getApiService().deleteUser(auth.getCurrentUser().getUid());
+                call.enqueue(new Callback<String>() {
                     @Override
-                    public void onSuccess(Void unused) {
-                        FirebaseStorage.getInstance().getReference().child("userimages/kmj654649@gmail.coma").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-                            @Override
-                            public void onSuccess(ListResult listResult) {
-                                if (listResult.getItems().size() != 0) {
-                                    for(StorageReference storageReference : listResult.getItems()) {
-                                        storageReference.delete();
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.isSuccessful()) {
+                            FirebaseStorage.getInstance().getReference().child("userimages/kmj654649@gmail.coma").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                                @Override
+                                public void onSuccess(ListResult listResult) {
+                                    if (listResult.getItems().size() != 0) {
+                                        for (StorageReference storageReference : listResult.getItems()) {
+                                            storageReference.delete();
+                                        }
                                     }
-                                } else {
                                 }
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("CommunityMain>>>", "error: " + e.getMessage());
-                            }
-                        });
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("CommunityMain>>>", "error: " + e.getMessage());
+                                }
+                            });
 
-                        auth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(CommunityAuth.this, "delete success", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(CommunityAuth.this, CommunityMain.class);
-                                intent.putExtra("isDeleteUser", true);
-                                setResult(CommunityMain.FROM_AUTH, intent);
-                                finish();
-                            }
-                        });
+                            auth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(CommunityAuth.this, "delete success", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(CommunityAuth.this, CommunityMain.class);
+                                    intent.putExtra("isDeleteUser", true);
+                                    setResult(CommunityMain.FROM_AUTH, intent);
+                                    finish();
+                                }
+                            });
+                        }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
+
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("CommunityMain>>>", "firestore delete user failed");
+                    public void onFailure(Call<String> call, Throwable t) {
+
                     }
                 });
             }
@@ -398,42 +450,45 @@ public class CommunityAuth extends AppCompatActivity {
                     auth.getCurrentUser().reauthenticate(authCredential).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            FirebaseFirestore db = FirebaseFirestore.getInstance();
-                            db.collection("users").document(auth.getCurrentUser().getEmail()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            Call<String> call;
+                            call = RetrofitClient.getApiService().deleteUser(auth.getCurrentUser().getUid());
+                            call.enqueue(new Callback<String>() {
                                 @Override
-                                public void onSuccess(Void unused) {
-                                    FirebaseStorage.getInstance().getReference().child("userimages/kmj654649@gmail.coma").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-                                        @Override
-                                        public void onSuccess(ListResult listResult) {
-                                            if (listResult.getItems().size() != 0) {
-                                                for(StorageReference storageReference : listResult.getItems()) {
-                                                    storageReference.delete();
+                                public void onResponse(Call<String> call, Response<String> response) {
+                                    if (response.isSuccessful()) {
+                                        FirebaseStorage.getInstance().getReference().child("userimages/kmj654649@gmail.coma").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                                            @Override
+                                            public void onSuccess(ListResult listResult) {
+                                                if (listResult.getItems().size() != 0) {
+                                                    for (StorageReference storageReference : listResult.getItems()) {
+                                                        storageReference.delete();
+                                                    }
+                                                } else {
                                                 }
-                                            } else {
                                             }
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.d("CommunityMain>>>", "error: " + e.getMessage());
-                                        }
-                                    });
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.d("CommunityMain>>>", "error: " + e.getMessage());
+                                            }
+                                        });
 
-                                    auth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            Toast.makeText(CommunityAuth.this, "delete success", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(CommunityAuth.this, CommunityMain.class);
-                                            intent.putExtra("isDeleteUser", true);
-                                            setResult(CommunityMain.FROM_AUTH, intent);
-                                            finish();
-                                        }
-                                    });
+                                        auth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                Toast.makeText(CommunityAuth.this, "delete success", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(CommunityAuth.this, CommunityMain.class);
+                                                intent.putExtra("isDeleteUser", true);
+                                                setResult(CommunityMain.FROM_AUTH, intent);
+                                                finish();
+                                            }
+                                        });
+                                    }
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
+
                                 @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("CommunityMain>>>", "firestore delete user failed");
+                                public void onFailure(Call<String> call, Throwable t) {
+
                                 }
                             });
                         }

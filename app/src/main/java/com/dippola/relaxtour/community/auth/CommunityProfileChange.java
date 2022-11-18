@@ -21,14 +21,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -38,8 +35,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CommunityProfileChange extends AppCompatActivity {
 
@@ -50,7 +52,6 @@ public class CommunityProfileChange extends AppCompatActivity {
     private RelativeLayout load;
     private Uri imageUri;
     private FirebaseAuth auth;
-    private FirebaseFirestore db;
     private String beforeNickname;
     private boolean isChangePic;
 
@@ -68,7 +69,6 @@ public class CommunityProfileChange extends AppCompatActivity {
 
     private void setInit() {
         auth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
         img = findViewById(R.id.community_profile_change_img);
         addPic = findViewById(R.id.community_profile_change_photobtn);
         count = findViewById(R.id.community_profile_change_count);
@@ -82,20 +82,25 @@ public class CommunityProfileChange extends AppCompatActivity {
     }
 
     private void setUserData() {
-        db.collection("users").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        Call<List<UserModel>> call;
+        call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+        call.enqueue(new Callback<List<UserModel>>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    if (task.getResult().get("imageurl") != null) {
-                        Glide.with(CommunityProfileChange.this).load(task.getResult().get("imageurl").toString()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().get(0).getImageurl().length() != 0) {
+                        Glide.with(CommunityProfileChange.this).load(response.body().get(0).getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                     } else {
                         Glide.with(CommunityProfileChange.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                     }
-                    editNickname.setText(task.getResult().get("nickname").toString());
-                    beforeNickname = task.getResult().get("nickname").toString();
-                } else {
-                    Toast.makeText(CommunityProfileChange.this, "Profile load failed due to unstable internet.", Toast.LENGTH_SHORT).show();
+                    editNickname.setText(response.body().get(0).getNickname());
+                    beforeNickname = response.body().get(0).getNickname();
                 }
+            }
+
+            @Override
+            public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                Toast.makeText(CommunityProfileChange.this, "Profile load failed due to unstable internet.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -207,12 +212,12 @@ public class CommunityProfileChange extends AppCompatActivity {
                 @Override
                 public void onSuccess(ListResult listResult) {
                     if (listResult.getItems().size() == 0) {
-                        updateUserFirestore(null);
+                        updateUserInServer(null);
                     } else {
                         for (StorageReference storageReference : listResult.getItems()) {
                             storageReference.delete();
                         }
-                        updateUserFirestore(null);
+                        updateUserInServer(null);
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -234,7 +239,7 @@ public class CommunityProfileChange extends AppCompatActivity {
                     storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            updateUserFirestore(uri.toString());
+                            updateUserInServer(uri.toString());
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -258,7 +263,7 @@ public class CommunityProfileChange extends AppCompatActivity {
                     storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            updateUserFirestore(uri.toString());
+                            updateUserInServer(uri.toString());
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -277,25 +282,28 @@ public class CommunityProfileChange extends AppCompatActivity {
         }
     }
 
-    private void updateUserFirestore(String uri) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Map<String, Object> map = new HashMap<>();
-        map.put("nickname", editNickname.getText().toString());
+    private void updateUserInServer(String uri) {
+        UserModel userModel = new UserModel();
+        userModel.setNickname(editNickname.getText().toString());
         if (uri != null && uri.length() != 0) {
             isChangePic = true;
-            map.put("imageurl", uri);
+            userModel.setImageurl(uri);
         } if (uri == null) {
-            map.put("imageurl", FieldValue.delete());
+            userModel.setImageurl("");
         }
-        db.collection("users").document(auth.getCurrentUser().getEmail()).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+        RetrofitClient.getApiService().updateUser(auth.getCurrentUser().getUid(), userModel).enqueue(new Callback<UserModel>() {
             @Override
-            public void onSuccess(Void unused) {
-                goToAuth();
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                if (response.isSuccessful()) {
+                    goToAuth();
+                } else {
+                    Log.d("CommunityMain>>>", "2: " + response.message());
+                }
             }
-        }).addOnFailureListener(new OnFailureListener() {
+
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(CommunityProfileChange.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<UserModel> call, Throwable t) {
+                Toast.makeText(CommunityProfileChange.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 FirebaseStorage.getInstance().getReference().listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
                     @Override
                     public void onSuccess(ListResult listResult) {

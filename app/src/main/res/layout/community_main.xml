@@ -145,6 +145,60 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="test2"
+        app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/community_main_firestore_test10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="get user"
+        app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/community_main_firestore_test11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="create user"
+        app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/community_main_firestore_test12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="update user"
+        app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test13"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/community_main_firestore_test13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="delete user"
+        app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/community_main_firestore_test14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="search nickname1"
+        app:layout_constraintBottom_toTopOf="@+id/community_main_firestore_test15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/community_main_firestore_test15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="search nickname2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

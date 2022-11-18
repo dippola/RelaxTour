@@ -49,7 +49,7 @@ public class CommunityAskDeleteAccountDialog extends AppCompatActivity {
         password = findViewById(R.id.community_ask_delete_account_password);
         error = findViewById(R.id.community_ask_delete_account_error);
         icon = findViewById(R.id.community_ask_delete_account_icon);
-        if (provider.equals("google")) {
+        if (provider.equals("Google")) {
             icon.setBackground(getResources().getDrawable(R.drawable.google_white_icon));
             passwordText.setVisibility(View.GONE);
             password.setVisibility(View.GONE);

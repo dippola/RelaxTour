@@ -24,6 +24,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.CommunityMain;
 import com.dippola.relaxtour.community.auth.CommunityAuthResetPasswordDialog;
+import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -35,10 +37,13 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.List;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CommunitySignIn extends AppCompatActivity {
 
@@ -183,14 +188,14 @@ public class CommunitySignIn extends AppCompatActivity {
     }
 
     private void checkUserAreadyWhenEmail(String email) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users").document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        Call<List<UserModel>> call;
+        call = RetrofitClient.getApiService().searchEmail(email);
+        call.enqueue(new Callback<List<UserModel>>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    if (documentSnapshot.exists()) {
-                        if (!documentSnapshot.get("provider").toString().equals("email")) {
+            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().size() != 0) {
+                        if (!response.body().get(0).getProvider().equals("Email/Password")) {
                             Intent intent = new Intent(CommunitySignIn.this, CommunitySignInAnotherProviderDialog.class);
                             intent.putExtra("showProvider", "Google");
                             startActivity(intent);
@@ -217,9 +222,12 @@ public class CommunitySignIn extends AppCompatActivity {
                         Intent intent = new Intent(CommunitySignIn.this, CommunityAskSignUpDialog.class);
                         launcher.launch(intent);
                     }
-                } else {
-                    Log.d("CommunityMain>>>", "get data: error");
                 }
+            }
+            @Override
+            public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                Toast.makeText(CommunitySignIn.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                load.setVisibility(View.GONE);
             }
         });
     }
@@ -244,14 +252,14 @@ public class CommunitySignIn extends AppCompatActivity {
     });
 
     private void checkUserAreadyWhenGoogle(String email, String idToken) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users").document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        Call<List<UserModel>> call;
+        call = RetrofitClient.getApiService().searchEmail(email);
+        call.enqueue(new Callback<List<UserModel>>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    if (documentSnapshot.exists()) {
-                        if (!documentSnapshot.get("provider").equals("google")) {
+            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().size() != 0) {
+                        if (!response.body().get(0).getProvider().equals("Google")) {
                             Intent intent = new Intent(CommunitySignIn.this, CommunitySignInAnotherProviderDialog.class);
                             intent.putExtra("showProvider", "Email/Password");
                             startActivity(intent);
@@ -264,9 +272,12 @@ public class CommunitySignIn extends AppCompatActivity {
                         Intent intent = new Intent(CommunitySignIn.this, CommunityAskSignUpDialog.class);
                         launcher.launch(intent);
                     }
-                } else {
-                    Log.d("CommunityMain>>>", "get data: error");
                 }
+            }
+            @Override
+            public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                Toast.makeText(CommunitySignIn.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                load.setVisibility(View.GONE);
             }
         });
     }
