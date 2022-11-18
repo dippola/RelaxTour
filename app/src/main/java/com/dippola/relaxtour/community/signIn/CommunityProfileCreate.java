@@ -38,6 +38,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
@@ -164,10 +165,32 @@ public class CommunityProfileCreate extends AppCompatActivity {
                     } else {
                         if (auth.getCurrentUser() != null) {
                             load.setVisibility(View.VISIBLE);
-                            uploadPic();
+                            checkNicknameAready();
                         }
                     }
                 }
+            }
+        });
+    }
+
+    private void checkNicknameAready() {
+        Call<List<UserModel>> call;
+        call = RetrofitClient.getApiService().searchNickname(editNickname.getText().toString());
+        call.enqueue(new Callback<List<UserModel>>() {
+            @Override
+            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().size() != 0) {
+                        error.setText("This nickname is already registered. Please enter a different nickname.");
+                        load.setVisibility(View.GONE);
+                    } else {
+                        uploadPic();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<List<UserModel>> call, Throwable t) {
+
             }
         });
     }

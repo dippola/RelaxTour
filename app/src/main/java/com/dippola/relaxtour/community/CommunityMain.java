@@ -22,8 +22,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.auth.CommunityAuth;
+import com.dippola.relaxtour.community.signIn.CommunityAskSignUpDialog;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.community.signIn.CommunitySignIn;
+import com.dippola.relaxtour.community.signIn.CommunitySignInAnotherProviderDialog;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.UserModel;
@@ -256,7 +258,43 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void test() {
-
+        Button test1 = findViewById(R.id.main_test1);
+        test1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (databaseHandler.getUserModel().size() != 0) {
+                    UserModel userModel = databaseHandler.getMyPtofile();
+                    Log.d("CommunityMain>>>", "email: " + userModel.getEmail());
+                    Log.d("CommunityMain>>>", "uid: " + userModel.getUid());
+                    Log.d("CommunityMain>>>", "nickname: " + userModel.getNickname());
+                    Log.d("CommunityMain>>>", "iamgeurl: " + userModel.getImageurl());
+                    Log.d("CommunityMain>>>", "provider: " + userModel.getProvider());
+                } else {
+                    Log.d("CommunityMain>>>", "size: 0");
+                }
+            }
+        });
+        Button test2 = findViewById(R.id.main_test2);
+        test2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                databaseHandler.createUserProfile("dippola@gmail.com", "vDLej5ktBGaaXxth67yE6xC2Hgf2", "Google");
+            }
+        });
+        Button test3 = findViewById(R.id.main_test3);
+        test3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                databaseHandler.updateUserProfile("nickname", "", auth.getCurrentUser().getUid());
+            }
+        });
+        Button test4 = findViewById(R.id.main_test4);
+        test4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                databaseHandler.deleteUserProfile();
+            }
+        });
     }
 
 

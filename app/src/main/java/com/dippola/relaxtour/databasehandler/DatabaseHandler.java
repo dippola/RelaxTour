@@ -27,6 +27,7 @@ import com.dippola.relaxtour.pages.item.FavListItem;
 import com.dippola.relaxtour.pages.item.FavTitleItem;
 import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.dialog.credit_dialog.CreditItem;
+import com.dippola.relaxtour.retrofit.model.UserModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -104,6 +105,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String COLUMN_AGREE = "agree";
     private static final String NOTIFICATION_TEAM = "create table if not exists notification(agree INTEGER);";
 
+    //user
+    private static final String USER_TEAM = "create table if not exists user(email TEXT, uid TEXT, nickname TEXT, imageurl TEXT, provider TEXT);";
+
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -153,6 +157,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(FAV_TITLE_TEAM);
         sqLiteDatabase.execSQL(FAV_LIST_TEAM);
         sqLiteDatabase.execSQL(CREDIT_TEAM);
+        sqLiteDatabase.execSQL(USER_TEAM);
     }
 
     @Override
@@ -943,5 +948,61 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursor.close();
         closeDatabse();
         return isedit;
+    }
+
+    public ArrayList<UserModel> getUserModel() {
+        UserModel userModel = null;
+        ArrayList<UserModel> userModels = new ArrayList<>();
+
+        openDatabase();
+        String sql = "SELECT * FROM user";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            userModel = new UserModel(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+            userModels.add(userModel);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        closeDatabse();
+        return userModels;
+    }
+
+    public UserModel getMyPtofile() {
+        UserModel userModel = new UserModel();
+        openDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from user", null);
+        cursor.moveToFirst();
+        userModel.setEmail(cursor.getString(0));
+        userModel.setUid(cursor.getString(1));
+        userModel.setNickname(cursor.getString(2));
+        userModel.setImageurl(cursor.getString(3));
+        userModel.setProvider(cursor.getString(4));
+        return userModel;
+    }
+
+    public void createUserProfile(String email, String uid, String provider) {
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("email", email);
+        contentValues.put("uid", uid);
+        contentValues.put("provider", provider);
+        sqLiteDatabase.insert("user", null, contentValues);
+        closeDatabse();
+    }
+
+    public void updateUserProfile(String nickname, String imageurl, String uid) {
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("nickname", nickname);
+        contentValues.put("imageurl", imageurl);
+        sqLiteDatabase.insert("user", null, contentValues);
+        sqLiteDatabase.execSQL("update user set nickname = " + "'" + nickname + "'" + ", imageurl = " + "'" + imageurl + "'" + " where uid = " + "'" + uid + "'");
+        closeDatabse();
+    }
+
+    public void deleteUserProfile() {
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("delete from user");
     }
 }

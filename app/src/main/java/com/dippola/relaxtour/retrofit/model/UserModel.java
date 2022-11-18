@@ -28,6 +28,16 @@ public class UserModel {
     @Expose
     private String provider;
 
+    public UserModel() {}
+
+    public UserModel(String email, String uid, String nickname, String imageurl, String provider) {
+        this.email = email;
+        this.uid = uid;
+        this.nickname = nickname;
+        this.imageurl = imageurl;
+        this.provider = provider;
+    }
+
     public String getId() {
         return id;
     }

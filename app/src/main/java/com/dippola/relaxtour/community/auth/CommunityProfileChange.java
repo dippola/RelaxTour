@@ -177,10 +177,32 @@ public class CommunityProfileChange extends AppCompatActivity {
                     } else {
                         if (auth.getCurrentUser() != null) {
                             load.setVisibility(View.VISIBLE);
-                            uploadPic1();
+                            checkNicknameAready();
                         }
                     }
                 }
+            }
+        });
+    }
+
+    private void checkNicknameAready() {
+        Call<List<UserModel>> call;
+        call = RetrofitClient.getApiService().searchNickname(editNickname.getText().toString());
+        call.enqueue(new Callback<List<UserModel>>() {
+            @Override
+            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().size() != 0) {
+                        error.setText("This nickname is already registered. Please enter a different nickname.");
+                        load.setVisibility(View.GONE);
+                    } else {
+                        uploadPic1();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<List<UserModel>> call, Throwable t) {
+
             }
         });
     }

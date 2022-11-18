@@ -258,7 +258,9 @@ public class CommunitySignIn extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
                 if (response.isSuccessful()) {
+                    Log.d("CommunitySignIn>>>", "1: " + email);
                     if (response.body().size() != 0) {
+                        Log.d("CommunitySignIn>>>", "2");
                         if (!response.body().get(0).getProvider().equals("Google")) {
                             Intent intent = new Intent(CommunitySignIn.this, CommunitySignInAnotherProviderDialog.class);
                             intent.putExtra("showProvider", "Email/Password");
@@ -268,6 +270,7 @@ public class CommunitySignIn extends AppCompatActivity {
                             firebaseAuthWithGoogle(idToken);
                         }
                     } else {
+                        Log.d("CommunitySignIn>>>", "3: " + response.message());
                         load.setVisibility(View.GONE);
                         Intent intent = new Intent(CommunitySignIn.this, CommunityAskSignUpDialog.class);
                         launcher.launch(intent);

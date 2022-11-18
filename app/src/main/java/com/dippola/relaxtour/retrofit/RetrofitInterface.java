@@ -36,12 +36,12 @@ public interface RetrofitInterface {
             @Path("uid") String userUid
     );
 
-    @GET("user/search/{nickname}")
+    @GET("user/searchnickname/{nickname}")
     Call<List<UserModel>> searchNickname(
             @Path("nickname") String nickname
     );
 
-    @GET("user/search/{email}")
+    @GET("user/searchemail/{email}")
     Call<List<UserModel>> searchEmail(
             @Path("email") String email
     );
