@@ -232,6 +232,7 @@ public class CommunityProfileCreate extends AppCompatActivity {
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 if (response.isSuccessful()) {
                     isCreate = true;
+                    Log.d("ChangeProfile>>>", "message: " + response.message());
                     goToBack();
                 }
             }
