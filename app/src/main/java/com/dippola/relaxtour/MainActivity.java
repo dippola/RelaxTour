@@ -166,8 +166,6 @@ public class MainActivity extends AppCompatActivity {
         cancel = findViewById(R.id.activity_main_timer_cancel);
         mainTitle = findViewById(R.id.activity_main_title_layout);
         community = findViewById(R.id.activity_main_community);
-        community.setVisibility(View.GONE);
-        community.setEnabled(false);
 
         if (TimerService.isCount) {
             cancel.setVisibility(View.VISIBLE);

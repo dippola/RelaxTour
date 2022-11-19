@@ -1,5 +1,7 @@
 package com.dippola.relaxtour.retrofit;
 
+import com.dippola.relaxtour.retrofit.model.MainGetModel;
+import com.dippola.relaxtour.retrofit.model.MainCreateModel;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 
 import java.util.List;
@@ -7,9 +9,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -36,13 +37,31 @@ public interface RetrofitInterface {
             @Path("uid") String userUid
     );
 
-    @GET("user/searchnickname/{nickname}")
+    @GET("user/searchnickname/{nickname}/")
     Call<List<UserModel>> searchNickname(
             @Path("nickname") String nickname
     );
 
-    @GET("user/searchemail/{email}")
+    @GET("user/searchemail/{email}/")
     Call<List<UserModel>> searchEmail(
             @Path("email") String email
+    );
+
+    @GET("posts/page={page}/")
+    Call<List<MainGetModel>> getMainPage(
+            @Path("page") int page
+    );
+    @GET("post/{pk}/")
+    Call<MainGetModel> getMain(
+            @Path("pk") int pk
+    );
+    @POST("post/create/")
+    Call<MainCreateModel> createMain(
+            @Body MainCreateModel mainModel
+    );
+    @PATCH("post/{pk}/update/")
+    Call<UserModel> updateMain(
+            @Path("pk") int pk,
+            @Body MainCreateModel mainCreateModel
     );
 }

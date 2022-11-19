@@ -22,27 +22,22 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.auth.CommunityAuth;
-import com.dippola.relaxtour.community.signIn.CommunityAskSignUpDialog;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.community.signIn.CommunitySignIn;
-import com.dippola.relaxtour.community.signIn.CommunitySignInAnotherProviderDialog;
-import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.MainGetModel;
+import com.dippola.relaxtour.retrofit.model.MainCreateModel;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
@@ -257,64 +252,6 @@ public class CommunityMain extends AppCompatActivity {
         });
     }
 
-    private void test() {
-//        Button test1 = findViewById(R.id.main_test1);
-//        test1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (databaseHandler.getUserModel().size() != 0) {
-//                    UserModel userModel = databaseHandler.getMyPtofile();
-//                    Log.d("CommunityMain>>>", "email: " + userModel.getEmail());
-//                    Log.d("CommunityMain>>>", "uid: " + userModel.getUid());
-//                    Log.d("CommunityMain>>>", "nickname: " + userModel.getNickname());
-//                    Log.d("CommunityMain>>>", "iamgeurl: " + userModel.getImageurl());
-//                    Log.d("CommunityMain>>>", "provider: " + userModel.getProvider());
-//                } else {
-//                    Log.d("CommunityMain>>>", "size: 0");
-//                }
-//            }
-//        });
-//        Button test2 = findViewById(R.id.main_test2);
-//        test2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                databaseHandler.createUserProfile("dippola@gmail.com", "vDLej5ktBGaaXxth67yE6xC2Hgf2", "Google");
-//            }
-//        });
-//        Button test3 = findViewById(R.id.main_test3);
-//        test3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                databaseHandler.updateUserProfile("nickname", "", auth.getCurrentUser().getUid());
-//            }
-//        });
-//        Button test4 = findViewById(R.id.main_test4);
-//        test4.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                databaseHandler.deleteUserProfile();
-//            }
-//        });
-
-        Button test5 = findViewById(R.id.main_test5);
-        test5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatabaseHandler databaseHandler = new DatabaseHandler(CommunityMain.this);
-                if (databaseHandler.getUserModel().size() != 0) {
-                    UserModel userModel = databaseHandler.getMyPtofile();
-                    Log.d("CommunityMain>>>", "email: " + userModel.getEmail());
-                    Log.d("CommunityMain>>>", "uid: " + userModel.getUid());
-                    Log.d("CommunityMain>>>", "nickname: " + userModel.getNickname());
-                    Log.d("CommunityMain>>>", "iamgeurl: " + userModel.getImageurl());
-                    Log.d("CommunityMain>>>", "provider: " + userModel.getProvider());
-                } else {
-                    Log.d("CommunityMain>>>", "size: 0");
-                }
-            }
-        });
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -421,5 +358,102 @@ public class CommunityMain extends AppCompatActivity {
 
     private void loadCommunity() {
 
+    }
+
+    private void test() {
+        Button c_1 = findViewById(R.id.main_c_1);
+        c_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<List<MainGetModel>> call;
+                call = RetrofitClient.getApiService().getMainPage(1);
+                call.enqueue(new Callback<List<MainGetModel>>() {
+                    @Override
+                    public void onResponse(Call<List<MainGetModel>> call, Response<List<MainGetModel>> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("CommunityMain>>>", "size: " + response.body().size());
+                        } else {
+                            Log.d("CommunityMain>>>", "1: " + response.message());
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<List<MainGetModel>> call, Throwable t) {
+                        Log.d("CommunityMain>>>", "2: " + t.getMessage());
+                    }
+                });
+            }
+        });
+        Button c0 = findViewById(R.id.main_c0);
+        c0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<MainGetModel> call;
+                call = RetrofitClient.getApiService().getMain(1);
+                call.enqueue(new Callback<MainGetModel>() {
+                    @Override
+                    public void onResponse(Call<MainGetModel> call, Response<MainGetModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("CommunityMain>>>", "1: " + response.body().getTitle());
+                        } else {
+                            Log.d("CommunityMain>>>", "2: " + response.message());
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<MainGetModel> call, Throwable t) {
+                        Log.d("CommunityMain>>>", "3: " + t.getMessage());
+                    }
+                });
+            }
+        });
+        Button c1 = findViewById(R.id.main_c1);
+        c1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainCreateModel mainModel = new MainCreateModel();
+                mainModel.setUid(auth.getCurrentUser().getUid());
+                mainModel.setTitle("title title dz");
+                mainModel.setBody("body.. ok body\nbody hello");
+                mainModel.setImageurl("");
+                mainModel.setList("");
+                RetrofitClient.getApiService().createMain(mainModel).enqueue(new Callback<MainCreateModel>() {
+                    @Override
+                    public void onResponse(Call<MainCreateModel> call, Response<MainCreateModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("CommunityMain>>>", "1: " + response.message());
+                        } else {
+                            Log.d("CommunityMain>>>", "2: " + response.message());
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<MainCreateModel> call, Throwable t) {
+                        Log.d("CommunityMain>>>", "3: " + t.getMessage());
+                    }
+                });
+            }
+        });
+        Button c2 = findViewById(R.id.main_c2);
+        c2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainCreateModel mainCreateModel = new MainCreateModel();
+                mainCreateModel.setTitle("title title dz11");
+                mainCreateModel.setBody("body.. ok body\nbody hello11");
+                RetrofitClient.getApiService().updateMain(1, mainCreateModel).enqueue(new Callback<UserModel>() {
+                    @Override
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("CommunityMain>>>", "1: " + response.message());
+                        } else {
+                            Log.d("CommunityMain>>>", "2: " + response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserModel> call, Throwable t) {
+                        Log.d("CommunityMain>>>", "3: " + t.getMessage());
+                    }
+                });
+            }
+        });
     }
 }
