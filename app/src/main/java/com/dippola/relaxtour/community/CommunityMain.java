@@ -455,5 +455,33 @@ public class CommunityMain extends AppCompatActivity {
                 });
             }
         });
+        Button c3 = findViewById(R.id.main_c3);
+        c3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RetrofitClient.getApiService().deleteMain(3).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("CommunityMain>>>", "1: " + response.message());
+                        } else {
+                            Log.d("CommunityMain>>>", "2: " + response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.d("CommunityMain>>>", "3: " + t.getMessage());
+                    }
+                });
+            }
+        });
+        Button c4 = findViewById(R.id.main_c4);
+        c4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 }

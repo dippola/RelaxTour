@@ -64,4 +64,8 @@ public interface RetrofitInterface {
             @Path("pk") int pk,
             @Body MainCreateModel mainCreateModel
     );
+    @DELETE("post/{pk}/delete/")
+    Call<String> deleteMain(
+            @Path("pk") int pk
+    );
 }
