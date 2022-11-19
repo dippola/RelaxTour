@@ -59,7 +59,7 @@ public interface RetrofitInterface {
     Call<MainCreateModel> createMain(
             @Body MainCreateModel mainModel
     );
-    @PATCH("post/{pk}/update/")
+    @PUT("post/{pk}/update/")
     Call<UserModel> updateMain(
             @Path("pk") int pk,
             @Body MainCreateModel mainCreateModel
