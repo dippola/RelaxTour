@@ -24,6 +24,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.CommunityMain;
 import com.dippola.relaxtour.community.auth.CommunityAuthResetPasswordDialog;
+import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -201,15 +202,12 @@ public class CommunitySignIn extends AppCompatActivity {
                             startActivity(intent);
                             load.setVisibility(View.GONE);
                         } else {
+                            updateDatabase(response.body().get(0).getEmail(), response.body().get(0).getUid(), response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getProvider());
                             auth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(CommunitySignIn.this, "Sign In Successful", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(CommunitySignIn.this, CommunityMain.class);
-                                        intent.putExtra("isSignIn", true);
-                                        setResult(CommunityMain.FROM_SIGNIN, intent);
-                                        finish();
+                                        goToMain();
                                     } else {
                                         Toast.makeText(CommunitySignIn.this, "failed: " + task.getException(), Toast.LENGTH_SHORT).show();
                                         load.setVisibility(View.GONE);
@@ -267,6 +265,7 @@ public class CommunitySignIn extends AppCompatActivity {
                             startActivity(intent);
                             load.setVisibility(View.GONE);
                         } else {
+                            updateDatabase(response.body().get(0).getEmail(), response.body().get(0).getUid(), response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getProvider());
                             firebaseAuthWithGoogle(idToken);
                         }
                     } else {
@@ -292,12 +291,8 @@ public class CommunitySignIn extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(CommunitySignIn.this, "Sign In Successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(CommunitySignIn.this, CommunityMain.class);
-                            intent.putExtra("isSignIn", true);
-                            setResult(CommunityMain.FROM_SIGNIN, intent);
-                            finish();
+                            // Sign in success, update UI with the signed-in user's information=
+                            goToMain();
 //                            updateUI(user);
                         } else {
                             load.setVisibility(View.GONE);
@@ -315,6 +310,19 @@ public class CommunitySignIn extends AppCompatActivity {
         super.onPause();
         editEmail.setText("");
         editPassword.setText("");
+    }
+
+    private void updateDatabase(String email, String uid, String nickname, String imageurl, String provider) {
+        DatabaseHandler databaseHandler = new DatabaseHandler(CommunitySignIn.this);
+        databaseHandler.makeDbUserWhenSignIn(email, uid, nickname, imageurl, provider);
+    }
+
+    private void goToMain() {
+        Toast.makeText(CommunitySignIn.this, "Sign In Successful", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(CommunitySignIn.this, CommunityMain.class);
+        intent.putExtra("isSignIn", true);
+        setResult(CommunityMain.FROM_SIGNIN, intent);
+        finish();
     }
 
     private void hideKeyboard(View v) {

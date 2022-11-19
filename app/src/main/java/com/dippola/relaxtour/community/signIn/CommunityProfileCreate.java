@@ -25,6 +25,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.CommunityMain;
 import com.dippola.relaxtour.community.auth.CommunityAuth;
+import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -254,6 +255,8 @@ public class CommunityProfileCreate extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 if (response.isSuccessful()) {
+                    DatabaseHandler databaseHandler = new DatabaseHandler(CommunityProfileCreate.this);
+                    databaseHandler.updateUserProfile(editNickname.getText().toString(), uri, auth.getCurrentUser().getUid());
                     isCreate = true;
                     Log.d("ChangeProfile>>>", "message: " + response.message());
                     goToBack();

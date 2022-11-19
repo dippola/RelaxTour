@@ -100,6 +100,12 @@
             android:layout_height="wrap_content"
             android:text="delete"/>
 
+        <Button
+            android:id="@+id/main_test5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test"/>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

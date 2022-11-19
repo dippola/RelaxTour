@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -260,6 +261,9 @@ public class CommunitySignUp extends AppCompatActivity {
     }
 
     private void saveUserInServer(String provider) {
+        DatabaseHandler databaseHandler = new DatabaseHandler(CommunitySignUp.this);
+        databaseHandler.deleteUserProfile();
+        databaseHandler.createUserProfile(auth.getCurrentUser().getEmail(), auth.getCurrentUser().getUid(), provider);
         UserModel userModel = new UserModel();
         userModel.setUid(auth.getCurrentUser().getUid());
         userModel.setEmail(auth.getCurrentUser().getEmail());

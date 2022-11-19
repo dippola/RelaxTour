@@ -65,7 +65,7 @@ public class CommunityMain extends AppCompatActivity {
     //test
     private Button gosignin;
 
-    private DatabaseHandler databaseHandler;
+//    private DatabaseHandler databaseHandler;
 
     public static final int FROM_SIGNIN = 105;
     public static final int FROM_CREATE_PROFILE = 106;
@@ -79,7 +79,7 @@ public class CommunityMain extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        setDatabaseHandler();
+//        setDatabaseHandler();
 
         setInit();
         setImageAuthIcon();
@@ -242,10 +242,10 @@ public class CommunityMain extends AppCompatActivity {
         }
     });
 
-    private void setDatabaseHandler() {
-        databaseHandler.setDB(CommunityMain.this);
-        databaseHandler = new DatabaseHandler(CommunityMain.this);
-    }
+//    private void setDatabaseHandler() {
+//        databaseHandler.setDB(CommunityMain.this);
+//        databaseHandler = new DatabaseHandler(CommunityMain.this);
+//    }
 
     private void goToSignInButton() {
         gosignin = findViewById(R.id.community_main_go_to_signin);
@@ -258,10 +258,49 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void test() {
-        Button test1 = findViewById(R.id.main_test1);
-        test1.setOnClickListener(new View.OnClickListener() {
+//        Button test1 = findViewById(R.id.main_test1);
+//        test1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (databaseHandler.getUserModel().size() != 0) {
+//                    UserModel userModel = databaseHandler.getMyPtofile();
+//                    Log.d("CommunityMain>>>", "email: " + userModel.getEmail());
+//                    Log.d("CommunityMain>>>", "uid: " + userModel.getUid());
+//                    Log.d("CommunityMain>>>", "nickname: " + userModel.getNickname());
+//                    Log.d("CommunityMain>>>", "iamgeurl: " + userModel.getImageurl());
+//                    Log.d("CommunityMain>>>", "provider: " + userModel.getProvider());
+//                } else {
+//                    Log.d("CommunityMain>>>", "size: 0");
+//                }
+//            }
+//        });
+//        Button test2 = findViewById(R.id.main_test2);
+//        test2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                databaseHandler.createUserProfile("dippola@gmail.com", "vDLej5ktBGaaXxth67yE6xC2Hgf2", "Google");
+//            }
+//        });
+//        Button test3 = findViewById(R.id.main_test3);
+//        test3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                databaseHandler.updateUserProfile("nickname", "", auth.getCurrentUser().getUid());
+//            }
+//        });
+//        Button test4 = findViewById(R.id.main_test4);
+//        test4.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                databaseHandler.deleteUserProfile();
+//            }
+//        });
+
+        Button test5 = findViewById(R.id.main_test5);
+        test5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DatabaseHandler databaseHandler = new DatabaseHandler(CommunityMain.this);
                 if (databaseHandler.getUserModel().size() != 0) {
                     UserModel userModel = databaseHandler.getMyPtofile();
                     Log.d("CommunityMain>>>", "email: " + userModel.getEmail());
@@ -272,27 +311,6 @@ public class CommunityMain extends AppCompatActivity {
                 } else {
                     Log.d("CommunityMain>>>", "size: 0");
                 }
-            }
-        });
-        Button test2 = findViewById(R.id.main_test2);
-        test2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                databaseHandler.createUserProfile("dippola@gmail.com", "vDLej5ktBGaaXxth67yE6xC2Hgf2", "Google");
-            }
-        });
-        Button test3 = findViewById(R.id.main_test3);
-        test3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                databaseHandler.updateUserProfile("nickname", "", auth.getCurrentUser().getUid());
-            }
-        });
-        Button test4 = findViewById(R.id.main_test4);
-        test4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                databaseHandler.deleteUserProfile();
             }
         });
     }

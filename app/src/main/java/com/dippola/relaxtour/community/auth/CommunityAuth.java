@@ -27,6 +27,7 @@ import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.CommunityMain;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
+import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -352,6 +353,8 @@ public class CommunityAuth extends AppCompatActivity {
                             .build();
                     GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(CommunityAuth.this, gso);
                     googleSignInClient.signOut();
+                    DatabaseHandler databaseHandler = new DatabaseHandler(CommunityAuth.this);
+                    databaseHandler.deleteUserProfile();
                     Toast.makeText(CommunityAuth.this, "Signed Out", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(CommunityAuth.this, CommunityMain.class);
                     intent.putExtra("isSignout", true);
@@ -382,7 +385,7 @@ public class CommunityAuth extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if (response.isSuccessful()) {
-                            FirebaseStorage.getInstance().getReference().child("userimages/kmj654649@gmail.coma").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                            FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail()).listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
                                 @Override
                                 public void onSuccess(ListResult listResult) {
                                     if (listResult.getItems().size() != 0) {
@@ -401,6 +404,8 @@ public class CommunityAuth extends AppCompatActivity {
                             auth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
+                                    DatabaseHandler databaseHandler = new DatabaseHandler(CommunityAuth.this);
+                                    databaseHandler.deleteUserProfile();
                                     Toast.makeText(CommunityAuth.this, "delete success", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(CommunityAuth.this, CommunityMain.class);
                                     intent.putExtra("isDeleteUser", true);
@@ -456,14 +461,13 @@ public class CommunityAuth extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Call<String> call, Response<String> response) {
                                     if (response.isSuccessful()) {
-                                        FirebaseStorage.getInstance().getReference().child("userimages/kmj654649@gmail.coma").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                                        FirebaseStorage.getInstance().getReference().child("userimages/" + auth.getCurrentUser().getEmail()).listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
                                             @Override
                                             public void onSuccess(ListResult listResult) {
                                                 if (listResult.getItems().size() != 0) {
                                                     for (StorageReference storageReference : listResult.getItems()) {
                                                         storageReference.delete();
                                                     }
-                                                } else {
                                                 }
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
@@ -476,6 +480,8 @@ public class CommunityAuth extends AppCompatActivity {
                                         auth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
+                                                DatabaseHandler databaseHandler = new DatabaseHandler(CommunityAuth.this);
+                                                databaseHandler.deleteUserProfile();
                                                 Toast.makeText(CommunityAuth.this, "delete success", Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(CommunityAuth.this, CommunityMain.class);
                                                 intent.putExtra("isDeleteUser", true);
