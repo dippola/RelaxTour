@@ -950,22 +950,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return isedit;
     }
 
-    public ArrayList<UserModel> getUserModel() {
-        UserModel userModel = null;
-        ArrayList<UserModel> userModels = new ArrayList<>();
-
+    public UserModel getUserModel() {
+        UserModel userModel = new UserModel();
         openDatabase();
         String sql = "SELECT * FROM user";
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            userModel = new UserModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
-            userModels.add(userModel);
-            cursor.moveToNext();
-        }
+        userModel.setId(cursor.getInt(0));
+        userModel.setEmail(cursor.getString(1));
+        userModel.setUid(cursor.getString(2));
+        userModel.setNickname(cursor.getString(3));
+        userModel.setImageurl(cursor.getString(4));
+        userModel.setProvider(cursor.getString(5));
+        userModel.setToken(cursor.getString(6));
         cursor.close();
         closeDatabse();
-        return userModels;
+        return userModel;
     }
 
     public UserModel getMyPtofile() {
@@ -983,6 +983,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void makeDbUserWhenSignIn(int id, String email, String uid, String provider, String nickname, String imageurl) {
         sqLiteDatabase = this.getWritableDatabase();
+        deleteUserProfile();
         ContentValues contentValues = new ContentValues();
         contentValues.put("id", id);
         contentValues.put("email", email);
@@ -996,6 +997,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void createUserProfile(int id, String email, String uid, String provider) {
         sqLiteDatabase = this.getWritableDatabase();
+        deleteUserProfile();
         ContentValues contentValues = new ContentValues();
         contentValues.put("id", id);
         contentValues.put("email", email);

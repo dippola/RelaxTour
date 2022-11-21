@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/community_signin_titleimg"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/premium_title_img"

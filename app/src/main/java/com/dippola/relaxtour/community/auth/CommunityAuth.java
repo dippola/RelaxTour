@@ -22,9 +22,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.CommunityMain;
+import com.dippola.relaxtour.community.Test;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
@@ -47,6 +49,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -71,11 +74,14 @@ public class CommunityAuth extends AppCompatActivity {
     private boolean isChangePic;
     private String provider;
     private String imageurl;
+    private DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.community_auth);
+
+        databaseHandler = new DatabaseHandler(CommunityAuth.this);
 
         setInit();
         onClickEditProfile();
@@ -177,43 +183,65 @@ public class CommunityAuth extends AppCompatActivity {
     }
 
     private void setProfile() {
-        Call<List<UserModel>> call;
-        call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
-        call.enqueue(new Callback<List<UserModel>>() {
-            @Override
-            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().get(0).getImageurl().length() != 0) {
-                        imageurl = response.body().get(0).getImageurl();
-                        Glide.with(CommunityAuth.this).load(response.body().get(0).getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
-                    } else {
-                        Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
-                    }
-                    if (response.body().get(0).getNickname().length() != 0) {
-                        nickname.setText(response.body().get(0).getNickname());
-                    } else {
-                        nickname.setText("nickname not set");
-                    }
-                    if (response.body().get(0).getProvider().equals("Google")) {
-                        findPassword.setVisibility(View.GONE);
-                        findPassword.setEnabled(false);
-                        provicerIcon.setBackground(getResources().getDrawable(R.drawable.google_white_icon));
-                    } else {
-                        findPassword.setVisibility(View.VISIBLE);
-                        provicerIcon.setBackground(getResources().getDrawable(R.drawable.community_auth_email_icon));
-                    }
-                    provider = response.body().get(0).getProvider();
-                    email.setText(auth.getCurrentUser().getEmail());
-                    imgload.setVisibility(View.GONE);
-                    load.setVisibility(View.GONE);
-                }
-            }
+//        Call<List<UserModel>> call;
+//        call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+//        call.enqueue(new Callback<List<UserModel>>() {
+//            @Override
+//            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+//                if (response.isSuccessful()) {
+//                    if (response.body().get(0).getImageurl().length() != 0) {
+//                        imageurl = response.body().get(0).getImageurl();
+//                        Glide.with(CommunityAuth.this).load(response.body().get(0).getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+//                    } else {
+//                        Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+//                    }
+//                    if (response.body().get(0).getNickname().length() != 0) {
+//                        nickname.setText(response.body().get(0).getNickname());
+//                    } else {
+//                        nickname.setText("nickname not set");
+//                    }
+//                    if (response.body().get(0).getProvider().equals("Google")) {
+//                        findPassword.setVisibility(View.GONE);
+//                        findPassword.setEnabled(false);
+//                        provicerIcon.setBackground(getResources().getDrawable(R.drawable.google_white_icon));
+//                    } else {
+//                        findPassword.setVisibility(View.VISIBLE);
+//                        provicerIcon.setBackground(getResources().getDrawable(R.drawable.community_auth_email_icon));
+//                    }
+//                    provider = response.body().get(0).getProvider();
+//                    email.setText(auth.getCurrentUser().getEmail());
+//                    imgload.setVisibility(View.GONE);
+//                    load.setVisibility(View.GONE);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<UserModel>> call, Throwable t) {
+//
+//            }
+//        });
 
-            @Override
-            public void onFailure(Call<List<UserModel>> call, Throwable t) {
-
-            }
-        });
+        UserModel userModel = new UserModel();
+        userModel = databaseHandler.getUserModel();
+        if (userModel.getImageurl() == null) {
+            Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+        } else {
+            Glide.with(CommunityAuth.this).load(userModel.getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+        }
+        if (userModel.getNickname() == null) {
+            nickname.setText("nickname not set");
+        } else {
+            nickname.setText(userModel.getNickname());
+        }
+        if (userModel.getProvider().equals("Google")) {
+            findPassword.setVisibility(View.GONE);
+            findPassword.setEnabled(false);
+            provicerIcon.setBackground(getResources().getDrawable(R.drawable.google_white_icon));
+        } else {
+            findPassword.setVisibility(View.VISIBLE);
+            provicerIcon.setBackground(getResources().getDrawable(R.drawable.community_auth_email_icon));
+        }
+        email.setText(userModel.getEmail());
     }
 
     private void onClickEditProfile() {
@@ -515,5 +543,15 @@ public class CommunityAuth extends AppCompatActivity {
             setResult(CommunityMain.FROM_AUTH, intent);
             super.onBackPressed();
         }
+    }
+
+    private void test() {
+        TextView test = findViewById(R.id.community_auth_title);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CommunityAuth.this, Test.class));
+            }
+        });
     }
 }

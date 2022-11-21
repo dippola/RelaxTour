@@ -2,25 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Community Main Activity"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_height="match_parent"
+    android:background="@drawable/community_main_background">
 
     <RelativeLayout
         android:id="@+id/community_main_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#4D000000">
+        android:background="#4D000000"
+        android:visibility="gone">
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -28,19 +18,6 @@
             android:layout_centerInParent="true"
             android:indeterminateTint="@color/button_design_color" />
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/community_main_go_to_signin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:text="Go To SignIn"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/community_main_auth"
@@ -67,105 +44,5 @@
         app:layout_constraintStart_toStartOf="@+id/community_main_auth"
         app:layout_constraintTop_toTopOf="@+id/community_main_auth"
         app:layout_constraintWidth_percent="0.06" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/main_l1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="check email"/>
-            <Button
-                android:id="@+id/main_l2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="main전체삭제"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <Button
-                android:id="@+id/main_c1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="get글 전체" />
-            <Button
-                android:id="@+id/main_c2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="get글 하나" />
-            <Button
-                android:id="@+id/main_c3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="글쓰기" />
-
-            <Button
-                android:id="@+id/main_c4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="글수정" />
-
-            <Button
-                android:id="@+id/main_c5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="글삭제" />
-
-            <Button
-                android:id="@+id/main_c6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CASCADE 테스트" />
-            <Button
-                android:id="@+id/main_c7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="get token"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <Button
-                android:id="@+id/main_r1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="get댓글"/>
-            <Button
-                android:id="@+id/main_r2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="댓글쓰기"/>
-            <Button
-                android:id="@+id/main_r3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="댓글수정"/>
-            <Button
-                android:id="@+id/main_r4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="댓글삭제"/>
-            <Button
-                android:id="@+id/main_r5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CASCADE 테스트"/>
-        </LinearLayout>
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.CommunityMain;
+import com.dippola.relaxtour.community.Test;
 import com.dippola.relaxtour.community.auth.CommunityAuthResetPasswordDialog;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
@@ -76,6 +78,8 @@ public class CommunitySignIn extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         setInit();
+
+        test();
     }
 
     private void setInit() {
@@ -328,6 +332,16 @@ public class CommunitySignIn extends AppCompatActivity {
     private void hideKeyboard(View v) {
         InputMethodManager manager = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    private void test() {
+        ImageView test = findViewById(R.id.community_signin_titleimg);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CommunitySignIn.this, Test.class));
+            }
+        });
     }
 
 }

@@ -104,6 +104,18 @@ public class CommunityProfileChange extends AppCompatActivity {
                 Toast.makeText(CommunityProfileChange.this, "Profile load failed due to unstable internet.", Toast.LENGTH_SHORT).show();
             }
         });
+
+        DatabaseHandler databaseHandler = new DatabaseHandler(CommunityProfileChange.this);
+        UserModel userModel = new UserModel();
+        userModel = databaseHandler.getUserModel();
+        if (userModel.getImageurl() == null) {
+            Glide.with(CommunityProfileChange.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+        } else {
+            Glide.with(CommunityProfileChange.this).load(userModel.getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+        }
+        if (userModel.getNickname() != null) {
+            editNickname.setText(userModel.getNickname());
+        }
     }
 
     private void onClickDeletePic() {

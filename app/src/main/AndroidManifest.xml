@@ -59,6 +59,10 @@
         <activity android:name=".dialog.credit_dialog.CreditDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".onboarding.OnBoarding" android:screenOrientation="portrait" />
 
+
+
+        <activity android:name=".community.Test" android:screenOrientation="portrait" />
+
         <service
             android:name=".service.FirebaseMessagingService"
             android:exported="false">
