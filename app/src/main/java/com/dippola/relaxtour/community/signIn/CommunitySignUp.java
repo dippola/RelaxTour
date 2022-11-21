@@ -38,6 +38,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.List;
@@ -144,7 +145,7 @@ public class CommunitySignUp extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    saveUserInServer("Email/Password");
+                                    getToken("Email/Password");
                                 } else {
                                     Toast.makeText(CommunitySignUp.this, "failed: " + task.getException(), Toast.LENGTH_SHORT).show();
                                     load.setVisibility(View.GONE);
@@ -247,7 +248,7 @@ public class CommunitySignUp extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            saveUserInServer("Google");
+                            getToken("Google");
 //                            updateUI(user);
                         } else {
                             load.setVisibility(View.GONE);
@@ -260,21 +261,33 @@ public class CommunitySignUp extends AppCompatActivity {
                 });
     }
 
-    private void saveUserInServer(String provider) {
-        DatabaseHandler databaseHandler = new DatabaseHandler(CommunitySignUp.this);
-        databaseHandler.deleteUserProfile();
-        databaseHandler.createUserProfile(auth.getCurrentUser().getEmail(), auth.getCurrentUser().getUid(), provider);
+    private void getToken(String provider) {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (task.isSuccessful()) {
+                    saveUserInServer(provider, task.getResult());
+                }
+            }
+        });
+    }
+
+    private void saveUserInServer(String provider, String token) {
         UserModel userModel = new UserModel();
         userModel.setUid(auth.getCurrentUser().getUid());
         userModel.setEmail(auth.getCurrentUser().getEmail());
         userModel.setNickname("");
         userModel.setImageurl("");
         userModel.setProvider(provider);
+        userModel.setToken(token);
         RetrofitClient.getApiService().createUser(userModel).enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 if (response.isSuccessful()) {
                     goBackToSignIn(true);
+                    DatabaseHandler databaseHandler = new DatabaseHandler(CommunitySignUp.this);
+                    databaseHandler.deleteUserProfile();
+                    databaseHandler.createUserProfile(response.body().getId(), auth.getCurrentUser().getEmail(), auth.getCurrentUser().getUid(), provider);
                 } else {
                     Toast.makeText(CommunitySignUp.this, "Error: " + response.errorBody().toString(), Toast.LENGTH_SHORT).show();
                     load.setVisibility(View.GONE);

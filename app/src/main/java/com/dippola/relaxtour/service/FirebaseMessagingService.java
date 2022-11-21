@@ -14,13 +14,36 @@ import androidx.core.app.NotificationCompat;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.auth.CommunityProfileChange;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.UserModel;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.RemoteMessage;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
     @Override
     public void onNewToken(String token) {
         super.onNewToken(token);
+        UserModel userModel = new UserModel();
+        userModel.setToken(token);
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        RetrofitClient.getApiService().updateUser(uid, userModel).enqueue(new Callback<UserModel>() {
+            @Override
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
+                databaseHandler.updateUserToken(token, uid);
+            }
+
+            @Override
+            public void onFailure(Call<UserModel> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

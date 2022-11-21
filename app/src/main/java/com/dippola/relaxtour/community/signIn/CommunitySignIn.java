@@ -202,7 +202,7 @@ public class CommunitySignIn extends AppCompatActivity {
                             startActivity(intent);
                             load.setVisibility(View.GONE);
                         } else {
-                            updateDatabase(response.body().get(0).getEmail(), response.body().get(0).getUid(), response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getProvider());
+                            updateDatabase(response.body().get(0).getId(), response.body().get(0).getEmail(), response.body().get(0).getUid(), response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getProvider());
                             auth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -265,7 +265,7 @@ public class CommunitySignIn extends AppCompatActivity {
                             startActivity(intent);
                             load.setVisibility(View.GONE);
                         } else {
-                            updateDatabase(response.body().get(0).getEmail(), response.body().get(0).getUid(), response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getProvider());
+                            updateDatabase(response.body().get(0).getId(), response.body().get(0).getEmail(), response.body().get(0).getUid(), response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getProvider());
                             firebaseAuthWithGoogle(idToken);
                         }
                     } else {
@@ -312,9 +312,9 @@ public class CommunitySignIn extends AppCompatActivity {
         editPassword.setText("");
     }
 
-    private void updateDatabase(String email, String uid, String nickname, String imageurl, String provider) {
+    private void updateDatabase(int id, String email, String uid, String nickname, String imageurl, String provider) {
         DatabaseHandler databaseHandler = new DatabaseHandler(CommunitySignIn.this);
-        databaseHandler.makeDbUserWhenSignIn(email, uid, nickname, imageurl, provider);
+        databaseHandler.makeDbUserWhenSignIn(id, email, uid, nickname, imageurl, provider);
     }
 
     private void goToMain() {

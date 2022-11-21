@@ -106,7 +106,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String NOTIFICATION_TEAM = "create table if not exists notification(agree INTEGER);";
 
     //user
-    private static final String USER_TEAM = "create table if not exists user(email TEXT, uid TEXT, nickname TEXT, imageurl TEXT, provider TEXT);";
+    private static final String USER_TEAM = "create table if not exists user(id INTEGER, email TEXT, uid TEXT, nickname TEXT, imageurl TEXT, provider TEXT, token TEXT);";
 
 
     public DatabaseHandler(Context context) {
@@ -959,7 +959,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            userModel = new UserModel(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+            userModel = new UserModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
             userModels.add(userModel);
             cursor.moveToNext();
         }
@@ -981,9 +981,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return userModel;
     }
 
-    public void makeDbUserWhenSignIn(String email, String uid, String provider, String nickname, String imageurl) {
+    public void makeDbUserWhenSignIn(int id, String email, String uid, String provider, String nickname, String imageurl) {
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put("id", id);
         contentValues.put("email", email);
         contentValues.put("uid", uid);
         contentValues.put("provider", provider);
@@ -993,9 +994,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         closeDatabse();
     }
 
-    public void createUserProfile(String email, String uid, String provider) {
+    public void createUserProfile(int id, String email, String uid, String provider) {
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put("id", id);
         contentValues.put("email", email);
         contentValues.put("uid", uid);
         contentValues.put("provider", provider);
@@ -1010,6 +1012,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         contentValues.put("imageurl", imageurl);
         sqLiteDatabase.insert("user", null, contentValues);
         sqLiteDatabase.execSQL("update user set nickname = " + "'" + nickname + "'" + ", imageurl = " + "'" + imageurl + "'" + " where uid = " + "'" + uid + "'");
+        closeDatabse();
+    }
+
+    public void updateUserToken(String token, String uid) {
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("token", token);
+        sqLiteDatabase.insert("user", null, contentValues);
+        sqLiteDatabase.execSQL("update user set token = " + "'" + token + "'" + " where uid = " + "'" + uid + "'");
         closeDatabse();
     }
 

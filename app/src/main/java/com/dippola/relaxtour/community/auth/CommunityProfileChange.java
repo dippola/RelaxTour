@@ -178,7 +178,11 @@ public class CommunityProfileChange extends AppCompatActivity {
                     } else {
                         if (auth.getCurrentUser() != null) {
                             load.setVisibility(View.VISIBLE);
-                            checkNicknameAready();
+                            if (!beforeNickname.equals(editNickname.getText().toString())) {
+                                checkNicknameAready();
+                            } else {
+                                uploadPic1();
+                            }
                         }
                     }
                 }

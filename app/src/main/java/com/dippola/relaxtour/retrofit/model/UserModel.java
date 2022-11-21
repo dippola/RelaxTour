@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class UserModel {
     @SerializedName("id")
     @Expose
-    private String id;
+    private int id;
 
     @SerializedName("email")
     @Expose
@@ -28,21 +28,28 @@ public class UserModel {
     @Expose
     private String provider;
 
+    @SerializedName("token")
+    @Expose
+    private String token;
+
+
     public UserModel() {}
 
-    public UserModel(String email, String uid, String nickname, String imageurl, String provider) {
+    public UserModel(int id, String email, String uid, String nickname, String imageurl, String provider, String token) {
+        this.id = id;
         this.email = email;
         this.uid = uid;
         this.nickname = nickname;
         this.imageurl = imageurl;
         this.provider = provider;
+        this.token = token;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -84,5 +91,13 @@ public class UserModel {
 
     public void setProvider(String provider) {
         this.provider = provider;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

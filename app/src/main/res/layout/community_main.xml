@@ -85,7 +85,12 @@
                 android:id="@+id/main_l1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="페이지get"/>
+                android:text="check email"/>
+            <Button
+                android:id="@+id/main_l2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="main전체삭제"/>
         </LinearLayout>
 
         <LinearLayout
@@ -93,65 +98,70 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <Button
-                android:id="@+id/main_c_1"
+                android:id="@+id/main_c1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="get글 전체" />
             <Button
-                android:id="@+id/main_c0"
+                android:id="@+id/main_c2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="get글 하나" />
             <Button
-                android:id="@+id/main_c1"
+                android:id="@+id/main_c3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="글쓰기" />
 
             <Button
-                android:id="@+id/main_c2"
+                android:id="@+id/main_c4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="글수정" />
 
             <Button
-                android:id="@+id/main_c3"
+                android:id="@+id/main_c5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="글삭제" />
 
             <Button
-                android:id="@+id/main_c4"
+                android:id="@+id/main_c6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CASCADE 테스트" />
+            <Button
+                android:id="@+id/main_c7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="get token"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <Button
-                android:id="@+id/main_r0"
+                android:id="@+id/main_r1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="get댓글"/>
             <Button
-                android:id="@+id/main_r1"
+                android:id="@+id/main_r2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="댓글쓰기"/>
             <Button
-                android:id="@+id/main_r2"
+                android:id="@+id/main_r3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="댓글수정"/>
             <Button
-                android:id="@+id/main_r3"
+                android:id="@+id/main_r4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="댓글삭제"/>
             <Button
-                android:id="@+id/main_r4"
+                android:id="@+id/main_r5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CASCADE 테스트"/>

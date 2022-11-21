@@ -1,6 +1,7 @@
 package com.dippola.relaxtour.retrofit;
 
-import com.dippola.relaxtour.retrofit.model.MainGetModel;
+import com.dippola.relaxtour.retrofit.model.MainCommentModel;
+import com.dippola.relaxtour.retrofit.model.MainModel;
 import com.dippola.relaxtour.retrofit.model.MainCreateModel;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 
@@ -10,7 +11,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -48,16 +48,17 @@ public interface RetrofitInterface {
     );
 
     @GET("posts/page={page}/")
-    Call<List<MainGetModel>> getMainPage(
+    Call<List<MainModel>> getMainPage(
             @Path("page") int page
     );
     @GET("post/{pk}/")
-    Call<MainGetModel> getMain(
+    Call<MainModel> getMain(
             @Path("pk") int pk
     );
-    @POST("post/create/")
-    Call<MainCreateModel> createMain(
-            @Body MainCreateModel mainModel
+    @POST("post/create={id}/")
+    Call<MainModel> createMain(
+            @Path("id") int id,
+            @Body MainModel mainModel
     );
     @PUT("post/{pk}/update/")
     Call<UserModel> updateMain(
@@ -67,5 +68,17 @@ public interface RetrofitInterface {
     @DELETE("post/{pk}/delete/")
     Call<String> deleteMain(
             @Path("pk") int pk
+    );
+
+    @GET("post/{pk}/comments/page={page}/")
+    Call<List<MainCommentModel>> getMainComment(
+            @Path("pk") int pk,
+            @Path("page") int page
+    );
+    @POST("post/{pk}/comment/create={id}/")
+    Call<MainCommentModel> createComment(
+            @Path("pk") int pk,
+            @Path("id") int id,
+            @Body MainCommentModel mainCommentModel
     );
 }
