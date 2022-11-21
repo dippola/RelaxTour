@@ -1,8 +1,9 @@
 package com.dippola.relaxtour.retrofit;
 
 import com.dippola.relaxtour.retrofit.model.MainCommentModel;
+import com.dippola.relaxtour.retrofit.model.MainCommentUpdateModel;
 import com.dippola.relaxtour.retrofit.model.MainModel;
-import com.dippola.relaxtour.retrofit.model.MainCreateModel;
+import com.dippola.relaxtour.retrofit.model.MainUpdateModel;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 
 import java.util.List;
@@ -61,9 +62,9 @@ public interface RetrofitInterface {
             @Body MainModel mainModel
     );
     @PUT("post/{pk}/update/")
-    Call<UserModel> updateMain(
+    Call<MainUpdateModel> updateMain(
             @Path("pk") int pk,
-            @Body MainCreateModel mainCreateModel
+            @Body MainUpdateModel mainModel
     );
     @DELETE("post/{pk}/delete/")
     Call<String> deleteMain(
@@ -80,5 +81,14 @@ public interface RetrofitInterface {
             @Path("pk") int pk,
             @Path("id") int id,
             @Body MainCommentModel mainCommentModel
+    );
+    @PUT("post/comment/update={id}/")
+    Call<MainCommentUpdateModel> updateComment(
+            @Path("id") int id,
+            @Body MainCommentUpdateModel mainCommentModel
+    );
+    @DELETE("post/comment/delete={id}/")
+    Call<String> deleteComment(
+            @Path("id") int id
     );
 }

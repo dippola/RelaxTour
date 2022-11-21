@@ -3,11 +3,7 @@ package com.dippola.relaxtour.retrofit.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MainCreateModel {
-
-    @SerializedName("uid")
-    @Expose
-    private String uid;
+public class MainUpdateModel {
 
     @SerializedName("title")
     @Expose
@@ -24,14 +20,6 @@ public class MainCreateModel {
     @SerializedName("list")
     @Expose
     private String list;
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
 
     public String getTitle() {
         return title;

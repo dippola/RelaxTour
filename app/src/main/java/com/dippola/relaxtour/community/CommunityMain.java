@@ -27,8 +27,9 @@ import com.dippola.relaxtour.community.signIn.CommunitySignIn;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.MainCommentModel;
+import com.dippola.relaxtour.retrofit.model.MainCommentUpdateModel;
 import com.dippola.relaxtour.retrofit.model.MainModel;
-import com.dippola.relaxtour.retrofit.model.MainCreateModel;
+import com.dippola.relaxtour.retrofit.model.MainUpdateModel;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -470,12 +471,12 @@ public class CommunityMain extends AppCompatActivity {
         c2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainCreateModel mainCreateModel = new MainCreateModel();
-                mainCreateModel.setTitle("title title dz11");
-                mainCreateModel.setBody("body.. ok body\nbody hello11");
-                RetrofitClient.getApiService().updateMain(5, mainCreateModel).enqueue(new Callback<UserModel>() {
+                MainUpdateModel mainModel = new MainUpdateModel();
+                mainModel.setTitle("title title dz22");
+                mainModel.setBody("body.. ok body\nbody hello22");
+                RetrofitClient.getApiService().updateMain(8, mainModel).enqueue(new Callback<MainUpdateModel>() {
                     @Override
-                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                    public void onResponse(Call<MainUpdateModel> call, Response<MainUpdateModel> response) {
                         if (response.isSuccessful()) {
                             Log.d("CommunityMain>>>", "1: " + response.message());
                         } else {
@@ -484,7 +485,7 @@ public class CommunityMain extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<UserModel> call, Throwable t) {
+                    public void onFailure(Call<MainUpdateModel> call, Throwable t) {
                         Log.d("CommunityMain>>>", "3: " + t.getMessage());
                     }
                 });
@@ -567,7 +568,7 @@ public class CommunityMain extends AppCompatActivity {
                 MainCommentModel mainCommentModel = new MainCommentModel();
                 mainCommentModel.setBody("comment body\nbody");
                 mainCommentModel.setTo("");
-                Call<MainCommentModel> call = RetrofitClient.getApiService().createComment(7, 16, mainCommentModel);
+                Call<MainCommentModel> call = RetrofitClient.getApiService().createComment(9, 16, mainCommentModel);
                 call.enqueue(new Callback<MainCommentModel>() {
                     @Override
                     public void onResponse(Call<MainCommentModel> call, Response<MainCommentModel> response) {
@@ -581,6 +582,50 @@ public class CommunityMain extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<MainCommentModel> call, Throwable t) {
                         Log.d("CommunityMain>>>", "3: " + t.getMessage());
+                    }
+                });
+            }
+        });
+        Button r3 = findViewById(R.id.main_r3);
+        r3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainCommentUpdateModel mainCommentModel = new MainCommentUpdateModel();
+                mainCommentModel.setBody("change body text 22");
+                RetrofitClient.getApiService().updateComment(3, mainCommentModel).enqueue(new Callback<MainCommentUpdateModel>() {
+                    @Override
+                    public void onResponse(Call<MainCommentUpdateModel> call, Response<MainCommentUpdateModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("CommuntityMain>>>", "1: " + response);
+                        } else {
+                            Log.d("CommuntityMain>>>", "2: " + response);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MainCommentUpdateModel> call, Throwable t) {
+                        Log.d("CommuntityMain>>>", "3: " + t);
+                    }
+                });
+            }
+        });
+        Button r4 = findViewById(R.id.main_r4);
+        r4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RetrofitClient.getApiService().deleteComment(3).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("CommuntityMain>>>", "1: " + response);
+                        } else {
+                            Log.d("CommuntityMain>>>", "2: " + response);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.d("CommuntityMain>>>", "3: " + t);
                     }
                 });
             }
