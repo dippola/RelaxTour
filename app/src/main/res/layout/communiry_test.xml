@@ -21,6 +21,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="get user"/>
+            <Button
+                android:id="@+id/main_topl2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="댓글size"/>
+            <Button
+                android:id="@+id/main_topl3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="all댓글"/>
         </LinearLayout>
 
     </LinearLayout>

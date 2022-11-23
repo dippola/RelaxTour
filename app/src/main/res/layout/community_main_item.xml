@@ -34,7 +34,6 @@
             android:id="@+id/community_main_item_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="nickname"
             app:layout_constraintBottom_toTopOf="@+id/community_main_item_line"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/community_main_item_title" />
@@ -93,7 +92,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="0"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/community_main_item_view_icon"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -117,8 +115,7 @@
                 <TextView
                     android:id="@+id/community_main_item_like"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"/>
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
             <LinearLayout
@@ -146,7 +143,6 @@
                     android:id="@+id/community_main_item_comment_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

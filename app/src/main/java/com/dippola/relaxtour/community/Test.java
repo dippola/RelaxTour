@@ -60,6 +60,44 @@ public class Test extends AppCompatActivity {
                 });
             }
         });
+        Button topl2 = findViewById(R.id.main_topl2);
+        topl2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RetrofitClient.getApiService().getMainComment(11, 1).enqueue(new Callback<List<MainCommentModel>>() {
+                    @Override
+                    public void onResponse(Call<List<MainCommentModel>> call, Response<List<MainCommentModel>> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("Test>>>", "size: " + response.body().size());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<MainCommentModel>> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+        Button topl3 = findViewById(R.id.main_topl3);
+        topl3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RetrofitClient.getApiService().getMainAllComment(11).enqueue(new Callback<List<MainCommentModel>>() {
+                    @Override
+                    public void onResponse(Call<List<MainCommentModel>> call, Response<List<MainCommentModel>> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("Test>>>", "size: " + response.body().size());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<MainCommentModel>> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
     }
 
     private void testL() {
