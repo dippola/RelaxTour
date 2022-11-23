@@ -222,7 +222,7 @@ public class CommunityAuth extends AppCompatActivity {
 
         UserModel userModel = new UserModel();
         userModel = databaseHandler.getUserModel();
-        if (userModel.getImageurl() == null) {
+        if (userModel.getImageurl() == null || userModel.getImageurl().length() == 0) {
             Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
         } else {
             Glide.with(CommunityAuth.this).load(userModel.getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
@@ -233,10 +233,12 @@ public class CommunityAuth extends AppCompatActivity {
             nickname.setText(userModel.getNickname());
         }
         if (userModel.getProvider().equals("Google")) {
+            provider = "Google";
             findPassword.setVisibility(View.GONE);
             findPassword.setEnabled(false);
             provicerIcon.setBackground(getResources().getDrawable(R.drawable.google_white_icon));
         } else {
+            provider = "Email/Password";
             findPassword.setVisibility(View.VISIBLE);
             provicerIcon.setBackground(getResources().getDrawable(R.drawable.community_auth_email_icon));
         }

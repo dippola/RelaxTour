@@ -981,7 +981,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return userModel;
     }
 
-    public void makeDbUserWhenSignIn(int id, String email, String uid, String provider, String nickname, String imageurl) {
+    public void makeDbUserWhenSignIn(int id, String email, String uid, String nickname, String imageurl, String provider) {
         sqLiteDatabase = this.getWritableDatabase();
         deleteUserProfile();
         ContentValues contentValues = new ContentValues();

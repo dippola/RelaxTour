@@ -34,7 +34,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     public MainAdapter.MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.community_main_item, parent, false);
-        MainViewHolder holder = new MainViewHolder(view);
+        MainAdapter.MainViewHolder holder = new MainAdapter.MainViewHolder(view);
         return holder;
     }
 
@@ -56,7 +56,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
 
             @Override
             public void onFailure(Call<List<UserModel>> call, Throwable t) {
-
             }
         });
 
@@ -65,12 +64,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             public void onResponse(Call<List<MainCommentModel>> call, Response<List<MainCommentModel>> response) {
                 if (response.isSuccessful()) {
                     holder.comment.setText(String.valueOf(response.body().size()));
+                    finishedLoad();
                 }
             }
 
             @Override
             public void onFailure(Call<List<MainCommentModel>> call, Throwable t) {
-
             }
         });
     }
@@ -91,5 +90,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             this.like = itemView.findViewById(R.id.community_main_item_like);
             this.comment = itemView.findViewById(R.id.community_main_item_comment_count);
         }
+    }
+
+    private void finishedLoad() {
+        CommunityMain.itemload.setVisibility(View.GONE);
+        CommunityMain.itemload.stopShimmer();
+        CommunityMain.recyclerView.setVisibility(View.VISIBLE);
+        CommunityMain.pagebox.setVisibility(View.VISIBLE);
     }
 }

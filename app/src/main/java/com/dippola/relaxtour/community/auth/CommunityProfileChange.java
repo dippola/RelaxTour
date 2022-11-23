@@ -83,38 +83,17 @@ public class CommunityProfileChange extends AppCompatActivity {
     }
 
     private void setUserData() {
-        Call<List<UserModel>> call;
-        call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityProfileChange.this).getUserModel().getId());
-        call.enqueue(new Callback<List<UserModel>>() {
-            @Override
-            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().get(0).getImageurl().length() != 0) {
-                        Glide.with(CommunityProfileChange.this).load(response.body().get(0).getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
-                    } else {
-                        Glide.with(CommunityProfileChange.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
-                    }
-                    editNickname.setText(response.body().get(0).getNickname());
-                    beforeNickname = response.body().get(0).getNickname();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<UserModel>> call, Throwable t) {
-                Toast.makeText(CommunityProfileChange.this, "Profile load failed due to unstable internet.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         DatabaseHandler databaseHandler = new DatabaseHandler(CommunityProfileChange.this);
         UserModel userModel = new UserModel();
         userModel = databaseHandler.getUserModel();
-        if (userModel.getImageurl() == null) {
+        if (userModel.getImageurl() == null || userModel.getImageurl().length() == 0) {
             Glide.with(CommunityProfileChange.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
         } else {
             Glide.with(CommunityProfileChange.this).load(userModel.getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
         }
         if (userModel.getNickname() != null) {
             editNickname.setText(userModel.getNickname());
+            beforeNickname = userModel.getNickname();
         }
     }
 

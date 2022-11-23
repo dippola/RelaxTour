@@ -98,6 +98,13 @@ public class Test extends AppCompatActivity {
                 });
             }
         });
+        Button topl4 = findViewById(R.id.main_topl4);
+        topl4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void testL() {

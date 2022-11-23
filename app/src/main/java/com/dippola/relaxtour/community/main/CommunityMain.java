@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +34,7 @@ import com.dippola.relaxtour.pages.item.ViewTypeCode;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.MainModel;
 import com.dippola.relaxtour.retrofit.model.UserModel;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.ApiException;
@@ -61,9 +63,10 @@ public class CommunityMain extends AppCompatActivity {
     private FirebaseAuth auth;
     private ImageView authicon;
     private ProgressBar iconload;
-    private RecyclerView recyclerView;
+    public static RecyclerView recyclerView;
     private List<MainModel> lists;
-    private RecyclerView.LayoutManager layoutManager;
+    public static ShimmerFrameLayout itemload;
+    public static ConstraintLayout pagebox;
 
     private MainAdapter adapter;
 
@@ -91,7 +94,12 @@ public class CommunityMain extends AppCompatActivity {
         authicon = findViewById(R.id.community_main_auth);
         iconload = findViewById(R.id.community_main_iconload);
         recyclerView = findViewById(R.id.community_main_recyclerview);
+        recyclerView.setVisibility(View.INVISIBLE);
         lists = new ArrayList<>();
+        itemload = findViewById(R.id.community_main_load_item);
+        itemload.startShimmer();
+        pagebox = findViewById(R.id.community_main_page_box);
+        pagebox.setVisibility(View.GONE);
     }
 
     private void setImageAuthIcon() {
@@ -99,31 +107,7 @@ public class CommunityMain extends AppCompatActivity {
             Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nulluser)).transform(new CircleCrop()).into(authicon);
             iconload.setVisibility(View.GONE);
         } else {
-//            Call<List<UserModel>> call;
-//            call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
-//            call.enqueue(new Callback<List<UserModel>>() {
-//                @Override
-//                public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-//                    if (response.isSuccessful()) {
-//                        if (response.body().get(0).getImageurl().length() != 0) {
-//                            Log.d("CommunityMain>>>", "1");
-//                            Glide.with(CommunityMain.this).load(response.body().get(0).getImageurl()).transform(new CircleCrop()).into(authicon);
-//                        } else {
-//                            Log.d("CommunityMain>>>", "2");
-//                            Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(authicon);
-//                        }
-//                        iconload.setVisibility(View.GONE);
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<List<UserModel>> call, Throwable t) {
-//                    Log.d("CommunityMain>>>", "failed1: " + call.toString());
-//                    Log.d("CommunityMain>>>", "failed2: " + t.toString());
-//                }
-//            });
-
-            if (databaseHandler.getUserModel().getImageurl() == null) {
+            if (databaseHandler.getUserModel().getImageurl() == null || databaseHandler.getUserModel().getImageurl().length() == 0) {
                 Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(authicon);
                 iconload.setVisibility(View.GONE);
             } else {
@@ -324,8 +308,6 @@ public class CommunityMain extends AppCompatActivity {
                     lists.addAll(response.body());
                     Log.d("CommunityMain>>>", "lists size: " + lists.size());
                     setRecyclerView();
-                } else {
-                    Log.d("CommunityMain>>>", "not success: " + response);
                 }
             }
 
@@ -337,15 +319,8 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void setRecyclerView() {
-//        arrayList = MainActivity.databaseHandler.getPageList(5);
-//        adapter = new PageAdapter(arrayList, getActivity(), ViewTypeCode.ViewType.PAGE567);
-//        layoutManager = new GridLayoutManager(getActivity(), 1);
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setAdapter(adapter);
-
         adapter = new MainAdapter(lists);
-        layoutManager = new LinearLayoutManager(CommunityMain.this);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(CommunityMain.this));
         recyclerView.setAdapter(adapter);
     }
 }

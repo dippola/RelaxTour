@@ -285,7 +285,6 @@ public class CommunitySignUp extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     goBackToSignIn(true);
                     DatabaseHandler databaseHandler = new DatabaseHandler(CommunitySignUp.this);
-                    databaseHandler.deleteUserProfile();
                     databaseHandler.createUserProfile(response.body().getId(), auth.getCurrentUser().getEmail(), auth.getCurrentUser().getUid(), provider);
                 } else {
                     Toast.makeText(CommunitySignUp.this, "Error: " + response.errorBody().toString(), Toast.LENGTH_SHORT).show();
