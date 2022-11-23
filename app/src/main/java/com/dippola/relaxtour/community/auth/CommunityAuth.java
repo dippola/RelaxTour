@@ -22,10 +22,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.community.CommunityMain;
+import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.community.Test;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
@@ -49,7 +48,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -89,6 +87,7 @@ public class CommunityAuth extends AppCompatActivity {
         onClickSignOut();
         onClickDeleteAccount();
         onClickFindPassword();
+        test();
     }
 
     private void setInit() {
@@ -160,7 +159,7 @@ public class CommunityAuth extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Call<List<UserModel>> call;
-                call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityAuth.this).getUserModel().getId());
                 call.enqueue(new Callback<List<UserModel>>() {
                     @Override
                     public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -257,7 +256,7 @@ public class CommunityAuth extends AppCompatActivity {
                     load.setVisibility(View.GONE);
                 } else {
                     Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityAuth.this).getUserModel().getId());
                     call.enqueue(new Callback<List<UserModel>>() {
                         @Override
                         public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -287,7 +286,7 @@ public class CommunityAuth extends AppCompatActivity {
                     imgload.setVisibility(View.VISIBLE);
                     isChangePic = true;
                     Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityAuth.this).getUserModel().getId());
                     call.enqueue(new Callback<List<UserModel>>() {
                         @Override
                         public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -312,7 +311,7 @@ public class CommunityAuth extends AppCompatActivity {
 
                 if (result.getData().getBooleanExtra("isChangeNickname", false)) {
                     Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityAuth.this).getUserModel().getId());
                     call.enqueue(new Callback<List<UserModel>>() {
                         @Override
                         public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -330,7 +329,7 @@ public class CommunityAuth extends AppCompatActivity {
             } else if (result.getResultCode() == FROM_CREATE_PROFILE) {
                 if (result.getData().getBooleanExtra("isCreate", false)) {
                     Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityAuth.this).getUserModel().getId());
                     call.enqueue(new Callback<List<UserModel>>() {
                         @Override
                         public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -350,7 +349,7 @@ public class CommunityAuth extends AppCompatActivity {
                     imgload.setVisibility(View.VISIBLE);
                     isChangePic = true;
                     Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityAuth.this).getUserModel().getId());
                     call.enqueue(new Callback<List<UserModel>>() {
                         @Override
                         public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {

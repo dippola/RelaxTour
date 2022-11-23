@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.signIn.CommunitySignIn;
+import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -105,12 +106,12 @@ public class CommunityAuthResetPasswordDialog extends AppCompatActivity {
                     } else if (pattern.matcher(editEmail.getText().toString()).matches()) {
                         loadVissibility();
                         Call<List<UserModel>> call;
-                        call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                        call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityAuthResetPasswordDialog.this).getUserModel().getId());
                         call.enqueue(new Callback<List<UserModel>>() {
                             @Override
                             public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
                                 if (response.isSuccessful()) {
-                                    if (response.body().size() != 0) {
+                                    if (response.body() != null) {
                                         auth.sendPasswordResetEmail(editEmail.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {

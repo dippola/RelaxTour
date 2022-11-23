@@ -84,7 +84,7 @@ public class CommunityProfileChange extends AppCompatActivity {
 
     private void setUserData() {
         Call<List<UserModel>> call;
-        call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+        call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityProfileChange.this).getUserModel().getId());
         call.enqueue(new Callback<List<UserModel>>() {
             @Override
             public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {

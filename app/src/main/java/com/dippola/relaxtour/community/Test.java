@@ -34,6 +34,32 @@ public class Test extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.communiry_test);
         test();
+        top();
+    }
+
+    private void top() {
+        Button topl1 = findViewById(R.id.main_topl1);
+        topl1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RetrofitClient.getApiService().getUser(new DatabaseHandler(Test.this).getUserModel().getId()).enqueue(new Callback<List<UserModel>>() {
+                    @Override
+                    public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("Test>>>", "1: " + response);
+                            Log.d("Test>>>", "email: " + response.body().get(0).getEmail());
+                        } else {
+                            Log.d("Test>>>", "2: " + response);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<UserModel>> call, Throwable t) {
+                        Log.d("Test>>>", "3: " + t.getMessage());
+                    }
+                });
+            }
+        });
     }
 
     private void testL() {

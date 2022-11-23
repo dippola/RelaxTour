@@ -203,7 +203,6 @@ public class CommunitySignUp extends AppCompatActivity {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                Log.d("CommunityLogin>>>", "firebaseAuthWithGoogle:" + account.getId());
                 checkUserAreadyWhenGoogle(account.getEmail(), account.getIdToken());
 //                firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {

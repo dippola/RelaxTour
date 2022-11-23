@@ -17,9 +17,9 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface RetrofitInterface {
-    @GET("user/{uid}/")
+    @GET("user/{id}/")
     Call<List<UserModel>> getUser(
-            @Path("uid") String userUid
+            @Path("id") int userId
     );
 
     @POST("user/create/")

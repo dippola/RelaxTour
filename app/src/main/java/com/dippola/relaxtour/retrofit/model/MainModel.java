@@ -13,9 +13,9 @@ public class MainModel {
     @Expose
     private int parent_user;
 
-    @SerializedName("uid")
+    @SerializedName("date")
     @Expose
-    private String uid;
+    private String date;
 
     @SerializedName("title")
     @Expose
@@ -57,12 +57,20 @@ public class MainModel {
         this.parent_user = userModel;
     }
 
-    public String getUid() {
-        return uid;
+    public int getParent_user() {
+        return parent_user;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setParent_user(int parent_user) {
+        this.parent_user = parent_user;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getTitle() {

@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.community.CommunityMain;
+import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.community.Test;
 import com.dippola.relaxtour.community.auth.CommunityAuthResetPasswordDialog;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;

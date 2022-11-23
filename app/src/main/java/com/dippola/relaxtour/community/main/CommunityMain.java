@@ -1,10 +1,9 @@
-package com.dippola.relaxtour.community;
+package com.dippola.relaxtour.community.main;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -17,19 +16,22 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.auth.CommunityAuth;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.community.signIn.CommunitySignIn;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.pages.adapter.PageAdapter;
+import com.dippola.relaxtour.pages.item.ViewTypeCode;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
-import com.dippola.relaxtour.retrofit.model.MainCommentModel;
-import com.dippola.relaxtour.retrofit.model.MainCommentUpdateModel;
 import com.dippola.relaxtour.retrofit.model.MainModel;
-import com.dippola.relaxtour.retrofit.model.MainUpdateModel;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -41,12 +43,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -60,6 +61,11 @@ public class CommunityMain extends AppCompatActivity {
     private FirebaseAuth auth;
     private ImageView authicon;
     private ProgressBar iconload;
+    private RecyclerView recyclerView;
+    private List<MainModel> lists;
+    private RecyclerView.LayoutManager layoutManager;
+
+    private MainAdapter adapter;
 
     public static final int FROM_SIGNIN = 105;
     public static final int FROM_CREATE_PROFILE = 106;
@@ -76,6 +82,7 @@ public class CommunityMain extends AppCompatActivity {
         setInit();
         setImageAuthIcon();
         onClickAuth();
+        loadCommunity();
     }
 
     private void setInit() {
@@ -83,6 +90,8 @@ public class CommunityMain extends AppCompatActivity {
         load.setVisibility(View.GONE);
         authicon = findViewById(R.id.community_main_auth);
         iconload = findViewById(R.id.community_main_iconload);
+        recyclerView = findViewById(R.id.community_main_recyclerview);
+        lists = new ArrayList<>();
     }
 
     private void setImageAuthIcon() {
@@ -113,7 +122,6 @@ public class CommunityMain extends AppCompatActivity {
 //                    Log.d("CommunityMain>>>", "failed2: " + t.toString());
 //                }
 //            });
-
 
             if (databaseHandler.getUserModel().getImageurl() == null) {
                 Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(authicon);
@@ -149,7 +157,7 @@ public class CommunityMain extends AppCompatActivity {
                 } else if (result.getData().getBooleanExtra("isSignIn", false)) {
                     iconload.setVisibility(View.VISIBLE);
                     Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityMain.this).getUserModel().getId());
                     call.enqueue(new Callback<List<UserModel>>() {
                         @Override
                         public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -173,7 +181,7 @@ public class CommunityMain extends AppCompatActivity {
                 if (result.getData().getBooleanExtra("isCreatePic", false)) {
                     iconload.setVisibility(View.VISIBLE);
                     Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityMain.this).getUserModel().getId());
                     call.enqueue(new Callback<List<UserModel>>() {
                         @Override
                         public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -199,7 +207,7 @@ public class CommunityMain extends AppCompatActivity {
                 if (result.getData().getBooleanExtra("isChangePic", false)) {
                     iconload.setVisibility(View.VISIBLE);
                     Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
+                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityMain.this).getUserModel().getId());
                     call.enqueue(new Callback<List<UserModel>>() {
                         @Override
                         public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -309,8 +317,35 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void loadCommunity() {
+        RetrofitClient.getApiService().getMainPage(1).enqueue(new Callback<List<MainModel>>() {
+            @Override
+            public void onResponse(Call<List<MainModel>> call, Response<List<MainModel>> response) {
+                if (response.isSuccessful()) {
+                    lists.addAll(response.body());
+                    Log.d("CommunityMain>>>", "lists size: " + lists.size());
+                    setRecyclerView();
+                } else {
+                    Log.d("CommunityMain>>>", "not success: " + response);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<MainModel>> call, Throwable t) {
+                Log.d("CommunityMain>>>", "failure: " + t.getMessage());
+            }
+        });
     }
 
+    private void setRecyclerView() {
+//        arrayList = MainActivity.databaseHandler.getPageList(5);
+//        adapter = new PageAdapter(arrayList, getActivity(), ViewTypeCode.ViewType.PAGE567);
+//        layoutManager = new GridLayoutManager(getActivity(), 1);
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setAdapter(adapter);
 
+        adapter = new MainAdapter(lists);
+        layoutManager = new LinearLayoutManager(CommunityMain.this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+    }
 }
