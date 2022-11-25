@@ -106,7 +106,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String NOTIFICATION_TEAM = "create table if not exists notification(agree INTEGER);";
 
     //user
-    private static final String USER_TEAM = "create table if not exists user(id INTEGER, email TEXT, uid TEXT, nickname TEXT, imageurl TEXT, provider TEXT, token TEXT);";
+    private static final String USER_TEAM = "create table if not exists user(id INTEGER, email TEXT, uid TEXT, nickname TEXT, imageurl TEXT, provider TEXT, token TEXT, notification TEXT);";
 
 
     public DatabaseHandler(Context context) {
@@ -963,6 +963,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         userModel.setImageurl(cursor.getString(4));
         userModel.setProvider(cursor.getString(5));
         userModel.setToken(cursor.getString(6));
+        userModel.setNotification(changeStringToBoolean(cursor.getString(7)));
         cursor.close();
         closeDatabse();
         return userModel;
@@ -981,7 +982,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return userModel;
     }
 
-    public void makeDbUserWhenSignIn(int id, String email, String uid, String nickname, String imageurl, String provider) {
+    public void makeDbUserWhenSignIn(int id, String email, String uid, String nickname, String token, String imageurl, String provider, boolean notification) {
         sqLiteDatabase = this.getWritableDatabase();
         deleteUserProfile();
         ContentValues contentValues = new ContentValues();
@@ -990,7 +991,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         contentValues.put("uid", uid);
         contentValues.put("provider", provider);
         contentValues.put("nickname", nickname);
+        contentValues.put("token", token);
         contentValues.put("imageurl", imageurl);
+        contentValues.put("notification", changeBooleanToString(notification));
         sqLiteDatabase.insert("user", null, contentValues);
         closeDatabse();
     }
@@ -1003,31 +1006,40 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         contentValues.put("email", email);
         contentValues.put("uid", uid);
         contentValues.put("provider", provider);
+        contentValues.put("notification", "true");
         sqLiteDatabase.insert("user", null, contentValues);
         closeDatabse();
     }
 
     public void updateUserProfile(String nickname, String imageurl, String uid) {
         sqLiteDatabase = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("nickname", nickname);
-        contentValues.put("imageurl", imageurl);
-        sqLiteDatabase.insert("user", null, contentValues);
         sqLiteDatabase.execSQL("update user set nickname = " + "'" + nickname + "'" + ", imageurl = " + "'" + imageurl + "'" + " where uid = " + "'" + uid + "'");
         closeDatabse();
     }
 
-    public void updateUserToken(String token, String uid) {
+    public void updateNotification(Boolean b, String uid) {
         sqLiteDatabase = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("token", token);
-        sqLiteDatabase.insert("user", null, contentValues);
-        sqLiteDatabase.execSQL("update user set token = " + "'" + token + "'" + " where uid = " + "'" + uid + "'");
-        closeDatabse();
+        sqLiteDatabase.execSQL("update user set notification =" + "'" + changeBooleanToString(b) + "'" + " where uid = " + "'" + uid + "'");
     }
 
     public void deleteUserProfile() {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("delete from user");
+    }
+
+    public String changeBooleanToString(boolean b) {
+        if (b) {
+            return "true";
+        } else {
+            return "false";
+        }
+    }
+
+    public Boolean changeStringToBoolean(String s) {
+        if (s.equals("true")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

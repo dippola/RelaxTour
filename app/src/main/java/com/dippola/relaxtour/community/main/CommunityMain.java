@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -67,6 +68,7 @@ public class CommunityMain extends AppCompatActivity {
     private List<MainModel> lists;
     public static ShimmerFrameLayout itemload;
     public static ConstraintLayout pagebox;
+    private Button write;
 
     private MainAdapter adapter;
 
@@ -86,6 +88,7 @@ public class CommunityMain extends AppCompatActivity {
         setImageAuthIcon();
         onClickAuth();
         loadCommunity();
+        setWrite();
     }
 
     private void setInit() {
@@ -100,6 +103,16 @@ public class CommunityMain extends AppCompatActivity {
         itemload.startShimmer();
         pagebox = findViewById(R.id.community_main_page_box);
         pagebox.setVisibility(View.GONE);
+        write = findViewById(R.id.community_main_write_post);
+    }
+
+    private void setWrite() {
+        write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void setImageAuthIcon() {
@@ -107,7 +120,7 @@ public class CommunityMain extends AppCompatActivity {
             Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nulluser)).transform(new CircleCrop()).into(authicon);
             iconload.setVisibility(View.GONE);
         } else {
-            if (databaseHandler.getUserModel().getImageurl() == null || databaseHandler.getUserModel().getImageurl().length() == 0) {
+            if (databaseHandler.getUserModel().getImageurl() == null || databaseHandler.getUserModel().getImageurl().length() == 0 || databaseHandler.getUserModel().getImageurl().equals("null")) {
                 Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(authicon);
                 iconload.setVisibility(View.GONE);
             } else {
@@ -306,7 +319,6 @@ public class CommunityMain extends AppCompatActivity {
             public void onResponse(Call<List<MainModel>> call, Response<List<MainModel>> response) {
                 if (response.isSuccessful()) {
                     lists.addAll(response.body());
-                    Log.d("CommunityMain>>>", "lists size: " + lists.size());
                     setRecyclerView();
                 }
             }
@@ -319,7 +331,7 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void setRecyclerView() {
-        adapter = new MainAdapter(lists);
+        adapter = new MainAdapter(CommunityMain.this, lists);
         recyclerView.setLayoutManager(new LinearLayoutManager(CommunityMain.this));
         recyclerView.setAdapter(adapter);
     }

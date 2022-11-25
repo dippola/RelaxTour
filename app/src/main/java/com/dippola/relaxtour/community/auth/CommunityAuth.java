@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -18,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
@@ -73,6 +75,7 @@ public class CommunityAuth extends AppCompatActivity {
     private String provider;
     private String imageurl;
     private DatabaseHandler databaseHandler;
+    private SwitchCompat notification;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +90,7 @@ public class CommunityAuth extends AppCompatActivity {
         onClickSignOut();
         onClickDeleteAccount();
         onClickFindPassword();
+        setNotification();
         test();
     }
 
@@ -104,6 +108,7 @@ public class CommunityAuth extends AppCompatActivity {
         deleteaccount = findViewById(R.id.community_auth_delete_account);
         provicerIcon = findViewById(R.id.community_auth_email_icon);
         findPassword = findViewById(R.id.community_auth_find_password_in_auth);
+        notification = findViewById(R.id.community_auth_notification_switch);
         setProfile();
 
         img.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +119,64 @@ public class CommunityAuth extends AppCompatActivity {
                     intent.putExtra("url", imageurl);
                 }
                 startActivity(intent);
+            }
+        });
+    }
+
+    private void setNotification() {
+        notification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                load.setVisibility(View.VISIBLE);
+                if (b) {
+                    Log.d("CommunityAuth>>>", "1");
+                    UserModel userModel = new UserModel();
+                    userModel.setNotification(true);
+                    RetrofitClient.getApiService().updateUser(auth.getCurrentUser().getUid(), userModel).enqueue(new Callback<UserModel>() {
+                        @Override
+                        public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                            if (response.isSuccessful()) {
+                                databaseHandler.updateNotification(b, auth.getCurrentUser().getUid());
+                                load.setVisibility(View.GONE);
+                            } else {
+                                Toast.makeText(CommunityAuth.this, "Setup failed due to a network error. Please try again later.", Toast.LENGTH_SHORT).show();
+                                notification.setChecked(false);
+                                load.setVisibility(View.GONE);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserModel> call, Throwable t) {
+                            Toast.makeText(CommunityAuth.this, "Setup failed due to a network error. Please try again later.", Toast.LENGTH_SHORT).show();
+                            notification.setChecked(false);
+                            load.setVisibility(View.GONE);
+                        }
+                    });
+                } else {
+                    Log.d("CommunityAuth>>>", "2");
+                    UserModel userModel = new UserModel();
+                    userModel.setNotification(false);
+                    RetrofitClient.getApiService().updateUser(auth.getCurrentUser().getUid(), userModel).enqueue(new Callback<UserModel>() {
+                        @Override
+                        public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                            if (response.isSuccessful()) {
+                                databaseHandler.updateNotification(b, auth.getCurrentUser().getUid());
+                                load.setVisibility(View.GONE);
+                            } else {
+                                Toast.makeText(CommunityAuth.this, "Setup failed due to a network error. Please try again later.", Toast.LENGTH_SHORT).show();
+                                notification.setChecked(true);
+                                load.setVisibility(View.GONE);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserModel> call, Throwable t) {
+                            Toast.makeText(CommunityAuth.this, "Setup failed due to a network error. Please try again later.", Toast.LENGTH_SHORT).show();
+                            notification.setChecked(true);
+                            load.setVisibility(View.GONE);
+                        }
+                    });
+                }
             }
         });
     }
@@ -182,47 +245,9 @@ public class CommunityAuth extends AppCompatActivity {
     }
 
     private void setProfile() {
-//        Call<List<UserModel>> call;
-//        call = RetrofitClient.getApiService().getUser(auth.getCurrentUser().getUid());
-//        call.enqueue(new Callback<List<UserModel>>() {
-//            @Override
-//            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-//                if (response.isSuccessful()) {
-//                    if (response.body().get(0).getImageurl().length() != 0) {
-//                        imageurl = response.body().get(0).getImageurl();
-//                        Glide.with(CommunityAuth.this).load(response.body().get(0).getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
-//                    } else {
-//                        Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
-//                    }
-//                    if (response.body().get(0).getNickname().length() != 0) {
-//                        nickname.setText(response.body().get(0).getNickname());
-//                    } else {
-//                        nickname.setText("nickname not set");
-//                    }
-//                    if (response.body().get(0).getProvider().equals("Google")) {
-//                        findPassword.setVisibility(View.GONE);
-//                        findPassword.setEnabled(false);
-//                        provicerIcon.setBackground(getResources().getDrawable(R.drawable.google_white_icon));
-//                    } else {
-//                        findPassword.setVisibility(View.VISIBLE);
-//                        provicerIcon.setBackground(getResources().getDrawable(R.drawable.community_auth_email_icon));
-//                    }
-//                    provider = response.body().get(0).getProvider();
-//                    email.setText(auth.getCurrentUser().getEmail());
-//                    imgload.setVisibility(View.GONE);
-//                    load.setVisibility(View.GONE);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<UserModel>> call, Throwable t) {
-//
-//            }
-//        });
-
         UserModel userModel = new UserModel();
         userModel = databaseHandler.getUserModel();
-        if (userModel.getImageurl() == null || userModel.getImageurl().length() == 0) {
+        if (userModel.getImageurl() == null || userModel.getImageurl().length() == 0 || userModel.getImageurl().equals("null")) {
             Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
         } else {
             Glide.with(CommunityAuth.this).load(userModel.getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
@@ -241,6 +266,11 @@ public class CommunityAuth extends AppCompatActivity {
             provider = "Email/Password";
             findPassword.setVisibility(View.VISIBLE);
             provicerIcon.setBackground(getResources().getDrawable(R.drawable.community_auth_email_icon));
+        }
+        if (userModel.getNotification()) {
+            notification.setChecked(true);
+        } else {
+            notification.setChecked(false);
         }
         email.setText(userModel.getEmail());
     }
@@ -285,92 +315,31 @@ public class CommunityAuth extends AppCompatActivity {
         public void onActivityResult(ActivityResult result) {
             if (result.getResultCode() == FROM_CHANGE_PROFILE) {
                 if (result.getData().getBooleanExtra("isChangePic", false)) {
-                    imgload.setVisibility(View.VISIBLE);
-                    isChangePic = true;
-                    Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityAuth.this).getUserModel().getId());
-                    call.enqueue(new Callback<List<UserModel>>() {
-                        @Override
-                        public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-                            if (response.isSuccessful()) {
-                                if (response.body().get(0).getImageurl().length() != 0) {
-                                    imageurl = response.body().get(0).getImageurl();
-                                    Glide.with(CommunityAuth.this).load(response.body().get(0).getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
-                                } else {
-                                    imageurl = null;
-                                    Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
-                                }
-                                imgload.setVisibility(View.GONE);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<UserModel>> call, Throwable t) {
-                            Toast.makeText(CommunityAuth.this, "Image load error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    String imageurl = databaseHandler.getUserModel().getImageurl();
+                    if (imageurl == null || imageurl.length() == 0 || imageurl.equals("null")) {
+                        Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                    } else {
+                        Glide.with(CommunityAuth.this).load(imageurl).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                    }
                 }
 
-                if (result.getData().getBooleanExtra("isChangeNickname", false)) {
-                    Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityAuth.this).getUserModel().getId());
-                    call.enqueue(new Callback<List<UserModel>>() {
-                        @Override
-                        public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-                            if (response.isSuccessful()) {
-                                nickname.setText(response.body().get(0).getNickname());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<UserModel>> call, Throwable t) {
-                            Toast.makeText(CommunityAuth.this, "Nickname load error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                if (result.getData().getBooleanExtra("isNicknameChange", false)) {
+                    nickname.setText(databaseHandler.getUserModel().getNickname());
                 }
             } else if (result.getResultCode() == FROM_CREATE_PROFILE) {
                 if (result.getData().getBooleanExtra("isCreate", false)) {
-                    Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityAuth.this).getUserModel().getId());
-                    call.enqueue(new Callback<List<UserModel>>() {
-                        @Override
-                        public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-                            if (response.isSuccessful()) {
-                                nickname.setText(response.body().get(0).getNickname());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<UserModel>> call, Throwable t) {
-                            Toast.makeText(CommunityAuth.this, "Nickname load error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    nickname.setText(databaseHandler.getUserModel().getNickname());
                 }
 
                 if (result.getData().getBooleanExtra("isCreatePic", false)) {
                     imgload.setVisibility(View.VISIBLE);
                     isChangePic = true;
-                    Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityAuth.this).getUserModel().getId());
-                    call.enqueue(new Callback<List<UserModel>>() {
-                        @Override
-                        public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-                            if (response.isSuccessful()) {
-                                if (response.body().get(0).getImageurl().length() != 0) {
-                                    imageurl = response.body().get(0).getImageurl();
-                                    Glide.with(CommunityAuth.this).load(response.body().get(0).getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
-                                } else {
-                                    Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
-                                }
-                                imgload.setVisibility(View.GONE);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<UserModel>> call, Throwable t) {
-                            Toast.makeText(CommunityAuth.this, "Image load error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    String imageurl = databaseHandler.getUserModel().getImageurl();
+                    if (imageurl == null || imageurl.length() == 0 || imageurl.equals("null")) {
+                        Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                    } else {
+                        Glide.with(CommunityAuth.this).load(imageurl).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                    }
                 }
             } else if (result.getResultCode() == FROM_ASK_SIGNOUT) {
                 if (result.getData().getBooleanExtra("willSignout", false)) {

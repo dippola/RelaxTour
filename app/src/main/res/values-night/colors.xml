@@ -87,4 +87,6 @@
     <color name="auth_box_color1">#123657</color>
     <color name="auth_box_color2">#112241</color>
     <color name="auth_email_icon_color">#fbfef9</color>
+    <color name="community_main_line_color">#998D97A8</color>
+    <color name="community_nostrong_color">#C4D5D5D5</color>
 </resources>

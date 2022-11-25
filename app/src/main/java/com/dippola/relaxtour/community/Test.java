@@ -19,9 +19,23 @@ import com.dippola.relaxtour.retrofit.model.MainUpdateModel;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -105,6 +119,124 @@ public class Test extends AppCompatActivity {
 
             }
         });
+        Button topl5 = findViewById(R.id.main_topl5);
+        topl5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //2022-11-24T12:06:38.171139Z
+                //2022-11-24 12:06:38 이거를
+                //2022-11-24 21:06:38 로 바꿔야됨.
+
+//                String fromServer = "2022-11-24 12:06:38";
+                String fromServer = "2022-11-24T12:06:38.171139Z";
+//                Log.d("Test>>>", "changeTime: " + changeTime(fromServer));
+                Log.d("Test>>>", "TimeZone: " + TimeZone.getDefault().getID());
+                Log.d("Test>>>", "Locale: " + Locale.getDefault().getCountry());
+                Log.d("Test>>>", "Locale2: " + Locale.getDefault().getDisplayCountry());
+                Log.d("Test>>>", "Locale2: " + Locale.getDefault().getLanguage());
+                Log.d("Test>>>", "Locale2: " + Locale.getDefault().getDisplayLanguage());
+                Log.d("Test>>>", "changeTime: " + changeTime1(fromServer));
+            }
+        });
+        Button topl6 = findViewById(R.id.main_topl6);
+        topl6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                        @Override
+                        public void onComplete(@NonNull Task<String> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("Test>>>", "token: " + task.getResult());
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+    private String getDateResult(String dateFromServer) {
+        String result = "";
+        String nowDate = getTime();
+        String nowDateCut = nowDate.split(" ")[0];
+        String dateFromServerCut0 = changeTime(dateFromServer).split(" ")[0];
+        String dateFromServerCut1 = changeTime(dateFromServer).split(" ")[1];
+        if (nowDateCut.equals(dateFromServerCut0)) {
+            result = dateFromServerCut1.split(":")[1] + ":" + dateFromServerCut1.split(":")[2];
+        } else {
+            result = dateFromServerCut0;
+        }
+        return result;
+    }
+    private String changeTime1(String dateFromServer) {
+        String[] cut = dateFromServer.split("T");
+        String[] cut1 = cut[1].split("\\.");
+        String result = cut[0] + " " + cut1[0];
+        SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        oldFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date value = null;
+        String dueDateAsNormal = "";
+        try {
+            value = oldFormat.parse(result);
+            SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            newFormat.setTimeZone(TimeZone.getDefault());
+            dueDateAsNormal = newFormat.format(value);
+            Log.d("Test>>>", "try");
+        } catch (ParseException e) {
+            Log.d("Test>>>", "catch: " + e);
+            e.printStackTrace();
+        }
+        return dueDateAsNormal;
+    }
+    private String changeTime(String dateFromServer) {
+        String changeTime = "";
+        String[] cut = dateFromServer.split("T");
+        String[] cut1 = cut[1].split("\\.");
+        String result = cut[0] + " " + cut1[0];
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date = format.parse(result);
+            format.setTimeZone(TimeZone.getDefault());
+            changeTime = format.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return changeTime;
+    }
+    private String getTime() {
+        long now = System.currentTimeMillis();
+        Date mDate = new Date(now);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        String date = format.format(mDate);
+        return date;
+    }
+
+    private String getTimeFormat(String time1, String time2) throws ParseException {//my time(after), usertime(before)
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM_dd HH:mm:ss", Locale.KOREA);
+        Date dtime1 = dateFormat.parse(time1);
+        Date dtime2 = dateFormat.parse(time2);
+        long diff = dtime1.getTime() - dtime2.getTime();
+        long sec = diff / 1000;
+        if (sec < 60) {//초
+            return sec + "초전";
+        } else if (sec < 3600) {//분, 3600초 = 1시간
+            long newResult = sec / 60;
+            return newResult + "분전";
+        } else if (sec < 86400) {//시간, 86400초 = 1일
+            long newResult = sec / 3600;
+            return newResult + "시간전";
+        } else if (sec < 604800) {
+            long newResult = sec / 86400;
+            return newResult + "일전";
+        } else if (sec < 2419200) {
+            long newResult = sec / 604800;
+            return newResult + "주전";
+        } else if (sec < 14515200) {
+            long newResult = sec / 2419200;
+            return newResult + "개월전";
+        } else {
+            return "6개월전";
+        }
     }
 
     private void testL() {

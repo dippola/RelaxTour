@@ -32,10 +32,13 @@ public class UserModel {
     @Expose
     private String token;
 
+    @SerializedName("notification")
+    @Expose
+    private Boolean notification;
 
     public UserModel() {}
 
-    public UserModel(int id, String email, String uid, String nickname, String imageurl, String provider, String token) {
+    public UserModel(int id, String email, String uid, String nickname, String imageurl, String provider, String token, Boolean notification) {
         this.id = id;
         this.email = email;
         this.uid = uid;
@@ -43,6 +46,7 @@ public class UserModel {
         this.imageurl = imageurl;
         this.provider = provider;
         this.token = token;
+        this.notification = notification;
     }
 
     public int getId() {
@@ -99,5 +103,13 @@ public class UserModel {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Boolean getNotification() {
+        return notification;
+    }
+
+    public void setNotification(Boolean notification) {
+        this.notification = notification;
     }
 }

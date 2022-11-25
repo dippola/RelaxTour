@@ -40,6 +40,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -206,7 +207,7 @@ public class CommunitySignIn extends AppCompatActivity {
                             startActivity(intent);
                             load.setVisibility(View.GONE);
                         } else {
-                            updateDatabase(response.body().get(0).getId(), response.body().get(0).getEmail(), response.body().get(0).getUid(), response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getProvider());
+                            getToken(response.body().get(0).getId(), response.body().get(0).getEmail(), response.body().get(0).getUid(), response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getProvider(), response.body().get(0).getNotification());
                             auth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -269,7 +270,7 @@ public class CommunitySignIn extends AppCompatActivity {
                             startActivity(intent);
                             load.setVisibility(View.GONE);
                         } else {
-                            updateDatabase(response.body().get(0).getId(), response.body().get(0).getEmail(), response.body().get(0).getUid(), response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getProvider());
+                            getToken(response.body().get(0).getId(), response.body().get(0).getEmail(), response.body().get(0).getUid(), response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getProvider(), response.body().get(0).getNotification());
                             firebaseAuthWithGoogle(idToken);
                         }
                     } else {
@@ -316,9 +317,20 @@ public class CommunitySignIn extends AppCompatActivity {
         editPassword.setText("");
     }
 
-    private void updateDatabase(int id, String email, String uid, String nickname, String imageurl, String provider) {
+    private void getToken(int id, String email, String uid, String nickname, String imageurl, String provider, boolean notification) {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (task.isSuccessful()) {
+                    updateDatabase(id, email, uid, nickname, task.getResult(), imageurl, provider, notification);
+                }
+            }
+        });
+    }
+
+    private void updateDatabase(int id, String email, String uid, String nickname, String token, String imageurl, String provider, boolean notification) {
         DatabaseHandler databaseHandler = new DatabaseHandler(CommunitySignIn.this);
-        databaseHandler.makeDbUserWhenSignIn(id, email, uid, nickname, imageurl, provider);
+        databaseHandler.makeDbUserWhenSignIn(id, email, uid, nickname, token, imageurl, provider, notification);
     }
 
     private void goToMain() {

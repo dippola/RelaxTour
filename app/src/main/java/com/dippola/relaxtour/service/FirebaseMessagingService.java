@@ -29,21 +29,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     @Override
     public void onNewToken(String token) {
         super.onNewToken(token);
-        UserModel userModel = new UserModel();
-        userModel.setToken(token);
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        RetrofitClient.getApiService().updateUser(uid, userModel).enqueue(new Callback<UserModel>() {
-            @Override
-            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-                DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
-                databaseHandler.updateUserToken(token, uid);
-            }
-
-            @Override
-            public void onFailure(Call<UserModel> call, Throwable t) {
-
-            }
-        });
     }
 
     @Override
