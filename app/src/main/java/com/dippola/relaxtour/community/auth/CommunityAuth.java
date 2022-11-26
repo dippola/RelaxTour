@@ -1,9 +1,12 @@
 package com.dippola.relaxtour.community.auth;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -76,6 +79,7 @@ public class CommunityAuth extends AppCompatActivity {
     private String imageurl;
     private DatabaseHandler databaseHandler;
     private SwitchCompat notification;
+    private View backtop;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,6 +100,13 @@ public class CommunityAuth extends AppCompatActivity {
 
     private void setInit() {
         auth = FirebaseAuth.getInstance();
+        backtop = findViewById(R.id.community_auth_background_top);
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int y = (int)(size.y * 0.25);
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, y);
+        backtop.setLayoutParams(params);
         img = findViewById(R.id.community_auth_img);
         nickname = findViewById(R.id.community_auth_nickname);
         email = findViewById(R.id.community_auth_email);
