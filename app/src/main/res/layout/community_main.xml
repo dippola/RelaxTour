@@ -5,20 +5,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/community_main_background">
 
-    <RelativeLayout
-        android:id="@+id/community_main_load"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#4D000000"
-        android:visibility="gone">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:indeterminateTint="@color/button_design_color" />
-    </RelativeLayout>
-
     <ImageView
         android:id="@+id/community_main_auth"
         android:layout_width="0dp"
@@ -72,47 +58,56 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/community_main_top_bar2">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/community_main_recyclerview"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/community_main_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/community_main_load_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/community_main_item_loading" />
+
+                    <include layout="@layout/community_main_item_loading" />
+
+                    <include layout="@layout/community_main_item_loading" />
+
+                    <include layout="@layout/community_main_item_loading" />
+
+                    <include layout="@layout/community_main_item_loading" />
+
+                    <include layout="@layout/community_main_item_loading" />
+
+                    <include layout="@layout/community_main_item_loading" />
+
+                    <include layout="@layout/community_main_item_loading" />
+
+                    <include layout="@layout/community_main_item_loading" />
+
+                    <include layout="@layout/community_main_item_loading" />
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/community_main_load_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_main_top_bar2">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <include layout="@layout/community_main_item_loading" />
-
-            <include layout="@layout/community_main_item_loading" />
-
-            <include layout="@layout/community_main_item_loading" />
-
-            <include layout="@layout/community_main_item_loading" />
-
-            <include layout="@layout/community_main_item_loading" />
-
-            <include layout="@layout/community_main_item_loading" />
-
-            <include layout="@layout/community_main_item_loading" />
-
-            <include layout="@layout/community_main_item_loading" />
-
-            <include layout="@layout/community_main_item_loading" />
-
-            <include layout="@layout/community_main_item_loading" />
-        </LinearLayout>
-    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/community_main_page_box"
@@ -131,5 +126,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

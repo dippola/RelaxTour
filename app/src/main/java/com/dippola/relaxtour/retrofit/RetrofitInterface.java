@@ -3,6 +3,7 @@ package com.dippola.relaxtour.retrofit;
 import com.dippola.relaxtour.retrofit.model.MainCommentModel;
 import com.dippola.relaxtour.retrofit.model.MainCommentUpdateModel;
 import com.dippola.relaxtour.retrofit.model.MainModel;
+import com.dippola.relaxtour.retrofit.model.MainModelView;
 import com.dippola.relaxtour.retrofit.model.MainUpdateModel;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 
@@ -49,9 +50,21 @@ public interface RetrofitInterface {
     );
 
     @GET("posts/page={page}/")
-    Call<List<MainModel>> getMainPage(
+    Call<List<MainModelView>> getMainPage(
             @Path("page") int page
     );
+
+
+
+
+
+
+
+
+//    @GET("posts/page={page}/")
+//    Call<List<MainModel>> getMainPage(
+//            @Path("page") int page
+//    );
     @GET("post/{pk}/")
     Call<MainModel> getMain(
             @Path("pk") int pk

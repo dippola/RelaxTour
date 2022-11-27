@@ -23,9 +23,9 @@
             android:id="@+id/community_main_item_loading_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="7dp"
             android:background="@color/dialog_layout_line_color"
-            android:textSize="16dp"
+            android:textSize="14dp"
             app:layout_constraintBottom_toTopOf="@+id/community_main_item_loading_nickname"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -84,8 +84,8 @@
 
                 <ImageView
                     android:id="@+id/community_main_item_loading_view_icon"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:background="@drawable/community_view_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -96,6 +96,7 @@
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    android:textSize="13dp"
                     android:background="@color/dialog_layout_line_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/community_main_item_loading_view_icon"
@@ -123,6 +124,7 @@
                     android:id="@+id/community_main_item_loading_like"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
+                    android:textSize="13dp"
                     android:background="@color/dialog_layout_line_color" />
             </LinearLayout>
 
@@ -151,6 +153,7 @@
                     android:id="@+id/community_main_item_loading_comment_count"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
+                    android:textSize="13dp"
                     android:background="@color/dialog_layout_line_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -305,22 +305,22 @@ public class Test extends AppCompatActivity {
         c_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Call<List<MainModel>> call;
-                call = RetrofitClient.getApiService().getMainPage(1);
-                call.enqueue(new Callback<List<MainModel>>() {
-                    @Override
-                    public void onResponse(Call<List<MainModel>> call, Response<List<MainModel>> response) {
-                        if (response.isSuccessful()) {
-                            Log.d("CommunityMain>>>", "size: " + response.body().size());
-                        } else {
-                            Log.d("CommunityMain>>>", "1: " + response.message());
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<List<MainModel>> call, Throwable t) {
-                        Log.d("CommunityMain>>>", "2: " + t.getMessage());
-                    }
-                });
+//                Call<List<MainModel>> call;
+//                call = RetrofitClient.getApiService().getMainPage(1);
+//                call.enqueue(new Callback<List<MainModel>>() {
+//                    @Override
+//                    public void onResponse(Call<List<MainModel>> call, Response<List<MainModel>> response) {
+//                        if (response.isSuccessful()) {
+//                            Log.d("CommunityMain>>>", "size: " + response.body().size());
+//                        } else {
+//                            Log.d("CommunityMain>>>", "1: " + response.message());
+//                        }
+//                    }
+//                    @Override
+//                    public void onFailure(Call<List<MainModel>> call, Throwable t) {
+//                        Log.d("CommunityMain>>>", "2: " + t.getMessage());
+//                    }
+//                });
             }
         });
         Button c0 = findViewById(R.id.main_c2);

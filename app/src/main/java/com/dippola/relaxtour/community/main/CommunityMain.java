@@ -33,7 +33,9 @@ import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.pages.adapter.PageAdapter;
 import com.dippola.relaxtour.pages.item.ViewTypeCode;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.MainCommentModel;
 import com.dippola.relaxtour.retrofit.model.MainModel;
+import com.dippola.relaxtour.retrofit.model.MainModelView;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -60,12 +62,10 @@ import retrofit2.Response;
 public class CommunityMain extends AppCompatActivity {
 
     private DatabaseHandler databaseHandler;
-    private RelativeLayout load;
     private FirebaseAuth auth;
     private ImageView authicon;
     private ProgressBar iconload;
     public static RecyclerView recyclerView;
-    private List<MainModel> lists;
     public static ShimmerFrameLayout itemload;
     public static ConstraintLayout pagebox;
     private Button write;
@@ -92,13 +92,10 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void setInit() {
-        load = findViewById(R.id.community_main_load);
-        load.setVisibility(View.GONE);
         authicon = findViewById(R.id.community_main_auth);
         iconload = findViewById(R.id.community_main_iconload);
         recyclerView = findViewById(R.id.community_main_recyclerview);
         recyclerView.setVisibility(View.INVISIBLE);
-        lists = new ArrayList<>();
         itemload = findViewById(R.id.community_main_load_item);
         itemload.startShimmer();
         pagebox = findViewById(R.id.community_main_page_box);
@@ -247,7 +244,6 @@ public class CommunityMain extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 111) {
-            load.setVisibility(View.GONE);
             if (auth.getCurrentUser() != null) {
                 Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
                 try {
@@ -269,7 +265,7 @@ public class CommunityMain extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(ListResult listResult) {
                                                 if (listResult.getItems().size() != 0) {
-                                                    for(StorageReference storageReference : listResult.getItems()) {
+                                                    for (StorageReference storageReference : listResult.getItems()) {
                                                         Log.d("CommunityMain>>>", "filename: " + storageReference.getName());
                                                         storageReference.delete();
                                                     }
@@ -314,25 +310,38 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void loadCommunity() {
-        RetrofitClient.getApiService().getMainPage(1).enqueue(new Callback<List<MainModel>>() {
+        List<MainModelView> lists = new ArrayList<>();
+        RetrofitClient.getApiService().getMainPage(1).enqueue(new Callback<List<MainModelView>>() {
             @Override
-            public void onResponse(Call<List<MainModel>> call, Response<List<MainModel>> response) {
+            public void onResponse(Call<List<MainModelView>> call, Response<List<MainModelView>> response) {
                 if (response.isSuccessful()) {
                     lists.addAll(response.body());
-                    setRecyclerView();
+                    setRecyclerView(lists);
+                    finishedLoad();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<MainModel>> call, Throwable t) {
-                Log.d("CommunityMain>>>", "failure: " + t.getMessage());
+            public void onFailure(Call<List<MainModelView>> call, Throwable t) {
+
             }
         });
     }
 
-    private void setRecyclerView() {
+    private void setRecyclerView(List<MainModelView> lists) {
         adapter = new MainAdapter(CommunityMain.this, lists);
         recyclerView.setLayoutManager(new LinearLayoutManager(CommunityMain.this));
         recyclerView.setAdapter(adapter);
     }
+
+    private void startLoad() {
+        itemload.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+    }
+
+    private void finishedLoad() {
+        recyclerView.setVisibility(View.VISIBLE);
+        itemload.setVisibility(View.GONE);
+    }
+
 }

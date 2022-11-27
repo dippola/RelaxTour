@@ -84,8 +84,8 @@
 
                 <ImageView
                     android:id="@+id/community_main_item_view_icon"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:background="@drawable/community_view_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +122,8 @@
                 <TextView
                     android:id="@+id/community_main_item_like"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textSize="13dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -150,6 +151,7 @@
                     android:id="@+id/community_main_item_comment_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="13dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

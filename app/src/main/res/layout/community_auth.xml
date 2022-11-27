@@ -5,6 +5,26 @@
     android:layout_height="match_parent"
     android:background="@color/auth_background">
 
+    <RelativeLayout
+        android:id="@+id/community_auth_load"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#7C000000"
+        android:clickable="true"
+        android:visibility="gone"
+        android:translationZ="11dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/button_design_color"
+            />
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,22 +36,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:id="@+id/community_auth_load"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#7C000000"
-                android:clickable="true"
-                android:visibility="gone"
-                android:translationZ="11dp">
-                <ProgressBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:indeterminateTint="@color/button_design_color"
-                    />
-            </RelativeLayout>
 
             <View
                 android:id="@+id/community_auth_background_top"

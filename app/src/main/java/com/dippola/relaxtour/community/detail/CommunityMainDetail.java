@@ -16,7 +16,6 @@ public class CommunityMainDetail extends AppCompatActivity {
     Button back;
     TextView title, nickname, view, body;
     int id, parent_user;
-    String dateString, titleString, nicknameString, viewString, bodyString, imageurl, like, list;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,16 +27,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void getData() {
-        id = getIntent().getIntExtra("id", 0);
         parent_user = getIntent().getIntExtra("parent_user", 0);
-        dateString = getIntent().getStringExtra("date");
-        titleString = getIntent().getStringExtra("title");
-        nicknameString = getIntent().getStringExtra("nickname");
-        viewString = getIntent().getStringExtra("view");
-        bodyString = getIntent().getStringExtra("body");
-        imageurl = getIntent().getStringExtra("imageurl");
-        like = getIntent().getStringExtra("like");
-        list = getIntent().getStringExtra("list");
     }
 
     private void setInit() {
