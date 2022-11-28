@@ -45,6 +45,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -68,7 +69,7 @@ public class CommunityMain extends AppCompatActivity {
     public static RecyclerView recyclerView;
     public static ShimmerFrameLayout itemload;
     public static ConstraintLayout pagebox;
-    private Button write;
+    private FloatingActionButton write;
 
     private MainAdapter adapter;
 
@@ -107,7 +108,7 @@ public class CommunityMain extends AppCompatActivity {
         write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(CommunityMain.this, CommunityWrite.class));
             }
         });
     }

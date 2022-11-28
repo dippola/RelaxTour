@@ -327,22 +327,22 @@ public class Test extends AppCompatActivity {
         c0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Call<MainModel> call;
-                call = RetrofitClient.getApiService().getMain(7);
-                call.enqueue(new Callback<MainModel>() {
-                    @Override
-                    public void onResponse(Call<MainModel> call, Response<MainModel> response) {
-                        if (response.isSuccessful()) {
-                            Log.d("CommunityMain>>>", "1: " + response.body().getTitle());
-                        } else {
-                            Log.d("CommunityMain>>>", "2: " + response.message());
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<MainModel> call, Throwable t) {
-                        Log.d("CommunityMain>>>", "3: " + t.getMessage());
-                    }
-                });
+//                Call<MainModel> call;
+//                call = RetrofitClient.getApiService().getMain(7);
+//                call.enqueue(new Callback<MainModel>() {
+//                    @Override
+//                    public void onResponse(Call<MainModel> call, Response<MainModel> response) {
+//                        if (response.isSuccessful()) {
+//                            Log.d("CommunityMain>>>", "1: " + response.body().getTitle());
+//                        } else {
+//                            Log.d("CommunityMain>>>", "2: " + response.message());
+//                        }
+//                    }
+//                    @Override
+//                    public void onFailure(Call<MainModel> call, Throwable t) {
+//                        Log.d("CommunityMain>>>", "3: " + t.getMessage());
+//                    }
+//                });
             }
         });
         Button c1 = findViewById(R.id.main_c3);

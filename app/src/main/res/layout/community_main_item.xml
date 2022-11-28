@@ -20,6 +20,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.95">
 
+        <ImageView
+            android:id="@+id/community_main_item_userimage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/community_main_item_nickname"
+            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintDimensionRatio="1:1"/>
+
         <TextView
             android:id="@+id/community_main_item_title"
             android:layout_width="wrap_content"
@@ -29,8 +39,8 @@
             android:textColor="@color/text_color"
             android:textSize="14dp"
             app:layout_constraintBottom_toTopOf="@+id/community_main_item_nickname"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/community_main_item_userimage"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/community_main_item_nickname"
@@ -68,7 +78,8 @@
             android:paddingHorizontal="7dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_main_item_line">
+            app:layout_constraintTop_toBottomOf="@+id/community_main_item_line"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <LinearLayout
                 android:id="@+id/community_main_item_bottom1"

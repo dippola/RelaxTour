@@ -7,6 +7,7 @@
     android:paddingVertical="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/community_main_item_loading"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -19,47 +20,61 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.95">
 
+        <ImageView
+            android:id="@+id/community_main_item_userimage_loading"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/dialog_layout_line_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/community_main_item_nickname_loading"
+            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintDimensionRatio="1:1"/>
+
         <TextView
-            android:id="@+id/community_main_item_loading_title"
+            android:id="@+id/community_main_item_title_loading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="7dp"
             android:background="@color/dialog_layout_line_color"
+            android:textColor="@color/text_color"
             android:textSize="14dp"
-            app:layout_constraintBottom_toTopOf="@+id/community_main_item_loading_nickname"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.3" />
+            app:layout_constraintWidth_percent="0.3"
+            app:layout_constraintBottom_toTopOf="@+id/community_main_item_nickname_loading"
+            app:layout_constraintStart_toEndOf="@+id/community_main_item_userimage_loading"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/community_main_item_loading_nickname"
+            android:id="@+id/community_main_item_nickname_loading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/community_nostrong_color"
+            android:background="@color/dialog_layout_line_color"
+            app:layout_constraintWidth_percent="0.2"
+            app:layout_constraintBottom_toTopOf="@+id/community_main_item_line_loading"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/community_main_item_title_loading" />
+
+        <TextView
+            android:id="@+id/community_main_item_date_loading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/dialog_layout_line_color"
-            app:layout_constraintBottom_toTopOf="@+id/community_main_item_loading_line"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_main_item_loading_title"
-            app:layout_constraintWidth_percent="0.2" />
-
-        <TextView
-            android:id="@+id/community_main_item_loading_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/dialog_layout_line_color"
-            app:layout_constraintBottom_toTopOf="@+id/community_main_item_loading_line"
+            android:textColor="@color/community_nostrong_color"
+            app:layout_constraintWidth_percent="0.2"
+            app:layout_constraintBottom_toTopOf="@+id/community_main_item_line_loading"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_main_item_loading_title"
-            app:layout_constraintWidth_percent="0.4" />
+            app:layout_constraintTop_toBottomOf="@+id/community_main_item_title_loading" />
 
         <View
-            android:id="@+id/community_main_item_loading_line"
+            android:id="@+id/community_main_item_line_loading"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
-            android:background="@color/dialog_layout_line_color"
+            android:background="@color/community_main_line_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_main_item_loading_nickname" />
+            app:layout_constraintTop_toBottomOf="@+id/community_main_item_nickname_loading" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -68,22 +83,23 @@
             android:paddingHorizontal="7dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_main_item_loading_line">
+            app:layout_constraintTop_toBottomOf="@+id/community_main_item_line_loading"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <LinearLayout
-                android:id="@+id/community_main_item_loading_bottom1"
+                android:id="@+id/community_main_item_bottom1_loading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/community_main_item_loading_bottom2"
+                app:layout_constraintEnd_toStartOf="@id/community_main_item_bottom2_loading"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/community_main_item_loading_view_icon"
+                    android:id="@+id/community_main_item_view_icon_loading"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:background="@drawable/community_view_icon"
@@ -92,26 +108,26 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/community_main_item_loading_view"
+                    android:id="@+id/community_main_item_view_loading"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:textSize="13dp"
                     android:background="@color/dialog_layout_line_color"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/community_main_item_loading_view_icon"
+                    app:layout_constraintStart_toEndOf="@+id/community_main_item_view_icon_loading"
                     app:layout_constraintTop_toTopOf="parent" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/community_main_item_loading_bottom2"
+                android:id="@+id/community_main_item_bottom2_loading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/community_main_item_loading_bottom3"
-                app:layout_constraintStart_toEndOf="@+id/community_main_item_loading_bottom1"
+                app:layout_constraintEnd_toStartOf="@id/community_main_item_bottom3_loading"
+                app:layout_constraintStart_toEndOf="@+id/community_main_item_bottom1_loading"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
@@ -121,36 +137,36 @@
                     android:background="@drawable/community_like_icon" />
 
                 <TextView
-                    android:id="@+id/community_main_item_loading_like"
+                    android:id="@+id/community_main_item_like_loading"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
-                    android:textSize="13dp"
-                    android:background="@color/dialog_layout_line_color" />
+                    android:background="@color/dialog_layout_line_color"
+                    android:textSize="13dp" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/community_main_item_loading_bottom3"
+                android:id="@+id/community_main_item_bottom3_loading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/community_main_item_loading_bottom2"
+                app:layout_constraintStart_toEndOf="@id/community_main_item_bottom2_loading"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/community_main_item_loading_comment_icon"
+                    android:id="@+id/community_main_item_comment_icon_loading"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/community_comment_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/community_main_item_loading_comment_count"
+                    app:layout_constraintEnd_toStartOf="@+id/community_main_item_comment_count_loading"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/community_main_item_loading_comment_count"
+                    android:id="@+id/community_main_item_comment_count_loading"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:textSize="13dp"

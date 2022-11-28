@@ -6,12 +6,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.detail.CommunityMainDetail;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
@@ -53,9 +56,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.MainViewHolder holder, int position) {
         int i = position;
+        if (arrayList.get(i).getUser_image() == null || arrayList.get(i).getUser_image().length() == 0) {
+            Glide.with(context).load(context.getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(holder.userImage);
+        } else {
+            Glide.with(context).load(arrayList.get(i).getUser_image()).transform(new CircleCrop()).into(holder.userImage);
+        }
         holder.title.setText(arrayList.get(i).getTitle());
-//        holder.date.setText(arrayList.get(i).getDate());
-        holder.view.setText(String.valueOf(arrayList.get(i).getCommentcount()));
+        holder.view.setText(String.valueOf(arrayList.get(i).getView()));
         holder.like.setText(String.valueOf(arrayList.get(i).getLike()));
         holder.date.setText(getDateResult(arrayList.get(i).getDate()));
         holder.commentcount.setText(String.valueOf(arrayList.get(i).getCommentcount()));
@@ -78,10 +85,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     }
 
     public class MainViewHolder extends RecyclerView.ViewHolder {
+        ImageView userImage;
         TextView title, date, view, nickname, like, commentcount;
         ConstraintLayout item;
         public MainViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.userImage = itemView.findViewById(R.id.community_main_item_userimage);
             this.title = itemView.findViewById(R.id.community_main_item_title);
             this.date = itemView.findViewById(R.id.community_main_item_date);
             this.view = itemView.findViewById(R.id.community_main_item_view);

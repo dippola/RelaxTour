@@ -38,13 +38,14 @@
         app:layout_constraintTop_toBottomOf="@id/community_main_auth"
         app:layout_constraintEnd_toEndOf="parent">
         <Button
-            android:id="@+id/community_main_write_post"
+            android:id="@+id/community_main_write_post1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="write post"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -127,5 +128,17 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/community_main_write_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/button_design_color"
+        android:src="@drawable/community_floating_icon"
+        app:maxImageSize="30dp"
+        android:contentDescription="@string/floating_button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
