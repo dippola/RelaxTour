@@ -1,8 +1,5 @@
 package com.dippola.relaxtour.retrofit;
 
-import com.dippola.relaxtour.retrofit.model.MainCommentModel;
-import com.dippola.relaxtour.retrofit.model.MainCommentUpdateModel;
-import com.dippola.relaxtour.retrofit.model.MainModel;
 import com.dippola.relaxtour.retrofit.model.MainModelDetail;
 import com.dippola.relaxtour.retrofit.model.MainModelView;
 import com.dippola.relaxtour.retrofit.model.MainUpdateModel;
@@ -62,18 +59,15 @@ public interface RetrofitInterface {
 
 
 
-//    @GET("posts/page={page}/")
-//    Call<List<MainModel>> getMainPage(
-//            @Path("page") int page
-//    );
+
     @GET("post/{pk}/")
     Call<MainModelDetail> getMain(
             @Path("pk") int pk
     );
     @POST("post/create={id}/")
-    Call<MainModel> createMain(
+    Call<MainModelDetail> createMain(
             @Path("id") int id,
-            @Body MainModel mainModel
+            @Body MainModelDetail mainModel
     );
     @PUT("post/{pk}/update/")
     Call<MainUpdateModel> updateMain(
@@ -85,29 +79,29 @@ public interface RetrofitInterface {
             @Path("pk") int pk
     );
 
-    @GET("post/{pk}/comments/")
-    Call<List<MainCommentModel>> getMainAllComment(
-            @Path("pk") int pk
-    );
-
-    @GET("post/{pk}/comments/page={page}/")
-    Call<List<MainCommentModel>> getMainComment(
-            @Path("pk") int pk,
-            @Path("page") int page
-    );
-    @POST("post/{pk}/comment/create={id}/")
-    Call<MainCommentModel> createComment(
-            @Path("pk") int pk,
-            @Path("id") int id,
-            @Body MainCommentModel mainCommentModel
-    );
-    @PUT("post/comment/update={id}/")
-    Call<MainCommentUpdateModel> updateComment(
-            @Path("id") int id,
-            @Body MainCommentUpdateModel mainCommentModel
-    );
-    @DELETE("post/comment/delete={id}/")
-    Call<String> deleteComment(
-            @Path("id") int id
-    );
+//    @GET("post/{pk}/comments/")
+//    Call<List<MainCommentModel>> getMainAllComment(
+//            @Path("pk") int pk
+//    );
+//
+//    @GET("post/{pk}/comments/page={page}/")
+//    Call<List<MainCommentModel>> getMainComment(
+//            @Path("pk") int pk,
+//            @Path("page") int page
+//    );
+//    @POST("post/{pk}/comment/create={id}/")
+//    Call<MainCommentModel> createComment(
+//            @Path("pk") int pk,
+//            @Path("id") int id,
+//            @Body MainCommentModel mainCommentModel
+//    );
+//    @PUT("post/comment/update={id}/")
+//    Call<MainCommentUpdateModel> updateComment(
+//            @Path("id") int id,
+//            @Body MainCommentUpdateModel mainCommentModel
+//    );
+//    @DELETE("post/comment/delete={id}/")
+//    Call<String> deleteComment(
+//            @Path("id") int id
+//    );
 }

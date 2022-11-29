@@ -2,7 +2,6 @@ package com.dippola.relaxtour.community.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.detail.CommunityMainDetail;
-import com.dippola.relaxtour.retrofit.RetrofitClient;
-import com.dippola.relaxtour.retrofit.model.MainCommentModel;
-import com.dippola.relaxtour.retrofit.model.MainModel;
 import com.dippola.relaxtour.retrofit.model.MainModelView;
-import com.dippola.relaxtour.retrofit.model.UserModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,10 +24,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
 

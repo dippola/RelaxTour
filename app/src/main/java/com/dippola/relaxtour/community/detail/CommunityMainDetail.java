@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
-import com.dippola.relaxtour.retrofit.model.MainModel;
 import com.dippola.relaxtour.retrofit.model.MainModelDetail;
 
 import retrofit2.Call;
