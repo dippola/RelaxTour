@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.pages.item.FavListItem;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
@@ -198,14 +199,14 @@ public class CommunityWrite extends AppCompatActivity {
                                 Log.d("CommunityWrite>>>", "1: " + response.message());
                                 finish();
                             } else {
-                                Log.d("CommunityWrite>>>", "2: " + response.message());
+                                Toast.makeText(CommunityWrite.this, "The Internet connection was unstable and failed.\nPlease try again.\n" + response.message(), Toast.LENGTH_SHORT).show();
                             }
                             load.setVisibility(View.GONE);
                         }
 
                         @Override
                         public void onFailure(Call<MainModelDetail> call, Throwable t) {
-                            Log.d("CommunityWrite>>>", "3: " + t.getMessage());
+                            Toast.makeText(CommunityWrite.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

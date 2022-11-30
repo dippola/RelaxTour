@@ -1,4 +1,4 @@
-package com.dippola.relaxtour.community.detail;
+package com.dippola.relaxtour.community.main.detail;
 
 import android.os.Bundle;
 import android.widget.Button;
