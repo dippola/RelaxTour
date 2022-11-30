@@ -35,7 +35,7 @@ import java.util.List;
 public class CommunityWrite extends AppCompatActivity {
 
     private int FROM_GALLERY = 1;
-    private int FROM_LIST = 2;
+    public static int FROM_LIST = 2;
 
     private NestedScrollView scrollView;
     private Button goback, ok, addshare;
@@ -163,7 +163,7 @@ public class CommunityWrite extends AppCompatActivity {
                 }
             } else if (result.getResultCode() == FROM_LIST) {
                 if (result.getData() != null) {
-
+                    Log.d("CommunityWrite>>>", "from list: " + result.getData().getStringExtra("title"));
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.dippola.relaxtour.community.main.write;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -71,7 +72,6 @@ public class ShareListDialog extends AppCompatActivity {
 
         databaseHandler = new DatabaseHandler(ShareListDialog.this);
         titleitems = databaseHandler.getFavTitleList();
-        Log.d("ShareListDialog>>>", "size: " + titleitems.size());
         if (titleitems.size() == 0) {
             nulllist.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
@@ -83,5 +83,15 @@ public class ShareListDialog extends AppCompatActivity {
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
         }
+
+        adapter.setOnClickInAdapter(new ShareTitleAdapter.OnClickInAdapter() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(ShareListDialog.this, CommunityWrite.class);
+                intent.putExtra("title", titleitems.get(position).getTitle());
+                setResult(CommunityWrite.FROM_LIST, intent);
+                finish();
+            }
+        });
     }
 }

@@ -1,6 +1,7 @@
 package com.dippola.relaxtour.community.main.write;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +28,17 @@ import java.util.List;
 public class ShareTitleAdapter extends RecyclerView.Adapter<ShareTitleAdapter.CustomViewHolder> {
     List<FavTitleItem> titleitems;
     Context context;
+    private OnClickInAdapter onClickInAdapter;
 
     RecyclerView.LayoutManager layoutManager;
+
+    public interface OnClickInAdapter{
+        void onItemClick(int position);
+    }
+
+    public void setOnClickInAdapter(OnClickInAdapter onClickInAdapter) {
+        this.onClickInAdapter = onClickInAdapter;
+    }
 
     public ShareTitleAdapter(List<FavTitleItem> titleitems, Context context) {
         this.titleitems = titleitems;
@@ -59,7 +69,6 @@ public class ShareTitleAdapter extends RecyclerView.Adapter<ShareTitleAdapter.Cu
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("ShareTitleAdapter>>>", "1: " + titleitems.get(i).getIsopen());
                 if (titleitems.get(i).getIsopen() == 2) {
                     titleitems.get(i).setIsopen(1);
                 } else {
@@ -76,6 +85,37 @@ public class ShareTitleAdapter extends RecyclerView.Adapter<ShareTitleAdapter.Cu
                     holder.list.setAdapter(adapter);
                 }
                 notifyDataSetChanged();
+            }
+        });
+
+        holder.uandd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (titleitems.get(i).getIsopen() == 2) {
+                    titleitems.get(i).setIsopen(1);
+                } else {
+                    for (int ii = 0; ii < titleitems.size(); ii++) {
+                        if (titleitems.get(ii).getIsopen() == 2) {
+                            titleitems.get(ii).setIsopen(1);
+                        }
+                    }
+                    titleitems.get(i).setIsopen(2);
+                    List<FavListItem> listitems = new DatabaseHandler(context).getFavListItem(titleitems.get(i).getTitle());
+                    ShareListAdapter adapter = new ShareListAdapter(listitems, context);
+                    layoutManager = new LinearLayoutManager(context);
+                    holder.list.setLayoutManager(layoutManager);
+                    holder.list.setAdapter(adapter);
+                }
+                notifyDataSetChanged();
+            }
+        });
+
+        holder.choice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onClickInAdapter != null) {
+                    onClickInAdapter.onItemClick(position);
+                }
             }
         });
     }
