@@ -19,17 +19,10 @@ public class MainCommentModel {
     @SerializedName("parent_user")
     @Expose
     private int parent_user;
-    @SerializedName("uid")
-    @Expose
-    private String uid;
 
     @SerializedName("body")
     @Expose
     private String body;
-
-    @SerializedName("to")
-    @Expose
-    private String to;
 
     public int getId() {
         return id;
@@ -63,27 +56,11 @@ public class MainCommentModel {
         this.parent_user = parent_user;
     }
 
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
     public String getBody() {
         return body;
     }
 
     public void setBody(String body) {
         this.body = body;
-    }
-
-    public String getTo() {
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
     }
 }

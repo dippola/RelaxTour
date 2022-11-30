@@ -100,6 +100,7 @@ public class CommunityMain extends AppCompatActivity {
         write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("CommunityMain>>>", "write click");
                 startActivity(new Intent(CommunityMain.this, CommunityWrite.class));
             }
         });
@@ -330,10 +331,12 @@ public class CommunityMain extends AppCompatActivity {
     private void startLoad() {
         itemload.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.INVISIBLE);
+        pagebox.setVisibility(View.INVISIBLE);
     }
 
     private void finishedLoad() {
         recyclerView.setVisibility(View.VISIBLE);
+        pagebox.setVisibility(View.VISIBLE);
         itemload.setVisibility(View.GONE);
     }
 
