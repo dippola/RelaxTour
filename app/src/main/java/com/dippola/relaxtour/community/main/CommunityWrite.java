@@ -28,8 +28,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.R;
+
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +46,11 @@ public class CommunityWrite extends AppCompatActivity {
     private Button goback, ok, addshare;
     private EditText title, body;
     private ConstraintLayout addimg;
-    private ImageView img1, img2, img3, img4, img5;
     private TextView shereText, bottomtext;
-    private ConstraintLayout imgbox1, imgbox2, imgbox3, imgbox4, imgbox5;
-    private Button cancel1, cancel2, cancel3, cancel4, cancel5;
+    public static TextView imagecount;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private WriteImageAdapter adapter;
 
     private List<String> urllist = new ArrayList<>();
 
@@ -72,60 +77,64 @@ public class CommunityWrite extends AppCompatActivity {
         title = findViewById(R.id.community_write_title);
         body = findViewById(R.id.community_write_body);
         addshare = findViewById(R.id.community_write_addshare);
+        onClickAddShare();
         addimg = findViewById(R.id.community_write_addimg);
         onClickAddImg();
-        imgbox1 = findViewById(R.id.community_write_imgbox1);
-        imgbox2 = findViewById(R.id.community_write_imgbox2);
-        imgbox3 = findViewById(R.id.community_write_imgbox3);
-        imgbox4 = findViewById(R.id.community_write_imgbox4);
-        imgbox5 = findViewById(R.id.community_write_imgbox5);
-        img1 = findViewById(R.id.community_write_img1);
-        img2 = findViewById(R.id.community_write_img2);
-        img3 = findViewById(R.id.community_write_img3);
-        img4 = findViewById(R.id.community_write_img4);
-        img5 = findViewById(R.id.community_write_img5);
-        cancel1 = findViewById(R.id.community_write_img1_cancel1);
-        cancel2 = findViewById(R.id.community_write_img1_cancel2);
-        cancel3 = findViewById(R.id.community_write_img1_cancel3);
-        cancel4 = findViewById(R.id.community_write_img1_cancel4);
-        cancel5 = findViewById(R.id.community_write_img1_cancel5);
+        imagecount = findViewById(R.id.community_write_imgcount);
+        recyclerView = findViewById(R.id.community_write_recyclerview);
         shereText = findViewById(R.id.community_write_share_text);
         bottomtext = findViewById(R.id.community_write_bottom_text);
         body.setMinHeight(y);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(x, x);
+        ConstraintLayout.LayoutParams paramsToAdapter = new ConstraintLayout.LayoutParams(x, x);
         addimg.setLayoutParams(params);
-        img1.setLayoutParams(params);
-        img2.setLayoutParams(params);
-        img3.setLayoutParams(params);
-        img4.setLayoutParams(params);
-        img5.setLayoutParams(params);
-        imgbox1.setVisibility(View.GONE);
-        imgbox2.setVisibility(View.GONE);
-        imgbox3.setVisibility(View.GONE);
-        imgbox4.setVisibility(View.GONE);
-        imgbox5.setVisibility(View.GONE);
+        setRecyclerView(paramsToAdapter);
+        onClickOk();
+    }
+
+    private void onClickOk() {
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (title.getText().toString().length() == 0) {
+                    Toast.makeText(CommunityWrite.this, "Please enter a title", Toast.LENGTH_SHORT).show();
+                } else if (body.getText().toString().length() == 0) {
+                    Toast.makeText(CommunityWrite.this, "Please enter a body", Toast.LENGTH_SHORT).show();
+                } else {
+
+                }
+            }
+        });
+    }
+
+    private void onClickAddShare() {
+        addshare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+    }
+
+    private void setRecyclerView(ConstraintLayout.LayoutParams params) {
+        adapter = new WriteImageAdapter(urllist, CommunityWrite.this, params);
+        layoutManager = new LinearLayoutManager(CommunityWrite.this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
     private void onClickAddImg() {
         addimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (urllist.size() > 5) {
-//                    Toast.makeText(CommunityWrite.this, "You can add up to 5 photos.", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Intent intent = new Intent();
-//                    intent.setType("image/*");
-//                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//                    intent.setAction(Intent.ACTION_GET_CONTENT);
-//                    launcher.launch(intent);
-//                }
-                urllist.add("1");
-                urllist.add("2");
-                urllist.add("3");
-                urllist.add("4");
-                Log.d("CommunityWrite>>>", "1 urllist size: " + urllist.size());
-                Log.d("CommunityWrite>>>", "2 urllist get 1: " + urllist.get(1));
-                urllist.remove("2");
-                Log.d("CommunityWrite>>>", "3 urllist size1: " + urllist.get(1));
+                if (urllist.size() > 5) {
+                    Toast.makeText(CommunityWrite.this, "You can add up to 5 photos.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    launcher.launch(intent);
+                }
             }
         });
     }
@@ -138,7 +147,7 @@ public class CommunityWrite extends AppCompatActivity {
                     Intent data = result.getData();
                     if (data.getClipData() != null) {
                         ClipData clipData = result.getData().getClipData();
-                        if (urllist.size() + clipData.getItemCount() < 5) {
+                        if (urllist.size() + clipData.getItemCount() > 5) {
                             Toast.makeText(CommunityWrite.this, "You can add up to 5 photos.", Toast.LENGTH_SHORT).show();
                         } else {
                             for (int i = 0; i < clipData.getItemCount(); i++) {
@@ -152,14 +161,15 @@ public class CommunityWrite extends AppCompatActivity {
                         urllist.add(imageUri.toString());
                         Log.d("CommunityWrite>>>", "uri: " + imageUri);
                     }
-                    setImage(urllist);
+                    setImage();
                 }
             }
         }
     });
 
-    private void setImage(List<String> urllist) {
-//        if ()
+    private void setImage() {
+        adapter.notifyDataSetChanged();
+        imagecount.setText(urllist.size() + "/5");
     }
 
     private void setScrollView() {
