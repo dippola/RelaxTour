@@ -10,9 +10,13 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,9 +32,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.pages.item.FavListItem;
+import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.MainModelDetail;
+import com.dippola.relaxtour.retrofit.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CommunityWrite extends AppCompatActivity {
 
@@ -41,13 +54,22 @@ public class CommunityWrite extends AppCompatActivity {
     private Button goback, ok, addshare;
     private EditText title, body;
     private ConstraintLayout addimg;
-    private TextView shereText, bottomtext;
+    private TextView bottomtext;
     public static TextView imagecount;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private WriteImageAdapter adapter;
-
     private List<String> urllist = new ArrayList<>();
+    private RelativeLayout load;
+
+    //set sharelist
+    private TextView shereText, listtitle, listcount;
+    private CheckBox uandd;
+    private ConstraintLayout favlayout;
+    private RecyclerView sharelist;
+    private Button sharecancel;
+    private List<FavListItem> favListItems = new ArrayList<>();
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,9 +83,11 @@ public class CommunityWrite extends AppCompatActivity {
         int x = (int)(size.x * 0.2);
 
         setInit(y, x);
+        setInitShareList();
     }
 
     private void setInit(int y, int x) {
+        load = findViewById(R.id.community_write_load);
         scrollView = findViewById(R.id.community_write_scrollview);
         setScrollView();
         goback = findViewById(R.id.community_write_back);
@@ -77,7 +101,6 @@ public class CommunityWrite extends AppCompatActivity {
         onClickAddImg();
         imagecount = findViewById(R.id.community_write_imgcount);
         recyclerView = findViewById(R.id.community_write_recyclerview);
-        shereText = findViewById(R.id.community_write_share_text);
         bottomtext = findViewById(R.id.community_write_bottom_text);
         body.setMinHeight(y);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(x, x);
@@ -87,16 +110,104 @@ public class CommunityWrite extends AppCompatActivity {
         onClickOk();
     }
 
+    private void setInitShareList() {
+        shereText = findViewById(R.id.community_write_share_text);
+        listtitle = findViewById(R.id.community_write_share_title);
+        listcount = findViewById(R.id.community_write_share_title_count);
+        uandd = findViewById(R.id.community_write_share_uandd);
+        favlayout = findViewById(R.id.community_write_share_title_layout1);
+        sharelist = findViewById(R.id.community_write_share_recyclerview);
+        sharecancel = findViewById(R.id.community_write_share_cancel);
+        shereText.setVisibility(View.VISIBLE);
+        nullShare();
+
+        favlayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sharelist.getVisibility() == View.VISIBLE) {
+                    collapse(sharelist);
+                } else {
+                    expand(sharelist);
+                }
+            }
+        });
+
+        sharecancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                favListItems.clear();
+                nullShare();
+            }
+        });
+    }
+
+    private void nullShare() {
+        shereText.setVisibility(View.VISIBLE);
+        favlayout.setVisibility(View.GONE);
+        sharecancel.setVisibility(View.GONE);
+    }
+
+    private void haveShare() {
+        shereText.setVisibility(View.GONE);
+        favlayout.setVisibility(View.VISIBLE);
+        sharecancel.setVisibility(View.VISIBLE);
+    }
+
     private void onClickOk() {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                load.setVisibility(View.VISIBLE);
                 if (title.getText().toString().length() == 0) {
                     Toast.makeText(CommunityWrite.this, "Please enter a title", Toast.LENGTH_SHORT).show();
                 } else if (body.getText().toString().length() == 0) {
                     Toast.makeText(CommunityWrite.this, "Please enter a body", Toast.LENGTH_SHORT).show();
                 } else {
+                    MainModelDetail model = new MainModelDetail();
+                    DatabaseHandler databaseHandler = new DatabaseHandler(CommunityWrite.this);
+                    UserModel myProfile = databaseHandler.getUserModel();
+                    model.setParent_user(myProfile.getId());
+                    model.setNickname(myProfile.getNickname());
+                    model.setUser_url(myProfile.getImageurl());
+                    model.setTitle(title.getText().toString());
+                    model.setBody(body.getText().toString());
+                    String urls = "";
+                    if (urllist.size() != 0) {
+                        for (int i = 0; i < urllist.size(); i++) {
+                            urls += urllist.get(i);
+                            if (i != urllist.size() - 1) {
+                                urls += "●";
+                            }
+                        }
+                    }
+                    model.setImageurl(urls);
+                    String list = "";
+                    if (favListItems.size() != 0) {
+                        for (int i = 0; i < favListItems.size(); i++) {
+                            list += favListItems.get(i).getPage() + "-" + favListItems.get(i).getPosition() + "-" + favListItems.get(i).getSeek();
+                            if (i != favListItems.size() - 1) {
+                                list += "●";
+                            }
+                        }
+                    }
+                    model.setList(list);
+                    RetrofitClient.getApiService().createMain(myProfile.getId(), model).enqueue(new Callback<MainModelDetail>() {
+                        @Override
+                        public void onResponse(Call<MainModelDetail> call, Response<MainModelDetail> response) {
+                            if (response.isSuccessful()) {
+                                Log.d("CommunityWrite>>>", "1: " + response.message());
+                                finish();
+                            } else {
+                                Log.d("CommunityWrite>>>", "2: " + response.message());
+                            }
+                            load.setVisibility(View.GONE);
+                        }
 
+                        @Override
+                        public void onFailure(Call<MainModelDetail> call, Throwable t) {
+                            Log.d("CommunityWrite>>>", "3: " + t.getMessage());
+                        }
+                    });
                 }
             }
         });
@@ -164,6 +275,17 @@ public class CommunityWrite extends AppCompatActivity {
             } else if (result.getResultCode() == FROM_LIST) {
                 if (result.getData() != null) {
                     Log.d("CommunityWrite>>>", "from list: " + result.getData().getStringExtra("title"));
+                    if (result.getData().getStringExtra("title") != null || !result.getData().getStringExtra("title").equals("")) {
+                        favListItems.clear();
+                        favListItems = new DatabaseHandler(CommunityWrite.this).getFavListItem(result.getData().getStringExtra("title"));
+                        listtitle.setText(result.getData().getStringExtra("title"));
+                        ShareListAdapter shareListAdapter = new ShareListAdapter(favListItems, CommunityWrite.this);
+                        RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(CommunityWrite.this);
+                        sharelist.setLayoutManager(layoutManager1);
+                        sharelist.setAdapter(shareListAdapter);
+                        listcount.setText("[" + favListItems.size() + "]");
+                        haveShare();
+                    }
                 }
             }
         }
@@ -199,5 +321,59 @@ public class CommunityWrite extends AppCompatActivity {
             }
         });
     }
+    private void expand(final View v) {
+        int matchParentMeasureSpec = View.MeasureSpec.makeMeasureSpec(((View) v.getParent()).getWidth(), View.MeasureSpec.EXACTLY);
+        int wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        v.measure(matchParentMeasureSpec, wrapContentMeasureSpec);
+        final int targetHeight = v.getMeasuredHeight();
 
+        // Older versions of android (pre API 21) cancel animations for views with a height of 0.
+        v.getLayoutParams().height = 1;
+        v.setVisibility(View.VISIBLE);
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                v.getLayoutParams().height = interpolatedTime == 1
+                        ? ViewGroup.LayoutParams.WRAP_CONTENT
+                        : (int)(targetHeight * interpolatedTime);
+                v.requestLayout();
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // Expansion speed of 1dp/ms
+        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
+    }
+
+    private void collapse(final View v) {
+        final int initialHeight = v.getMeasuredHeight();
+
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                if(interpolatedTime == 1){
+                    v.setVisibility(View.GONE);
+                }else{
+                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                    v.requestLayout();
+                }
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // Collapse speed of 1dp/ms
+        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
+    }
 }

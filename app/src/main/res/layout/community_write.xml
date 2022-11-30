@@ -163,6 +163,7 @@
                                 android:text="0/5" />
                         </LinearLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/community_write_recyclerview"
                         android:layout_width="wrap_content"
@@ -200,8 +201,79 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="share your playlist!"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/community_write_share_title_layout1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/fav_page_item_round"
+                    android:layout_marginEnd="60dp"
+                    app:layout_constraintWidth_percent="0.6">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/community_write_share_title_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:elevation="3dp"
+                        android:paddingVertical="5dp">
+
+                        <CheckBox
+                            android:id="@+id/community_write_share_uandd"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/fav_page_item_down"
+                            android:button="@android:color/transparent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginStart="20dp"/>
+
+                        <TextView
+                            android:id="@+id/community_write_share_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="15dp"
+                            android:paddingEnd="20dp"
+                            android:paddingVertical="10dp"
+                            android:text="Title"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <TextView
+                            android:id="@+id/community_write_share_title_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="[0]"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/community_write_share_title"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/community_write_share_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/community_write_share_title_layout"
+                        android:visibility="gone"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/community_write_share_cancel"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/cancel"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/community_write_share_title_layout1" />
 
                 <Button
                     android:id="@+id/community_write_addshare"
@@ -210,7 +282,8 @@
                     android:background="@drawable/add_fav"
                     android:backgroundTint="@color/text_color"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
@@ -255,5 +328,24 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <RelativeLayout
+        android:id="@+id/community_write_load"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#7C000000"
+        android:clickable="true"
+        android:visibility="gone"
+        android:translationZ="3dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/button_design_color"
+            />
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
