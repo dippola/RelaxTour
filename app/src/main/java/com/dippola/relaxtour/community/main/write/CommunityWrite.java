@@ -1,4 +1,4 @@
-package com.dippola.relaxtour.community.main;
+package com.dippola.relaxtour.community.main.write;
 
 import android.content.ClipData;
 import android.content.Intent;
@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,20 +19,15 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.R;
-
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +35,7 @@ import java.util.List;
 public class CommunityWrite extends AppCompatActivity {
 
     private int FROM_GALLERY = 1;
+    private int FROM_LIST = 2;
 
     private NestedScrollView scrollView;
     private Button goback, ok, addshare;
@@ -111,7 +106,8 @@ public class CommunityWrite extends AppCompatActivity {
         addshare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(CommunityWrite.this, ShareListDialog.class);
+                launcher.launch(intent);
             }
         });
     }
@@ -152,7 +148,9 @@ public class CommunityWrite extends AppCompatActivity {
                         } else {
                             for (int i = 0; i < clipData.getItemCount(); i++) {
                                 Uri imageUri = clipData.getItemAt(i).getUri();
-                                urllist.add(imageUri.toString());
+                                if (!urllist.contains(imageUri.toString())) {
+                                    urllist.add(imageUri.toString());
+                                }
                                 Log.d("CommunityWrite>>>", "uri: " + imageUri);
                             }
                         }
@@ -163,6 +161,10 @@ public class CommunityWrite extends AppCompatActivity {
                     }
                     setImage();
                 }
+            } else if (result.getResultCode() == FROM_LIST) {
+                if (result.getData() != null) {
+
+                }
             }
         }
     });
@@ -170,6 +172,14 @@ public class CommunityWrite extends AppCompatActivity {
     private void setImage() {
         adapter.notifyDataSetChanged();
         imagecount.setText(urllist.size() + "/5");
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int x = (int)(size.x * 0.3);
+        ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
+        params.width = x * urllist.size();
+        recyclerView.setLayoutParams(params);
+        recyclerView.requestLayout();
     }
 
     private void setScrollView() {

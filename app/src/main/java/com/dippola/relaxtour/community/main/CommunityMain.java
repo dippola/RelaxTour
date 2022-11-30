@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.auth.CommunityAuth;
+import com.dippola.relaxtour.community.main.write.CommunityWrite;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.community.signIn.CommunitySignIn;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;

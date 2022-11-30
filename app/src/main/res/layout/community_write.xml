@@ -118,7 +118,7 @@
 
             <HorizontalScrollView
                 android:id="@+id/community_write_imgbox"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginVertical="10dp"
