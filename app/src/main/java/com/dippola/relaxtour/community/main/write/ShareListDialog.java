@@ -8,9 +8,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
@@ -22,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
-import com.dippola.relaxtour.pages.item.FavListItem;
 import com.dippola.relaxtour.pages.item.FavTitleItem;
 
 import java.util.ArrayList;
@@ -33,7 +30,7 @@ public class ShareListDialog extends AppCompatActivity {
     private ConstraintLayout layout;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
-    private ShareListAdapter adapter;
+    private ShareTitleAdapter adapter;
     private DatabaseHandler databaseHandler;
     private List<FavTitleItem> titleitems = new ArrayList<>();
     private ConstraintLayout nulllist;
@@ -81,7 +78,7 @@ public class ShareListDialog extends AppCompatActivity {
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             nulllist.setVisibility(View.GONE);
-            adapter = new ShareListAdapter(titleitems);
+            adapter = new ShareTitleAdapter(titleitems, ShareListDialog.this);
             layoutManager = new LinearLayoutManager(ShareListDialog.this);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
