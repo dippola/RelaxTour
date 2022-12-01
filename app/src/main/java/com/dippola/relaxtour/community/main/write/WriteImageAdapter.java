@@ -1,6 +1,7 @@
 package com.dippola.relaxtour.community.main.write;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,11 @@ import com.dippola.relaxtour.R;
 import java.util.List;
 
 public class WriteImageAdapter extends RecyclerView.Adapter<WriteImageAdapter.CustomViewHolder> {
-    List<String> urllist;
+    List<Uri> urllist;
     Context context;
     ConstraintLayout.LayoutParams params;
 
-    public WriteImageAdapter(List<String> urllist, Context context, ConstraintLayout.LayoutParams params) {
+    public WriteImageAdapter(List<Uri> urllist, Context context, ConstraintLayout.LayoutParams params) {
         this.urllist = urllist;
         this.context = context;
         this.params = params;
@@ -43,7 +44,7 @@ public class WriteImageAdapter extends RecyclerView.Adapter<WriteImageAdapter.Cu
         if (urllist.get(i) == null) {
             holder.box.setVisibility(View.GONE);
         } else {
-            Glide.with(context).load(urllist.get(i)).transform(new CenterCrop(), new RoundedCorners(40)).into(holder.img);
+            Glide.with(context).load(urllist.get(i).toString()).transform(new CenterCrop(), new RoundedCorners(40)).into(holder.img);
             holder.box.setVisibility(View.VISIBLE);
         }
         holder.cancel.setOnClickListener(new View.OnClickListener() {

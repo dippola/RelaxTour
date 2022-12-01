@@ -78,6 +78,7 @@
                 android:hint="Title"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="15dp"
+                android:textCursorDrawable="@drawable/edittext_cursor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/community_write_line1" />
@@ -101,6 +102,7 @@
                 android:hint="It's a space where you can tell all the stories about meditation. share your meditation story."
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="15dp"
+                android:textCursorDrawable="@drawable/edittext_cursor"
                 android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -209,43 +211,44 @@
                     android:id="@+id/community_write_share_title_layout1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="60dp"
+                    android:background="@drawable/fav_page_item_round"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:background="@drawable/fav_page_item_round"
-                    android:layout_marginEnd="60dp"
                     app:layout_constraintWidth_percent="0.6">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/community_write_share_title_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         android:elevation="3dp"
-                        android:paddingVertical="5dp">
+                        android:paddingVertical="5dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <CheckBox
                             android:id="@+id/community_write_share_uandd"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:layout_marginStart="20dp"
                             android:background="@drawable/fav_page_item_down"
                             android:button="@android:color/transparent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            android:layout_marginStart="20dp"/>
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/community_write_share_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:paddingVertical="10dp"
                             android:paddingStart="15dp"
                             android:paddingEnd="20dp"
-                            android:paddingVertical="10dp"
                             android:text="Title"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
                         <TextView
                             android:id="@+id/community_write_share_title_count"
                             android:layout_width="wrap_content"
@@ -261,12 +264,13 @@
                         android:id="@+id/community_write_share_recyclerview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/community_write_share_title_layout"
-                        android:visibility="gone"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/community_write_share_title_layout" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <Button
                     android:id="@+id/community_write_share_cancel"
                     android:layout_width="25dp"
@@ -281,9 +285,9 @@
                     android:layout_height="25dp"
                     android:background="@drawable/add_fav"
                     android:backgroundTint="@color/text_color"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
@@ -334,18 +338,29 @@
         android:layout_height="0dp"
         android:background="#7C000000"
         android:clickable="true"
-        android:visibility="gone"
         android:translationZ="3dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <ProgressBar
+            android:id="@+id/community_write_progressbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:indeterminateTint="@color/button_design_color"
-            />
+            android:indeterminateTint="@color/button_design_color" />
+
+        <TextView
+            android:id="@+id/community_write_load_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/community_write_progressbar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text=""
+            android:textColor="#ffffff" />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

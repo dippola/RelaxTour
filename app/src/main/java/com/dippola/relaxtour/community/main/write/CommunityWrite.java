@@ -1,9 +1,12 @@
 package com.dippola.relaxtour.community.main.write;
 
+import android.app.Activity;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -32,15 +35,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.Test;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.pages.item.FavListItem;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.MainModelDetail;
 import com.dippola.relaxtour.retrofit.model.UserModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,8 +69,9 @@ public class CommunityWrite extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private WriteImageAdapter adapter;
-    private List<String> urllist = new ArrayList<>();
-    private RelativeLayout load;
+    private List<Uri> urllist = new ArrayList<>();
+    public static RelativeLayout load;
+    private TextView loadtext;
 
     //set sharelist
     private TextView shereText, listtitle, listcount;
@@ -89,6 +99,7 @@ public class CommunityWrite extends AppCompatActivity {
 
     private void setInit(int y, int x) {
         load = findViewById(R.id.community_write_load);
+        loadtext = findViewById(R.id.community_write_load_text);
         scrollView = findViewById(R.id.community_write_scrollview);
         setScrollView();
         goback = findViewById(R.id.community_write_back);
@@ -173,9 +184,17 @@ public class CommunityWrite extends AppCompatActivity {
                     model.setTitle(title.getText().toString());
                     model.setBody(body.getText().toString());
                     String urls = "";
+                    String rd = "";
+                    String copyrd = "";
                     if (urllist.size() != 0) {
+                        rd = rd(10);
+                        copyrd = rd;
+                        rd += "●";
                         for (int i = 0; i < urllist.size(); i++) {
-                            urls += urllist.get(i);
+                            if (i == 0) {
+                                urls += rd;
+                            }
+                            urls += urllist.get(i).toString();
                             if (i != urllist.size() - 1) {
                                 urls += "●";
                             }
@@ -192,24 +211,37 @@ public class CommunityWrite extends AppCompatActivity {
                         }
                     }
                     model.setList(list);
-                    RetrofitClient.getApiService().createMain(myProfile.getId(), model).enqueue(new Callback<MainModelDetail>() {
-                        @Override
-                        public void onResponse(Call<MainModelDetail> call, Response<MainModelDetail> response) {
-                            if (response.isSuccessful()) {
-                                Log.d("CommunityWrite>>>", "1: " + response.message());
-                                finish();
-                            } else {
-                                Toast.makeText(CommunityWrite.this, "The Internet connection was unstable and failed.\nPlease try again.\n" + response.message(), Toast.LENGTH_SHORT).show();
-                            }
-                            load.setVisibility(View.GONE);
-                        }
 
-                        @Override
-                        public void onFailure(Call<MainModelDetail> call, Throwable t) {
-                            Toast.makeText(CommunityWrite.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    UploadService uploadService = new UploadService();
+                    Intent intent = new Intent(CommunityWrite.this, uploadService.getClass());
+                    if (Build.VERSION.SDK_INT >= 26) {
+                        startForegroundService(intent);
+                    } else {
+                        startService(intent);
+                    }
+                    UploadService.upload(loadtext, CommunityWrite.this, CommunityWrite.this, urllist, copyrd, myProfile.getId(), model);
                 }
+            }
+        });
+    }
+
+    public static void uploadToDjango(Activity activity, Context context, int id, MainModelDetail model) {
+        RetrofitClient.getApiService().createMain(id, model).enqueue(new Callback<MainModelDetail>() {
+            @Override
+            public void onResponse(Call<MainModelDetail> call, Response<MainModelDetail> response) {
+                if (response.isSuccessful()) {
+                    Log.d("CommunityWrite>>>", "1: " + response.message());
+                    Toast.makeText(context, "Post registration complete", Toast.LENGTH_SHORT).show();
+                    activity.finish();
+                } else {
+                    Toast.makeText(context, "The Internet connection was unstable and failed.\nPlease try again.\n" + response.message(), Toast.LENGTH_SHORT).show();
+                }
+                load.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<MainModelDetail> call, Throwable t) {
+                Toast.makeText(context, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -261,14 +293,14 @@ public class CommunityWrite extends AppCompatActivity {
                             for (int i = 0; i < clipData.getItemCount(); i++) {
                                 Uri imageUri = clipData.getItemAt(i).getUri();
                                 if (!urllist.contains(imageUri.toString())) {
-                                    urllist.add(imageUri.toString());
+                                    urllist.add(imageUri);
                                 }
                                 Log.d("CommunityWrite>>>", "uri: " + imageUri);
                             }
                         }
                     } else {
                         Uri imageUri = data.getData();
-                        urllist.add(imageUri.toString());
+                        urllist.add(imageUri);
                         Log.d("CommunityWrite>>>", "uri: " + imageUri);
                     }
                     setImage();
@@ -376,5 +408,22 @@ public class CommunityWrite extends AppCompatActivity {
         // Collapse speed of 1dp/ms
         a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
+    }
+
+    public static String rd(int wordLength) {
+        Random r = new Random();
+        StringBuilder sb = new StringBuilder(wordLength);
+        for(int i = 0; i < wordLength; i++) {
+            char tmp = (char) ('a' + r.nextInt('z' - 'a'));
+            sb.append(tmp);
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (load.getVisibility() == View.GONE) {
+            super.onBackPressed();
+        }
     }
 }
