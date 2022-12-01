@@ -169,12 +169,12 @@ public class CommunityWrite extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                load.setVisibility(View.VISIBLE);
                 if (title.getText().toString().length() == 0) {
                     Toast.makeText(CommunityWrite.this, "Please enter a title", Toast.LENGTH_SHORT).show();
                 } else if (body.getText().toString().length() == 0) {
                     Toast.makeText(CommunityWrite.this, "Please enter a body", Toast.LENGTH_SHORT).show();
                 } else {
+                    load.setVisibility(View.VISIBLE);
                     MainModelDetail model = new MainModelDetail();
                     DatabaseHandler databaseHandler = new DatabaseHandler(CommunityWrite.this);
                     UserModel myProfile = databaseHandler.getUserModel();

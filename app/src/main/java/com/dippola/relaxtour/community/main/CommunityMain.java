@@ -88,7 +88,9 @@ public class CommunityMain extends AppCompatActivity {
         setImageAuthIcon();
         onClickAuth();
         loadCommunity();
-        onClickFloating();
+        Animation show = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.fab_open);
+        Animation close = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.fab_close);
+        onClickFloating(show, close);
     }
 
     private void setInit() {
@@ -110,9 +112,7 @@ public class CommunityMain extends AppCompatActivity {
         fbg.setVisibility(View.GONE);
     }
 
-    private void onClickFloating() {
-        Animation show = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.fab_open);
-        Animation close = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.fab_close);
+    private void onClickFloating(Animation show, Animation close) {
         show.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
