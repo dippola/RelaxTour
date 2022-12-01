@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -62,7 +65,10 @@ public class CommunityMain extends AppCompatActivity {
     public static RecyclerView recyclerView;
     public static ShimmerFrameLayout itemload;
     public static ConstraintLayout pagebox;
-    private FloatingActionButton write;
+    private FloatingActionButton fabmain;
+    private ConstraintLayout fab1, fab2;
+
+    private RelativeLayout fbg;
 
     private MainAdapter adapter;
 
@@ -82,7 +88,7 @@ public class CommunityMain extends AppCompatActivity {
         setImageAuthIcon();
         onClickAuth();
         loadCommunity();
-        setWrite();
+        onClickFloating();
     }
 
     private void setInit() {
@@ -94,15 +100,90 @@ public class CommunityMain extends AppCompatActivity {
         itemload.startShimmer();
         pagebox = findViewById(R.id.community_main_page_box);
         pagebox.setVisibility(View.GONE);
-        write = findViewById(R.id.community_main_write_post);
+
+        fabmain = findViewById(R.id.community_main_fabmain);
+        fab1 = findViewById(R.id.community_main_fab1);
+        fab1.setVisibility(View.GONE);
+        fab2 = findViewById(R.id.community_main_fab2);
+        fab2.setVisibility(View.GONE);
+        fbg = findViewById(R.id.community_main_floating_background);
+        fbg.setVisibility(View.GONE);
     }
 
-    private void setWrite() {
-        write.setOnClickListener(new View.OnClickListener() {
+    private void onClickFloating() {
+        Animation show = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.fab_open);
+        Animation close = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.fab_close);
+        show.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                fab1.setVisibility(View.VISIBLE);
+                fab2.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        close.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                fab1.setVisibility(View.GONE);
+                fab2.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        fabmain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("CommunityMain>>>", "write click");
+                if (fbg.getVisibility() == View.GONE) {
+                    fab1.startAnimation(show);
+                    fab2.startAnimation(show);
+                    fbg.setVisibility(View.VISIBLE);
+                } else {
+                    fab1.startAnimation(close);
+                    fab2.startAnimation(close);
+                    fbg.setVisibility(View.GONE);
+                }
+            }
+        });
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 startActivity(new Intent(CommunityMain.this, CommunityWrite.class));
+                fab1.startAnimation(close);
+                fab2.startAnimation(close);
+                fbg.setVisibility(View.GONE);
+            }
+        });
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fab1.startAnimation(close);
+                fab2.startAnimation(close);
+                fbg.setVisibility(View.GONE);
+            }
+        });
+        fbg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fab1.startAnimation(close);
+                fab2.startAnimation(close);
+                fbg.setVisibility(View.GONE);
             }
         });
     }

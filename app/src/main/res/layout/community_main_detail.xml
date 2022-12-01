@@ -42,9 +42,18 @@
             android:id="@+id/community_main_detail_likebtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/community_write_more"
+            android:background="@drawable/like_icon" />
+
+        <Button
+            android:id="@+id/community_write_more"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/like_icon" />
+            android:background="@drawable/community_more" />
 
     </RelativeLayout>
 
@@ -297,11 +306,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/community_main_detail_comment_box" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
                 android:background="#00000000"
-                app:layout_constraintTop_toBottomOf="@+id/community_main_detail_line6"/>
+                app:layout_constraintTop_toBottomOf="@+id/community_main_detail_line6" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
