@@ -50,7 +50,7 @@ public class UploadService extends Service {
             MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(context, "tag");
             Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.main_head);
 
-            Intent intent = new Intent(context, CommunityMain.class);
+            Intent intent = new Intent(context, CommunityWrite.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.addCategory(Intent.CATEGORY_LAUNCHER);
 
@@ -66,7 +66,7 @@ public class UploadService extends Service {
                 notification = new NotificationCompat.Builder(context);
             }
             notification.setSilent(true);
-            notification.setSmallIcon(R.drawable.info_icon);
+            notification.setSmallIcon(R.drawable.upload_icon);
             notification.setContentTitle("Post Uploading..");//.setContentText(track.getName())
             notification.setLargeIcon(icon);
             notification.setOnlyAlertOnce(true);//show notification for only first time
