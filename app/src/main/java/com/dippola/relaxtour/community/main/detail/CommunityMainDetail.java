@@ -134,7 +134,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             commentlist.setVisibility(View.GONE);
         } else {
             nullcomment.setVisibility(View.GONE);
-            adapter = new MainDetailCommentAdapter(list);
+            adapter = new MainDetailCommentAdapter(list, CommunityMainDetail.this);
             commentlist.setLayoutManager(new LinearLayoutManager(CommunityMainDetail.this));
             commentlist.setAdapter(adapter);
             commentlist.setVisibility(View.VISIBLE);

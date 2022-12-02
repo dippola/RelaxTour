@@ -26,11 +26,10 @@
 
         <TextView
             android:id="@+id/community_main_detail_comment_item_nickname"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:textStyle="bold"
-            android:background="@color/shimmer_color"
             app:layout_constraintWidth_percent="0.15"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
