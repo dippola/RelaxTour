@@ -15,14 +15,18 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.MainCommentModel;
 import com.dippola.relaxtour.retrofit.model.MainModelDetail;
 import com.facebook.shimmer.ShimmerFrameLayout;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,6 +48,8 @@ public class CommunityMainDetail extends AppCompatActivity {
     private EditText editComment;
 
     private MainModelDetail model = new MainModelDetail();
+
+    private MainDetailCommentAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,6 +124,21 @@ public class CommunityMainDetail extends AppCompatActivity {
         commentcount.setText(String.valueOf(model.getComment().size()));
         main.setVisibility(View.VISIBLE);
         load.setVisibility(View.GONE);
+
+        setComment(model.getComment().size(), model.getComment());
+    }
+
+    private void setComment(int size, List<MainCommentModel> list) {
+        if (size == 0) {
+            nullcomment.setVisibility(View.VISIBLE);
+            commentlist.setVisibility(View.GONE);
+        } else {
+            nullcomment.setVisibility(View.GONE);
+            adapter = new MainDetailCommentAdapter(list);
+            commentlist.setLayoutManager(new LinearLayoutManager(CommunityMainDetail.this));
+            commentlist.setAdapter(adapter);
+            commentlist.setVisibility(View.VISIBLE);
+        }
     }
     private void setScrollView() {
         scrollView.setOnTouchListener(new View.OnTouchListener() {
