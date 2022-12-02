@@ -24,7 +24,7 @@
             android:id="@+id/community_main_item_userimage_loading"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/dialog_layout_line_color"
+            android:background="@color/shimmer_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/community_main_item_nickname_loading"
@@ -36,7 +36,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="7dp"
-            android:background="@color/dialog_layout_line_color"
+            android:background="@color/shimmer_color"
             android:textColor="@color/text_color"
             android:textSize="14dp"
             app:layout_constraintWidth_percent="0.3"
@@ -49,7 +49,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@color/community_nostrong_color"
-            android:background="@color/dialog_layout_line_color"
+            android:background="@color/shimmer_color"
             app:layout_constraintWidth_percent="0.2"
             app:layout_constraintBottom_toTopOf="@+id/community_main_item_line_loading"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
             android:id="@+id/community_main_item_date_loading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/dialog_layout_line_color"
+            android:background="@color/shimmer_color"
             android:textColor="@color/community_nostrong_color"
             app:layout_constraintWidth_percent="0.2"
             app:layout_constraintBottom_toTopOf="@+id/community_main_item_line_loading"
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:textSize="13dp"
-                    android:background="@color/dialog_layout_line_color"
+                    android:background="@color/shimmer_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/community_main_item_view_icon_loading"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -140,7 +140,7 @@
                     android:id="@+id/community_main_item_like_loading"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/dialog_layout_line_color"
+                    android:background="@color/shimmer_color"
                     android:textSize="13dp" />
             </LinearLayout>
 
@@ -170,7 +170,7 @@
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:textSize="13dp"
-                    android:background="@color/dialog_layout_line_color"
+                    android:background="@color/shimmer_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

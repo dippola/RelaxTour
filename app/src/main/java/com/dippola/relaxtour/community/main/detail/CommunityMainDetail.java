@@ -9,23 +9,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
-import com.dippola.relaxtour.retrofit.model.MainCommentModel;
 import com.dippola.relaxtour.retrofit.model.MainModelDetail;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,8 +32,10 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     private int id;
 
+    private ShimmerFrameLayout load;
+    private ConstraintLayout load_body;
+    private ConstraintLayout main;
     private ScrollView scrollView;
-    private RelativeLayout load;
     private Button back, like, commentsend;
     private TextView title, nickname, date, viewcount, body, nullcomment, commentcount;
     private ImageView userimg, like2;
@@ -64,7 +63,10 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     private void setInit(int y) {
         load = findViewById(R.id.community_main_detail_load);
-        load.setVisibility(View.VISIBLE);
+        load_body = findViewById(R.id.community_main_detail_body_box_load);
+        load_body.setMinHeight(y);
+        main = findViewById(R.id.communtiy_main_detail);
+        main.setVisibility(View.GONE);
         scrollView = findViewById(R.id.community_main_detail_scrollview);
         back = findViewById(R.id.community_main_detail_backbtn);
         like = findViewById(R.id.community_main_detail_likebtn);
@@ -114,7 +116,7 @@ public class CommunityMainDetail extends AppCompatActivity {
         viewcount.setText(String.valueOf(model.getView()));
         body.setText(model.getBody());
         commentcount.setText(String.valueOf(model.getComment().size()));
-
+        main.setVisibility(View.VISIBLE);
         load.setVisibility(View.GONE);
     }
     private void setScrollView() {
