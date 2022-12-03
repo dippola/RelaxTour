@@ -39,9 +39,6 @@ public class MainModelDetail {
     @SerializedName("list")
     @Expose
     private String list;
-    @SerializedName("comment")
-    @Expose
-    private List<MainCommentModel> comment;
 
     public int getParent_id() {
         return parent_id;
@@ -129,13 +126,5 @@ public class MainModelDetail {
 
     public void setList(String list) {
         this.list = list;
-    }
-
-    public List<MainCommentModel> getComment() {
-        return comment;
-    }
-
-    public void setComment(List<MainCommentModel> comment) {
-        this.comment = comment;
     }
 }

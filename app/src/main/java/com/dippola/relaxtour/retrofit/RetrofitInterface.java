@@ -83,17 +83,17 @@ public interface RetrofitInterface {
             @Body MainCommentModel mainCommentModel
     );
 
+    @GET("post/{pk}/comments/page={page}/")
+    Call<List<MainCommentModel>> getMainComment(
+            @Path("pk") int pk,
+            @Path("page") int page
+    );
+
 //    @GET("post/{pk}/comments/")
 //    Call<List<MainCommentModel>> getMainAllComment(
 //            @Path("pk") int pk
 //    );
 //
-//    @GET("post/{pk}/comments/page={page}/")
-//    Call<List<MainCommentModel>> getMainComment(
-//            @Path("pk") int pk,
-//            @Path("page") int page
-//    );
-
 //    @PUT("post/comment/update={id}/")
 //    Call<MainCommentUpdateModel> updateComment(
 //            @Path("id") int id,

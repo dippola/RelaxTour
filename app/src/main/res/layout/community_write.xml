@@ -53,6 +53,7 @@
         android:fitsSystemWindows="true"
         android:orientation="vertical"
         android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+        android:overScrollMode="never"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/community_write_topbar">

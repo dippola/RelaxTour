@@ -18,6 +18,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/community_profile_change_back"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/community_auth_back"
+        android:backgroundTint="@color/text_color"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/community_profile_change_box"
         android:layout_width="0dp"
@@ -188,28 +199,15 @@
         android:id="@+id/community_profile_change_okbtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/button_design"
         android:text="ok"
         android:textColor="@color/button_design_color_2"
-        app:layout_constraintBottom_toTopOf="@+id/community_profile_change_skip"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/community_profile_change_box"
         app:layout_constraintWidth_percent="0.7" />
-
-    <TextView
-        android:id="@+id/community_profile_change_skip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginEnd="10dp"
-        android:text="SKIP >"
-        android:textColor="@color/signup_text_color_in_signin_page"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <RelativeLayout
         android:id="@+id/community_profile_change_load"

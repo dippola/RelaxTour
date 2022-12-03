@@ -7,6 +7,8 @@ import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,13 +45,13 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     private int id;
 
-    private ShimmerFrameLayout load;
+    private ShimmerFrameLayout topLoad, bottomLoad;
+    private ConstraintLayout topFinish, middleFinish, bottomFinish;
     private ConstraintLayout load_body;
-    private ConstraintLayout main;
     private NestedScrollView scrollView;
-    private Button back, like;
+    private Button back, like, refresh;
     private RelativeLayout commentsend, commentsendload;
-    private TextView title, nickname, date, viewcount, body, nullcomment, commentcount;
+    private TextView title, nickname, date, viewcount, body, nullcomment, commentcount, likecount;
     public static TextView towho;
     private ImageView userimg, like2;
     private LinearLayout likebox, commentbox;
@@ -75,15 +77,20 @@ public class CommunityMainDetail extends AppCompatActivity {
         int y = (int)(size.y * 0.25);
 
         setInit(y);
-        getData();
+        getData("");
     }
 
     private void setInit(int y) {
-        load = findViewById(R.id.community_main_detail_load);
+        topLoad = findViewById(R.id.community_main_detail_load);
+        bottomLoad = findViewById(R.id.community_main_detail_comment_item_load);
+        topFinish = findViewById(R.id.community_main_detail_load_top_finish);
+        middleFinish = findViewById(R.id.community_main_detail_load_middle_finish);
+        bottomFinish = findViewById(R.id.community_main_detail_load_bottom_finish);
+        topFinish.setVisibility(View.GONE);
+        middleFinish.setVisibility(View.GONE);
+        bottomFinish.setVisibility(View.GONE);
         load_body = findViewById(R.id.community_main_detail_body_box_load);
         load_body.setMinHeight(y);
-        main = findViewById(R.id.communtiy_main_detail);
-        main.setVisibility(View.GONE);
         scrollView = findViewById(R.id.community_main_detail_scrollview);
         back = findViewById(R.id.community_main_detail_backbtn);
         like = findViewById(R.id.community_main_detail_likebtn);
@@ -96,9 +103,11 @@ public class CommunityMainDetail extends AppCompatActivity {
         body = findViewById(R.id.community_main_detail_body);
         body.setMinHeight(y);
         nullcomment = findViewById(R.id.community_main_detail_nullcomment);
+        likecount = findViewById(R.id.community_main_detail_like2_count);
         userimg = findViewById(R.id.community_main_detail_userimg);
         like2 = findViewById(R.id.community_main_detail_like2);
         likebox = findViewById(R.id.community_main_detail_likebox);
+        refresh = findViewById(R.id.community_main_refresh_button);
         commentbox = findViewById(R.id.community_main_detail_commentbox);
         commentcount = findViewById(R.id.community_main_detail_comment_count);
         commentlist = findViewById(R.id.community_main_detail_commentlist);
@@ -107,6 +116,20 @@ public class CommunityMainDetail extends AppCompatActivity {
         towhoid = 0;
         setScrollView();
         onClickOk();
+        onClickRefresh();
+    }
+
+    private void onClickRefresh() {
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Animation animation = AnimationUtils.loadAnimation(CommunityMainDetail.this, R.anim.refresh_turn);
+                refresh.startAnimation(animation);
+                bottomLoad.setVisibility(View.VISIBLE);
+                bottomFinish.setVisibility(View.GONE);
+                getData("refresh");
+            }
+        });
     }
 
     private void onClickOk() {
@@ -160,7 +183,6 @@ public class CommunityMainDetail extends AppCompatActivity {
             public void onResponse(Call<MainModelDetail> call, Response<MainModelDetail> response) {
                 if (response.isSuccessful()) {
                     model = response.body();
-                    setComment(model.getComment().size(), model.getComment());
                     scrollDown();
                 }
             }
@@ -208,21 +230,52 @@ public class CommunityMainDetail extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    private void getData() {
-        RetrofitClient.getApiService().getMain(id).enqueue(new Callback<MainModelDetail>() {
-            @Override
-            public void onResponse(Call<MainModelDetail> call, Response<MainModelDetail> response) {
-                if (response.isSuccessful()) {
-                    model = response.body();
-                    setData(model);
+    private void getData(String from) {
+        if (from.equals("refresh")) {
+            RetrofitClient.getApiService().getMainComment(id, 1).enqueue(new Callback<List<MainCommentModel>>() {
+                @Override
+                public void onResponse(Call<List<MainCommentModel>> call, Response<List<MainCommentModel>> response) {
+                    if (response.isSuccessful()) {
+                        List<MainCommentModel> commentModelList = response.body();
+                        setComment(commentModelList.size(), commentModelList, from);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<MainModelDetail> call, Throwable t) {
+                @Override
+                public void onFailure(Call<List<MainCommentModel>> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        } else {
+            RetrofitClient.getApiService().getMain(id).enqueue(new Callback<MainModelDetail>() {
+                @Override
+                public void onResponse(Call<MainModelDetail> call, Response<MainModelDetail> response) {
+                    if (response.isSuccessful()) {
+                        model = response.body();
+                        setData(model);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MainModelDetail> call, Throwable t) {
+
+                }
+            });
+            RetrofitClient.getApiService().getMainComment(id, 1).enqueue(new Callback<List<MainCommentModel>>() {
+                @Override
+                public void onResponse(Call<List<MainCommentModel>> call, Response<List<MainCommentModel>> response) {
+                    if (response.isSuccessful()) {
+                        List<MainCommentModel> commentModelList = response.body();
+                        setComment(commentModelList.size(), commentModelList, "");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<MainCommentModel>> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     private void setData(MainModelDetail model) {
@@ -235,14 +288,13 @@ public class CommunityMainDetail extends AppCompatActivity {
         nickname.setText(model.getNickname());
         viewcount.setText(String.valueOf(model.getView()));
         body.setText(model.getBody());
-        commentcount.setText(String.valueOf(model.getComment().size()));
-        main.setVisibility(View.VISIBLE);
-        load.setVisibility(View.GONE);
-
-        setComment(model.getComment().size(), model.getComment());
+        likecount.setText(String.valueOf(model.getLike()));
+        topLoad.setVisibility(View.INVISIBLE);
+        topFinish.setVisibility(View.VISIBLE);
+        middleFinish.setVisibility(View.VISIBLE);
     }
 
-    private void setComment(int size, List<MainCommentModel> list) {
+    private void setComment(int size, List<MainCommentModel> list, String from) {
         if (size == 0) {
             nullcomment.setVisibility(View.VISIBLE);
             commentlist.setVisibility(View.GONE);
@@ -253,7 +305,14 @@ public class CommunityMainDetail extends AppCompatActivity {
             adapter = new MainDetailCommentAdapter(list, CommunityMainDetail.this);
             commentlist.setLayoutManager(new LinearLayoutManager(CommunityMainDetail.this));
             commentlist.setAdapter(adapter);
+            bottomLoad.setVisibility(View.GONE);
             commentlist.setVisibility(View.VISIBLE);
+            bottomFinish.setVisibility(View.VISIBLE);
+
+            if (from.equals("refresh")) {
+                refresh.clearAnimation();
+                Toast.makeText(CommunityMainDetail.this, "Refreshed", Toast.LENGTH_SHORT).show();
+            }
         }
     }
     private void setScrollView() {

@@ -36,6 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.Test;
+import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.pages.item.FavListItem;
@@ -232,6 +233,9 @@ public class CommunityWrite extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Log.d("CommunityWrite>>>", "1: " + response.message());
                     Toast.makeText(context, "Post registration complete", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, CommunityMain.class);
+                    intent.putExtra("write", true);
+                    activity.setResult(CommunityMain.FROM_WRITE, intent);
                     activity.finish();
                 } else {
                     Toast.makeText(context, "The Internet connection was unstable and failed.\nPlease try again.\n" + response.message(), Toast.LENGTH_SHORT).show();

@@ -47,8 +47,8 @@ import retrofit2.Response;
 public class CommunityProfileChange extends AppCompatActivity {
 
     private ImageView img;
-    private TextView addPic, count, skip, error;
-    private Button deletePic, ok;
+    private TextView addPic, count, error;
+    private Button deletePic, ok, back;
     private EditText editNickname;
     private RelativeLayout load;
     private Uri imageUri;
@@ -66,20 +66,30 @@ public class CommunityProfileChange extends AppCompatActivity {
         onClickDeletePic();
         onClickAddPic();
         onClickOk();
+        onClickBack();
     }
 
     private void setInit() {
         auth = FirebaseAuth.getInstance();
         img = findViewById(R.id.community_profile_change_img);
         addPic = findViewById(R.id.community_profile_change_photobtn);
+        back = findViewById(R.id.community_profile_change_back);
         count = findViewById(R.id.community_profile_change_count);
-        skip = findViewById(R.id.community_profile_change_skip);
         deletePic = findViewById(R.id.community_profile_change_cancel_img);
         ok = findViewById(R.id.community_profile_change_okbtn);
         editNickname = findViewById(R.id.community_profile_change_edit_nickname);
         error = findViewById(R.id.community_profile_change_errortext);
         load = findViewById(R.id.community_profile_change_load);
         load.setVisibility(View.GONE);
+    }
+
+    private void onClickBack() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void setUserData() {

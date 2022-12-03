@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -60,6 +61,7 @@ public class CommunityMain extends AppCompatActivity {
 
     private DatabaseHandler databaseHandler;
     private FirebaseAuth auth;
+    private SwipeRefreshLayout refresh;
     private ImageView authicon;
     private ProgressBar iconload;
     public static RecyclerView recyclerView;
@@ -75,6 +77,7 @@ public class CommunityMain extends AppCompatActivity {
     public static final int FROM_SIGNIN = 105;
     public static final int FROM_CREATE_PROFILE = 106;
     public static final int FROM_AUTH = 107;
+    public static final int FROM_WRITE = 108;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +88,7 @@ public class CommunityMain extends AppCompatActivity {
         databaseHandler = new DatabaseHandler(CommunityMain.this);
 
         setInit();
+        setRefresh();
         setImageAuthIcon();
         onClickAuth();
         loadCommunity();
@@ -94,6 +98,7 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void setInit() {
+        refresh = findViewById(R.id.community_main_refresh);
         authicon = findViewById(R.id.community_main_auth);
         iconload = findViewById(R.id.community_main_iconload);
         recyclerView = findViewById(R.id.community_main_recyclerview);
@@ -110,6 +115,36 @@ public class CommunityMain extends AppCompatActivity {
         fab2.setVisibility(View.GONE);
         fbg = findViewById(R.id.community_main_floating_background);
         fbg.setVisibility(View.GONE);
+    }
+
+    private void setRefresh() {
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                startReflesh();
+            }
+        });
+    }
+
+    private void startReflesh() {
+        startLoad();
+        List<MainModelView> lists = new ArrayList<>();
+        RetrofitClient.getApiService().getMainPage(1).enqueue(new Callback<List<MainModelView>>() {
+            @Override
+            public void onResponse(Call<List<MainModelView>> call, Response<List<MainModelView>> response) {
+                if (response.isSuccessful()) {
+                    lists.addAll(response.body());
+                    setRecyclerView(lists);
+                    finishedLoad();
+                    refresh.setRefreshing(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<MainModelView>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void onClickFloating(Animation show, Animation close) {
@@ -164,7 +199,7 @@ public class CommunityMain extends AppCompatActivity {
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CommunityMain.this, CommunityWrite.class));
+                launcher.launch(new Intent(CommunityMain.this, CommunityWrite.class));
                 fab1.startAnimation(close);
                 fab2.startAnimation(close);
                 fbg.setVisibility(View.GONE);
@@ -310,6 +345,10 @@ public class CommunityMain extends AppCompatActivity {
                         Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nulluser)).transform(new CircleCrop()).into(authicon);
                         iconload.setVisibility(View.GONE);
                     }
+                }
+            } else if (result.getResultCode() == FROM_WRITE) {
+                if (result.getData().getBooleanExtra("write", false)) {
+                    startReflesh();
                 }
             }
         }
