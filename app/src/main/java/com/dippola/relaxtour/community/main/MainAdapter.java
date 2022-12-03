@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
 import com.dippola.relaxtour.retrofit.model.MainModelView;
 
@@ -65,6 +66,17 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             public void onClick(View view) {
                 Intent intent = new Intent(context, CommunityMainDetail.class);
                 intent.putExtra("parent_id", arrayList.get(i).getParent_id());
+                context.startActivity(intent);
+            }
+        });
+
+        holder.userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ImageViewer.class);
+                if (arrayList.get(i).getUser_image() != null) {
+                    intent.putExtra("url", arrayList.get(i).getUser_image());
+                }
                 context.startActivity(intent);
             }
         });

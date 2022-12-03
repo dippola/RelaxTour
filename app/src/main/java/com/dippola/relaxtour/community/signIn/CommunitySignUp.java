@@ -182,6 +182,7 @@ public class CommunitySignUp extends AppCompatActivity {
             public void onClick(View view) {
                 hideKeyboard(view);
                 load.setVisibility(View.VISIBLE);
+                disconnectGoogle();
                 if (auth.getCurrentUser() == null) {
                     GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                             .requestIdToken(getString(R.string.default_web_client_id))
@@ -322,6 +323,15 @@ public class CommunitySignUp extends AppCompatActivity {
         intent.putExtra("isSignUp", isSignUp);
         setResult(CommunitySignIn.FROM_SIGN_UP, intent);
         finish();
+    }
+
+    private void disconnectGoogle() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(CommunitySignUp.this, gso);
+        googleSignInClient.signOut();
     }
 
     private void hideKeyboard(View v) {

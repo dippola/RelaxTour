@@ -2,6 +2,7 @@ package com.dippola.relaxtour.community.main.detail;
 
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -133,6 +134,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             nullcomment.setVisibility(View.VISIBLE);
             commentlist.setVisibility(View.GONE);
         } else {
+            Log.d("CommentDatil>>>", "list size: " + list.size());
             nullcomment.setVisibility(View.GONE);
             adapter = new MainDetailCommentAdapter(list, CommunityMainDetail.this);
             commentlist.setLayoutManager(new LinearLayoutManager(CommunityMainDetail.this));

@@ -32,6 +32,14 @@ public class MainCommentModel {
     @Expose
     private String user_url;
 
+    @SerializedName("to_id")
+    @Expose
+    private int to_id;
+
+    @SerializedName("to_nickname")
+    @Expose
+    private String to_nickname;
+
     public int getId() {
         return id;
     }
@@ -86,5 +94,21 @@ public class MainCommentModel {
 
     public void setUser_url(String user_url) {
         this.user_url = user_url;
+    }
+
+    public int getTo_id() {
+        return to_id;
+    }
+
+    public void setTo_id(int to_id) {
+        this.to_id = to_id;
+    }
+
+    public String getTo_nickname() {
+        return to_nickname;
+    }
+
+    public void setTo_nickname(String to_nickname) {
+        this.to_nickname = to_nickname;
     }
 }

@@ -136,6 +136,7 @@ public class CommunitySignIn extends AppCompatActivity {
             public void onClick(View view) {
                 hideKeyboard(view);
                 load.setVisibility(View.VISIBLE);
+                disconnectGoogle();
                 startSignIn();
             }
         });
@@ -344,6 +345,15 @@ public class CommunitySignIn extends AppCompatActivity {
     private void hideKeyboard(View v) {
         InputMethodManager manager = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    private void disconnectGoogle() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(CommunitySignIn.this, gso);
+        googleSignInClient.signOut();
     }
 
     private void test() {

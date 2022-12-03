@@ -53,14 +53,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/community_main_detail_comment_item_img" />
 
-    <TextView
-        android:id="@+id/community_main_detail_comment_item_body"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="body"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/community_main_detail_comment_item_nickname_box"
-        app:layout_constraintTop_toBottomOf="@+id/community_main_detail_comment_item_nickname_box" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/community_main_detail_comment_item_nickname_box"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="5dp">
+        <TextView
+            android:id="@+id/community_main_detail_comment_item_tonickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/button_design_color"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/community_main_detail_comment_item_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="body"
+            android:textStyle="bold"
+            android:layout_below="@+id/community_main_detail_comment_item_tonickname"/>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

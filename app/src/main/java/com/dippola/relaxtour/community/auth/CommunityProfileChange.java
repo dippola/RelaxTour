@@ -86,7 +86,7 @@ public class CommunityProfileChange extends AppCompatActivity {
         DatabaseHandler databaseHandler = new DatabaseHandler(CommunityProfileChange.this);
         UserModel userModel = new UserModel();
         userModel = databaseHandler.getUserModel();
-        if (userModel.getImageurl() == null || userModel.getImageurl().length() == 0) {
+        if (userModel.getImageurl() == null || userModel.getImageurl().length() == 0 || userModel.getImageurl().equals("null")) {
             Glide.with(CommunityProfileChange.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
         } else {
             Glide.with(CommunityProfileChange.this).load(userModel.getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);

@@ -1,6 +1,7 @@
 package com.dippola.relaxtour.community.main.detail;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.ImageViewer;
+import com.dippola.relaxtour.community.auth.CommunityAuth;
 import com.dippola.relaxtour.community.main.MainAdapter;
 import com.dippola.relaxtour.retrofit.model.MainCommentModel;
 
@@ -45,6 +48,11 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
     @Override
     public void onBindViewHolder(@NonNull MainDetailCommentAdapter.CustomViewHolder holder, int position) {
         int i = position;
+
+        Log.d("CommentAdapter>>>", "to_id: " + i + " / " + list.get(i).getTo_id());
+
+        Log.d("CommentAdapter>>>", "to_nickname: " + i + " / " + list.get(i).getTo_nickname());
+
         holder.body.setText(list.get(i).getBody());
         if (list.get(i).getUser_url().equals("")) {
             Glide.with(context).load(R.drawable.nullpic).transform(new CircleCrop()).into(holder.img);
@@ -53,6 +61,23 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
         }
         holder.date.setText(getDateResult(list.get(i).getDate()));
         holder.nickname.setText(list.get(i).getNickname());
+        if (list.get(i).getTo_id() != 0) {
+            holder.tonickname.setVisibility(View.VISIBLE);
+            holder.tonickname.setText(String.valueOf("@" + list.get(i).getTo_nickname()));
+        } else {
+            holder.tonickname.setVisibility(View.GONE);
+        }
+
+        holder.img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ImageViewer.class);
+                if (list.get(i).getUser_url() != null) {
+                    intent.putExtra("url", list.get(i).getUser_url());
+                }
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -62,15 +87,16 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
 
     public class CustomViewHolder extends RecyclerView.ViewHolder{
         ImageView img;
-        TextView nickname, date, body;
+        TextView nickname, date, body, tonickname;
         Button more;
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
-            img = itemView.findViewById(R.id.community_main_detail_comment_item_img);
-            nickname = itemView.findViewById(R.id.community_main_detail_comment_item_nickname);
-            date = itemView.findViewById(R.id.community_main_detail_comment_item_date);
-            body = itemView.findViewById(R.id.community_main_detail_comment_item_body);
-            more = itemView.findViewById(R.id.community_main_detail_comment_item_more);
+            this.img = itemView.findViewById(R.id.community_main_detail_comment_item_img);
+            this.nickname = itemView.findViewById(R.id.community_main_detail_comment_item_nickname);
+            this.date = itemView.findViewById(R.id.community_main_detail_comment_item_date);
+            this.body = itemView.findViewById(R.id.community_main_detail_comment_item_body);
+            this.more = itemView.findViewById(R.id.community_main_detail_comment_item_more);
+            this.tonickname = itemView.findViewById(R.id.community_main_detail_comment_item_tonickname);
         }
     }
 
