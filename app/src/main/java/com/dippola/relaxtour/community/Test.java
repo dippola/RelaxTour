@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResult;
@@ -53,16 +54,17 @@ public class Test extends AppCompatActivity {
     }
 
     private void test() {
+        EditText e1 = findViewById(R.id.e1);
+        EditText e2 = findViewById(R.id.e2);
         Button t1 = findViewById(R.id.t1);
         t1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestIdToken(getString(R.string.default_web_client_id))
-                        .requestEmail()
-                        .build();
-                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(Test.this, gso);
-                googleSignInClient.signOut();
+                if (getCurrentFocus() == e1) {
+                    Log.d("Test>>>", "1");
+                } else if (getCurrentFocus() == e2) {
+                    Log.d("Test>>>", "2");
+                }
             }
         });
     }

@@ -58,7 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/community_main_detail_top_bar" />
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/community_main_detail_scrollview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -305,7 +305,7 @@
                     android:background="#00000000"
                     app:layout_constraintTop_toBottomOf="@+id/community_main_detail_line6" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/community_main_detail_bottom_box"
@@ -316,28 +316,65 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@color/community_main_background_bottom">
 
-            <EditText
-                android:id="@+id/community_main_detail_editcomment"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="42dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/edittext"
-                android:hint="Comment"
                 android:paddingHorizontal="15dp"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/community_main_detail_comment_ok"
+                app:layout_constraintEnd_toStartOf="@+id/community_main_detail_comment_ok_layout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+                <TextView
+                    android:id="@+id/community_main_detail_towho"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/button_design_color"
+                    android:layout_marginEnd="5dp"
+                    android:paddingHorizontal="3dp"
+                    android:background="@color/community_main_background_top"
+                    android:visibility="gone"/>
+                <EditText
+                    android:id="@+id/community_main_detail_editcomment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Comment"
+                    android:background="@null"/>
+            </LinearLayout>
 
-            <Button
-                android:id="@+id/community_main_detail_comment_ok"
+            <RelativeLayout
+                android:id="@+id/community_main_detail_comment_ok_layout"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@drawable/community_auth_back"
-                android:backgroundTint="@color/text_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/button_design">
+                <ImageView
+                    android:id="@+id/community_main_detail_comment_ok"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/community_send_comment"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/community_main_detail_comment_ok_load_layout"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/button_design"
+                android:visibility="gone">
+                <ProgressBar
+                    android:id="@+id/community_main_detail_comment_load_ok"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:indeterminateTint="@color/button_design_color_2"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

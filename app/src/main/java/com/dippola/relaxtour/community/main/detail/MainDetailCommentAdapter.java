@@ -49,10 +49,6 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
     public void onBindViewHolder(@NonNull MainDetailCommentAdapter.CustomViewHolder holder, int position) {
         int i = position;
 
-        Log.d("CommentAdapter>>>", "to_id: " + i + " / " + list.get(i).getTo_id());
-
-        Log.d("CommentAdapter>>>", "to_nickname: " + i + " / " + list.get(i).getTo_nickname());
-
         holder.body.setText(list.get(i).getBody());
         if (list.get(i).getUser_url().equals("")) {
             Glide.with(context).load(R.drawable.nullpic).transform(new CircleCrop()).into(holder.img);
@@ -67,6 +63,17 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
         } else {
             holder.tonickname.setVisibility(View.GONE);
         }
+
+        holder.nickname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CommunityMainDetail.towho.setText(list.get(i).getNickname());
+                CommunityMainDetail.towhoid = list.get(i).getParent_user();
+                CommunityMainDetail.towho.setVisibility(View.VISIBLE);
+                CommunityMainDetail.editComment.requestFocus();
+                CommunityMainDetail.showKeyboard(view);
+            }
+        });
 
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,5 +1,6 @@
 package com.dippola.relaxtour.retrofit;
 
+import com.dippola.relaxtour.retrofit.model.MainCommentModel;
 import com.dippola.relaxtour.retrofit.model.MainModelDetail;
 import com.dippola.relaxtour.retrofit.model.MainModelView;
 import com.dippola.relaxtour.retrofit.model.MainUpdateModel;
@@ -53,30 +54,33 @@ public interface RetrofitInterface {
     );
 
 
-
-
-
-
-
-
-
     @GET("post/{pk}/")
     Call<MainModelDetail> getMain(
             @Path("pk") int pk
     );
+
     @POST("post/create={id}/")
     Call<MainModelDetail> createMain(
             @Path("id") int id,
             @Body MainModelDetail mainModel
     );
+
     @PUT("post/{pk}/update/")
     Call<MainUpdateModel> updateMain(
             @Path("pk") int pk,
             @Body MainUpdateModel mainModel
     );
+
     @DELETE("post/{pk}/delete/")
     Call<String> deleteMain(
             @Path("pk") int pk
+    );
+
+    @POST("post/{pk}/comment/create={id}/")
+    Call<MainCommentModel> createComment(
+            @Path("pk") int pk,
+            @Path("id") int id,
+            @Body MainCommentModel mainCommentModel
     );
 
 //    @GET("post/{pk}/comments/")
@@ -89,12 +93,7 @@ public interface RetrofitInterface {
 //            @Path("pk") int pk,
 //            @Path("page") int page
 //    );
-//    @POST("post/{pk}/comment/create={id}/")
-//    Call<MainCommentModel> createComment(
-//            @Path("pk") int pk,
-//            @Path("id") int id,
-//            @Body MainCommentModel mainCommentModel
-//    );
+
 //    @PUT("post/comment/update={id}/")
 //    Call<MainCommentUpdateModel> updateComment(
 //            @Path("id") int id,
