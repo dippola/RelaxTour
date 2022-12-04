@@ -97,4 +97,6 @@
     <color name="community_nostrong_color">#878b92</color>
 
     <color name="shimmer_color">#C8C8C8</color>
+
+    <color name="one_tone_background_color">#F9FDFF</color>
 </resources>

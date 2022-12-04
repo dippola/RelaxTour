@@ -39,6 +39,9 @@ public class MainModelDetail {
     @SerializedName("list")
     @Expose
     private String list;
+    @SerializedName("commentcount")
+    @Expose
+    private int commentcount;
 
     public int getParent_id() {
         return parent_id;
@@ -126,5 +129,13 @@ public class MainModelDetail {
 
     public void setList(String list) {
         this.list = list;
+    }
+
+    public int getCommentcount() {
+        return commentcount;
+    }
+
+    public void setCommentcount(int commentcount) {
+        this.commentcount = commentcount;
     }
 }
