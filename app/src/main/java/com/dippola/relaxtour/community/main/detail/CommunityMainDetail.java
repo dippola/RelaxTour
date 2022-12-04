@@ -7,10 +7,13 @@ import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,6 +38,7 @@ import com.dippola.relaxtour.retrofit.model.MainCommentModel;
 import com.dippola.relaxtour.retrofit.model.MainModelDetail;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -58,6 +62,14 @@ public class CommunityMainDetail extends AppCompatActivity {
     private RecyclerView commentlist;
     public static EditText editComment;
 
+    //share list
+    private ConstraintLayout listLayout;
+    private TextView listTitle, listCount;
+    private ImageView listUandd;
+    private RecyclerView listRecyclerview;
+    private Button listAddfav;
+    private ShareListAdapter shareListAdapter;
+
     public static int towhoid;
 
     private MainModelDetail model = new MainModelDetail();
@@ -77,6 +89,7 @@ public class CommunityMainDetail extends AppCompatActivity {
         int y = (int)(size.y * 0.25);
 
         setInit(y);
+        setListInit();
         getData("");
     }
 
@@ -118,6 +131,15 @@ public class CommunityMainDetail extends AppCompatActivity {
         setScrollView();
         onClickOk();
         onClickRefresh();
+    }
+
+    private void setListInit() {
+        listLayout = findViewById(R.id.community_main_detail_favlist_box);
+        listTitle = findViewById(R.id.community_main_detail_list_layout_title);
+        listCount = findViewById(R.id.community_main_detail_list_layout_count);
+        listUandd = findViewById(R.id.community_main_detail_list_layout_uandd);
+        listRecyclerview = findViewById(R.id.community_main_detail_list_layout_recyclerview);
+        listAddfav = findViewById(R.id.community_main_detail_list_layout_addfav);
     }
 
     private void onClickRefresh() {
@@ -263,6 +285,9 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void setData(MainModelDetail model) {
+        if (String.valueOf(model.getList()).length() != 0) {
+            setList(model.getList());
+        }
         title.setText(model.getTitle());
         if (model.getUser_url().length() != 0) {
             Glide.with(CommunityMainDetail.this).load(model.getUser_url()).transform(new CircleCrop()).into(userimg);
@@ -273,9 +298,9 @@ public class CommunityMainDetail extends AppCompatActivity {
         viewcount.setText(String.valueOf(model.getView()));
         body.setText(model.getBody());
         likecount.setText(String.valueOf(model.getLike()));
-        topMiddleLoad.setVisibility(View.INVISIBLE);
         topFinish.setVisibility(View.VISIBLE);
         middleFinish.setVisibility(View.VISIBLE);
+        topMiddleLoad.setVisibility(View.INVISIBLE);
         commentcount.setText(String.valueOf(model.getCommentcount()));
     }
 
@@ -326,5 +351,98 @@ public class CommunityMainDetail extends AppCompatActivity {
         if (commentsendload.getVisibility() == View.GONE){
             super.onBackPressed();
         }
+    }
+
+    private void setList(String list) {
+        String favList[] = String.valueOf(list).split("●");
+        listTitle.setText(favList[0]);
+        List<String> splitList = new ArrayList<>();
+        for (int i = 0; i < favList.length; i++) {
+            if (i != 0) {
+                splitList.add(favList[i]);
+            }
+        }
+        listCount.setText("[" + splitList.size() + "]");
+        shareListAdapter  = new ShareListAdapter(splitList, new DatabaseHandler(CommunityMainDetail.this), CommunityMainDetail.this);
+        listRecyclerview.setLayoutManager(new LinearLayoutManager(CommunityMainDetail.this));
+        listRecyclerview.setAdapter(shareListAdapter);
+
+        listLayout.setVisibility(View.VISIBLE);
+
+        listLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listRecyclerview.getVisibility() == View.GONE) {
+                    expand(listRecyclerview);
+                    listUandd.setBackgroundResource(R.drawable.fav_page_item_up);
+                } else {
+                    collapse(listRecyclerview);
+                    listUandd.setBackgroundResource(R.drawable.fav_page_item_down);
+                }
+            }
+        });
+
+        listAddfav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+    }
+
+    private void expand(final View v) {
+        int matchParentMeasureSpec = View.MeasureSpec.makeMeasureSpec(((View) v.getParent()).getWidth(), View.MeasureSpec.EXACTLY);
+        int wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        v.measure(matchParentMeasureSpec, wrapContentMeasureSpec);
+        final int targetHeight = v.getMeasuredHeight();
+
+        // Older versions of android (pre API 21) cancel animations for views with a height of 0.
+        v.getLayoutParams().height = 1;
+        v.setVisibility(View.VISIBLE);
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                v.getLayoutParams().height = interpolatedTime == 1
+                        ? ViewGroup.LayoutParams.WRAP_CONTENT
+                        : (int)(targetHeight * interpolatedTime);
+                v.requestLayout();
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // Expansion speed of 1dp/ms
+        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
+    }
+
+    private void collapse(final View v) {
+        final int initialHeight = v.getMeasuredHeight();
+
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                if(interpolatedTime == 1){
+                    v.setVisibility(View.GONE);
+                }else{
+                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                    v.requestLayout();
+                }
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // Collapse speed of 1dp/ms
+        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
     }
 }

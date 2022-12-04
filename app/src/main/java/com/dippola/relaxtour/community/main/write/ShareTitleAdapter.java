@@ -114,7 +114,7 @@ public class ShareTitleAdapter extends RecyclerView.Adapter<ShareTitleAdapter.Cu
             @Override
             public void onClick(View view) {
                 if (onClickInAdapter != null) {
-                    onClickInAdapter.onItemClick(position);
+                    onClickInAdapter.onItemClick(i);
                 }
             }
         });

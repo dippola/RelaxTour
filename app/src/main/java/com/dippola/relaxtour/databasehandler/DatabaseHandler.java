@@ -1042,4 +1042,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    public byte[] getTrackImageLight(int page, int position) {
+        openDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT img from " + "'" + getPageName(page) + "'" + " where position = " + position, null);
+        cursor.moveToFirst();
+        byte[] result = cursor.getBlob(0);
+        cursor.close();
+        closeDatabse();
+        return result;
+    }
+
+    public byte[] getTrackImageDark(int page, int position) {
+        openDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT dark from " + "'" + getPageName(page) + "'" + " where position = " + position, null);
+        cursor.moveToFirst();
+        byte[] result = cursor.getBlob(0);
+        cursor.close();
+        closeDatabse();
+        return result;
+    }
+
+    //    public int getIsProUser() {
+//        openDatabase();
+//        Cursor cursor = sqLiteDatabase.rawQuery("SELECT ispro FROM ispro", null);
+//        cursor.moveToFirst();
+//        int ispro = cursor.getInt(0);
+//        cursor.close();
+//        closeDatabse();
+//        return ispro;
+//    }
 }

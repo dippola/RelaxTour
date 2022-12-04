@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="3dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="3dp"
+    android:layout_marginBottom="5dp"
+    android:paddingVertical="7dp"
+    android:background="@drawable/fav_page_item_round"
+    android:elevation="3dp">
+
+    <RelativeLayout
+        android:id="@+id/community_main_detail_list_layout_topbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/community_main_detail_list_layout_title"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:text="title"
+            android:textColor="@color/fav_items_icons_color"/>
+        <TextView
+            android:id="@+id/community_main_detail_list_layout_count"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@+id/community_main_detail_list_layout_title"
+            android:gravity="center_vertical"
+            android:text="[0]"
+            android:textColor="@color/fav_items_icons_color"/>
+
+        <Button
+            android:id="@+id/community_main_detail_list_layout_addfav"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/add_fav"
+            android:backgroundTint="@color/fav_items_icons_color"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/community_main_detail_list_layout_uandd"
+            android:layout_marginEnd="10dp"/>
+
+        <ImageView
+            android:id="@+id/community_main_detail_list_layout_uandd"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/fav_page_item_down"
+            android:button="@android:color/transparent" />
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/community_main_detail_list_layout_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/community_main_detail_list_layout_topbox"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

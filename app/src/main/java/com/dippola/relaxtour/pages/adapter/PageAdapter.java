@@ -220,7 +220,6 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void setPageImageTheme(int position, ImageView img) {
         if (arrayList.get(position).getIsplay() == 1) {
-            Log.d("PageAdapter>>>", "theme: " + AppCompatDelegate.getDefaultNightMode());
             if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
                 Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
                 img.setImageBitmap(bitmap1);
