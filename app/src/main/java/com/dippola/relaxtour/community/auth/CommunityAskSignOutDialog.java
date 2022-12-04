@@ -34,7 +34,7 @@ public class CommunityAskSignOutDialog extends AppCompatActivity {
         cancel = findViewById(R.id.community_ask_signout_cancel);
         providerIcon = findViewById(R.id.community_ask_signout_email_icon);
 
-        if (getIntent().getStringExtra("provider").equals("google")) {
+        if (getIntent().getStringExtra("provider").equals("Google")) {
             providerIcon.setBackground(getResources().getDrawable(R.drawable.google_white_icon));
         }
 
