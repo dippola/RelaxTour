@@ -220,6 +220,7 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void setPageImageTheme(int position, ImageView img) {
         if (arrayList.get(position).getIsplay() == 1) {
+            Log.d("PageAdapter>>>", "theme: " + AppCompatDelegate.getDefaultNightMode());
             if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
                 Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
                 img.setImageBitmap(bitmap1);
@@ -227,6 +228,19 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDarkdefault(), 0, arrayList.get(position).getDarkdefault().length);
                 img.setImageBitmap(bitmap2);
             } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
+                Configuration config = context.getResources().getConfiguration();
+                int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                switch (currentNightMode) {
+                    case Configuration.UI_MODE_NIGHT_NO://system light 모드
+                        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
+                        img.setImageBitmap(bitmap1);
+                        break;
+                    case Configuration.UI_MODE_NIGHT_YES://system dark 모드
+                        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDarkdefault(), 0, arrayList.get(position).getDarkdefault().length);
+                        img.setImageBitmap(bitmap2);
+                        break;
+                }
+            } else {
                 Configuration config = context.getResources().getConfiguration();
                 int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
                 switch (currentNightMode) {
@@ -248,6 +262,19 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
                 img.setImageBitmap(bitmap2);
             } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
+                Configuration config = context.getResources().getConfiguration();
+                int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                switch (currentNightMode) {
+                    case Configuration.UI_MODE_NIGHT_NO://system light 모드
+                        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+                        img.setImageBitmap(bitmap1);
+                        break;
+                    case Configuration.UI_MODE_NIGHT_YES://system dark 모드
+                        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+                        img.setImageBitmap(bitmap2);
+                        break;
+                }
+            } else {
                 Configuration config = context.getResources().getConfiguration();
                 int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
                 switch (currentNightMode) {
@@ -285,6 +312,19 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         img.setImageBitmap(bitmap2);
                         break;
                 }
+            } else {
+                Configuration config = context.getResources().getConfiguration();
+                int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                switch (currentNightMode) {
+                    case Configuration.UI_MODE_NIGHT_NO://system light 모드
+                        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+                        img.setImageBitmap(bitmap1);
+                        break;
+                    case Configuration.UI_MODE_NIGHT_YES://system dark 모드
+                        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+                        img.setImageBitmap(bitmap2);
+                        break;
+                }
             }
         } else {
             if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
@@ -294,6 +334,19 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDarkdefault(), 0, arrayList.get(position).getDarkdefault().length);
                 img.setImageBitmap(bitmap2);
             } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
+                Configuration config = context.getResources().getConfiguration();
+                int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                switch (currentNightMode) {
+                    case Configuration.UI_MODE_NIGHT_NO://system light 모드
+                        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
+                        img.setImageBitmap(bitmap1);
+                        break;
+                    case Configuration.UI_MODE_NIGHT_YES://system dark 모드
+                        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDarkdefault(), 0, arrayList.get(position).getDarkdefault().length);
+                        img.setImageBitmap(bitmap2);
+                        break;
+                }
+            } else {
                 Configuration config = context.getResources().getConfiguration();
                 int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
                 switch (currentNightMode) {

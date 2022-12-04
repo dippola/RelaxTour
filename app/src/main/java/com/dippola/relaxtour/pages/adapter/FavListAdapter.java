@@ -74,6 +74,19 @@ public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomV
                         holder.img.setImageBitmap(bitmap2);
                         break;
                 }
+            } else {
+                Configuration config = context.getResources().getConfiguration();
+                int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                switch (currentNightMode) {
+                    case Configuration.UI_MODE_NIGHT_NO://system light 모드
+                        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+                        holder.img.setImageBitmap(bitmap1);
+                        break;
+                    case Configuration.UI_MODE_NIGHT_YES://system dark 모드
+                        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+                        holder.img.setImageBitmap(bitmap2);
+                        break;
+                }
             }
         }
 

@@ -207,6 +207,19 @@ public class StorageManageAdapter extends  RecyclerView.Adapter<StorageManageAda
                     img.setImageBitmap(bitmap2);
                     break;
             }
+        } else {
+            Configuration config = context.getResources().getConfiguration();
+            int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            switch (currentNightMode) {
+                case Configuration.UI_MODE_NIGHT_NO://system light 모드
+                    Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+                    img.setImageBitmap(bitmap1);
+                    break;
+                case Configuration.UI_MODE_NIGHT_YES://system dark 모드
+                    Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+                    img.setImageBitmap(bitmap2);
+                    break;
+            }
         }
     }
 
