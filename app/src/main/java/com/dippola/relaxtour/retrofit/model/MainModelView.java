@@ -27,6 +27,9 @@ public class MainModelView {
     @SerializedName("imageurl")
     @Expose
     private String imageurl;
+    @SerializedName("imageurlcount")
+    @Expose
+    private int imageurlcount;
     @SerializedName("commentcount")
     @Expose
     private int commentcount;
@@ -75,6 +78,14 @@ public class MainModelView {
 
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
+    }
+
+    public int getImageurlcount() {
+        return imageurlcount;
+    }
+
+    public void setImageurlcount(int imageurlcount) {
+        this.imageurlcount = imageurlcount;
     }
 
     public int getCommentcount() {

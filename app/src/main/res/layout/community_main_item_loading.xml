@@ -7,7 +7,7 @@
     android:paddingVertical="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/community_main_item_loading"
+        android:id="@+id/community_main_item_load"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -20,61 +20,106 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.95">
 
-        <ImageView
-            android:id="@+id/community_main_item_userimage_loading"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/shimmer_color"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/community_main_item_nickname_loading"
-            app:layout_constraintHeight_percent="0.3"
-            app:layout_constraintDimensionRatio="1:1"/>
-
-        <TextView
-            android:id="@+id/community_main_item_title_loading"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/community_main_item_box_top_load"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="7dp"
-            android:background="@color/shimmer_color"
-            android:textColor="@color/text_color"
-            android:textSize="14dp"
-            app:layout_constraintWidth_percent="0.3"
-            app:layout_constraintBottom_toTopOf="@+id/community_main_item_nickname_loading"
-            app:layout_constraintStart_toEndOf="@+id/community_main_item_userimage_loading"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/community_main_item_nickname_loading"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/community_nostrong_color"
-            android:background="@color/shimmer_color"
-            app:layout_constraintWidth_percent="0.2"
-            app:layout_constraintBottom_toTopOf="@+id/community_main_item_line_loading"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_main_item_title_loading" />
+            <ImageView
+                android:id="@+id/community_main_item_userimage_load"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/shimmer_color"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.11" />
 
-        <TextView
-            android:id="@+id/community_main_item_date_loading"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/shimmer_color"
-            android:textColor="@color/community_nostrong_color"
-            app:layout_constraintWidth_percent="0.2"
-            app:layout_constraintBottom_toTopOf="@+id/community_main_item_line_loading"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_main_item_title_loading" />
+            <TextView
+                android:id="@+id/community_main_item_title_load"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginEnd="7dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:background="@color/shimmer_color"
+                android:textColor="@color/text_color"
+                android:textSize="14dp"
+                app:layout_constraintWidth_percent="0.4"
+                app:layout_constraintStart_toEndOf="@+id/community_main_item_userimage_load"
+                app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage_load"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/community_main_item_imageurlcount_layout_load"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/community_main_item_userimage_load"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage_load">
+
+                <ImageView
+                    android:id="@+id/community_main_item_imageurlcount_img_load"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/community_main_item_imageurl_count_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toStartOf="@+id/community_main_item_imageurlcount_text_load"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/community_main_item_imageurlcount_text_load"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:background="@color/shimmer_color"
+                    android:textColor="@color/text_color"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/community_main_item_imageurlcount_img_load"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/community_main_item_nickdate_layout_load"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/community_main_item_userimage_load"
+                android:layout_marginTop="3dp">
+                <TextView
+                    android:id="@+id/community_main_item_nickname_load"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/shimmer_color"
+                    app:layout_constraintWidth_percent="0.2"
+                    android:textColor="@color/community_nostrong_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/community_main_item_date_load"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/shimmer_color"
+                    app:layout_constraintWidth_percent="0.25"
+                    android:textColor="@color/community_nostrong_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
-            android:id="@+id/community_main_item_line_loading"
+            android:id="@+id/community_main_item_line_load"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:background="@color/community_main_line_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_main_item_nickname_loading" />
+            app:layout_constraintTop_toBottomOf="@+id/community_main_item_box_top_load" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -83,23 +128,22 @@
             android:paddingHorizontal="7dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_main_item_line_loading"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/community_main_item_line_load">
 
             <LinearLayout
-                android:id="@+id/community_main_item_bottom1_loading"
+                android:id="@+id/community_main_item_bottom1_load"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/community_main_item_bottom2_loading"
+                app:layout_constraintEnd_toStartOf="@id/community_main_item_bottom2_load"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/community_main_item_view_icon_loading"
+                    android:id="@+id/community_main_item_view_icon_load"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:background="@drawable/community_view_icon"
@@ -108,26 +152,26 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/community_main_item_view_loading"
-                    android:layout_width="30dp"
+                    android:id="@+id/community_main_item_view_load"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textSize="13dp"
                     android:background="@color/shimmer_color"
+                    android:textSize="13dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/community_main_item_view_icon_loading"
+                    app:layout_constraintStart_toEndOf="@+id/community_main_item_view_icon_load"
                     app:layout_constraintTop_toTopOf="parent" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/community_main_item_bottom2_loading"
+                android:id="@+id/community_main_item_bottom2_load"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/community_main_item_bottom3_loading"
-                app:layout_constraintStart_toEndOf="@+id/community_main_item_bottom1_loading"
+                app:layout_constraintEnd_toStartOf="@id/community_main_item_bottom3_load"
+                app:layout_constraintStart_toEndOf="@+id/community_main_item_bottom1_load"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
@@ -137,40 +181,40 @@
                     android:background="@drawable/community_like_icon" />
 
                 <TextView
-                    android:id="@+id/community_main_item_like_loading"
-                    android:layout_width="30dp"
+                    android:id="@+id/community_main_item_like_load"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:background="@color/shimmer_color"
                     android:textSize="13dp" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/community_main_item_bottom3_loading"
+                android:id="@+id/community_main_item_bottom3_load"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/community_main_item_bottom2_loading"
+                app:layout_constraintStart_toEndOf="@id/community_main_item_bottom2_load"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/community_main_item_comment_icon_loading"
+                    android:id="@+id/community_main_item_comment_icon_load"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/community_comment_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/community_main_item_comment_count_loading"
+                    app:layout_constraintEnd_toStartOf="@+id/community_main_item_comment_count_load"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/community_main_item_comment_count_loading"
-                    android:layout_width="30dp"
+                    android:id="@+id/community_main_item_comment_count_load"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
-                    android:textSize="13dp"
                     android:background="@color/shimmer_color"
+                    android:textSize="13dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

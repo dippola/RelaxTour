@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -49,17 +50,20 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     private int id;
 
+    private List<MainCommentModel> commentModelList = new ArrayList<>();
+
     private ShimmerFrameLayout topMiddleLoad, bottomLoad;
-    private ConstraintLayout topFinish, middleFinish, bottomFinish;
+    private ConstraintLayout topFinish, middleFinish, bottomFinish, commentLayout;
     private ConstraintLayout load_body;
     private NestedScrollView scrollView;
-    private Button back, like, refresh, refreshload;
+    private Button back, like, refresh, refreshload, commentViewMore;
     private RelativeLayout commentsend, commentsendload;
     private TextView title, nickname, date, viewcount, body, nullcomment, commentcount, likecount;
     public static TextView towho;
     private ImageView userimg, like2;
     private LinearLayout likebox, commentbox;
     private RecyclerView commentlist;
+    private ProgressBar commentMoreLoad;
     public static EditText editComment;
 
     //share list
@@ -125,12 +129,47 @@ public class CommunityMainDetail extends AppCompatActivity {
         commentbox = findViewById(R.id.community_main_detail_commentbox);
         commentcount = findViewById(R.id.community_main_detail_comment_count);
         commentlist = findViewById(R.id.community_main_detail_commentlist);
+        commentLayout = findViewById(R.id.community_main_detail_comment_view_box);
+        commentViewMore = findViewById(R.id.community_main_detail_comment_view_more);
+        commentMoreLoad = findViewById(R.id.community_main_detail_comment_view_more_load);
+        commentMoreLoad.setVisibility(View.GONE);
         editComment = findViewById(R.id.community_main_detail_editcomment);
         towho = findViewById(R.id.community_main_detail_towho);
         towhoid = 0;
         setScrollView();
         onClickOk();
         onClickRefresh();
+        onClickViewMore();
+    }
+
+    private void onClickViewMore() {
+        commentViewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentMoreLoad.setVisibility(View.VISIBLE);
+                int page = (commentModelList.size() / 3) + 1;
+                int beforeSize = commentModelList.size();
+                RetrofitClient.getApiService().getMainComment(id, page).enqueue(new Callback<List<MainCommentModel>>() {
+                    @Override
+                    public void onResponse(Call<List<MainCommentModel>> call, Response<List<MainCommentModel>> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body().size() != 0) {
+                                int addSize = commentModelList.size() + response.body().size() - 1;
+                                commentModelList.addAll(response.body());
+                                adapter.notifyItemRangeChanged(beforeSize, addSize);
+                            }
+                        }
+                        commentMoreLoad.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<MainCommentModel>> call, Throwable t) {
+                        commentMoreLoad.setVisibility(View.GONE);
+                        Toast.makeText(CommunityMainDetail.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
     private void setListInit() {
@@ -272,8 +311,8 @@ public class CommunityMainDetail extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<MainCommentModel>> call, Response<List<MainCommentModel>> response) {
                 if (response.isSuccessful()) {
-                    List<MainCommentModel> commentModelList = response.body();
-                    setComment(commentModelList.size(), commentModelList, from);
+                    commentModelList = response.body();
+                    setComment(commentModelList.size(), from);
                 }
             }
 
@@ -304,20 +343,20 @@ public class CommunityMainDetail extends AppCompatActivity {
         commentcount.setText(String.valueOf(model.getCommentcount()));
     }
 
-    private void setComment(int size, List<MainCommentModel> list, String from) {
+    private void setComment(int size, String from) {
         if (size == 0) {
             nullcomment.setVisibility(View.VISIBLE);
-            commentlist.setVisibility(View.GONE);
+            commentLayout.setVisibility(View.GONE);
             bottomLoad.setVisibility(View.GONE);
             bottomFinish.setVisibility(View.VISIBLE);
         } else {
-            Log.d("CommentDatil>>>", "list size: " + list.size());
+            Log.d("CommentDatil>>>", "list size: " + commentModelList.size());
             nullcomment.setVisibility(View.GONE);
-            adapter = new MainDetailCommentAdapter(list, CommunityMainDetail.this);
+            adapter = new MainDetailCommentAdapter(commentModelList, CommunityMainDetail.this);
             commentlist.setLayoutManager(new LinearLayoutManager(CommunityMainDetail.this));
             commentlist.setAdapter(adapter);
             bottomLoad.setVisibility(View.GONE);
-            commentlist.setVisibility(View.VISIBLE);
+            commentLayout.setVisibility(View.VISIBLE);
             bottomFinish.setVisibility(View.VISIBLE);
 
             if (from.equals("refresh")) {

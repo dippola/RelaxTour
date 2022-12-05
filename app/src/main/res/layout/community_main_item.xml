@@ -20,56 +20,101 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.95">
 
-        <ImageView
-            android:id="@+id/community_main_item_userimage"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/community_main_item_nickname"
-            app:layout_constraintHeight_percent="0.3"
-            app:layout_constraintDimensionRatio="1:1"/>
-
-        <TextView
-            android:id="@+id/community_main_item_title"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/community_main_item_box_top"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="7dp"
-            android:text="title"
-            android:textColor="@color/text_color"
-            android:textSize="14dp"
-            app:layout_constraintBottom_toTopOf="@+id/community_main_item_nickname"
-            app:layout_constraintStart_toEndOf="@+id/community_main_item_userimage"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/community_main_item_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/community_nostrong_color"
-            app:layout_constraintBottom_toTopOf="@+id/community_main_item_line"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_main_item_title" />
+            <ImageView
+                android:id="@+id/community_main_item_userimage"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.11" />
 
-        <TextView
-            android:id="@+id/community_main_item_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00:00:00"
-            android:textColor="@color/community_nostrong_color"
-            app:layout_constraintBottom_toTopOf="@+id/community_main_item_line"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_main_item_title" />
+            <TextView
+                android:id="@+id/community_main_item_title"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="7dp"
+                android:layout_marginEnd="7dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/text_color"
+                android:textSize="14dp"
+                app:layout_constraintStart_toEndOf="@+id/community_main_item_userimage"
+                app:layout_constraintEnd_toStartOf="@+id/community_main_item_imageurlcount_layout"
+                app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage"
+                app:layout_constraintBottom_toBottomOf="@+id/community_main_item_userimage"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/community_main_item_imageurlcount_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/community_main_item_userimage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage">
+
+                <ImageView
+                    android:id="@+id/community_main_item_imageurlcount_img"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/community_main_item_imageurl_count_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toStartOf="@+id/community_main_item_imageurlcount_text"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/community_main_item_imageurlcount_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text="[0]"
+                    android:textColor="@color/text_color"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/community_main_item_imageurlcount_img"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/community_main_item_nickdate_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/community_main_item_userimage"
+                android:layout_marginTop="3dp">
+                <TextView
+                    android:id="@+id/community_main_item_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/community_nostrong_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/community_main_item_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/community_nostrong_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/community_main_item_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:background="@color/community_main_line_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_main_item_nickname" />
+            app:layout_constraintTop_toBottomOf="@+id/community_main_item_box_top" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -78,8 +123,7 @@
             android:paddingHorizontal="7dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_main_item_line"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/community_main_item_line">
 
             <LinearLayout
                 android:id="@+id/community_main_item_bottom1"

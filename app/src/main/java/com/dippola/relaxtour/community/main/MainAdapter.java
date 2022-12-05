@@ -53,6 +53,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         } else {
             Glide.with(context).load(arrayList.get(i).getUser_image()).transform(new CircleCrop()).into(holder.userImage);
         }
+
+        if (arrayList.get(i).getImageurlcount() == 0) {
+            holder.imageurllayout.setVisibility(View.GONE);
+        } else {
+            holder.imageurlcount.setText("[" + String.valueOf(arrayList.get(i).getImageurlcount()) + "]");
+        }
+
         holder.title.setText(arrayList.get(i).getTitle());
         holder.view.setText(String.valueOf(arrayList.get(i).getView()));
         holder.like.setText(String.valueOf(arrayList.get(i).getLike()));
@@ -89,8 +96,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
 
     public class MainViewHolder extends RecyclerView.ViewHolder {
         ImageView userImage;
-        TextView title, date, view, nickname, like, commentcount;
-        ConstraintLayout item;
+        TextView title, date, view, nickname, like, commentcount, imageurlcount;
+        ConstraintLayout item, imageurllayout;
         public MainViewHolder(@NonNull View itemView) {
             super(itemView);
             this.userImage = itemView.findViewById(R.id.community_main_item_userimage);
@@ -101,6 +108,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             this.like = itemView.findViewById(R.id.community_main_item_like);
             this.commentcount = itemView.findViewById(R.id.community_main_item_comment_count);
             this.item = itemView.findViewById(R.id.community_main_item);
+            this.imageurlcount = itemView.findViewById(R.id.community_main_item_imageurlcount_text);
+            this.imageurllayout = itemView.findViewById(R.id.community_main_item_imageurlcount_layout);
         }
     }
 
