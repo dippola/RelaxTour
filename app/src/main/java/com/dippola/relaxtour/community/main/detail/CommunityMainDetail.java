@@ -99,9 +99,9 @@ public class CommunityMainDetail extends AppCompatActivity {
         topFinish = findViewById(R.id.community_main_detail_load_top_finish);
         middleFinish = findViewById(R.id.community_main_detail_load_middle_finish);
         bottomFinish = findViewById(R.id.community_main_detail_load_bottom_finish);
-        topFinish.setVisibility(View.GONE);
-        middleFinish.setVisibility(View.GONE);
-        bottomFinish.setVisibility(View.GONE);
+        topFinish.setVisibility(View.INVISIBLE);
+        middleFinish.setVisibility(View.INVISIBLE);
+        bottomFinish.setVisibility(View.INVISIBLE);
         load_body = findViewById(R.id.community_main_detail_body_box_load);
         load_body.setMinHeight(y);
         scrollView = findViewById(R.id.community_main_detail_scrollview);
