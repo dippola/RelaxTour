@@ -89,6 +89,12 @@ public interface RetrofitInterface {
             @Path("page") int page
     );
 
+    @GET("post/{pk}/comments/more={lastid}/")
+    Call<List<MainCommentModel>> getMainCommentMore(
+            @Path("pk") int pk,
+            @Path("lastid") int lastid
+    );
+
 //    @GET("post/{pk}/comments/")
 //    Call<List<MainCommentModel>> getMainAllComment(
 //            @Path("pk") int pk

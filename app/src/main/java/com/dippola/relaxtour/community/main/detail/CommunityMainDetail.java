@@ -147,9 +147,9 @@ public class CommunityMainDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 commentMoreLoad.setVisibility(View.VISIBLE);
-                int page = (commentModelList.size() / 3) + 1;
+                int lastid = commentModelList.get(commentModelList.size() - 1).getId();
                 int beforeSize = commentModelList.size();
-                RetrofitClient.getApiService().getMainComment(id, page).enqueue(new Callback<List<MainCommentModel>>() {
+                RetrofitClient.getApiService().getMainCommentMore(id, lastid).enqueue(new Callback<List<MainCommentModel>>() {
                     @Override
                     public void onResponse(Call<List<MainCommentModel>> call, Response<List<MainCommentModel>> response) {
                         if (response.isSuccessful()) {
