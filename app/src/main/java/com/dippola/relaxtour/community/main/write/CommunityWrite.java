@@ -201,7 +201,6 @@ public class CommunityWrite extends AppCompatActivity {
                             }
                         }
                     }
-                    model.setImageurl(urls);
                     String list = "";
                     if (favListItems.size() != 0) {
                         list += listtitle.getText().toString();

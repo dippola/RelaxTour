@@ -2,6 +2,7 @@ package com.dippola.relaxtour.community.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
@@ -57,7 +60,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         if (arrayList.get(i).getImageurlcount() == 0) {
             holder.imageurllayout.setVisibility(View.GONE);
         } else {
-            holder.imageurlcount.setText("[" + String.valueOf(arrayList.get(i).getImageurlcount()) + "]");
+            Glide.with(context).load(String.valueOf(arrayList.get(i).getImageurl().split("●")[1])).transform(new CenterCrop(), new RoundedCorners(20)).into(holder.firstimg);
+            if (arrayList.get(i).getImageurlcount() == 1) {
+                holder.imageurlcount.setVisibility(View.GONE);
+            } else {
+                holder.imageurlcount.setText("+" + String.valueOf(arrayList.get(i).getImageurlcount() - 2));
+            }
         }
 
         holder.title.setText(arrayList.get(i).getTitle());
@@ -95,12 +103,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     }
 
     public class MainViewHolder extends RecyclerView.ViewHolder {
-        ImageView userImage;
+        ImageView userImage, firstimg;
         TextView title, date, view, nickname, like, commentcount, imageurlcount;
         ConstraintLayout item, imageurllayout;
         public MainViewHolder(@NonNull View itemView) {
             super(itemView);
             this.userImage = itemView.findViewById(R.id.community_main_item_userimage);
+            this.firstimg = itemView.findViewById(R.id.community_main_item_imageurlcount_img);
             this.title = itemView.findViewById(R.id.community_main_item_title);
             this.date = itemView.findViewById(R.id.community_main_item_date);
             this.view = itemView.findViewById(R.id.community_main_item_view);

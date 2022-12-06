@@ -45,16 +45,16 @@
                 android:maxLines="2"
                 android:textColor="@color/text_color"
                 android:textSize="14dp"
-                app:layout_constraintStart_toEndOf="@+id/community_main_item_userimage"
+                app:layout_constraintBottom_toBottomOf="@+id/community_main_item_userimage"
                 app:layout_constraintEnd_toStartOf="@+id/community_main_item_imageurlcount_layout"
-                app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage"
-                app:layout_constraintBottom_toBottomOf="@+id/community_main_item_userimage"/>
+                app:layout_constraintStart_toEndOf="@+id/community_main_item_userimage"
+                app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/community_main_item_imageurlcount_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/community_main_item_userimage"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/community_main_item_nickdate_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage">
 
@@ -62,10 +62,9 @@
                     android:id="@+id/community_main_item_imageurlcount_img"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="@drawable/community_main_item_imageurl_count_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toStartOf="@+id/community_main_item_imageurlcount_text"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -73,36 +72,43 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
-                    android:text="[0]"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/button_design_color_2"
+                    android:background="@drawable/dialog_load_layout"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="1dp"
+                    android:textSize="12dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/community_main_item_imageurlcount_img"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toEndOf="@+id/community_main_item_imageurlcount_img" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/community_main_item_nickdate_layout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="5dp"
                 app:layout_constraintTop_toBottomOf="@+id/community_main_item_userimage"
-                android:layout_marginTop="3dp">
+                app:layout_constraintEnd_toStartOf="@+id/community_main_item_imageurlcount_layout"
+                app:layout_constraintStart_toStartOf="parent">
+
                 <TextView
                     android:id="@+id/community_main_item_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/community_nostrong_color"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/community_main_item_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/community_nostrong_color"
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

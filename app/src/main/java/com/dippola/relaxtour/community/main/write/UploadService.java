@@ -16,6 +16,7 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
@@ -23,7 +24,10 @@ import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.retrofit.model.MainModelDetail;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -83,26 +87,46 @@ public class UploadService extends Service {
     }
 
     public static void upload(TextView loadtext, Activity activity, Context context, List<Uri> urllist, String rd, int myid, MainModelDetail model) {
+        List<String> resultUrlList = new ArrayList<>();
         for (int i = 0; i < urllist.size(); i++) {
             Uri uri = urllist.get(i);
             int position = i;
             int pos = i+1;
-            loadtext.setText("Image Uploading... " + pos + "/" + urllist.size());
             StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + String.valueOf(i));
             reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.d("UploadService>>>", "1");
-                    if (position == urllist.size() - 1) {
-                        Log.d("UploadService>>>", "2");
-                        loadtext.setText("Post Uploading...");
-                        Intent intent = new Intent(context, UploadService.class);
-                        context.stopService(intent);
-                        CommunityWrite.uploadToDjango(activity, context, myid, model);
-                        FinishedUploadNotification.finishedUploadNotification(context);
-                    }
+
+                    reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            loadtext.setText("Image Uploading... " + pos + "/" + urllist.size());
+                            resultUrlList.add(uri.toString());
+                            checkurllistsize(urllist.size(), resultUrlList, rd, loadtext, context, activity, myid, model);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
                 }
             });
+        }
+    }
+
+    private static void checkurllistsize(int size, List<String> resultUrlList, String rd, TextView loadtext, Context context, Activity activity, int myid, MainModelDetail model) {
+        if (size == resultUrlList.size()) {
+            String resultUrlStrings = rd;
+            for (int i = 0; i < resultUrlList.size(); i++) {
+                resultUrlStrings += "●" + resultUrlList.get(i);
+            }
+            model.setImageurl(resultUrlStrings);
+            loadtext.setText("Post Uploading...");
+            Intent intent = new Intent(context, UploadService.class);
+            context.stopService(intent);
+            CommunityWrite.uploadToDjango(activity, context, myid, model);
+            FinishedUploadNotification.finishedUploadNotification(context);
         }
     }
 }
