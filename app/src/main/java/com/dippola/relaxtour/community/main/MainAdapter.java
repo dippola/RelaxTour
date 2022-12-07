@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
@@ -33,10 +34,15 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
 
     List<MainModelView> arrayList;
     Context context;
+    RequestOptions userr, userrThumb, imgr, imgrThumb;
 
-    public MainAdapter(Context context, List<MainModelView> arrayList) {
+    public MainAdapter(Context context, List<MainModelView> arrayList, RequestOptions userr, RequestOptions userrThumb, RequestOptions imgr, RequestOptions imgrThumb) {
         this.context = context;
         this.arrayList = arrayList;
+        this.userr = userr;
+        this.userrThumb = userrThumb;
+        this.imgr = imgr;
+        this.imgrThumb = imgrThumb;
     }
 
     @NonNull
@@ -52,15 +58,15 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     public void onBindViewHolder(@NonNull MainAdapter.MainViewHolder holder, int position) {
         int i = position;
         if (arrayList.get(i).getUser_image() == null || arrayList.get(i).getUser_image().length() == 0) {
-            Glide.with(context).load(context.getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(holder.userImage);
+            Glide.with(holder.userImage.getContext()).load(context.getResources().getDrawable(R.drawable.nullpic)).apply(userr).into(holder.userImage);
         } else {
-            Glide.with(context).load(arrayList.get(i).getUser_image()).transform(new CircleCrop()).into(holder.userImage);
+            Glide.with(holder.userImage.getContext()).load(arrayList.get(i).getUser_image()).apply(userr).thumbnail(Glide.with(holder.userImage.getContext()).load(arrayList.get(i).getUser_image()).apply(userrThumb)).into(holder.userImage);
         }
 
         if (arrayList.get(i).getImageurlcount() == 0) {
             holder.imageurllayout.setVisibility(View.GONE);
         } else {
-            Glide.with(context).load(String.valueOf(arrayList.get(i).getImageurl().split("●")[1])).transform(new CenterCrop(), new RoundedCorners(20)).into(holder.firstimg);
+            Glide.with(holder.firstimg.getContext()).load(String.valueOf(arrayList.get(i).getImageurl().split("●")[1])).apply(imgr).thumbnail(Glide.with(holder.firstimg.getContext()).load(String.valueOf(arrayList.get(i).getImageurl().split("●")[1])).apply(imgrThumb)).into(holder.firstimg);
             if (arrayList.get(i).getImageurlcount() == 1) {
                 holder.imageurlcount.setVisibility(View.GONE);
             } else {
@@ -106,6 +112,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         ImageView userImage, firstimg;
         TextView title, date, view, nickname, like, commentcount, imageurlcount;
         ConstraintLayout item, imageurllayout;
+
         public MainViewHolder(@NonNull View itemView) {
             super(itemView);
             this.userImage = itemView.findViewById(R.id.community_main_item_userimage);
@@ -123,7 +130,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     }
 
 
-
     private String getDateResult(String dateFromServer) {
         //3번째 글 2022-11-24 21:06
         String nowTime = getTime();
@@ -134,6 +140,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             return postTime.split(" ")[0];
         }
     }
+
     private String changeTime(String dateFromServer) {
         String[] cut = dateFromServer.split(" ");
         String[] cut1 = cut[1].split("\\.");
@@ -152,6 +159,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         }
         return dueDateAsNormal;
     }
+
     private String getTime() {
         long now = System.currentTimeMillis();
         Date mDate = new Date(now);

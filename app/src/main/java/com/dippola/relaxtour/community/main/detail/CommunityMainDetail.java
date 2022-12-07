@@ -1,6 +1,7 @@
 package com.dippola.relaxtour.community.main.detail;
 
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -31,7 +32,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
@@ -74,6 +79,10 @@ public class CommunityMainDetail extends AppCompatActivity {
     private Button listAddfav;
     private ShareListAdapter shareListAdapter;
 
+    //image
+    private ConstraintLayout imagebox, img1, img2, img3, img4, img5;
+    private ImageView img1_1, img2_1, img2_2, img3_1, img3_2, img3_3, img4_1, img4_2, img4_3, img4_4, img5_1, img5_2, img5_3, img5_4, img5_5;
+
     public static int towhoid;
 
     private MainModelDetail model = new MainModelDetail();
@@ -94,6 +103,7 @@ public class CommunityMainDetail extends AppCompatActivity {
 
         setInit(y);
         setListInit();
+        setImageInit();
         getData("");
     }
 
@@ -140,6 +150,31 @@ public class CommunityMainDetail extends AppCompatActivity {
         onClickOk();
         onClickRefresh();
         onClickViewMore();
+    }
+
+    private void setImageInit() {
+        imagebox = findViewById(R.id.community_main_detail_image_box);
+        img1 = findViewById(R.id.community_detail_image1);
+        img2 = findViewById(R.id.community_detail_image2);
+        img3 = findViewById(R.id.community_detail_image3);
+        img4 = findViewById(R.id.community_detail_image4);
+        img5 = findViewById(R.id.community_detail_image5);
+        img1_1 = findViewById(R.id.community_detail_image1_1);
+        img2_1 = findViewById(R.id.community_detail_image2_1);
+        img2_2 = findViewById(R.id.community_detail_image2_2);
+        img3_1 = findViewById(R.id.communtiy_detail_image3_1);
+        img3_2 = findViewById(R.id.community_detail_image3_2);
+        img3_3 = findViewById(R.id.community_detail_image3_3);
+        img4_1 = findViewById(R.id.community_detail_image4_1);
+        img4_2 = findViewById(R.id.community_detail_image4_2);
+        img4_3 = findViewById(R.id.community_detail_image4_3);
+        img4_4 = findViewById(R.id.community_detail_image4_4);
+        img5_1 = findViewById(R.id.community_detail_image5_1);
+        img5_2 = findViewById(R.id.community_detail_image5_2);
+        img5_3 = findViewById(R.id.community_detail_image5_3);
+        img5_4 = findViewById(R.id.community_detail_image5_4);
+        img5_5 = findViewById(R.id.community_detail_image5_5);
+
     }
 
     private void onClickViewMore() {
@@ -333,6 +368,9 @@ public class CommunityMainDetail extends AppCompatActivity {
         } else {
             Glide.with(CommunityMainDetail.this).load(R.drawable.nullpic).transform(new CircleCrop()).into(userimg);
         }
+        if (!String.valueOf(model.getImageurl()).equals("")) {
+            setImages(String.valueOf(model.getImageurl()));
+        }
         nickname.setText(model.getNickname());
         viewcount.setText(String.valueOf(model.getView()));
         body.setText(model.getBody());
@@ -341,6 +379,40 @@ public class CommunityMainDetail extends AppCompatActivity {
         middleFinish.setVisibility(View.VISIBLE);
         topMiddleLoad.setVisibility(View.INVISIBLE);
         commentcount.setText(String.valueOf(model.getCommentcount()));
+    }
+
+    private void setImages(String images) {
+        String image[] = images.split("●");
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.transform(new CenterCrop(), new RoundedCorners(40));
+        RequestOptions optionThumb = new RequestOptions();
+        optionThumb.transform(new CenterCrop(), new RoundedCorners(40)).sizeMultiplier(0.4f);
+        if (image.length == 2) {
+            img1.setVisibility(View.VISIBLE);
+            Glide.with(img1_1).load(image[1]).apply(requestOptions).thumbnail(Glide.with(img1_1).load(image[1]).apply(optionThumb)).into(img1_1);
+        } else if (image.length == 3) {
+            img2.setVisibility(View.VISIBLE);
+            Glide.with(img2_1).load(image[1]).apply(requestOptions).thumbnail(Glide.with(img2_1).load(image[1]).apply(optionThumb)).into(img2_1);
+            Glide.with(img2_2).load(image[2]).apply(requestOptions).thumbnail(Glide.with(img2_2).load(image[1]).apply(optionThumb)).into(img2_2);
+        } else if (image.length == 4) {
+            img3.setVisibility(View.VISIBLE);
+            Glide.with(img3_1).load(image[1]).apply(requestOptions).thumbnail(Glide.with(img3_1).load(image[1]).apply(optionThumb)).into(img3_1);
+            Glide.with(img3_2).load(image[2]).apply(requestOptions).thumbnail(Glide.with(img3_2).load(image[2]).apply(optionThumb)).into(img3_2);
+            Glide.with(img3_3).load(image[3]).apply(requestOptions).thumbnail(Glide.with(img3_3).load(image[3]).apply(optionThumb)).into(img3_3);
+        } else if (image.length == 5) {
+            img4.setVisibility(View.VISIBLE);
+            Glide.with(img4_1).load(image[1]).apply(requestOptions).thumbnail(Glide.with(img4_1).load(image[1]).apply(optionThumb)).into(img4_1);
+            Glide.with(img4_2).load(image[2]).apply(requestOptions).thumbnail(Glide.with(img4_2).load(image[1]).apply(optionThumb)).into(img4_2);
+            Glide.with(img4_3).load(image[3]).apply(requestOptions).thumbnail(Glide.with(img4_3).load(image[1]).apply(optionThumb)).into(img4_3);
+            Glide.with(img4_4).load(image[4]).apply(requestOptions).thumbnail(Glide.with(img4_4).load(image[1]).apply(optionThumb)).into(img4_4);
+        } else if (image.length == 6) {
+            img5.setVisibility(View.VISIBLE);
+            Glide.with(img5_1).load(image[1]).apply(requestOptions).thumbnail(Glide.with(img5_1).load(image[1]).apply(optionThumb)).into(img5_1);
+            Glide.with(img5_2).load(image[2]).apply(requestOptions).thumbnail(Glide.with(img5_2).load(image[1]).apply(optionThumb)).into(img5_2);
+            Glide.with(img5_3).load(image[3]).apply(requestOptions).thumbnail(Glide.with(img5_3).load(image[1]).apply(optionThumb)).into(img5_3);
+            Glide.with(img5_4).load(image[4]).apply(requestOptions).thumbnail(Glide.with(img5_4).load(image[1]).apply(optionThumb)).into(img5_4);
+            Glide.with(img5_5).load(image[5]).apply(requestOptions).thumbnail(Glide.with(img5_5).load(image[1]).apply(optionThumb)).into(img5_5);
+        }
     }
 
     private void setComment(int size, String from) {

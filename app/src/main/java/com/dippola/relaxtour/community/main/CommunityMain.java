@@ -25,7 +25,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.auth.CommunityAuth;
 import com.dippola.relaxtour.community.main.write.CommunityWrite;
@@ -445,7 +448,15 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void setRecyclerView(List<MainModelView> lists) {
-        adapter = new MainAdapter(CommunityMain.this, lists);
+        RequestOptions userr = new RequestOptions();
+        userr.transform(new CircleCrop());
+        RequestOptions userrThumb = new RequestOptions();
+        userrThumb.transform(new CircleCrop()).sizeMultiplier(0.4f);
+        RequestOptions imgr = new RequestOptions();
+        imgr.transform(new CenterCrop(), new RoundedCorners(20));
+        RequestOptions imgrThumb = new RequestOptions();
+        imgrThumb.transform(new CenterCrop(), new RoundedCorners(20)).sizeMultiplier(0.4f);
+        adapter = new MainAdapter(CommunityMain.this, lists, userr, userrThumb, imgr, imgrThumb);
         recyclerView.setLayoutManager(new LinearLayoutManager(CommunityMain.this));
         recyclerView.setAdapter(adapter);
     }
