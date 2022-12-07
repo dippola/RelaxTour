@@ -35,6 +35,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.11" />
 
+            <ProgressBar
+                android:id="@+id/community_main_item_userimageload"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:indeterminateTint="@color/button_design_color"
+                app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage"
+                app:layout_constraintBottom_toBottomOf="@+id/community_main_item_userimage"
+                app:layout_constraintStart_toStartOf="@+id/community_main_item_userimage"
+                app:layout_constraintEnd_toEndOf="@+id/community_main_item_userimage"/>
+
             <TextView
                 android:id="@+id/community_main_item_title"
                 android:layout_width="0dp"
@@ -67,6 +77,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ProgressBar
+                    android:id="@+id/community_main_item_img_load"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:indeterminateTint="@color/button_design_color"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
                 <TextView
                     android:id="@+id/community_main_item_imageurlcount_text"
                     android:layout_width="wrap_content"

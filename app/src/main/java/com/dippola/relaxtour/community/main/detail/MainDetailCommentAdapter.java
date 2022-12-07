@@ -19,6 +19,7 @@ import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.auth.CommunityAuth;
 import com.dippola.relaxtour.community.main.MainAdapter;
+import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.model.MainCommentModel;
 
 import java.text.ParseException;
@@ -67,11 +68,13 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
         holder.nickname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CommunityMainDetail.towho.setText(list.get(i).getNickname());
-                CommunityMainDetail.towhoid = list.get(i).getParent_user();
-                CommunityMainDetail.towho.setVisibility(View.VISIBLE);
-                CommunityMainDetail.editComment.requestFocus();
-                CommunityMainDetail.showKeyboard(view);
+                if (!list.get(i).getNickname().equals(new DatabaseHandler(context).getUserModel().getNickname())) {
+                    CommunityMainDetail.towho.setText(list.get(i).getNickname());
+                    CommunityMainDetail.towhoid = list.get(i).getParent_user();
+                    CommunityMainDetail.towho.setVisibility(View.VISIBLE);
+                    CommunityMainDetail.editComment.requestFocus();
+                    CommunityMainDetail.showKeyboard(view);
+                }
             }
         });
 

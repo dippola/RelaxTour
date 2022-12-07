@@ -33,10 +33,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
@@ -82,6 +86,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     //image
     private ConstraintLayout imagebox, img1, img2, img3, img4, img5;
     private ImageView img1_1, img2_1, img2_2, img3_1, img3_2, img3_3, img4_1, img4_2, img4_3, img4_4, img5_1, img5_2, img5_3, img5_4, img5_5;
+    private ProgressBar imgload1_1, imgload2_1, imgload2_2, imgload3_1, imgload3_2, imgload3_3, imgload4_1, imgload4_2, imgload4_3, imgload4_4, imgload5_1, imgload5_2, imgload5_3, imgload5_4, imgload5_5;
 
     public static int towhoid;
 
@@ -174,7 +179,21 @@ public class CommunityMainDetail extends AppCompatActivity {
         img5_3 = findViewById(R.id.community_detail_image5_3);
         img5_4 = findViewById(R.id.community_detail_image5_4);
         img5_5 = findViewById(R.id.community_detail_image5_5);
-
+        imgload1_1 = findViewById(R.id.community_detail_image_load_1_1);
+        imgload2_1 = findViewById(R.id.community_detail_image_load_2_1);
+        imgload2_2 = findViewById(R.id.community_detail_image_load_2_2);
+        imgload3_1 = findViewById(R.id.community_detail_image_load_3_1);
+        imgload3_2 = findViewById(R.id.community_detail_image_load_3_2);
+        imgload3_3 = findViewById(R.id.community_detail_image_load_3_3);
+        imgload4_1 = findViewById(R.id.community_detail_image_load_4_1);
+        imgload4_2 = findViewById(R.id.community_detail_image_load_4_2);
+        imgload4_3 = findViewById(R.id.community_detail_image_load_4_3);
+        imgload4_4 = findViewById(R.id.community_detail_image_load_4_4);
+        imgload5_1 = findViewById(R.id.community_detail_image_load_5_1);
+        imgload5_2 = findViewById(R.id.community_detail_image_load_5_2);
+        imgload5_3 = findViewById(R.id.community_detail_image_load_5_3);
+        imgload5_4 = findViewById(R.id.community_detail_image_load_5_4);
+        imgload5_5 = findViewById(R.id.community_detail_image_load_5_5);
     }
 
     private void onClickViewMore() {
@@ -248,6 +267,7 @@ public class CommunityMainDetail extends AppCompatActivity {
         MainCommentModel model = new MainCommentModel();
         model.setBody(editComment.getText().toString());
         if (towhoid != 0) {
+            Log.d("MainDetail>>>", "1");
             model.setTo_id(towhoid);
         }
         RetrofitClient.getApiService().createComment(id, new DatabaseHandler(CommunityMainDetail.this).getUserModel().getId(), model).enqueue(new Callback<MainCommentModel>() {
@@ -302,7 +322,7 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     private void sendCommentLoad() {
         commentsendload.setVisibility(View.VISIBLE);
-        commentsend.setVisibility(View.GONE);
+        commentsend.setVisibility(View.INVISIBLE);
         commentsend.setEnabled(false);
     }
 
@@ -310,6 +330,11 @@ public class CommunityMainDetail extends AppCompatActivity {
         commentsend.setVisibility(View.VISIBLE);
         commentsendload.setVisibility(View.GONE);
         commentsend.setEnabled(true);
+        Animation animation = AnimationUtils.loadAnimation(CommunityMainDetail.this, R.anim.refresh_turn);
+        refreshload.startAnimation(animation);
+        bottomLoad.setVisibility(View.VISIBLE);
+        bottomFinish.setVisibility(View.GONE);
+        getData("refresh");
     }
 
     @Override
@@ -385,33 +410,196 @@ public class CommunityMainDetail extends AppCompatActivity {
         String image[] = images.split("●");
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.transform(new CenterCrop(), new RoundedCorners(40));
-        RequestOptions optionThumb = new RequestOptions();
-        optionThumb.transform(new CenterCrop(), new RoundedCorners(40)).sizeMultiplier(0.4f);
         if (image.length == 2) {
             img1.setVisibility(View.VISIBLE);
-            Glide.with(img1_1).load(image[1]).apply(requestOptions).thumbnail(Glide.with(img1_1).load(image[1]).apply(optionThumb)).into(img1_1);
+            Glide.with(img1_1).load(image[1]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload1_1.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img1_1);
         } else if (image.length == 3) {
             img2.setVisibility(View.VISIBLE);
-            Glide.with(img2_1).load(image[1]).apply(requestOptions).thumbnail(Glide.with(img2_1).load(image[1]).apply(optionThumb)).into(img2_1);
-            Glide.with(img2_2).load(image[2]).apply(requestOptions).thumbnail(Glide.with(img2_2).load(image[1]).apply(optionThumb)).into(img2_2);
+            Glide.with(img2_1).load(image[1]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload2_1.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img2_1);
+            Glide.with(img2_2).load(image[2]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload2_2.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img2_2);
         } else if (image.length == 4) {
             img3.setVisibility(View.VISIBLE);
-            Glide.with(img3_1).load(image[1]).apply(requestOptions).thumbnail(Glide.with(img3_1).load(image[1]).apply(optionThumb)).into(img3_1);
-            Glide.with(img3_2).load(image[2]).apply(requestOptions).thumbnail(Glide.with(img3_2).load(image[2]).apply(optionThumb)).into(img3_2);
-            Glide.with(img3_3).load(image[3]).apply(requestOptions).thumbnail(Glide.with(img3_3).load(image[3]).apply(optionThumb)).into(img3_3);
+            Glide.with(img3_1).load(image[1]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload3_1.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img3_1);
+            Glide.with(img3_2).load(image[2]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload3_2.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img3_2);
+            Glide.with(img3_3).load(image[3]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload3_3.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img3_3);
         } else if (image.length == 5) {
             img4.setVisibility(View.VISIBLE);
-            Glide.with(img4_1).load(image[1]).apply(requestOptions).thumbnail(Glide.with(img4_1).load(image[1]).apply(optionThumb)).into(img4_1);
-            Glide.with(img4_2).load(image[2]).apply(requestOptions).thumbnail(Glide.with(img4_2).load(image[1]).apply(optionThumb)).into(img4_2);
-            Glide.with(img4_3).load(image[3]).apply(requestOptions).thumbnail(Glide.with(img4_3).load(image[1]).apply(optionThumb)).into(img4_3);
-            Glide.with(img4_4).load(image[4]).apply(requestOptions).thumbnail(Glide.with(img4_4).load(image[1]).apply(optionThumb)).into(img4_4);
+            Glide.with(img4_1).load(image[1]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload4_1.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img4_1);
+            Glide.with(img4_2).load(image[2]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload4_2.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img4_2);
+            Glide.with(img4_3).load(image[3]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload4_3.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img4_3);
+            Glide.with(img4_4).load(image[4]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload4_4.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img4_4);
         } else if (image.length == 6) {
             img5.setVisibility(View.VISIBLE);
-            Glide.with(img5_1).load(image[1]).apply(requestOptions).thumbnail(Glide.with(img5_1).load(image[1]).apply(optionThumb)).into(img5_1);
-            Glide.with(img5_2).load(image[2]).apply(requestOptions).thumbnail(Glide.with(img5_2).load(image[1]).apply(optionThumb)).into(img5_2);
-            Glide.with(img5_3).load(image[3]).apply(requestOptions).thumbnail(Glide.with(img5_3).load(image[1]).apply(optionThumb)).into(img5_3);
-            Glide.with(img5_4).load(image[4]).apply(requestOptions).thumbnail(Glide.with(img5_4).load(image[1]).apply(optionThumb)).into(img5_4);
-            Glide.with(img5_5).load(image[5]).apply(requestOptions).thumbnail(Glide.with(img5_5).load(image[1]).apply(optionThumb)).into(img5_5);
+            Glide.with(img5_1).load(image[1]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload5_1.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img5_1);
+            Glide.with(img5_2).load(image[2]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload5_2.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img5_2);
+            Glide.with(img5_3).load(image[3]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload5_3.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img5_3);
+            Glide.with(img5_4).load(image[4]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload5_4.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img5_4);
+            Glide.with(img5_5).load(image[5]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imgload5_5.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(img5_5);
         }
     }
 

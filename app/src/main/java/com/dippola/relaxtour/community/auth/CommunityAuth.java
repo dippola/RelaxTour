@@ -259,9 +259,10 @@ public class CommunityAuth extends AppCompatActivity {
         UserModel userModel = new UserModel();
         userModel = databaseHandler.getUserModel();
         if (userModel.getImageurl() == null || userModel.getImageurl().length() == 0 || userModel.getImageurl().equals("null")) {
-            Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+            Glide.with(img.getContext()).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
         } else {
-            Glide.with(CommunityAuth.this).load(userModel.getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+            imageurl = userModel.getImageurl();
+            Glide.with(img.getContext()).load(userModel.getImageurl()).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
         }
         if (userModel.getNickname() == null) {
             nickname.setText("nickname not set");
@@ -327,10 +328,11 @@ public class CommunityAuth extends AppCompatActivity {
             if (result.getResultCode() == FROM_CHANGE_PROFILE) {
                 if (result.getData().getBooleanExtra("isChangePic", false)) {
                     String imageurl = databaseHandler.getUserModel().getImageurl();
+                    isChangePic = true;
                     if (imageurl == null || imageurl.length() == 0 || imageurl.equals("null")) {
-                        Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                        Glide.with(img.getContext()).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                     } else {
-                        Glide.with(CommunityAuth.this).load(imageurl).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                        Glide.with(img.getContext()).load(imageurl).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                     }
                 }
 
@@ -347,9 +349,9 @@ public class CommunityAuth extends AppCompatActivity {
                     isChangePic = true;
                     String imageurl = databaseHandler.getUserModel().getImageurl();
                     if (imageurl == null || imageurl.length() == 0 || imageurl.equals("null")) {
-                        Glide.with(CommunityAuth.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                        Glide.with(img.getContext()).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                     } else {
-                        Glide.with(CommunityAuth.this).load(imageurl).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
+                        Glide.with(img.getContext()).load(imageurl).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                     }
                 }
             } else if (result.getResultCode() == FROM_ASK_SIGNOUT) {

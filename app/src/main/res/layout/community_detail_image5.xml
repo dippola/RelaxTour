@@ -6,53 +6,120 @@
     android:layout_height="wrap_content"
     android:visibility="gone">
 
-    <ImageView
-        android:id="@+id/community_detail_image5_1"
+    <RelativeLayout
+        android:id="@+id/community_detail_image5_1box"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="5dp"
         app:layout_constraintDimensionRatio="1:0.6"
-        app:layout_constraintEnd_toStartOf="@+id/community_detail_image5_2"
+        app:layout_constraintEnd_toStartOf="@+id/community_detail_image5_2box"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/community_detail_image5_2"
+        <ImageView
+            android:id="@+id/community_detail_image5_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/community_detail_image_load_5_1"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/button_design_color" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/community_detail_image5_2box"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintDimensionRatio="1:0.6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/community_detail_image5_1"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/community_detail_image5_1box"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/community_detail_image5_3"
+        <ImageView
+            android:id="@+id/community_detail_image5_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/community_detail_image_load_5_2"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/button_design_color" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/community_detail_image5_3box"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
         app:layout_constraintDimensionRatio="1:0.7"
-        app:layout_constraintEnd_toStartOf="@+id/community_detail_image5_4"
+        app:layout_constraintEnd_toStartOf="@+id/community_detail_image5_4box"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_detail_image5_1" />
+        app:layout_constraintTop_toBottomOf="@+id/community_detail_image5_1box">
 
-    <ImageView
-        android:id="@+id/community_detail_image5_4"
+        <ImageView
+            android:id="@+id/community_detail_image5_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/community_detail_image_load_5_3"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/button_design_color" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/community_detail_image5_4box"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="5dp"
         android:layout_marginTop="5dp"
         app:layout_constraintDimensionRatio="1:0.7"
-        app:layout_constraintEnd_toStartOf="@+id/community_detail_image5_5"
-        app:layout_constraintStart_toEndOf="@+id/community_detail_image5_3"
-        app:layout_constraintTop_toBottomOf="@+id/community_detail_image5_1" />
+        app:layout_constraintEnd_toStartOf="@+id/community_detail_image5_5box"
+        app:layout_constraintStart_toEndOf="@+id/community_detail_image5_3box"
+        app:layout_constraintTop_toBottomOf="@+id/community_detail_image5_1box">
 
-    <ImageView
-        android:id="@+id/community_detail_image5_5"
+        <ImageView
+            android:id="@+id/community_detail_image5_4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/community_detail_image_load_5_4"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/button_design_color" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/community_detail_image5_5box"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
         app:layout_constraintDimensionRatio="1:0.7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/community_detail_image5_4"
-        app:layout_constraintTop_toBottomOf="@+id/community_detail_image5_1" />
+        app:layout_constraintStart_toEndOf="@+id/community_detail_image5_4box"
+        app:layout_constraintTop_toBottomOf="@+id/community_detail_image5_1box">
+
+        <ImageView
+            android:id="@+id/community_detail_image5_5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/community_detail_image_load_5_5"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/button_design_color" />
+    </RelativeLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

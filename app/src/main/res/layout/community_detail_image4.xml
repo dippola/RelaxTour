@@ -6,49 +6,103 @@
     android:layout_height="wrap_content"
     android:visibility="gone">
 
-    <ImageView
-        android:id="@+id/community_detail_image4_1"
+    <RelativeLayout
+        android:id="@+id/community_detail_image4_1box"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/community_detail_image4_2"
+        app:layout_constraintBottom_toTopOf="@+id/community_detail_image4_2box"
         app:layout_constraintDimensionRatio="1:0.8"
-        app:layout_constraintEnd_toStartOf="@id/community_detail_image4_3"
+        app:layout_constraintEnd_toStartOf="@id/community_detail_image4_3box"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/community_detail_image4_2"
+        <ImageView
+            android:id="@+id/community_detail_image4_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/community_detail_image_load_4_1"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/button_design_color" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/community_detail_image4_2box"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:0.8"
-        app:layout_constraintEnd_toStartOf="@id/community_detail_image4_4"
+        app:layout_constraintEnd_toStartOf="@id/community_detail_image4_4box"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/community_detail_image4_1" />
+        app:layout_constraintTop_toBottomOf="@id/community_detail_image4_1box">
 
-    <ImageView
-        android:id="@+id/community_detail_image4_3"
+        <ImageView
+            android:id="@+id/community_detail_image4_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" />
+
+        <ProgressBar
+            android:id="@+id/community_detail_image_load_4_2"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/button_design_color" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/community_detail_image4_3box"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@id/community_detail_image4_4"
+        app:layout_constraintBottom_toTopOf="@id/community_detail_image4_4box"
         app:layout_constraintDimensionRatio="1:0.8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/community_detail_image4_1"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/community_detail_image4_1box"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/community_detail_image4_4"
+        <ImageView
+            android:id="@+id/community_detail_image4_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" />
+
+        <ProgressBar
+            android:id="@+id/community_detail_image_load_4_3"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/button_design_color" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/community_detail_image4_4box"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:0.8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/community_detail_image4_2"
-        app:layout_constraintTop_toBottomOf="@+id/community_detail_image4_3" />
+        app:layout_constraintStart_toEndOf="@+id/community_detail_image4_2box"
+        app:layout_constraintTop_toBottomOf="@+id/community_detail_image4_3box">
 
+        <ImageView
+            android:id="@+id/community_detail_image4_4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" />
+
+        <ProgressBar
+            android:id="@+id/community_detail_image_load_4_4"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/button_design_color" />
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,22 +2,29 @@ package com.dippola.relaxtour.community.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
@@ -34,15 +41,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
 
     List<MainModelView> arrayList;
     Context context;
-    RequestOptions userr, userrThumb, imgr, imgrThumb;
+    RequestOptions userr, imgr;
 
-    public MainAdapter(Context context, List<MainModelView> arrayList, RequestOptions userr, RequestOptions userrThumb, RequestOptions imgr, RequestOptions imgrThumb) {
+    public MainAdapter(Context context, List<MainModelView> arrayList, RequestOptions userr, RequestOptions imgr) {
         this.context = context;
         this.arrayList = arrayList;
         this.userr = userr;
-        this.userrThumb = userrThumb;
         this.imgr = imgr;
-        this.imgrThumb = imgrThumb;
     }
 
     @NonNull
@@ -58,15 +63,38 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     public void onBindViewHolder(@NonNull MainAdapter.MainViewHolder holder, int position) {
         int i = position;
         if (arrayList.get(i).getUser_image() == null || arrayList.get(i).getUser_image().length() == 0) {
+            holder.userimageload.setVisibility(View.GONE);
             Glide.with(holder.userImage.getContext()).load(context.getResources().getDrawable(R.drawable.nullpic)).apply(userr).into(holder.userImage);
         } else {
-            Glide.with(holder.userImage.getContext()).load(arrayList.get(i).getUser_image()).apply(userr).thumbnail(Glide.with(holder.userImage.getContext()).load(arrayList.get(i).getUser_image()).apply(userrThumb)).into(holder.userImage);
+            Glide.with(holder.userImage.getContext()).load(arrayList.get(i).getUser_image()).apply(userr).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    holder.userimageload.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(holder.userImage);
         }
 
         if (arrayList.get(i).getImageurlcount() == 0) {
             holder.imageurllayout.setVisibility(View.GONE);
         } else {
-            Glide.with(holder.firstimg.getContext()).load(String.valueOf(arrayList.get(i).getImageurl().split("●")[1])).apply(imgr).thumbnail(Glide.with(holder.firstimg.getContext()).load(String.valueOf(arrayList.get(i).getImageurl().split("●")[1])).apply(imgrThumb)).into(holder.firstimg);
+            Glide.with(holder.firstimg.getContext()).load(String.valueOf(arrayList.get(i).getImageurl().split("●")[1])).apply(imgr).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    holder.imgload.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(holder.firstimg);
             if (arrayList.get(i).getImageurlcount() == 1) {
                 holder.imageurlcount.setVisibility(View.GONE);
             } else {
@@ -112,6 +140,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         ImageView userImage, firstimg;
         TextView title, date, view, nickname, like, commentcount, imageurlcount;
         ConstraintLayout item, imageurllayout;
+        ProgressBar imgload, userimageload;
 
         public MainViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -126,6 +155,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             this.item = itemView.findViewById(R.id.community_main_item);
             this.imageurlcount = itemView.findViewById(R.id.community_main_item_imageurlcount_text);
             this.imageurllayout = itemView.findViewById(R.id.community_main_item_imageurlcount_layout);
+            this.imgload = itemView.findViewById(R.id.community_main_item_img_load);
+            this.userimageload = itemView.findViewById(R.id.community_main_item_userimageload);
         }
     }
 

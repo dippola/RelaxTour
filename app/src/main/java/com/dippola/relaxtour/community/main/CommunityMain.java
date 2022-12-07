@@ -450,13 +450,9 @@ public class CommunityMain extends AppCompatActivity {
     private void setRecyclerView(List<MainModelView> lists) {
         RequestOptions userr = new RequestOptions();
         userr.transform(new CircleCrop());
-        RequestOptions userrThumb = new RequestOptions();
-        userrThumb.transform(new CircleCrop()).sizeMultiplier(0.4f);
         RequestOptions imgr = new RequestOptions();
         imgr.transform(new CenterCrop(), new RoundedCorners(20));
-        RequestOptions imgrThumb = new RequestOptions();
-        imgrThumb.transform(new CenterCrop(), new RoundedCorners(20)).sizeMultiplier(0.4f);
-        adapter = new MainAdapter(CommunityMain.this, lists, userr, userrThumb, imgr, imgrThumb);
+        adapter = new MainAdapter(CommunityMain.this, lists, userr, imgr);
         recyclerView.setLayoutManager(new LinearLayoutManager(CommunityMain.this));
         recyclerView.setAdapter(adapter);
     }

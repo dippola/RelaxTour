@@ -48,6 +48,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -259,16 +262,39 @@ public class CommunityWrite extends AppCompatActivity {
                         } else {
                             for (int i = 0; i < clipData.getItemCount(); i++) {
                                 Uri imageUri = clipData.getItemAt(i).getUri();
-                                if (!urllist.contains(imageUri.toString())) {
-                                    urllist.add(imageUri);
+                                try {
+                                    InputStream fileInputStream = getApplicationContext().getContentResolver().openInputStream(imageUri);
+                                    int dataSize = fileInputStream.available();
+                                    if (dataSize < 5242880) {
+                                        if (!urllist.contains(imageUri.toString())) {
+                                            urllist.add(imageUri);
+                                        }
+                                    } else {
+                                        Toast.makeText(CommunityWrite.this, "Maximum image capacity available for selection is 5 MB", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
-                                Log.d("CommunityWrite>>>", "uri: " + imageUri);
                             }
                         }
                     } else {
-                        Uri imageUri = data.getData();
-                        urllist.add(imageUri);
-                        Log.d("CommunityWrite>>>", "uri: " + imageUri);
+                        try {
+                            InputStream fileInputStream = getApplicationContext().getContentResolver().openInputStream(data.getData());
+                            int dataSize = fileInputStream.available();
+                            if (dataSize < 5242880) {
+                                Uri imageUri = data.getData();
+                                urllist.add(imageUri);
+                            } else {
+                                Toast.makeText(CommunityWrite.this, "Maximum image capacity available for selection is 5 MB", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                     setImage();
                 }

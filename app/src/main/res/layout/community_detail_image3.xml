@@ -38,5 +38,34 @@
         app:layout_constraintStart_toEndOf="@+id/communtiy_detail_image3_1"
         app:layout_constraintTop_toBottomOf="@+id/community_detail_image3_2" />
 
+    <ProgressBar
+        android:id="@+id/community_detail_image_load_3_1"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:indeterminateTint="@color/button_design_color"
+        app:layout_constraintBottom_toBottomOf="@+id/communtiy_detail_image3_1"
+        app:layout_constraintEnd_toEndOf="@+id/communtiy_detail_image3_1"
+        app:layout_constraintStart_toStartOf="@+id/communtiy_detail_image3_1"
+        app:layout_constraintTop_toTopOf="@+id/communtiy_detail_image3_1" />
+
+    <ProgressBar
+        android:id="@+id/community_detail_image_load_3_2"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:indeterminateTint="@color/button_design_color"
+        app:layout_constraintBottom_toBottomOf="@+id/community_detail_image3_2"
+        app:layout_constraintEnd_toEndOf="@+id/community_detail_image3_2"
+        app:layout_constraintStart_toStartOf="@+id/community_detail_image3_2"
+        app:layout_constraintTop_toTopOf="@+id/community_detail_image3_2" />
+
+    <ProgressBar
+        android:id="@+id/community_detail_image_load_3_3"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:indeterminateTint="@color/button_design_color"
+        app:layout_constraintBottom_toBottomOf="@+id/community_detail_image3_3"
+        app:layout_constraintEnd_toEndOf="@+id/community_detail_image3_3"
+        app:layout_constraintStart_toStartOf="@+id/community_detail_image3_3"
+        app:layout_constraintTop_toTopOf="@+id/community_detail_image3_3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

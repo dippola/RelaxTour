@@ -123,11 +123,9 @@ public class CommunityProfileCreate extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
             String scheme = imageUri.getScheme();
-            Log.d("ProfileCreate>>>", "scheme type: " + scheme);
             try {
-                InputStream fileInputStream=getApplicationContext().getContentResolver().openInputStream(imageUri);
+                InputStream fileInputStream = getApplicationContext().getContentResolver().openInputStream(imageUri);
                 int dataSize = fileInputStream.available();
-                Log.d("ProfileCreate>>>", "size: " + dataSize);
                 if (dataSize < 5242880) {
                     Glide.with(CommunityProfileCreate.this).load(imageUri).transform(new CenterCrop(), new RoundedCorners(80)).into(img);
                 } else {
