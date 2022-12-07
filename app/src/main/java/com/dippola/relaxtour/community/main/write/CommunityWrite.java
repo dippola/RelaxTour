@@ -184,26 +184,13 @@ public class CommunityWrite extends AppCompatActivity {
                     model.setUser_url(myProfile.getImageurl());
                     model.setTitle(title.getText().toString());
                     model.setBody(body.getText().toString());
-                    String urls = "";
                     String rd = "";
-                    String copyrd = "";
                     if (urllist.size() != 0) {
                         rd = rd(10);
-                        copyrd = rd;
-                        rd += "●";
-                        for (int i = 0; i < urllist.size(); i++) {
-                            if (i == 0) {
-                                urls += rd;
-                            }
-                            urls += urllist.get(i).toString();
-                            if (i != urllist.size() - 1) {
-                                urls += "●";
-                            }
-                        }
                     }
                     String list = "";
                     if (favListItems.size() != 0) {
-                        list += listtitle.getText().toString();
+                        list += listtitle.getText().toString() + "●";
                         for (int i = 0; i < favListItems.size(); i++) {
                             list += favListItems.get(i).getPage() + "-" + favListItems.get(i).getPosition() + "-" + favListItems.get(i).getSeek();
                             if (i != favListItems.size() - 1) {
@@ -220,32 +207,8 @@ public class CommunityWrite extends AppCompatActivity {
                     } else {
                         startService(intent);
                     }
-                    UploadService.upload(loadtext, CommunityWrite.this, CommunityWrite.this, urllist, copyrd, myProfile.getId(), model);
+                    UploadService.upload(loadtext, CommunityWrite.this, CommunityWrite.this, urllist, rd, myProfile.getId(), model, load);
                 }
-            }
-        });
-    }
-
-    public static void uploadToDjango(Activity activity, Context context, int id, MainModelDetail model) {
-        RetrofitClient.getApiService().createMain(id, model).enqueue(new Callback<MainModelDetail>() {
-            @Override
-            public void onResponse(Call<MainModelDetail> call, Response<MainModelDetail> response) {
-                if (response.isSuccessful()) {
-                    Log.d("CommunityWrite>>>", "1: " + response.message());
-                    Toast.makeText(context, "Post registration complete", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(context, CommunityMain.class);
-                    intent.putExtra("write", true);
-                    activity.setResult(CommunityMain.FROM_WRITE, intent);
-                    activity.finish();
-                } else {
-                    Toast.makeText(context, "The Internet connection was unstable and failed.\nPlease try again.\n" + response.message(), Toast.LENGTH_SHORT).show();
-                }
-                load.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call<MainModelDetail> call, Throwable t) {
-                Toast.makeText(context, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

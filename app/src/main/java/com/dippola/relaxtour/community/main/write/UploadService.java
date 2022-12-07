@@ -14,7 +14,10 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +26,7 @@ import androidx.core.app.NotificationCompat;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.main.CommunityMain;
+import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.MainModelDetail;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,6 +38,10 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UploadService extends Service {
     public static final String CHANNEL_ID = "upload";
@@ -86,47 +94,76 @@ public class UploadService extends Service {
         }
     }
 
-    public static void upload(TextView loadtext, Activity activity, Context context, List<Uri> urllist, String rd, int myid, MainModelDetail model) {
+    public static void upload(TextView loadtext, Activity activity, Context context, List<Uri> urllist, String rd, int myid, MainModelDetail model, RelativeLayout load) {
         List<String> resultUrlList = new ArrayList<>();
-        for (int i = 0; i < urllist.size(); i++) {
-            Uri uri = urllist.get(i);
-            int position = i;
-            int pos = i+1;
-            StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + String.valueOf(i));
-            reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+        if (urllist.size() != 0) {
+            for (int i = 0; i < urllist.size(); i++) {
+                Uri uri = urllist.get(i);
+                int position = i;
+                int pos = i+1;
+                StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + String.valueOf(i));
+                reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            loadtext.setText("Image Uploading... " + pos + "/" + urllist.size());
-                            resultUrlList.add(uri.toString());
-                            checkurllistsize(urllist.size(), resultUrlList, rd, loadtext, context, activity, myid, model);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+                        reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                loadtext.setText("Image Uploading... " + pos + "/" + urllist.size());
+                                resultUrlList.add(uri.toString());
+                                checkurllistsize(urllist.size(), resultUrlList, rd, loadtext, context, activity, myid, model, load);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
 
-                        }
-                    });
-                }
-            });
+                            }
+                        });
+                    }
+                });
+            }
+        } else {
+            uploadToDjango(activity, context, myid, model, load, loadtext);
         }
     }
 
-    private static void checkurllistsize(int size, List<String> resultUrlList, String rd, TextView loadtext, Context context, Activity activity, int myid, MainModelDetail model) {
+    private static void checkurllistsize(int size, List<String> resultUrlList, String rd, TextView loadtext, Context context, Activity activity, int myid, MainModelDetail model, RelativeLayout load) {
         if (size == resultUrlList.size()) {
             String resultUrlStrings = rd;
             for (int i = 0; i < resultUrlList.size(); i++) {
                 resultUrlStrings += "●" + resultUrlList.get(i);
             }
             model.setImageurl(resultUrlStrings);
-            loadtext.setText("Post Uploading...");
-            Intent intent = new Intent(context, UploadService.class);
-            context.stopService(intent);
-            CommunityWrite.uploadToDjango(activity, context, myid, model);
-            FinishedUploadNotification.finishedUploadNotification(context);
+            uploadToDjango(activity, context, myid, model, load, loadtext);
         }
+    }
+
+    public static void uploadToDjango(Activity activity, Context context, int id, MainModelDetail model, RelativeLayout load, TextView loadtext) {
+        loadtext.setText("Post Uploading...");
+        RetrofitClient.getApiService().createMain(id, model).enqueue(new Callback<MainModelDetail>() {
+            @Override
+            public void onResponse(Call<MainModelDetail> call, Response<MainModelDetail> response) {
+                if (response.isSuccessful()) {
+                    Log.d("CommunityWrite>>>", "1: " + response.message());
+                    Toast.makeText(context, "Post registration complete", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, CommunityMain.class);
+                    intent.putExtra("write", true);
+                    activity.setResult(CommunityMain.FROM_WRITE, intent);
+                    Intent intent1 = new Intent(context, UploadService.class);
+                    context.stopService(intent1);
+                    FinishedUploadNotification.finishedUploadNotification(context);
+                    activity.finish();
+                } else {
+                    Toast.makeText(context, "The Internet connection was unstable and failed.\nPlease try again.\n" + response.message(), Toast.LENGTH_SHORT).show();
+                }
+                load.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<MainModelDetail> call, Throwable t) {
+                Toast.makeText(context, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                load.setVisibility(View.GONE);
+            }
+        });
     }
 }
