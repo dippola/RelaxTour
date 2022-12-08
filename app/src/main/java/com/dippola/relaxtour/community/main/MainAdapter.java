@@ -3,7 +3,6 @@ package com.dippola.relaxtour.community.main;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
-import com.dippola.relaxtour.retrofit.model.MainModelView;
+import com.dippola.relaxtour.retrofit.model.PostModelView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,11 +35,11 @@ import java.util.TimeZone;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
 
-    List<MainModelView> arrayList;
+    List<PostModelView> arrayList;
     Context context;
     RequestOptions userr, imgr;
 
-    public MainAdapter(Context context, List<MainModelView> arrayList, RequestOptions userr, RequestOptions imgr) {
+    public MainAdapter(Context context, List<PostModelView> arrayList, RequestOptions userr, RequestOptions imgr) {
         this.context = context;
         this.arrayList = arrayList;
         this.userr = userr;

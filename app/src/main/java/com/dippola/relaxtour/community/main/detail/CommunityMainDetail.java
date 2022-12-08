@@ -14,7 +14,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,7 +31,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -44,8 +42,8 @@ import com.bumptech.glide.request.target.Target;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
-import com.dippola.relaxtour.retrofit.model.MainCommentModel;
-import com.dippola.relaxtour.retrofit.model.MainModelDetail;
+import com.dippola.relaxtour.retrofit.model.PostCommentModel;
+import com.dippola.relaxtour.retrofit.model.PostModelDetail;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -59,7 +57,7 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     private int id;
 
-    private List<MainCommentModel> commentModelList = new ArrayList<>();
+    private List<PostCommentModel> commentModelList = new ArrayList<>();
 
     private ShimmerFrameLayout topMiddleLoad, bottomLoad;
     private ConstraintLayout topFinish, middleFinish, bottomFinish, commentLayout;
@@ -90,7 +88,7 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     public static int towhoid;
 
-    private MainModelDetail model = new MainModelDetail();
+    private PostModelDetail model = new PostModelDetail();
 
     private MainDetailCommentAdapter adapter;
 
@@ -203,9 +201,9 @@ public class CommunityMainDetail extends AppCompatActivity {
                 commentMoreLoad.setVisibility(View.VISIBLE);
                 int lastid = commentModelList.get(commentModelList.size() - 1).getId();
                 int beforeSize = commentModelList.size();
-                RetrofitClient.getApiService().getMainCommentMore(id, lastid).enqueue(new Callback<List<MainCommentModel>>() {
+                RetrofitClient.getApiService().getMainCommentMore(id, lastid).enqueue(new Callback<List<PostCommentModel>>() {
                     @Override
-                    public void onResponse(Call<List<MainCommentModel>> call, Response<List<MainCommentModel>> response) {
+                    public void onResponse(Call<List<PostCommentModel>> call, Response<List<PostCommentModel>> response) {
                         if (response.isSuccessful()) {
                             if (response.body().size() != 0) {
                                 int addSize = commentModelList.size() + response.body().size() - 1;
@@ -217,7 +215,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<List<MainCommentModel>> call, Throwable t) {
+                    public void onFailure(Call<List<PostCommentModel>> call, Throwable t) {
                         commentMoreLoad.setVisibility(View.GONE);
                         Toast.makeText(CommunityMainDetail.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -264,15 +262,15 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void sendComment() {
-        MainCommentModel model = new MainCommentModel();
+        PostCommentModel model = new PostCommentModel();
         model.setBody(editComment.getText().toString());
         if (towhoid != 0) {
             Log.d("MainDetail>>>", "1");
             model.setTo_id(towhoid);
         }
-        RetrofitClient.getApiService().createComment(id, new DatabaseHandler(CommunityMainDetail.this).getUserModel().getId(), model).enqueue(new Callback<MainCommentModel>() {
+        RetrofitClient.getApiService().createComment(id, new DatabaseHandler(CommunityMainDetail.this).getUserModel().getId(), model).enqueue(new Callback<PostCommentModel>() {
             @Override
-            public void onResponse(Call<MainCommentModel> call, Response<MainCommentModel> response) {
+            public void onResponse(Call<PostCommentModel> call, Response<PostCommentModel> response) {
                 if (response.isSuccessful()) {
                     resetComments();
                     editComment.setText("");
@@ -287,7 +285,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MainCommentModel> call, Throwable t) {
+            public void onFailure(Call<PostCommentModel> call, Throwable t) {
                 sendCommentFinished();
                 Toast.makeText(CommunityMainDetail.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -295,9 +293,9 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void resetComments() {
-        RetrofitClient.getApiService().getMain(id).enqueue(new Callback<MainModelDetail>() {
+        RetrofitClient.getApiService().getMain(id).enqueue(new Callback<PostModelDetail>() {
             @Override
-            public void onResponse(Call<MainModelDetail> call, Response<MainModelDetail> response) {
+            public void onResponse(Call<PostModelDetail> call, Response<PostModelDetail> response) {
                 if (response.isSuccessful()) {
                     model = response.body();
                     scrollDown();
@@ -305,7 +303,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MainModelDetail> call, Throwable t) {
+            public void onFailure(Call<PostModelDetail> call, Throwable t) {
 
             }
         });
@@ -353,9 +351,9 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void getData(String from) {
-        RetrofitClient.getApiService().getMain(id).enqueue(new Callback<MainModelDetail>() {
+        RetrofitClient.getApiService().getMain(id).enqueue(new Callback<PostModelDetail>() {
             @Override
-            public void onResponse(Call<MainModelDetail> call, Response<MainModelDetail> response) {
+            public void onResponse(Call<PostModelDetail> call, Response<PostModelDetail> response) {
                 if (response.isSuccessful()) {
                     model = response.body();
                     setData(model);
@@ -363,13 +361,13 @@ public class CommunityMainDetail extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MainModelDetail> call, Throwable t) {
+            public void onFailure(Call<PostModelDetail> call, Throwable t) {
 
             }
         });
-        RetrofitClient.getApiService().getMainComment(id, 1).enqueue(new Callback<List<MainCommentModel>>() {
+        RetrofitClient.getApiService().getMainComment(id, 1).enqueue(new Callback<List<PostCommentModel>>() {
             @Override
-            public void onResponse(Call<List<MainCommentModel>> call, Response<List<MainCommentModel>> response) {
+            public void onResponse(Call<List<PostCommentModel>> call, Response<List<PostCommentModel>> response) {
                 if (response.isSuccessful()) {
                     commentModelList = response.body();
                     setComment(commentModelList.size(), from);
@@ -377,13 +375,13 @@ public class CommunityMainDetail extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<MainCommentModel>> call, Throwable t) {
+            public void onFailure(Call<List<PostCommentModel>> call, Throwable t) {
 
             }
         });
     }
 
-    private void setData(MainModelDetail model) {
+    private void setData(PostModelDetail model) {
         if (String.valueOf(model.getList()).length() != 0) {
             setList(model.getList());
         }

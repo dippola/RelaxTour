@@ -23,15 +23,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
-import com.dippola.relaxtour.retrofit.model.MainModelDetail;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.dippola.relaxtour.retrofit.model.PostModelDetail;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -94,7 +91,7 @@ public class UploadService extends Service {
         }
     }
 
-    public static void upload(TextView loadtext, Activity activity, Context context, List<Uri> urllist, String rd, int myid, MainModelDetail model, RelativeLayout load) {
+    public static void upload(TextView loadtext, Activity activity, Context context, List<Uri> urllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
         List<String> resultUrlList = new ArrayList<>();
         if (urllist.size() != 0) {
             for (int i = 0; i < urllist.size(); i++) {
@@ -127,7 +124,7 @@ public class UploadService extends Service {
         }
     }
 
-    private static void checkurllistsize(int size, List<String> resultUrlList, String rd, TextView loadtext, Context context, Activity activity, int myid, MainModelDetail model, RelativeLayout load) {
+    private static void checkurllistsize(int size, List<String> resultUrlList, String rd, TextView loadtext, Context context, Activity activity, int myid, PostModelDetail model, RelativeLayout load) {
         if (size == resultUrlList.size()) {
             String resultUrlStrings = rd;
             for (int i = 0; i < resultUrlList.size(); i++) {
@@ -138,11 +135,11 @@ public class UploadService extends Service {
         }
     }
 
-    public static void uploadToDjango(Activity activity, Context context, int id, MainModelDetail model, RelativeLayout load, TextView loadtext) {
+    public static void uploadToDjango(Activity activity, Context context, int id, PostModelDetail model, RelativeLayout load, TextView loadtext) {
         loadtext.setText("Post Uploading...");
-        RetrofitClient.getApiService().createMain(id, model).enqueue(new Callback<MainModelDetail>() {
+        RetrofitClient.getApiService().createMain(id, model).enqueue(new Callback<PostModelDetail>() {
             @Override
-            public void onResponse(Call<MainModelDetail> call, Response<MainModelDetail> response) {
+            public void onResponse(Call<PostModelDetail> call, Response<PostModelDetail> response) {
                 if (response.isSuccessful()) {
                     Log.d("CommunityWrite>>>", "1: " + response.message());
                     Toast.makeText(context, "Post registration complete", Toast.LENGTH_SHORT).show();
@@ -160,7 +157,7 @@ public class UploadService extends Service {
             }
 
             @Override
-            public void onFailure(Call<MainModelDetail> call, Throwable t) {
+            public void onFailure(Call<PostModelDetail> call, Throwable t) {
                 Toast.makeText(context, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 load.setVisibility(View.GONE);
             }

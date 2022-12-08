@@ -3,7 +3,7 @@ package com.dippola.relaxtour.retrofit.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MainUpdateModel {
+public class PostUpdateModel {
 
     @SerializedName("title")
     @Expose

@@ -33,21 +33,58 @@
         app:layout_constraintWidth_percent="0.06" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/community_main_top_bar2"
+        android:id="@+id/community_main_tab_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/community_main_auth">
 
-        <Button
-            android:id="@+id/community_main_write_post1"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/community_main_tab1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="write post"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/community_main_tab2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingVertical="7dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="All Post" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/community_main_tab2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/community_main_tab3"
+            app:layout_constraintStart_toEndOf="@id/community_main_tab1"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Free" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/community_main_tab3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/community_main_tab2"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="QnA" />
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -57,7 +94,7 @@
         android:overScrollMode="never"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_main_top_bar2">
+        app:layout_constraintTop_toBottomOf="@+id/community_main_tab_box">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/community_main_scrollview"

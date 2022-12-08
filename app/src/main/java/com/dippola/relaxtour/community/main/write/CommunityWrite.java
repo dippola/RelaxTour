@@ -1,8 +1,6 @@
 package com.dippola.relaxtour.community.main.write;
 
-import android.app.Activity;
 import android.content.ClipData;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
@@ -35,18 +33,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.community.Test;
-import com.dippola.relaxtour.community.main.CommunityMain;
-import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.pages.item.FavListItem;
-import com.dippola.relaxtour.retrofit.RetrofitClient;
-import com.dippola.relaxtour.retrofit.model.MainModelDetail;
+import com.dippola.relaxtour.retrofit.model.PostModelDetail;
 import com.dippola.relaxtour.retrofit.model.UserModel;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -54,10 +44,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CommunityWrite extends AppCompatActivity {
 
@@ -179,7 +165,7 @@ public class CommunityWrite extends AppCompatActivity {
                     Toast.makeText(CommunityWrite.this, "Please enter a body", Toast.LENGTH_SHORT).show();
                 } else {
                     load.setVisibility(View.VISIBLE);
-                    MainModelDetail model = new MainModelDetail();
+                    PostModelDetail model = new PostModelDetail();
                     DatabaseHandler databaseHandler = new DatabaseHandler(CommunityWrite.this);
                     UserModel myProfile = databaseHandler.getUserModel();
                     model.setParent_user(myProfile.getId());

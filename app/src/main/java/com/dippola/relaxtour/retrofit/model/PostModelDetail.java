@@ -3,42 +3,46 @@ package com.dippola.relaxtour.retrofit.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MainModelView {
+public class PostModelDetail {
     @SerializedName("parent_id")
     @Expose
     private int parent_id;
-
     @SerializedName("parent_user")
     @Expose
     private int parent_user;
     @SerializedName("nickname")
     @Expose
     private String nickname;
-    @SerializedName("user_image")
+    @SerializedName("user_url")
     @Expose
-    private String user_image;
+    private String user_url;
+    @SerializedName("category")
+    @Expose
+    private String category;
     @SerializedName("date")
     @Expose
     private String date;
-
     @SerializedName("title")
     @Expose
     private String title;
+    @SerializedName("body")
+    @Expose
+    private String body;
     @SerializedName("imageurl")
     @Expose
     private String imageurl;
-    @SerializedName("imageurlcount")
-    @Expose
-    private int imageurlcount;
-    @SerializedName("commentcount")
-    @Expose
-    private int commentcount;
     @SerializedName("view")
     @Expose
     private int view;
     @SerializedName("like")
     @Expose
     private int like;
+    @SerializedName("list")
+    @Expose
+    private String list;
+    @SerializedName("commentcount")
+    @Expose
+    private int commentcount;
 
     public int getParent_id() {
         return parent_id;
@@ -54,6 +58,30 @@ public class MainModelView {
 
     public void setParent_user(int parent_user) {
         this.parent_user = parent_user;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getUser_url() {
+        return user_url;
+    }
+
+    public void setUser_url(String user_url) {
+        this.user_url = user_url;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getDate() {
@@ -72,36 +100,20 @@ public class MainModelView {
         this.title = title;
     }
 
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
     public String getImageurl() {
         return imageurl;
     }
 
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
-    }
-
-    public int getImageurlcount() {
-        return imageurlcount;
-    }
-
-    public void setImageurlcount(int imageurlcount) {
-        this.imageurlcount = imageurlcount;
-    }
-
-    public int getCommentcount() {
-        return commentcount;
-    }
-
-    public void setCommentcount(int commentcount) {
-        this.commentcount = commentcount;
-    }
-
-    public int getLike() {
-        return like;
-    }
-
-    public void setLike(int like) {
-        this.like = like;
     }
 
     public int getView() {
@@ -112,19 +124,27 @@ public class MainModelView {
         this.view = view;
     }
 
-    public String getNickname() {
-        return nickname;
+    public int getLike() {
+        return like;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setLike(int like) {
+        this.like = like;
     }
 
-    public String getUser_image() {
-        return user_image;
+    public String getList() {
+        return list;
     }
 
-    public void setUser_image(String user_image) {
-        this.user_image = user_image;
+    public void setList(String list) {
+        this.list = list;
+    }
+
+    public int getCommentcount() {
+        return commentcount;
+    }
+
+    public void setCommentcount(int commentcount) {
+        this.commentcount = commentcount;
     }
 }

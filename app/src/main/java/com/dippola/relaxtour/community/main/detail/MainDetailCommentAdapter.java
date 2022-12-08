@@ -2,7 +2,6 @@ package com.dippola.relaxtour.community.main.detail;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,23 +16,20 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
-import com.dippola.relaxtour.community.auth.CommunityAuth;
-import com.dippola.relaxtour.community.main.MainAdapter;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
-import com.dippola.relaxtour.retrofit.model.MainCommentModel;
+import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCommentAdapter.CustomViewHolder> {
-    List<MainCommentModel> list;
+    List<PostCommentModel> list;
     Context context;
 
-    public MainDetailCommentAdapter(List<MainCommentModel> list, Context context) {
+    public MainDetailCommentAdapter(List<PostCommentModel> list, Context context) {
         this.list = list;
         this.context = context;
     }

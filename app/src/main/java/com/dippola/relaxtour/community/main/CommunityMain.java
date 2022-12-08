@@ -36,7 +36,7 @@ import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.community.signIn.CommunitySignIn;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
-import com.dippola.relaxtour.retrofit.model.MainModelView;
+import com.dippola.relaxtour.retrofit.model.PostModelView;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -74,6 +74,10 @@ public class CommunityMain extends AppCompatActivity {
     private FloatingActionButton fabmain;
     private ConstraintLayout fab1, fab2;
 
+    //tab layout
+    private ConstraintLayout tabbox;
+    private RelativeLayout tab1, tab2, tab3;
+
     private RelativeLayout fbg;
 
     private MainAdapter adapter;
@@ -92,6 +96,7 @@ public class CommunityMain extends AppCompatActivity {
         databaseHandler = new DatabaseHandler(CommunityMain.this);
 
         setInit();
+        setOnClickTab();
         setRefresh();
         setImageAuthIcon();
         onClickAuth();
@@ -112,6 +117,11 @@ public class CommunityMain extends AppCompatActivity {
         pagebox = findViewById(R.id.community_main_page_box);
         pagebox.setVisibility(View.GONE);
 
+        tabbox = findViewById(R.id.community_main_tab_box);
+        tab1 = findViewById(R.id.community_main_tab1);
+        tab2 = findViewById(R.id.community_main_tab2);
+        tab3 = findViewById(R.id.community_main_tab3);
+
         fabmain = findViewById(R.id.community_main_fabmain);
         fab1 = findViewById(R.id.community_main_fab1);
         fab1.setVisibility(View.GONE);
@@ -119,6 +129,27 @@ public class CommunityMain extends AppCompatActivity {
         fab2.setVisibility(View.GONE);
         fbg = findViewById(R.id.community_main_floating_background);
         fbg.setVisibility(View.GONE);
+    }
+
+    private void setOnClickTab() {
+        tab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        tab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        tab3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void setRefresh() {
@@ -132,10 +163,10 @@ public class CommunityMain extends AppCompatActivity {
 
     private void startReflesh() {
         startLoad();
-        List<MainModelView> lists = new ArrayList<>();
-        RetrofitClient.getApiService().getMainPage(1).enqueue(new Callback<List<MainModelView>>() {
+        List<PostModelView> lists = new ArrayList<>();
+        RetrofitClient.getApiService().getMainPage("free", 1).enqueue(new Callback<List<PostModelView>>() {
             @Override
-            public void onResponse(Call<List<MainModelView>> call, Response<List<MainModelView>> response) {
+            public void onResponse(Call<List<PostModelView>> call, Response<List<PostModelView>> response) {
                 if (response.isSuccessful()) {
                     lists.addAll(response.body());
                     setRecyclerView(lists);
@@ -145,7 +176,7 @@ public class CommunityMain extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<MainModelView>> call, Throwable t) {
+            public void onFailure(Call<List<PostModelView>> call, Throwable t) {
 
             }
         });
@@ -429,10 +460,10 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void loadCommunity() {
-        List<MainModelView> lists = new ArrayList<>();
-        RetrofitClient.getApiService().getMainPage(1).enqueue(new Callback<List<MainModelView>>() {
+        List<PostModelView> lists = new ArrayList<>();
+        RetrofitClient.getApiService().getMainPage("free", 1).enqueue(new Callback<List<PostModelView>>() {
             @Override
-            public void onResponse(Call<List<MainModelView>> call, Response<List<MainModelView>> response) {
+            public void onResponse(Call<List<PostModelView>> call, Response<List<PostModelView>> response) {
                 if (response.isSuccessful()) {
                     lists.addAll(response.body());
                     setRecyclerView(lists);
@@ -441,13 +472,13 @@ public class CommunityMain extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<MainModelView>> call, Throwable t) {
+            public void onFailure(Call<List<PostModelView>> call, Throwable t) {
 
             }
         });
     }
 
-    private void setRecyclerView(List<MainModelView> lists) {
+    private void setRecyclerView(List<PostModelView> lists) {
         RequestOptions userr = new RequestOptions();
         userr.transform(new CircleCrop());
         RequestOptions imgr = new RequestOptions();

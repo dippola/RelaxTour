@@ -1,9 +1,9 @@
 package com.dippola.relaxtour.retrofit;
 
-import com.dippola.relaxtour.retrofit.model.MainCommentModel;
-import com.dippola.relaxtour.retrofit.model.MainModelDetail;
-import com.dippola.relaxtour.retrofit.model.MainModelView;
-import com.dippola.relaxtour.retrofit.model.MainUpdateModel;
+import com.dippola.relaxtour.retrofit.model.PostCommentModel;
+import com.dippola.relaxtour.retrofit.model.PostModelDetail;
+import com.dippola.relaxtour.retrofit.model.PostModelView;
+import com.dippola.relaxtour.retrofit.model.PostUpdateModel;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 
 import java.util.List;
@@ -48,27 +48,29 @@ public interface RetrofitInterface {
             @Path("email") String email
     );
 
-    @GET("posts/page={page}/")
-    Call<List<MainModelView>> getMainPage(
+
+    @GET("posts/category={category}/page={page}/")
+    Call<List<PostModelView>> getMainPage(
+            @Path("category") String category,
             @Path("page") int page
     );
 
 
     @GET("post/{pk}/")
-    Call<MainModelDetail> getMain(
+    Call<PostModelDetail> getMain(
             @Path("pk") int pk
     );
 
     @POST("post/create={id}/")
-    Call<MainModelDetail> createMain(
+    Call<PostModelDetail> createMain(
             @Path("id") int id,
-            @Body MainModelDetail mainModel
+            @Body PostModelDetail mainModel
     );
 
     @PUT("post/{pk}/update/")
-    Call<MainUpdateModel> updateMain(
+    Call<PostUpdateModel> updateMain(
             @Path("pk") int pk,
-            @Body MainUpdateModel mainModel
+            @Body PostUpdateModel mainModel
     );
 
     @DELETE("post/{pk}/delete/")
@@ -77,36 +79,22 @@ public interface RetrofitInterface {
     );
 
     @POST("post/{pk}/comment/create={id}/")
-    Call<MainCommentModel> createComment(
+    Call<PostCommentModel> createComment(
             @Path("pk") int pk,
             @Path("id") int id,
-            @Body MainCommentModel mainCommentModel
+            @Body PostCommentModel postCommentModel
     );
 
     @GET("post/{pk}/comments/page={page}/")
-    Call<List<MainCommentModel>> getMainComment(
+    Call<List<PostCommentModel>> getMainComment(
             @Path("pk") int pk,
             @Path("page") int page
     );
 
     @GET("post/{pk}/comments/more={lastid}/")
-    Call<List<MainCommentModel>> getMainCommentMore(
+    Call<List<PostCommentModel>> getMainCommentMore(
             @Path("pk") int pk,
             @Path("lastid") int lastid
     );
 
-//    @GET("post/{pk}/comments/")
-//    Call<List<MainCommentModel>> getMainAllComment(
-//            @Path("pk") int pk
-//    );
-//
-//    @PUT("post/comment/update={id}/")
-//    Call<MainCommentUpdateModel> updateComment(
-//            @Path("id") int id,
-//            @Body MainCommentUpdateModel mainCommentModel
-//    );
-//    @DELETE("post/comment/delete={id}/")
-//    Call<String> deleteComment(
-//            @Path("id") int id
-//    );
 }

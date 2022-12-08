@@ -3,7 +3,7 @@ package com.dippola.relaxtour.retrofit.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MainCommentModel {
+public class PostCommentModel {
     @SerializedName("id")
     @Expose
     private int id;
