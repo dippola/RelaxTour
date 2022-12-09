@@ -58,6 +58,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.MainViewHolder holder, int position) {
         int i = position;
+
+        if (arrayList.get(i).getCategory().equals("qna")) {
+            holder.textq.setVisibility(View.VISIBLE);
+        }
+
         if (arrayList.get(i).getUser_image() == null || arrayList.get(i).getUser_image().length() == 0) {
             holder.userimageload.setVisibility(View.GONE);
             Glide.with(holder.userImage.getContext()).load(context.getResources().getDrawable(R.drawable.nullpic)).apply(userr).into(holder.userImage);
@@ -134,7 +139,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
 
     public class MainViewHolder extends RecyclerView.ViewHolder {
         ImageView userImage, firstimg;
-        TextView title, date, view, nickname, like, commentcount, imageurlcount;
+        TextView title, date, view, nickname, like, commentcount, imageurlcount, textq;
         ConstraintLayout item, imageurllayout;
         ProgressBar imgload, userimageload;
 
@@ -153,6 +158,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             this.imageurllayout = itemView.findViewById(R.id.community_main_item_imageurlcount_layout);
             this.imgload = itemView.findViewById(R.id.community_main_item_img_load);
             this.userimageload = itemView.findViewById(R.id.community_main_item_userimageload);
+            this.textq = itemView.findViewById(R.id.community_main_item_q);
         }
     }
 

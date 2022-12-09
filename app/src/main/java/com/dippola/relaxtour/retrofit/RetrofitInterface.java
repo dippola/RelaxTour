@@ -48,9 +48,13 @@ public interface RetrofitInterface {
             @Path("email") String email
     );
 
+    @GET("posts/page={page}/")
+    Call<List<PostModelView>> getMainPageAll(
+            @Path("page") int page
+    );
 
     @GET("posts/category={category}/page={page}/")
-    Call<List<PostModelView>> getMainPage(
+    Call<List<PostModelView>> getMainPageCategory(
             @Path("category") String category,
             @Path("page") int page
     );

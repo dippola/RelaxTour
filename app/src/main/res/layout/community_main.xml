@@ -39,52 +39,143 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/community_main_auth">
 
-        <RelativeLayout
-            android:id="@+id/community_main_tab1"
-            android:layout_width="0dp"
+        <!--        <RelativeLayout-->
+        <!--            android:id="@+id/community_main_tab1"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintEnd_toStartOf="@+id/community_main_tab2"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            android:paddingVertical="7dp">-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_centerInParent="true"-->
+        <!--                android:text="All Post" />-->
+
+        <!--        </RelativeLayout>-->
+
+        <!--        <RelativeLayout-->
+        <!--            android:id="@+id/community_main_tab2"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintEnd_toStartOf="@id/community_main_tab3"-->
+        <!--            app:layout_constraintStart_toEndOf="@id/community_main_tab1"-->
+        <!--            app:layout_constraintTop_toTopOf="parent">-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_centerInParent="true"-->
+        <!--                android:text="Free" />-->
+        <!--        </RelativeLayout>-->
+
+        <!--        <RelativeLayout-->
+        <!--            android:id="@+id/community_main_tab3"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toEndOf="@id/community_main_tab2"-->
+        <!--            app:layout_constraintTop_toTopOf="parent">-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_centerInParent="true"-->
+        <!--                android:text="QnA" />-->
+        <!--        </RelativeLayout>-->
+        <RadioGroup
+            android:id="@+id/community_main_tab_group"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/community_main_tab2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:paddingVertical="7dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="All Post" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/community_main_tab2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/community_main_tab3"
-            app:layout_constraintStart_toEndOf="@id/community_main_tab1"
+            android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Free" />
-        </RelativeLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:id="@+id/community_main_tab3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/community_main_tab2"
-            app:layout_constraintTop_toTopOf="parent">
+                <ImageView
+                    android:id="@+id/community_main_tab1bg"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/community_radio_checked"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/community_main_tab1"
+                    app:layout_constraintEnd_toEndOf="@+id/community_main_tab1"
+                    app:layout_constraintStart_toStartOf="@+id/community_main_tab1"
+                    app:layout_constraintTop_toTopOf="@+id/community_main_tab1" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="QnA" />
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/community_main_tab2bg"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/community_radio_checked"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/community_main_tab2"
+                    app:layout_constraintEnd_toEndOf="@+id/community_main_tab2"
+                    app:layout_constraintStart_toStartOf="@+id/community_main_tab2"
+                    app:layout_constraintTop_toTopOf="@+id/community_main_tab2" />
+
+                <ImageView
+                    android:id="@+id/community_main_tab3bg"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/community_radio_checked"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/community_main_tab3"
+                    app:layout_constraintEnd_toEndOf="@+id/community_main_tab3"
+                    app:layout_constraintStart_toStartOf="@+id/community_main_tab3"
+                    app:layout_constraintTop_toTopOf="@+id/community_main_tab3" />
+
+                <RadioButton
+                    android:id="@+id/community_main_tab1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/community_radio_unchecked"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
+                    android:paddingVertical="10dp"
+                    android:text="All Post"
+                    android:textColor="@color/tab_text_unchecked_color"
+                    app:layout_constraintEnd_toStartOf="@id/community_main_tab2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioButton
+                    android:id="@+id/community_main_tab2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/community_radio_unchecked"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
+                    android:paddingVertical="10dp"
+                    android:text="Free"
+                    android:textColor="@color/tab_text_unchecked_color"
+                    app:layout_constraintEnd_toStartOf="@id/community_main_tab3"
+                    app:layout_constraintStart_toEndOf="@id/community_main_tab1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioButton
+                    android:id="@+id/community_main_tab3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/community_radio_unchecked"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
+                    android:paddingVertical="10dp"
+                    android:text="QnA"
+                    android:textColor="@color/tab_text_unchecked_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/community_main_tab2"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </RadioGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

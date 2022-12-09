@@ -99,4 +99,7 @@
     <color name="shimmer_color">#C8C8C8</color>
 
     <color name="one_tone_background_color">#F9FDFF</color>
+
+    <color name="tab_text_unchecked_color">#275783</color>
+    <color name="tab_text_checked_color">#F9FDFF</color>
 </resources>

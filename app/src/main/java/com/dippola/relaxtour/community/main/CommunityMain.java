@@ -6,10 +6,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -20,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -63,6 +66,8 @@ import retrofit2.Response;
 
 public class CommunityMain extends AppCompatActivity {
 
+    List<PostModelView> lists = new ArrayList<>();
+
     private DatabaseHandler databaseHandler;
     private FirebaseAuth auth;
     private SwipeRefreshLayout refresh;
@@ -76,7 +81,9 @@ public class CommunityMain extends AppCompatActivity {
 
     //tab layout
     private ConstraintLayout tabbox;
-    private RelativeLayout tab1, tab2, tab3;
+    private RadioGroup tabGroup;
+    private RadioButton tab1, tab2, tab3;
+    private ImageView tab1bg, tab2bg, tab3bg;
 
     private RelativeLayout fbg;
 
@@ -100,7 +107,7 @@ public class CommunityMain extends AppCompatActivity {
         setRefresh();
         setImageAuthIcon();
         onClickAuth();
-        loadCommunity();
+        loadCommunityAll(1);
         Animation show = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.fab_open);
         Animation close = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.fab_close);
         onClickFloating(show, close);
@@ -118,9 +125,16 @@ public class CommunityMain extends AppCompatActivity {
         pagebox.setVisibility(View.GONE);
 
         tabbox = findViewById(R.id.community_main_tab_box);
+        tabGroup = findViewById(R.id.community_main_tab_group);
         tab1 = findViewById(R.id.community_main_tab1);
+        tab1.setChecked(true);
+        tab1.setTextColor(ContextCompat.getColor(CommunityMain.this, R.color.tab_text_checked_color));
         tab2 = findViewById(R.id.community_main_tab2);
         tab3 = findViewById(R.id.community_main_tab3);
+        tab1bg = findViewById(R.id.community_main_tab1bg);
+        tab1bg.setVisibility(View.VISIBLE);
+        tab2bg = findViewById(R.id.community_main_tab2bg);
+        tab3bg = findViewById(R.id.community_main_tab3bg);
 
         fabmain = findViewById(R.id.community_main_fabmain);
         fab1 = findViewById(R.id.community_main_fab1);
@@ -132,22 +146,163 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void setOnClickTab() {
-        tab1.setOnClickListener(new View.OnClickListener() {
+        Animation show1 = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.tab_anim_1);
+        Animation hide1 = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.tab_anim_2);
+        Animation show2 = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.tab_anim_1);
+        Animation hide2 = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.tab_anim_2);
+        Animation show3 = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.tab_anim_1);
+        Animation hide3 = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.tab_anim_2);
+        show1.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onClick(View view) {
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                tab1bg.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
 
             }
         });
-        tab2.setOnClickListener(new View.OnClickListener() {
+        hide1.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onClick(View view) {
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                tab1bg.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
 
             }
         });
-        tab3.setOnClickListener(new View.OnClickListener() {
+        show2.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onClick(View view) {
+            public void onAnimationStart(Animation animation) {
 
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                tab2bg.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        hide2.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                tab2bg.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        show3.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                tab3bg.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        hide3.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                tab3bg.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        tab1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    if (tab2.isChecked()) {
+                        tab2.setChecked(false);
+                    } else if (tab3.isChecked()) {
+                        tab3.setChecked(false);
+                    }
+                    tab1.setTextColor(ContextCompat.getColor(CommunityMain.this, R.color.tab_text_checked_color));
+                    tab1bg.startAnimation(show1);
+                    startLoad();
+                    loadCommunityAll(1);
+                } else {
+                    tab1.setTextColor(ContextCompat.getColor(CommunityMain.this, R.color.tab_text_unchecked_color));
+                    tab1bg.startAnimation(hide1);
+                }
+            }
+        });
+        tab2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    if (tab1.isChecked()) {
+                        tab1.setChecked(false);
+                    } else if (tab3.isChecked()) {
+                        tab3.setChecked(false);
+                    }
+                    tab2.setTextColor(ContextCompat.getColor(CommunityMain.this, R.color.tab_text_checked_color));
+                    tab2bg.startAnimation(show2);
+                    startLoad();
+                    loadCommunityCategory(1, "free");
+                } else {
+                    tab2.setTextColor(ContextCompat.getColor(CommunityMain.this, R.color.tab_text_unchecked_color));
+                    tab2bg.startAnimation(hide2);
+                }
+            }
+        });
+        tab3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    if (tab1.isChecked()) {
+                        tab1.setChecked(false);
+                    } else if (tab2.isChecked()) {
+                        tab2.setChecked(false);
+                    }
+                    tab3.setTextColor(ContextCompat.getColor(CommunityMain.this, R.color.tab_text_checked_color));
+                    tab3bg.startAnimation(show3);
+                    startLoad();
+                    loadCommunityCategory(1, "qna");
+                } else {
+                    tab3.setTextColor(ContextCompat.getColor(CommunityMain.this, R.color.tab_text_unchecked_color));
+                    tab3bg.startAnimation(hide3);
+                }
             }
         });
     }
@@ -164,7 +319,7 @@ public class CommunityMain extends AppCompatActivity {
     private void startReflesh() {
         startLoad();
         List<PostModelView> lists = new ArrayList<>();
-        RetrofitClient.getApiService().getMainPage("free", 1).enqueue(new Callback<List<PostModelView>>() {
+        RetrofitClient.getApiService().getMainPageCategory("free", 1).enqueue(new Callback<List<PostModelView>>() {
             @Override
             public void onResponse(Call<List<PostModelView>> call, Response<List<PostModelView>> response) {
                 if (response.isSuccessful()) {
@@ -234,7 +389,9 @@ public class CommunityMain extends AppCompatActivity {
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launcher.launch(new Intent(CommunityMain.this, CommunityWrite.class));
+                Intent intent = new Intent(CommunityMain.this, CommunityWrite.class);
+                intent.putExtra("category", "free");
+                launcher.launch(intent);
                 fab1.startAnimation(close);
                 fab2.startAnimation(close);
                 fbg.setVisibility(View.GONE);
@@ -243,6 +400,9 @@ public class CommunityMain extends AppCompatActivity {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(CommunityMain.this, CommunityWrite.class);
+                intent.putExtra("category", "qna");
+                launcher.launch(intent);
                 fab1.startAnimation(close);
                 fab2.startAnimation(close);
                 fbg.setVisibility(View.GONE);
@@ -459,9 +619,27 @@ public class CommunityMain extends AppCompatActivity {
         }
     }
 
-    private void loadCommunity() {
-        List<PostModelView> lists = new ArrayList<>();
-        RetrofitClient.getApiService().getMainPage("free", 1).enqueue(new Callback<List<PostModelView>>() {
+    private void loadCommunityAll(int page) {
+        lists.clear();
+        RetrofitClient.getApiService().getMainPageAll(page).enqueue(new Callback<List<PostModelView>>() {
+            @Override
+            public void onResponse(Call<List<PostModelView>> call, Response<List<PostModelView>> response) {
+                if (response.isSuccessful()) {
+                    lists.addAll(response.body());
+                    setRecyclerView(lists);
+                    finishedLoad();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PostModelView>> call, Throwable t) {
+
+            }
+        });
+    }
+    private void loadCommunityCategory(int page, String category) {
+        lists.clear();
+        RetrofitClient.getApiService().getMainPageCategory(category, page).enqueue(new Callback<List<PostModelView>>() {
             @Override
             public void onResponse(Call<List<PostModelView>> call, Response<List<PostModelView>> response) {
                 if (response.isSuccessful()) {

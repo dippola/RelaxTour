@@ -53,7 +53,8 @@ public class CommunityWrite extends AppCompatActivity {
     private NestedScrollView scrollView;
     private Button goback, ok, addshare;
     private EditText title, body;
-    private ConstraintLayout addimg;
+    private ConstraintLayout addimg, listbox;
+    private View line5;
     private TextView bottomtext;
     public static TextView imagecount;
     private RecyclerView recyclerView;
@@ -83,11 +84,13 @@ public class CommunityWrite extends AppCompatActivity {
         int y = (int)(size.y * 0.3);
         int x = (int)(size.x * 0.2);
 
-        setInit(y, x);
+        String category = getIntent().getStringExtra("category");
+
+        setInit(y, x, category);
         setInitShareList();
     }
 
-    private void setInit(int y, int x) {
+    private void setInit(int y, int x, String category) {
         load = findViewById(R.id.community_write_load);
         loadtext = findViewById(R.id.community_write_load_text);
         scrollView = findViewById(R.id.community_write_scrollview);
@@ -101,6 +104,16 @@ public class CommunityWrite extends AppCompatActivity {
         onClickAddShare();
         addimg = findViewById(R.id.community_write_addimg);
         onClickAddImg();
+        listbox = findViewById(R.id.community_write_playlist_box);
+        line5 = findViewById(R.id.community_write_line5);
+        if (!category.equals("free")) {
+            listbox.setVisibility(View.GONE);
+            line5.setVisibility(View.GONE);
+            body.setHint("Ask questions about meditation. Let's solve the problem with members of the Relax Tour.");
+        } else {
+            body.setHint("It's a space where you can tell all the stories about meditation. share your meditation story.");
+        }
+
         imagecount = findViewById(R.id.community_write_imgcount);
         recyclerView = findViewById(R.id.community_write_recyclerview);
         bottomtext = findViewById(R.id.community_write_bottom_text);
@@ -171,6 +184,7 @@ public class CommunityWrite extends AppCompatActivity {
                     model.setParent_user(myProfile.getId());
                     model.setNickname(myProfile.getNickname());
                     model.setUser_url(myProfile.getImageurl());
+                    model.setCategory(getIntent().getStringExtra("category"));
                     model.setTitle(title.getText().toString());
                     model.setBody(body.getText().toString());
                     String rd = "";

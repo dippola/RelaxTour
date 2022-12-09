@@ -103,7 +103,6 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#00000000"
                 android:gravity="start"
-                android:hint="It's a space where you can tell all the stories about meditation. share your meditation story."
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="15dp"
                 android:textCursorDrawable="@drawable/edittext_cursor"

@@ -46,10 +46,22 @@
                 app:layout_constraintEnd_toEndOf="@+id/community_main_item_userimage"/>
 
             <TextView
+                android:id="@+id/community_main_item_q"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Q"
+                android:layout_marginStart="7dp"
+                android:textStyle="bold"
+                android:textColor="@color/button_design_color"
+                app:layout_constraintStart_toEndOf="@+id/community_main_item_userimage"
+                app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage"
+                android:visibility="gone"/>
+
+            <TextView
                 android:id="@+id/community_main_item_title"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="7dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginEnd="7dp"
                 android:ellipsize="end"
                 android:maxLines="2"
@@ -57,7 +69,7 @@
                 android:textSize="14dp"
                 app:layout_constraintBottom_toBottomOf="@+id/community_main_item_userimage"
                 app:layout_constraintEnd_toStartOf="@+id/community_main_item_imageurlcount_layout"
-                app:layout_constraintStart_toEndOf="@+id/community_main_item_userimage"
+                app:layout_constraintStart_toEndOf="@+id/community_main_item_q"
                 app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
