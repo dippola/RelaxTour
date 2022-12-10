@@ -320,22 +320,58 @@ public class CommunityMain extends AppCompatActivity {
     private void startReflesh() {
         startLoad();
         List<PostModelView> lists = new ArrayList<>();
-        RetrofitClient.getApiService().getMainPageCategory("free", 1).enqueue(new Callback<PostsViewWitPages>() {
-            @Override
-            public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
-                if (response.isSuccessful()) {
-                    lists.addAll(response.body().getPosts());
-                    setRecyclerView(lists);
-                    finishedLoad();
-                    refresh.setRefreshing(false);
+        if (tab1.isChecked()) {
+            RetrofitClient.getApiService().getMainPageAll(1).enqueue(new Callback<PostsViewWitPages>() {
+                @Override
+                public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
+                    if (response.isSuccessful()) {
+                        lists.addAll(response.body().getPosts());
+                        setRecyclerView(lists);
+                        finishedLoad();
+                        refresh.setRefreshing(false);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
+                @Override
+                public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        } else if (tab2.isChecked()) {
+            RetrofitClient.getApiService().getMainPageCategory("free", 1).enqueue(new Callback<PostsViewWitPages>() {
+                @Override
+                public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
+                    if (response.isSuccessful()) {
+                        lists.addAll(response.body().getPosts());
+                        setRecyclerView(lists);
+                        finishedLoad();
+                        refresh.setRefreshing(false);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
+
+                }
+            });
+        } else if (tab3.isChecked()) {
+            RetrofitClient.getApiService().getMainPageCategory("qna", 1).enqueue(new Callback<PostsViewWitPages>() {
+                @Override
+                public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
+                    if (response.isSuccessful()) {
+                        lists.addAll(response.body().getPosts());
+                        setRecyclerView(lists);
+                        finishedLoad();
+                        refresh.setRefreshing(false);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     private void onClickFloating(Animation show, Animation close) {

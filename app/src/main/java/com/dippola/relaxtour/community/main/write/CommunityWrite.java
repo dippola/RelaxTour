@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -172,6 +173,7 @@ public class CommunityWrite extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard(view);
                 if (title.getText().toString().length() == 0) {
                     Toast.makeText(CommunityWrite.this, "Please enter a title", Toast.LENGTH_SHORT).show();
                 } else if (body.getText().toString().length() == 0) {
@@ -418,5 +420,10 @@ public class CommunityWrite extends AppCompatActivity {
         if (load.getVisibility() == View.GONE) {
             super.onBackPressed();
         }
+    }
+
+    private void hideKeyboard(View v) {
+        InputMethodManager manager = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

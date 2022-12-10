@@ -120,6 +120,7 @@ public class UploadService extends Service {
                 });
             }
         } else {
+            model.setImageurl("");
             uploadToDjango(activity, context, myid, model, load, loadtext);
         }
     }
@@ -158,6 +159,8 @@ public class UploadService extends Service {
 
             @Override
             public void onFailure(Call<PostModelDetail> call, Throwable t) {
+                Intent intent1 = new Intent(context, UploadService.class);
+                context.stopService(intent1);
                 Toast.makeText(context, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 load.setVisibility(View.GONE);
             }
