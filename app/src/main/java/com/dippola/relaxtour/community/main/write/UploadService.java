@@ -137,7 +137,7 @@ public class UploadService extends Service {
 
     public static void uploadToDjango(Activity activity, Context context, int id, PostModelDetail model, RelativeLayout load, TextView loadtext) {
         loadtext.setText("Post Uploading...");
-        RetrofitClient.getApiService().createMain(id, model).enqueue(new Callback<PostModelDetail>() {
+        RetrofitClient.getApiService().createPost(id, model).enqueue(new Callback<PostModelDetail>() {
             @Override
             public void onResponse(Call<PostModelDetail> call, Response<PostModelDetail> response) {
                 if (response.isSuccessful()) {

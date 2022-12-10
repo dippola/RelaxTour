@@ -40,6 +40,7 @@ import com.dippola.relaxtour.community.signIn.CommunitySignIn;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.PostModelView;
+import com.dippola.relaxtour.retrofit.model.PostsViewWitPages;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -319,11 +320,11 @@ public class CommunityMain extends AppCompatActivity {
     private void startReflesh() {
         startLoad();
         List<PostModelView> lists = new ArrayList<>();
-        RetrofitClient.getApiService().getMainPageCategory("free", 1).enqueue(new Callback<List<PostModelView>>() {
+        RetrofitClient.getApiService().getMainPageCategory("free", 1).enqueue(new Callback<PostsViewWitPages>() {
             @Override
-            public void onResponse(Call<List<PostModelView>> call, Response<List<PostModelView>> response) {
+            public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
-                    lists.addAll(response.body());
+                    lists.addAll(response.body().getPosts());
                     setRecyclerView(lists);
                     finishedLoad();
                     refresh.setRefreshing(false);
@@ -331,7 +332,7 @@ public class CommunityMain extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<PostModelView>> call, Throwable t) {
+            public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
 
             }
         });
@@ -621,36 +622,36 @@ public class CommunityMain extends AppCompatActivity {
 
     private void loadCommunityAll(int page) {
         lists.clear();
-        RetrofitClient.getApiService().getMainPageAll(page).enqueue(new Callback<List<PostModelView>>() {
+        RetrofitClient.getApiService().getMainPageAll(page).enqueue(new Callback<PostsViewWitPages>() {
             @Override
-            public void onResponse(Call<List<PostModelView>> call, Response<List<PostModelView>> response) {
+            public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
-                    lists.addAll(response.body());
+                    lists.addAll(response.body().getPosts());
                     setRecyclerView(lists);
                     finishedLoad();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<PostModelView>> call, Throwable t) {
+            public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
 
             }
         });
     }
     private void loadCommunityCategory(int page, String category) {
         lists.clear();
-        RetrofitClient.getApiService().getMainPageCategory(category, page).enqueue(new Callback<List<PostModelView>>() {
+        RetrofitClient.getApiService().getMainPageCategory(category, page).enqueue(new Callback<PostsViewWitPages>() {
             @Override
-            public void onResponse(Call<List<PostModelView>> call, Response<List<PostModelView>> response) {
+            public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
-                    lists.addAll(response.body());
+                    lists.addAll(response.body().getPosts());
                     setRecyclerView(lists);
                     finishedLoad();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<PostModelView>> call, Throwable t) {
+            public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
 
             }
         });

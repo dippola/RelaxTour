@@ -43,6 +43,7 @@ import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
+import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -88,7 +89,7 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     public static int towhoid;
 
-    private PostModelDetail model = new PostModelDetail();
+    private PostModelDetail postModel = new PostModelDetail();
 
     private MainDetailCommentAdapter adapter;
 
@@ -293,17 +294,19 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void resetComments() {
-        RetrofitClient.getApiService().getMain(id).enqueue(new Callback<PostModelDetail>() {
+        RetrofitClient.getApiService().getPostAllComments(id).enqueue(new Callback<List<PostCommentModel>>() {
             @Override
-            public void onResponse(Call<PostModelDetail> call, Response<PostModelDetail> response) {
+            public void onResponse(Call<List<PostCommentModel>> call, Response<List<PostCommentModel>> response) {
                 if (response.isSuccessful()) {
-                    model = response.body();
+                    commentModelList.clear();
+                    commentModelList = response.body();
+                    setComment(commentModelList.size(), "refresh");
                     scrollDown();
                 }
             }
 
             @Override
-            public void onFailure(Call<PostModelDetail> call, Throwable t) {
+            public void onFailure(Call<List<PostCommentModel>> call, Throwable t) {
 
             }
         });
@@ -351,31 +354,19 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void getData(String from) {
-        RetrofitClient.getApiService().getMain(id).enqueue(new Callback<PostModelDetail>() {
+        RetrofitClient.getApiService().getPost(id).enqueue(new Callback<PostDetailWithComments>() {
             @Override
-            public void onResponse(Call<PostModelDetail> call, Response<PostModelDetail> response) {
+            public void onResponse(Call<PostDetailWithComments> call, Response<PostDetailWithComments> response) {
                 if (response.isSuccessful()) {
-                    model = response.body();
-                    setData(model);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PostModelDetail> call, Throwable t) {
-
-            }
-        });
-        RetrofitClient.getApiService().getMainComment(id, 1).enqueue(new Callback<List<PostCommentModel>>() {
-            @Override
-            public void onResponse(Call<List<PostCommentModel>> call, Response<List<PostCommentModel>> response) {
-                if (response.isSuccessful()) {
-                    commentModelList = response.body();
+                    postModel = response.body().getPost();
+                    commentModelList = response.body().getComments();
+                    setData(postModel);
                     setComment(commentModelList.size(), from);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<PostCommentModel>> call, Throwable t) {
+            public void onFailure(Call<PostDetailWithComments> call, Throwable t) {
 
             }
         });

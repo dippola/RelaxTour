@@ -1,9 +1,10 @@
 package com.dippola.relaxtour.retrofit;
 
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
+import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
-import com.dippola.relaxtour.retrofit.model.PostModelView;
 import com.dippola.relaxtour.retrofit.model.PostUpdateModel;
+import com.dippola.relaxtour.retrofit.model.PostsViewWitPages;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 
 import java.util.List;
@@ -48,25 +49,26 @@ public interface RetrofitInterface {
             @Path("email") String email
     );
 
+
+
     @GET("posts/page={page}/")
-    Call<List<PostModelView>> getMainPageAll(
+    Call<PostsViewWitPages> getMainPageAll(
             @Path("page") int page
     );
 
     @GET("posts/category={category}/page={page}/")
-    Call<List<PostModelView>> getMainPageCategory(
+    Call<PostsViewWitPages> getMainPageCategory(
             @Path("category") String category,
             @Path("page") int page
     );
 
-
     @GET("post/{pk}/")
-    Call<PostModelDetail> getMain(
+    Call<PostDetailWithComments> getPost(
             @Path("pk") int pk
     );
 
     @POST("post/create={id}/")
-    Call<PostModelDetail> createMain(
+    Call<PostModelDetail> createPost(
             @Path("id") int id,
             @Body PostModelDetail mainModel
     );
@@ -93,6 +95,11 @@ public interface RetrofitInterface {
     Call<List<PostCommentModel>> getMainComment(
             @Path("pk") int pk,
             @Path("page") int page
+    );
+
+    @GET("post/{pk}/comments/")
+    Call<List<PostCommentModel>> getPostAllComments(
+            @Path("pk") int pk
     );
 
     @GET("post/{pk}/comments/more={lastid}/")
