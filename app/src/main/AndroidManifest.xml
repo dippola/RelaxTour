@@ -55,6 +55,7 @@
         <activity android:name=".community.auth.CommunityAskDeleteAccountDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".community.signIn.CommunitySignInAnotherProviderDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".community.ImageViewer" android:screenOrientation="portrait" />
+        <activity android:name=".community.main.detail.DetailImageViewer" android:screenOrientation="portrait" />
         <activity android:name=".community.auth.CommunityAuthResetPasswordDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".community.main.detail.CommunityMainDetail" android:screenOrientation="portrait"/>
         <service android:name=".community.main.write.UploadService"/>

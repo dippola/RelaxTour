@@ -1,5 +1,6 @@
 package com.dippola.relaxtour.community.main.detail;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -47,8 +48,14 @@ import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,6 +66,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     private int id;
 
     private List<PostCommentModel> commentModelList = new ArrayList<>();
+    public static List<String> imageList = new ArrayList<>();
 
     private ShimmerFrameLayout topMiddleLoad, bottomLoad;
     private ConstraintLayout topFinish, middleFinish, bottomFinish, commentLayout;
@@ -193,6 +201,145 @@ public class CommunityMainDetail extends AppCompatActivity {
         imgload5_3 = findViewById(R.id.community_detail_image_load_5_3);
         imgload5_4 = findViewById(R.id.community_detail_image_load_5_4);
         imgload5_5 = findViewById(R.id.community_detail_image_load_5_5);
+        imgSetOnClick();
+    }
+
+    private void imgSetOnClick() {
+        img1_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img1_1));
+                intent.putExtra("clickposition", getClickImagePosition(img1_1));
+                startActivity(intent);
+            }
+        });
+        img2_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img2_1));
+                intent.putExtra("clickposition", getClickImagePosition(img2_1));
+                startActivity(intent);
+            }
+        });
+        img2_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img2_2));
+                intent.putExtra("clickposition", getClickImagePosition(img2_2));
+                startActivity(intent);
+            }
+        });
+        img3_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img3_1));
+                intent.putExtra("clickposition", getClickImagePosition(img3_1));
+                startActivity(intent);
+            }
+        });
+        img3_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img3_2));
+                intent.putExtra("clickposition", getClickImagePosition(img3_2));
+                startActivity(intent);
+            }
+        });
+        img3_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img3_3));
+                intent.putExtra("clickposition", getClickImagePosition(img3_3));
+                startActivity(intent);
+            }
+        });
+        img4_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img4_1));
+                intent.putExtra("clickposition", getClickImagePosition(img4_1));
+                startActivity(intent);
+            }
+        });
+        img4_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img4_2));
+                intent.putExtra("clickposition", getClickImagePosition(img4_2));
+                startActivity(intent);
+            }
+        });
+        img4_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img4_3));
+                intent.putExtra("clickposition", getClickImagePosition(img4_3));
+                startActivity(intent);
+            }
+        });
+        img4_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img4_4));
+                intent.putExtra("clickposition", getClickImagePosition(img4_4));
+                startActivity(intent);
+            }
+        });
+        img5_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img5_1));
+                intent.putExtra("clickposition", getClickImagePosition(img5_1));
+                startActivity(intent);
+            }
+        });
+        img5_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img5_2));
+                intent.putExtra("clickposition", getClickImagePosition(img5_2));
+                startActivity(intent);
+            }
+        });
+        img5_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img5_3));
+                intent.putExtra("clickposition", getClickImagePosition(img5_3));
+                startActivity(intent);
+            }
+        });
+        img5_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img5_4));
+                intent.putExtra("clickposition", getClickImagePosition(img5_4));
+                startActivity(intent);
+            }
+        });
+        img5_5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, DetailImageViewer.class);
+                intent.putExtra("imagecount", getImageCount(img5_5));
+                intent.putExtra("clickposition", getClickImagePosition(img5_5));
+                startActivity(intent);
+            }
+        });
     }
 
     private void onClickViewMore() {
@@ -373,6 +520,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void setData(PostModelDetail model) {
+        imageList.clear();
         if (String.valueOf(model.getList()).length() != 0) {
             setList(model.getList());
         }
@@ -383,10 +531,14 @@ public class CommunityMainDetail extends AppCompatActivity {
             Glide.with(CommunityMainDetail.this).load(R.drawable.nullpic).transform(new CircleCrop()).into(userimg);
         }
         if (!String.valueOf(model.getImageurl()).equals("")) {
-            setImages(String.valueOf(model.getImageurl()));
+            String[] imgsplit = String.valueOf(model.getImageurl()).split("●");
+            Log.d("MainDetail>>>", "size1: " + imgsplit.length);
+            imageList.addAll(Arrays.asList(imgsplit).subList(1, imgsplit.length));
+            setImages(imageList);
         }
         nickname.setText(model.getNickname());
         viewcount.setText(String.valueOf(model.getView()));
+        date.setText(getDateResult(String.valueOf(model.getDate())));
         body.setText(model.getBody());
         likecount.setText(String.valueOf(model.getLike()));
         topFinish.setVisibility(View.VISIBLE);
@@ -395,13 +547,12 @@ public class CommunityMainDetail extends AppCompatActivity {
         commentcount.setText(String.valueOf(model.getCommentcount()));
     }
 
-    private void setImages(String images) {
-        String image[] = images.split("●");
+    private void setImages(List<String> images) {
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.transform(new CenterCrop(), new RoundedCorners(40));
-        if (image.length == 2) {
+        if (images.size() == 1) {
             img1.setVisibility(View.VISIBLE);
-            Glide.with(img1_1).load(image[1]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img1_1).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -413,9 +564,9 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img1_1);
-        } else if (image.length == 3) {
+        } else if (images.size() == 2) {
             img2.setVisibility(View.VISIBLE);
-            Glide.with(img2_1).load(image[1]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img2_1).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -427,7 +578,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img2_1);
-            Glide.with(img2_2).load(image[2]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img2_2).load(images.get(1)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -439,9 +590,9 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img2_2);
-        } else if (image.length == 4) {
+        } else if (images.size() == 3) {
             img3.setVisibility(View.VISIBLE);
-            Glide.with(img3_1).load(image[1]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img3_1).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -453,7 +604,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img3_1);
-            Glide.with(img3_2).load(image[2]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img3_2).load(images.get(1)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -465,7 +616,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img3_2);
-            Glide.with(img3_3).load(image[3]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img3_3).load(images.get(2)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -477,9 +628,9 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img3_3);
-        } else if (image.length == 5) {
+        } else if (images.size() == 4) {
             img4.setVisibility(View.VISIBLE);
-            Glide.with(img4_1).load(image[1]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img4_1).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -491,7 +642,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img4_1);
-            Glide.with(img4_2).load(image[2]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img4_2).load(images.get(1)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -503,7 +654,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img4_2);
-            Glide.with(img4_3).load(image[3]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img4_3).load(images.get(2)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -515,7 +666,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img4_3);
-            Glide.with(img4_4).load(image[4]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img4_4).load(images.get(3)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -527,9 +678,9 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img4_4);
-        } else if (image.length == 6) {
+        } else if (images.size() == 5) {
             img5.setVisibility(View.VISIBLE);
-            Glide.with(img5_1).load(image[1]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img5_1).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -541,7 +692,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img5_1);
-            Glide.with(img5_2).load(image[2]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img5_2).load(images.get(1)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -553,7 +704,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img5_2);
-            Glide.with(img5_3).load(image[3]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img5_3).load(images.get(2)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -565,7 +716,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img5_3);
-            Glide.with(img5_4).load(image[4]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img5_4).load(images.get(3)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -577,7 +728,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img5_4);
-            Glide.with(img5_5).load(image[5]).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(img5_5).load(images.get(4)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -732,5 +883,71 @@ public class CommunityMainDetail extends AppCompatActivity {
         // Collapse speed of 1dp/ms
         a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
+    }
+
+    private String getDateResult(String dateFromServer) {
+        //3번째 글 2022-11-24 21:06
+        String nowTime = getTime();
+        String postTime = changeTime(dateFromServer);
+        if (nowTime.split(" ")[0].equals(postTime.split(" ")[0])) {
+            return postTime.split(" ")[1].split(":")[0] + ":" + postTime.split(" ")[1].split(":")[1];
+        } else {
+            return postTime.split(" ")[0];
+        }
+    }
+
+    private String changeTime(String dateFromServer) {
+        String[] cut = dateFromServer.split("T");
+        String[] cut1 = cut[1].split("\\.");
+        String result = cut[0] + " " + cut1[0];
+        SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        oldFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date value = null;
+        String dueDateAsNormal = "";
+        try {
+            value = oldFormat.parse(result);
+            SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            newFormat.setTimeZone(TimeZone.getDefault());
+            dueDateAsNormal = newFormat.format(value);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dueDateAsNormal;
+    }
+
+    private String getTime() {
+        long now = System.currentTimeMillis();
+        Date mDate = new Date(now);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        String date = format.format(mDate);
+        return date;
+    }
+
+    private int getImageCount(ImageView i) {
+        if (i == img1_1) {
+            return 1;
+        } else if (i == img2_1 || i == img2_2) {
+            return 2;
+        } else if (i == img3_1 || i == img3_2 || i == img3_3) {
+            return 3;
+        } else if (i == img4_1 || i == img4_2 || i == img4_3 || i == img4_4) {
+            return 4;
+        } else {
+            return 5;
+        }
+    }
+
+    private int getClickImagePosition(ImageView i) {
+        if (i == img1_1 || i == img2_1 || i == img3_1 || i == img4_1 || i == img5_1) {
+            return 1;
+        } else if (i == img2_2 || i == img3_2 || i == img4_2 || i == img5_2) {
+            return 2;
+        } else if (i == img3_3 || i == img4_3 || i == img5_3) {
+            return 3;
+        } else if (i == img4_4 || i == img5_4) {
+            return 4;
+        } else {
+            return 5;
+        }
     }
 }
