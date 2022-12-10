@@ -65,6 +65,9 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     private int id;
 
+    private DatabaseHandler databaseHandler;
+    private boolean willAddHit;
+
     private List<PostCommentModel> commentModelList = new ArrayList<>();
     public static List<String> imageList = new ArrayList<>();
 
@@ -106,6 +109,7 @@ public class CommunityMainDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.community_main_detail);
 
+        databaseHandler = new DatabaseHandler(CommunityMainDetail.this);
         id = getIntent().getIntExtra("parent_id", 0);
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -113,10 +117,26 @@ public class CommunityMainDetail extends AppCompatActivity {
         display.getSize(size);
         int y = (int)(size.y * 0.25);
 
+        checkHits();
         setInit(y);
         setListInit();
         setImageInit();
         getData("");
+    }
+
+    private void checkHits() {
+        String getHit = databaseHandler.getPostDate(id);
+        Log.d("MainDetail>>>", "getHit: " + getHit);
+        String nowDate = getNowDate();
+        if (getHit.equals("")) {
+            willAddHit = true;
+            databaseHandler.insertForHits(id, nowDate);
+        } else {
+            if (!getHit.equals(nowDate)) {
+                willAddHit = true;
+                databaseHandler.updateForHits(id, nowDate);
+            }
+        }
     }
 
     private void setInit(int y) {
@@ -501,6 +521,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void getData(String from) {
+        AddHitModel addHitModel = new AddHitModel(false);
         RetrofitClient.getApiService().getPost(id).enqueue(new Callback<PostDetailWithComments>() {
             @Override
             public void onResponse(Call<PostDetailWithComments> call, Response<PostDetailWithComments> response) {
@@ -532,7 +553,6 @@ public class CommunityMainDetail extends AppCompatActivity {
         }
         if (!String.valueOf(model.getImageurl()).equals("")) {
             String[] imgsplit = String.valueOf(model.getImageurl()).split("●");
-            Log.d("MainDetail>>>", "size1: " + imgsplit.length);
             imageList.addAll(Arrays.asList(imgsplit).subList(1, imgsplit.length));
             setImages(imageList);
         }
@@ -887,7 +907,7 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     private String getDateResult(String dateFromServer) {
         //3번째 글 2022-11-24 21:06
-        String nowTime = getTime();
+        String nowTime = getNowDate();
         String postTime = changeTime(dateFromServer);
         if (nowTime.split(" ")[0].equals(postTime.split(" ")[0])) {
             return postTime.split(" ")[1].split(":")[0] + ":" + postTime.split(" ")[1].split(":")[1];
@@ -915,12 +935,30 @@ public class CommunityMainDetail extends AppCompatActivity {
         return dueDateAsNormal;
     }
 
-    private String getTime() {
+    private String getNowDate() {
         long now = System.currentTimeMillis();
         Date mDate = new Date(now);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String date = format.format(mDate);
         return date;
+    }
+
+    private String changeTimeForHit(String dateFromServer) {
+        Log.d("MainDetail>>>", "check: " + dateFromServer);
+        String result = dateFromServer.split("\\.")[0];
+        SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        oldFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date value = null;
+        String dueDateAsNormal = "";
+        try {
+            value = oldFormat.parse(result);
+            SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
+            newFormat.setTimeZone(TimeZone.getDefault());
+            dueDateAsNormal = newFormat.format(value);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dueDateAsNormal;
     }
 
     private int getImageCount(ImageView i) {

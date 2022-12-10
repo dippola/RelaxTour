@@ -54,14 +54,12 @@ public class ShareListDialog extends AppCompatActivity {
         int y = (int)(size.y * 0.7);
 
         layout = findViewById(R.id.community_share_list_dialog_layout);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(x, y);
-        params.gravity = Gravity.CENTER_HORIZONTAL;
-        layout.setLayoutParams(params);
 
-        setInit();
+
+        setInit(x, y);
     }
 
-    private void setInit() {
+    private void setInit(int x, int y) {
         nulllist = findViewById(R.id.community_share_list_dialog_nulllist);
         recyclerView = findViewById(R.id.community_share_list_dialog_recyclerview);
         close = findViewById(R.id.community_share_list_dialog_2);
@@ -78,22 +76,24 @@ public class ShareListDialog extends AppCompatActivity {
             nulllist.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(x, y);
+            params.gravity = Gravity.CENTER_HORIZONTAL;
+            layout.setLayoutParams(params);
             recyclerView.setVisibility(View.VISIBLE);
             nulllist.setVisibility(View.GONE);
             adapter = new ShareTitleAdapter(titleitems, ShareListDialog.this);
             layoutManager = new LinearLayoutManager(ShareListDialog.this);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
+            adapter.setOnClickInAdapter(new ShareTitleAdapter.OnClickInAdapter() {
+                @Override
+                public void onItemClick(int position) {
+                    Intent intent = new Intent(ShareListDialog.this, CommunityWrite.class);
+                    intent.putExtra("title", titleitems.get(position).getTitle());
+                    setResult(CommunityWrite.FROM_LIST, intent);
+                    finish();
+                }
+            });
         }
-
-        adapter.setOnClickInAdapter(new ShareTitleAdapter.OnClickInAdapter() {
-            @Override
-            public void onItemClick(int position) {
-                Intent intent = new Intent(ShareListDialog.this, CommunityWrite.class);
-                intent.putExtra("title", titleitems.get(position).getTitle());
-                setResult(CommunityWrite.FROM_LIST, intent);
-                finish();
-            }
-        });
     }
 }

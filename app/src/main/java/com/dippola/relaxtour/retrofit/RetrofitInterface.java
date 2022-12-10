@@ -1,5 +1,6 @@
 package com.dippola.relaxtour.retrofit;
 
+import com.dippola.relaxtour.community.main.detail.AddHitModel;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
@@ -61,6 +62,12 @@ public interface RetrofitInterface {
             @Path("category") String category,
             @Path("page") int page
     );
+
+//    @GET("post/{pk}/")
+//    Call<PostDetailWithComments> getPost(
+//            @Path("pk") int pk,
+//            @Body AddHitModel willAddHit
+//    );
 
     @GET("post/{pk}/")
     Call<PostDetailWithComments> getPost(

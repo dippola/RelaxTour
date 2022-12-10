@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.dippola.relaxtour.MainActivity;
+import com.dippola.relaxtour.community.main.ForHitsModel;
 import com.dippola.relaxtour.dialog.AddFavDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
 import com.dippola.relaxtour.pages.ChakraPage;
@@ -43,71 +44,68 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
 
-    public static final String DATABASE_NAME = "list.sqlite";
-    public static final String DBLOCATION = "/data/data/com.dippola.relaxtour/databases/";
+    private static final String DATABASE_NAME = "list.sqlite";
+    private static final String DBLOCATION = "/data/data/com.dippola.relaxtour/databases/";
 
-    private static final String PLAYING_TABLE_NAME = "playing";
-    private static final String RAIN_TABLE_NAME = "rain";
-    private static final String WATER_TABLE_NAME = "water";
-    private static final String WIND_TABLE_NAME = "wind";
-    private static final String NATURE_TABLE_NAME = "nature";
-    private static final String CHAKRA_TABLE_NAME = "chakra";
-    private static final String MANTRA_TABLE_NAME = "mantra";
-    private static final String HZ_TABLE_NAME = "hz";
+    private final String PLAYING_TABLE_NAME = "playing";
+    private final String RAIN_TABLE_NAME = "rain";
+    private final String WATER_TABLE_NAME = "water";
+    private final String WIND_TABLE_NAME = "wind";
+    private final String NATURE_TABLE_NAME = "nature";
+    private final String CHAKRA_TABLE_NAME = "chakra";
+    private final String MANTRA_TABLE_NAME = "mantra";
+    private final String HZ_TABLE_NAME = "hz";
 
-    public static final String COLUMN_PAGE = "page";
-    public static final String COLUMN_POSITION = "position";
-    public static final String COLUMN_PNP = "pnp";
-    public static final String COLUMN_IMGDEFAULT = "imgdefault";
-    public static final String COLUMN_IMAGE = "img";
-    public static final String COLUMN_DARKDEFAULT = "darkdefault";
-    public static final String COLUMN_DARK = "dark";
-    public static final String COLUMN_SEEK = "seek";
-    public static final String COLUMN_ISPLAY = "isplay";
-    public static final String COLUMN_TIME = "time";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_ISPRO = "ispro";
-    public static final String COLUMN_NEED_DOWNLOAD = "needdownload";
+    private final String COLUMN_PAGE = "page";
+    private final String COLUMN_POSITION = "position";
+    private final String COLUMN_PNP = "pnp";
+    private final String COLUMN_IMGDEFAULT = "imgdefault";
+    private final String COLUMN_IMAGE = "img";
+    private final String COLUMN_DARKDEFAULT = "darkdefault";
+    private final String COLUMN_DARK = "dark";
+    private final String COLUMN_SEEK = "seek";
+    private final String COLUMN_ISPLAY = "isplay";
+    private final String COLUMN_TIME = "time";
+    private final String COLUMN_NAME = "name";
+    private final String COLUMN_ISPRO = "ispro";
+    private final String COLUMN_NEED_DOWNLOAD = "needdownload";
 
     //fav
-    private static final String FAV_TITLE_TABLE_NAME = "favtitle";
-    public static final String COLUMN_FAV_TITLE = "title";
-    public static final String COLUMN_FAV_ISPLAY = "isopen";
-    public static final String COLUMN_FAV_ISEDIT = "isedit";
-    private static final String FAV_LIST_TABLE_NAME = "favlist";
-    public static final String COLUMN_FAVTITLENAME = "favtitlename";
+    private final String COLUMN_FAVTITLENAME = "favtitlename";
 
     //pageicon
-    public static final String PAGE_ICON_TABLE_NAME = "pageicon";
-    public static final String PAGE_ICON_TEAM = "create table if not exists pageicon(download BLOB, pro BLOB);";
+    private final String PAGE_ICON_TABLE_NAME = "pageicon";
+    private final String PAGE_ICON_TEAM = "create table if not exists pageicon(download BLOB, pro BLOB);";
 
     //credit
-    public static final String CREDIT_TABLE_NAME = "credit";
-    public static final String CREDIT_TEAM = "create table if not exists credit(track TEXT, url TEXT)";
+    private final String CREDIT_TABLE_NAME = "credit";
+    private final String CREDIT_TEAM = "create table if not exists credit(track TEXT, url TEXT)";
 
 
-    private static final String PLAYING_TEAM = "create table if not exists " + PLAYING_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
-    private static final String RAIN_TEAM = "create table if not exists " + RAIN_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
-    private static final String RIVER_TEAM = "create table if not exists " + WATER_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
-    private static final String WIND_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
-    private static final String NATURE_TEAM = "create table if not exists " + NATURE_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
-    private static final String CHAKRA_TEAM = "create table if not exists " + CHAKRA_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
-    private static final String MANTRA_TEAM = "create table if not exists " + MANTRA_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
-    private static final String HZ_TEAM = "create table if not exists " + HZ_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
+    private final String PLAYING_TEAM = "create table if not exists " + PLAYING_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
+    private final String RAIN_TEAM = "create table if not exists " + RAIN_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
+    private final String RIVER_TEAM = "create table if not exists " + WATER_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
+    private final String WIND_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
+    private final String NATURE_TEAM = "create table if not exists " + NATURE_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
+    private final String CHAKRA_TEAM = "create table if not exists " + CHAKRA_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
+    private final String MANTRA_TEAM = "create table if not exists " + MANTRA_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
+    private final String HZ_TEAM = "create table if not exists " + HZ_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
 
-    private static final String FAV_TITLE_TEAM = "create table if not exists favtitle(title TEXT, isopen INTEGER, isedit INTEGER);";
-    private static final String FAV_LIST_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER," + COLUMN_FAVTITLENAME + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
+    private final String FAV_TITLE_TEAM = "create table if not exists favtitle(title TEXT, isopen INTEGER, isedit INTEGER);";
+    private final String FAV_LIST_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER," + COLUMN_FAVTITLENAME + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
 
-    private static final String ISPRO_TEAM = "create table if not exists ispro (ispro INTEGER);";
+    private final String ISPRO_TEAM = "create table if not exists ispro (ispro INTEGER);";
 
     //notification table set
-    public static final String NOTIFICATION_TABLE_NAME = "notification";
-    public static final String COLUMN_AGREE = "agree";
-    private static final String NOTIFICATION_TEAM = "create table if not exists notification(agree INTEGER);";
+    public final String NOTIFICATION_TABLE_NAME = "notification";
+    public final String COLUMN_AGREE = "agree";
+    private final String NOTIFICATION_TEAM = "create table if not exists notification(agree INTEGER);";
 
     //user
-    private static final String USER_TEAM = "create table if not exists user(id INTEGER, email TEXT, uid TEXT, nickname TEXT, imageurl TEXT, provider TEXT, token TEXT, notification TEXT);";
+    private final String USER_TEAM = "create table if not exists user(id INTEGER, email TEXT, uid TEXT, nickname TEXT, imageurl TEXT, provider TEXT, token TEXT, notification TEXT);";
 
+    //for community hits
+    private final String FOR_HITS = "create table if not exists forhits(postid INTEGER, date TEXT);";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -158,6 +156,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(FAV_LIST_TEAM);
         sqLiteDatabase.execSQL(CREDIT_TEAM);
         sqLiteDatabase.execSQL(USER_TEAM);
+        sqLiteDatabase.execSQL(FOR_HITS);
     }
 
     @Override
@@ -174,6 +173,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE " + MANTRA_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + HZ_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + CREDIT_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE forhits");
         sqLiteDatabase.execSQL(ISPRO_TEAM);
         sqLiteDatabase.execSQL(NOTIFICATION_TEAM);
         sqLiteDatabase.execSQL(PAGE_ICON_TEAM);
@@ -186,6 +186,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(MANTRA_TEAM);
         sqLiteDatabase.execSQL(HZ_TEAM);
         sqLiteDatabase.execSQL(CREDIT_TEAM);
+        sqLiteDatabase.execSQL(FOR_HITS);
     }
 
     public void openDatabase() {
@@ -1063,7 +1064,49 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return result;
     }
 
-    //    public int getIsProUser() {
+    public List<ForHitsModel> getViewPostList() {
+        ForHitsModel model = null;
+        List<ForHitsModel> hitsList = new ArrayList<>();
+        openDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select postid from viewpost", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            model = new ForHitsModel(cursor.getInt(0), cursor.getString(1));
+            hitsList.add(model);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        closeDatabse();
+        return hitsList;
+    }
+
+    public String getPostDate(int postid) {
+        String result = "";
+        openDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select date from forhits where postid = " + postid, null);
+        cursor.moveToFirst();
+        result = cursor.getString(0);
+        cursor.close();
+        closeDatabse();
+        return result;
+    }
+
+    public void insertForHits(int postid, String date) {
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("postid", postid);
+        contentValues.put("date", date);
+        sqLiteDatabase.insert("forhits", null, contentValues);
+    }
+
+    public void updateForHits(int postid, String date) {
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("update forhits set date = " + "'" + date + "'" + " where postid = " + postid);
+    }
+
+
+
+//    public int getIsProUser() {
 //        openDatabase();
 //        Cursor cursor = sqLiteDatabase.rawQuery("SELECT ispro FROM ispro", null);
 //        cursor.moveToFirst();

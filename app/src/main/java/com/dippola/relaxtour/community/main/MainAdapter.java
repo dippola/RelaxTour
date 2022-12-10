@@ -196,7 +196,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     private String getTime() {
         long now = System.currentTimeMillis();
         Date mDate = new Date(now);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         String date = format.format(mDate);
         return date;
     }
