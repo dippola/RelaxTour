@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,6 +44,7 @@ import com.bumptech.glide.request.target.Target;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.LikeUserListModel;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
@@ -68,6 +70,9 @@ public class CommunityMainDetail extends AppCompatActivity {
     private DatabaseHandler databaseHandler;
     private boolean willAddHit;
 
+    //like
+    private List<LikeUserListModel> likeUserList = new ArrayList<>();
+
     private List<PostCommentModel> commentModelList = new ArrayList<>();
     public static List<String> imageList = new ArrayList<>();
 
@@ -75,7 +80,8 @@ public class CommunityMainDetail extends AppCompatActivity {
     private ConstraintLayout topFinish, middleFinish, bottomFinish, commentLayout;
     private ConstraintLayout load_body;
     private NestedScrollView scrollView;
-    private Button back, like, refresh, refreshload, commentViewMore;
+    private Button back, refresh, refreshload, commentViewMore;
+    private CheckBox like;
     private RelativeLayout commentsend, commentsendload;
     private TextView title, nickname, date, viewcount, body, nullcomment, commentcount, likecount;
     public static TextView towho;
@@ -181,6 +187,7 @@ public class CommunityMainDetail extends AppCompatActivity {
         onClickOk();
         onClickRefresh();
         onClickViewMore();
+        onClickLike();
     }
 
     private void setImageInit() {
@@ -400,6 +407,10 @@ public class CommunityMainDetail extends AppCompatActivity {
         listAddfav = findViewById(R.id.community_main_detail_list_layout_addfav);
     }
 
+    private void onClickLike() {
+
+    }
+
     private void onClickRefresh() {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -528,6 +539,8 @@ public class CommunityMainDetail extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     postModel = response.body().getPost();
                     commentModelList = response.body().getComments();
+                    likeUserList = response.body().getLikeuserlist();
+                    Log.d("MainDetail>>>", "size: " + likeUserList.size());
                     setData(postModel);
                     setComment(commentModelList.size(), from);
                 }
@@ -565,6 +578,14 @@ public class CommunityMainDetail extends AppCompatActivity {
         middleFinish.setVisibility(View.VISIBLE);
         topMiddleLoad.setVisibility(View.INVISIBLE);
         commentcount.setText(String.valueOf(model.getCommentcount()));
+
+        if (likeUserList.contains(new LikeUserListModel(id, databaseHandler.getUserModel().getId()))) {
+            Log.d("MainDetail>>>", "111");
+            likeChecked();
+        } else {
+            Log.d("MainDetail>>>", "222");
+            likeUnChecked();
+        }
     }
 
     private void setImages(List<String> images) {
@@ -987,5 +1008,15 @@ public class CommunityMainDetail extends AppCompatActivity {
         } else {
             return 5;
         }
+    }
+
+    private void likeChecked() {
+        like.setChecked(true);
+        like.setBackgroundResource(R.drawable.community_like_icon);
+    }
+
+    private void likeUnChecked() {
+        like.setChecked(false);
+        like.setBackgroundResource(R.drawable.like_icon);
     }
 }

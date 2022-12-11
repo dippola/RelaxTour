@@ -12,6 +12,9 @@ public class PostDetailWithComments {
     @SerializedName("comments")
     @Expose
     private List<PostCommentModel> comments;
+    @SerializedName("likeuserlist")
+    @Expose
+    private List<LikeUserListModel> likeuserlist;
 
     public PostModelDetail getPost() {
         return post;
@@ -27,5 +30,13 @@ public class PostDetailWithComments {
 
     public void setComments(List<PostCommentModel> comments) {
         this.comments = comments;
+    }
+
+    public List<LikeUserListModel> getLikeuserlist() {
+        return likeuserlist;
+    }
+
+    public void setLikeuserlist(List<LikeUserListModel> likeuserlist) {
+        this.likeuserlist = likeuserlist;
     }
 }

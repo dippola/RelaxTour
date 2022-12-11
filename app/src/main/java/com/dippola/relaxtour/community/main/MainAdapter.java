@@ -106,7 +106,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
 
         holder.title.setText(arrayList.get(i).getTitle());
         holder.view.setText(String.valueOf(arrayList.get(i).getView()));
-        Log.d("MainAdapter>>>", "view: " + String.valueOf(arrayList.get(i).getView()));
         holder.like.setText(String.valueOf(arrayList.get(i).getLike()));
         holder.date.setText(getDateResult(arrayList.get(i).getDate()));
         holder.commentcount.setText(String.valueOf(arrayList.get(i).getCommentcount()));
