@@ -8,10 +8,6 @@ public class AddHitModel {
     @Expose
     private boolean willAddHit;
 
-    public AddHitModel(boolean willAddHit) {
-        this.willAddHit = willAddHit;
-    }
-
     public boolean isWillAddHit() {
         return willAddHit;
     }

@@ -3,6 +3,7 @@ package com.dippola.relaxtour.community.main;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,6 +106,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
 
         holder.title.setText(arrayList.get(i).getTitle());
         holder.view.setText(String.valueOf(arrayList.get(i).getView()));
+        Log.d("MainAdapter>>>", "view: " + String.valueOf(arrayList.get(i).getView()));
         holder.like.setText(String.valueOf(arrayList.get(i).getLike()));
         holder.date.setText(getDateResult(arrayList.get(i).getDate()));
         holder.commentcount.setText(String.valueOf(arrayList.get(i).getCommentcount()));

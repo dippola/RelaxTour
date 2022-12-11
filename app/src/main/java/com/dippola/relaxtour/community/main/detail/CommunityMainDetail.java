@@ -126,7 +126,6 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     private void checkHits() {
         String getHit = databaseHandler.getPostDate(id);
-        Log.d("MainDetail>>>", "getHit: " + getHit);
         String nowDate = getNowDate();
         if (getHit.equals("")) {
             willAddHit = true;
@@ -521,8 +520,9 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void getData(String from) {
-        AddHitModel addHitModel = new AddHitModel(false);
-        RetrofitClient.getApiService().getPost(id).enqueue(new Callback<PostDetailWithComments>() {
+        AddHitModel addHitModel = new AddHitModel();
+        addHitModel.setWillAddHit(willAddHit);
+        RetrofitClient.getApiService().getPost(id, addHitModel).enqueue(new Callback<PostDetailWithComments>() {
             @Override
             public void onResponse(Call<PostDetailWithComments> call, Response<PostDetailWithComments> response) {
                 if (response.isSuccessful()) {

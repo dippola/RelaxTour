@@ -14,9 +14,11 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface RetrofitInterface {
     @GET("user/{id}/")
@@ -63,16 +65,17 @@ public interface RetrofitInterface {
             @Path("page") int page
     );
 
+
+    @PUT("post/{pk}/")
+    Call<PostDetailWithComments> getPost(
+            @Path("pk") int pk,
+            @Body AddHitModel willAddHit
+    );
+
 //    @GET("post/{pk}/")
 //    Call<PostDetailWithComments> getPost(
-//            @Path("pk") int pk,
-//            @Body AddHitModel willAddHit
+//            @Path("pk") int pk
 //    );
-
-    @GET("post/{pk}/")
-    Call<PostDetailWithComments> getPost(
-            @Path("pk") int pk
-    );
 
     @POST("post/create={id}/")
     Call<PostModelDetail> createPost(

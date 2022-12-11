@@ -1084,9 +1084,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String result = "";
         openDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("select date from forhits where postid = " + postid, null);
-        cursor.moveToFirst();
-        result = cursor.getString(0);
-        cursor.close();
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            result = cursor.getString(0);
+            cursor.close();
+        }
         closeDatabse();
         return result;
     }
@@ -1103,7 +1105,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("update forhits set date = " + "'" + date + "'" + " where postid = " + postid);
     }
-
 
 
 //    public int getIsProUser() {
