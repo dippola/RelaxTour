@@ -31,6 +31,4 @@ public class LikeUserListModel {
     public void setUser_ids(int user_ids) {
         this.user_ids = user_ids;
     }
-
-
 }

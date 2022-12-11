@@ -579,13 +579,23 @@ public class CommunityMainDetail extends AppCompatActivity {
         topMiddleLoad.setVisibility(View.INVISIBLE);
         commentcount.setText(String.valueOf(model.getCommentcount()));
 
-        if (likeUserList.contains(new LikeUserListModel(id, databaseHandler.getUserModel().getId()))) {
-            Log.d("MainDetail>>>", "111");
+        if (checkLikeListContains(likeUserList)) {
             likeChecked();
         } else {
-            Log.d("MainDetail>>>", "222");
             likeUnChecked();
         }
+    }
+
+    private boolean checkLikeListContains(List<LikeUserListModel> likeUserList) {
+        boolean result = false;
+        int myId = databaseHandler.getUserModel().getId();
+        for (int i = 0; i < likeUserList.size(); i++) {
+            if (likeUserList.get(i).getUser_ids() == myId) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 
     private void setImages(List<String> images) {
