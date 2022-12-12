@@ -97,6 +97,8 @@ public class CommunityMain extends AppCompatActivity {
     public static final int FROM_AUTH = 107;
     public static final int FROM_WRITE = 108;
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
