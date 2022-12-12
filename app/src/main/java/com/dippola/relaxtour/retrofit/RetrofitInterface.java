@@ -1,5 +1,6 @@
 package com.dippola.relaxtour.retrofit;
 
+import com.dippola.relaxtour.community.auth.UserCommunityStateModel;
 import com.dippola.relaxtour.community.main.detail.AddHitModel;
 import com.dippola.relaxtour.retrofit.model.LikeUserListModel;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
@@ -51,6 +52,11 @@ public interface RetrofitInterface {
     @GET("user/searchemail/{email}/")
     Call<List<UserModel>> searchEmail(
             @Path("email") String email
+    );
+
+    @GET("user/{id}/community/")
+    Call<String> getUserCommunityState(
+            @Path("id") int id
     );
 
 

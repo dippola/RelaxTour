@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.auth.userscommunity.UsersCommunity;
 import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.community.Test;
 import com.dippola.relaxtour.community.ImageViewer;
@@ -68,12 +69,12 @@ public class CommunityAuth extends AppCompatActivity {
     public static final int FROM_GOOGLE_CLIENT = 96;
 
     private ImageView img, provicerIcon;
-    private TextView nickname, email;
+    private TextView nickname, email, postCount, commentCount, likeCount;
     private FirebaseAuth auth;
     private RelativeLayout load;
     private Button back, editprofile;
-    private ProgressBar imgload;
-    private ConstraintLayout signout, deleteaccount, findPassword;
+    private ProgressBar imgload, postCountLoad, commentCountLoad, likeCountLoad;
+    private ConstraintLayout myPost, myComment, myLikePost, signout, deleteaccount, findPassword;
     private boolean isChangePic;
     private String provider;
     private String imageurl;
@@ -89,6 +90,8 @@ public class CommunityAuth extends AppCompatActivity {
         databaseHandler = new DatabaseHandler(CommunityAuth.this);
 
         setInit();
+        getUserData();
+        onClickUsersCommunity();
         onClickEditProfile();
         setBack();
         onClickSignOut();
@@ -115,6 +118,15 @@ public class CommunityAuth extends AppCompatActivity {
         imgload = findViewById(R.id.community_auth_img_progressbar);
         load = findViewById(R.id.community_auth_load);
         load.setVisibility(View.GONE);
+        myPost = findViewById(R.id.community_auth_post_box);
+        myComment = findViewById(R.id.community_auth_comment_box);
+        myLikePost = findViewById(R.id.community_auth_my_like_post);
+        postCount = findViewById(R.id.community_auth_post_count);
+        commentCount = findViewById(R.id.community_auth_commend_count);
+        likeCount = findViewById(R.id.community_auth_my_like_post_count);
+        postCountLoad = findViewById(R.id.community_auth_post_progressbar);
+        commentCountLoad = findViewById(R.id.community_auth_comment_progressbar);
+        likeCountLoad = findViewById(R.id.community_auth_likes_progressbar);
         signout = findViewById(R.id.community_auth_sign_out);
         deleteaccount = findViewById(R.id.community_auth_delete_account);
         provicerIcon = findViewById(R.id.community_auth_email_icon);
@@ -132,6 +144,59 @@ public class CommunityAuth extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void getUserData() {
+        RetrofitClient.getApiService().getUserCommunityState(databaseHandler.getUserModel().getId()).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    Log.d("CommunityAuth>>>", "1");
+                    String[] bodySplit = response.body().split("/");
+                    postCount.setText(bodySplit[0]);
+                    postCountLoad.setVisibility(View.GONE);
+                    commentCount.setText(bodySplit[1]);
+                    commentCountLoad.setVisibility(View.GONE);
+                    likeCount.setText(bodySplit[2]);
+                    likeCountLoad.setVisibility(View.GONE);
+                } else {
+                    Log.d("CommunityAuth>>>", "2");
+                }
+                Log.d("CommunityAuth>>>", "3: " + response.toString());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d("CommunityAuth>>>", "4: " + t.getMessage());
+            }
+        });
+    }
+
+    private void onClickUsersCommunity() {
+        myPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUsersCommunity("post");
+            }
+        });
+        myComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUsersCommunity("comment");
+            }
+        });
+        myLikePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToUsersCommunity("like");
+            }
+        });
+    }
+
+    private void goToUsersCommunity(String from) {
+        Intent intent = new Intent(CommunityAuth.this, UsersCommunity.class);
+        intent.putExtra("from", from);
+        startActivity(intent);
     }
 
     private void setNotification() {
