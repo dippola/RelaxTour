@@ -1,6 +1,7 @@
 package com.dippola.relaxtour.retrofit;
 
 import com.dippola.relaxtour.community.main.detail.AddHitModel;
+import com.dippola.relaxtour.retrofit.model.LikeUserListModel;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
@@ -72,10 +73,11 @@ public interface RetrofitInterface {
             @Body AddHitModel willAddHit
     );
 
-//    @GET("post/{pk}/")
-//    Call<PostDetailWithComments> getPost(
-//            @Path("pk") int pk
-//    );
+    @PUT("post/{pk}/like/set={id}/")
+    Call<String> setLike(
+            @Path("pk") int pk,
+            @Path("id") int id
+    );
 
     @POST("post/create={id}/")
     Call<PostModelDetail> createPost(

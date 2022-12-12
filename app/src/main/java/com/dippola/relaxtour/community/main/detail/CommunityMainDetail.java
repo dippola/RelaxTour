@@ -16,6 +16,7 @@ import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -121,7 +122,7 @@ public class CommunityMainDetail extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int y = (int)(size.y * 0.25);
+        int y = (int) (size.y * 0.25);
 
         checkHits();
         setInit(y);
@@ -408,7 +409,60 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void onClickLike() {
+        like.setEnabled(false);
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                like.setEnabled(false);
+                int myId = databaseHandler.getUserModel().getId();
+                LikeUserListModel model = new LikeUserListModel(id, myId);
+                RetrofitClient.getApiService().setLike(id, myId).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body().equals("add")) {
+                                int i = Integer.parseInt(likecount.getText().toString());
+                                likecount.setText(String.valueOf(i + 1));
+                            } else if (response.body().equals("remove")) {
+                                int i = Integer.parseInt(likecount.getText().toString());
+                                likecount.setText(String.valueOf(i - 1));
+                            }
+                        } else {
+                            if (like.isChecked()) {
+                                like.setChecked(false);
+                            } else {
+                                like.setChecked(true);
+                            }
+                            Log.d("MainDetail>>>", "message2: " + response.message());
+                            Toast.makeText(CommunityMainDetail.this, "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                        }
+                        like.setEnabled(true);
+                    }
 
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        if (like.isChecked()) {
+                            like.setChecked(false);
+                        } else {
+                            like.setChecked(true);
+                        }
+                        like.setEnabled(true);
+                        Log.d("MainDetail>>>", "message3: " + t.getMessage());
+                        Toast.makeText(CommunityMainDetail.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    like.setBackgroundResource(R.drawable.community_like_icon);
+                } else {
+                    like.setBackgroundResource(R.drawable.like_icon);
+                }
+            }
+        });
     }
 
     private void onClickRefresh() {
@@ -580,10 +634,11 @@ public class CommunityMainDetail extends AppCompatActivity {
         commentcount.setText(String.valueOf(model.getCommentcount()));
 
         if (checkLikeListContains(likeUserList)) {
-            likeChecked();
+            like.setChecked(true);
         } else {
-            likeUnChecked();
+            like.setChecked(false);
         }
+        like.setEnabled(true);
     }
 
     private boolean checkLikeListContains(List<LikeUserListModel> likeUserList) {
@@ -816,6 +871,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             }
         }
     }
+
     private void setScrollView() {
         scrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -838,7 +894,7 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (commentsendload.getVisibility() == View.GONE){
+        if (commentsendload.getVisibility() == View.GONE) {
             super.onBackPressed();
         }
     }
@@ -853,7 +909,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             }
         }
         listCount.setText("[" + splitList.size() + "]");
-        shareListAdapter  = new ShareListAdapter(splitList, new DatabaseHandler(CommunityMainDetail.this), CommunityMainDetail.this);
+        shareListAdapter = new ShareListAdapter(splitList, new DatabaseHandler(CommunityMainDetail.this), CommunityMainDetail.this);
         listRecyclerview.setLayoutManager(new LinearLayoutManager(CommunityMainDetail.this));
         listRecyclerview.setAdapter(shareListAdapter);
 
@@ -889,13 +945,12 @@ public class CommunityMainDetail extends AppCompatActivity {
         // Older versions of android (pre API 21) cancel animations for views with a height of 0.
         v.getLayoutParams().height = 1;
         v.setVisibility(View.VISIBLE);
-        Animation a = new Animation()
-        {
+        Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
                 v.getLayoutParams().height = interpolatedTime == 1
                         ? ViewGroup.LayoutParams.WRAP_CONTENT
-                        : (int)(targetHeight * interpolatedTime);
+                        : (int) (targetHeight * interpolatedTime);
                 v.requestLayout();
             }
 
@@ -906,21 +961,20 @@ public class CommunityMainDetail extends AppCompatActivity {
         };
 
         // Expansion speed of 1dp/ms
-        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density));
+        a.setDuration((int) (targetHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
 
     private void collapse(final View v) {
         final int initialHeight = v.getMeasuredHeight();
 
-        Animation a = new Animation()
-        {
+        Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if(interpolatedTime == 1){
+                if (interpolatedTime == 1) {
                     v.setVisibility(View.GONE);
-                }else{
-                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                } else {
+                    v.getLayoutParams().height = initialHeight - (int) (initialHeight * interpolatedTime);
                     v.requestLayout();
                 }
             }
@@ -932,7 +986,7 @@ public class CommunityMainDetail extends AppCompatActivity {
         };
 
         // Collapse speed of 1dp/ms
-        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+        a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
 
@@ -1020,13 +1074,4 @@ public class CommunityMainDetail extends AppCompatActivity {
         }
     }
 
-    private void likeChecked() {
-        like.setChecked(true);
-        like.setBackgroundResource(R.drawable.community_like_icon);
-    }
-
-    private void likeUnChecked() {
-        like.setChecked(false);
-        like.setBackgroundResource(R.drawable.like_icon);
-    }
 }
