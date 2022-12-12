@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -79,6 +80,7 @@ public class CommunityMain extends AppCompatActivity {
     public static ConstraintLayout pagebox;
     private FloatingActionButton fabmain;
     private ConstraintLayout fab1, fab2;
+    private Button back;
 
     //tab layout
     private ConstraintLayout tabbox;
@@ -104,6 +106,7 @@ public class CommunityMain extends AppCompatActivity {
         databaseHandler = new DatabaseHandler(CommunityMain.this);
 
         setInit();
+        onClickBackbtn();
         setOnClickTab();
         setRefresh();
         setImageAuthIcon();
@@ -115,6 +118,7 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void setInit() {
+        back = findViewById(R.id.community_main_backbtn);
         refresh = findViewById(R.id.community_main_refresh);
         authicon = findViewById(R.id.community_main_auth);
         iconload = findViewById(R.id.community_main_iconload);
@@ -144,6 +148,15 @@ public class CommunityMain extends AppCompatActivity {
         fab2.setVisibility(View.GONE);
         fbg = findViewById(R.id.community_main_floating_background);
         fbg.setVisibility(View.GONE);
+    }
+
+    private void onClickBackbtn() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void setOnClickTab() {
