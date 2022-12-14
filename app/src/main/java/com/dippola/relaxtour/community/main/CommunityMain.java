@@ -162,7 +162,6 @@ public class CommunityMain extends AppCompatActivity {
         fbg = findViewById(R.id.community_main_floating_background);
         fbg.setVisibility(View.GONE);
         setPaginationInit();
-        onClickPagination();
     }
 
     private void setPaginationInit() {
@@ -801,6 +800,7 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void setPagination(int totalPage, int nowPage) {
+        onClickPagination(totalPage);
         int rest = totalPage%5;
         int position;
         if (nowPage <= 5) {
@@ -883,11 +883,84 @@ public class CommunityMain extends AppCompatActivity {
         }//
     }
 
-    private void onClickPagination() {
+    private void onClickPagination(int totalPage) {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                nowPage -= 1;
+                setAllPageUnChoice();
+                startReflesh();
+            }
+        });
+        p0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage = 1;
+                setAllPageUnChoice();
+                t0.setTextColor(getResources().getColor(R.color.button_design_color_2));
+                startReflesh();
+            }
+        });
+        p1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage = Integer.parseInt(t1.getText().toString());
+                setAllPageUnChoice();
+                t1.setTextColor(getResources().getColor(R.color.button_design_color_2));
+                startReflesh();
+            }
+        });
+        p2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage = Integer.parseInt(t2.getText().toString());
+                setAllPageUnChoice();
+                t2.setTextColor(getResources().getColor(R.color.button_design_color_2));
+                startReflesh();
+            }
+        });
+        p3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage = Integer.parseInt(t3.getText().toString());
+                setAllPageUnChoice();
+                t3.setTextColor(getResources().getColor(R.color.button_design_color_2));
+                startReflesh();
+            }
+        });
+        p4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage = Integer.parseInt(t4.getText().toString());
+                setAllPageUnChoice();
+                t4.setTextColor(getResources().getColor(R.color.button_design_color_2));
+                startReflesh();
+            }
+        });
+        p5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage = Integer.parseInt(t5.getText().toString());
+                setAllPageUnChoice();
+                t5.setTextColor(getResources().getColor(R.color.button_design_color_2));
+                startReflesh();
+            }
+        });
+        p6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage = totalPage;
+                setAllPageUnChoice();
+                t6.setTextColor(getResources().getColor(R.color.button_design_color_2));
+                startReflesh();
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage += 1;
+                setAllPageUnChoice();
+                startReflesh();
             }
         });
     }
@@ -900,6 +973,13 @@ public class CommunityMain extends AppCompatActivity {
         p4.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
         p5.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
         p6.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
+        t0.setTextColor(getResources().getColor(R.color.button_design_color));
+        t1.setTextColor(getResources().getColor(R.color.button_design_color));
+        t2.setTextColor(getResources().getColor(R.color.button_design_color));
+        t3.setTextColor(getResources().getColor(R.color.button_design_color));
+        t4.setTextColor(getResources().getColor(R.color.button_design_color));
+        t5.setTextColor(getResources().getColor(R.color.button_design_color));
+        t6.setTextColor(getResources().getColor(R.color.button_design_color));
     }
 
 }
