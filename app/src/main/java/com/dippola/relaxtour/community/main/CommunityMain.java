@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -88,6 +89,13 @@ public class CommunityMain extends AppCompatActivity {
     private RadioButton tab1, tab2, tab3;
     private ImageView tab1bg, tab2bg, tab3bg;
 
+    //pagination
+    private Button prev, next;
+    private RelativeLayout p0, p1, p2, p3, p4, p5, p6;
+    private ImageView m1, m2;
+    private TextView t0, t1, t2, t3, t4, t5, t6;
+    private int nowPage;
+
     private RelativeLayout fbg;
 
     private MainAdapter adapter;
@@ -113,7 +121,8 @@ public class CommunityMain extends AppCompatActivity {
         setRefresh();
         setImageAuthIcon();
         onClickAuth();
-        loadCommunityAll(1);
+        nowPage = 1;
+        loadCommunityAll(nowPage);
         Animation show = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.fab_open);
         Animation close = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.fab_close);
         onClickFloating(show, close);
@@ -150,6 +159,29 @@ public class CommunityMain extends AppCompatActivity {
         fab2.setVisibility(View.GONE);
         fbg = findViewById(R.id.community_main_floating_background);
         fbg.setVisibility(View.GONE);
+        setPaginationInit();
+        onClickPagination();
+    }
+
+    private void setPaginationInit() {
+        prev = findViewById(R.id.community_main_page_item_prev);
+        p0 = findViewById(R.id.community_main_page_item0);
+        m1 = findViewById(R.id.community_main_page_item_more1);
+        p1 = findViewById(R.id.community_main_page_item1);
+        p2 = findViewById(R.id.community_main_page_item2);
+        p3 = findViewById(R.id.community_main_page_item3);
+        p4 = findViewById(R.id.community_main_page_item4);
+        p5 = findViewById(R.id.community_main_page_item5);
+        p6 = findViewById(R.id.community_main_page_item6);
+        m2 = findViewById(R.id.community_main_page_item_more2);
+        next = findViewById(R.id.community_main_page_item_next);
+        t0 = findViewById(R.id.community_main_page_item0t);
+        t1 = findViewById(R.id.community_main_page_item1t);
+        t2 = findViewById(R.id.community_main_page_item2t);
+        t3 = findViewById(R.id.community_main_page_item3t);
+        t4 = findViewById(R.id.community_main_page_item4t);
+        t5 = findViewById(R.id.community_main_page_item5t);
+        t6 = findViewById(R.id.community_main_page_item6t);
     }
 
     private void onClickBackbtn() {
@@ -678,7 +710,9 @@ public class CommunityMain extends AppCompatActivity {
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
                     lists.addAll(response.body().getPosts());
+                    int page_count = response.body().getPages();
                     setRecyclerView(lists);
+                    setPagination(response.body().getPages(), page);
                     finishedLoad();
                 }
             }
@@ -696,7 +730,9 @@ public class CommunityMain extends AppCompatActivity {
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
                     lists.addAll(response.body().getPosts());
+                    int page_count = response.body().getPages();
                     setRecyclerView(lists);
+                    setPagination(response.body().getPages(), page);
                     finishedLoad();
                 }
             }
@@ -728,6 +764,108 @@ public class CommunityMain extends AppCompatActivity {
         recyclerView.setVisibility(View.VISIBLE);
         pagebox.setVisibility(View.VISIBLE);
         itemload.setVisibility(View.GONE);
+    }
+
+    private void setPagination(int totalPage, int nowPage) {
+        int rest = totalPage%5;
+        int position;
+        if (nowPage <= 5) {
+            position = nowPage;
+        } else if (nowPage > 5 && nowPage <= 10) {
+            position = nowPage - 5;
+        } else {
+            position = nowPage%10;
+        }//
+        Log.d("CommunityMain>>>", "position: " + position);
+        if (nowPage <= 5) {
+            prev.setEnabled(false);
+            p0.setVisibility(View.GONE);
+            m1.setVisibility(View.GONE);
+        } else {
+            t0.setText("1");
+        }//
+        if ((totalPage - nowPage) < 5) {//last block
+            next.setEnabled(false);
+            m2.setVisibility(View.GONE);
+            p6.setVisibility(View.GONE);
+            if (rest == 1) {
+                p2.setVisibility(View.GONE);
+                p3.setVisibility(View.GONE);
+                p4.setVisibility(View.GONE);
+                p5.setVisibility(View.GONE);
+            } else if (rest == 2) {
+                p3.setVisibility(View.GONE);
+                p4.setVisibility(View.GONE);
+                p5.setVisibility(View.GONE);
+            } else if (rest == 3) {
+                p4.setVisibility(View.GONE);
+                p5.setVisibility(View.GONE);
+            } else if (rest == 4) {
+                p5.setVisibility(View.GONE);
+            }
+        } else {
+            t6.setText(String.valueOf(totalPage));
+        }//
+        if (position == 1) {
+            p1.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
+            t1.setText(String.valueOf(nowPage));
+            t2.setText(String.valueOf(nowPage + 1));
+            t3.setText(String.valueOf(nowPage + 2));
+            t4.setText(String.valueOf(nowPage + 3));
+            t5.setText(String.valueOf(nowPage + 4));
+            t1.setTextColor(getResources().getColor(R.color.button_design_color_2));
+        } else if (position == 2) {
+            p2.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
+            t1.setText(String.valueOf(nowPage - 1));
+            t2.setText(String.valueOf(nowPage));
+            t3.setText(String.valueOf(nowPage + 1));
+            t4.setText(String.valueOf(nowPage + 2));
+            t5.setText(String.valueOf(nowPage + 3));
+            t2.setTextColor(getResources().getColor(R.color.button_design_color_2));
+        } else if (position == 3) {
+            p3.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
+            t1.setText(String.valueOf(nowPage - 2));
+            t2.setText(String.valueOf(nowPage - 1));
+            t3.setText(String.valueOf(nowPage));
+            t4.setText(String.valueOf(nowPage + 1));
+            t5.setText(String.valueOf(nowPage + 2));
+            t3.setTextColor(getResources().getColor(R.color.button_design_color_2));
+        } else if (position == 4) {
+            p4.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
+            t1.setText(String.valueOf(nowPage - 3));
+            t2.setText(String.valueOf(nowPage - 2));
+            t3.setText(String.valueOf(nowPage - 1));
+            t4.setText(String.valueOf(nowPage));
+            t5.setText(String.valueOf(nowPage + 1));
+            t4.setTextColor(getResources().getColor(R.color.button_design_color_2));
+        } else if (position == 5) {
+            p5.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
+            t1.setText(String.valueOf(nowPage - 4));
+            t2.setText(String.valueOf(nowPage - 3));
+            t3.setText(String.valueOf(nowPage - 2));
+            t4.setText(String.valueOf(nowPage - 1));
+            t5.setText(String.valueOf(nowPage));
+            t5.setTextColor(getResources().getColor(R.color.button_design_color_2));
+        }//
+    }
+
+    private void onClickPagination() {
+        prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+    }
+
+    private void setAllPageUnChoice() {
+        p0.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
+        p1.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
+        p2.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
+        p3.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
+        p4.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
+        p5.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
+        p6.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
     }
 
 }

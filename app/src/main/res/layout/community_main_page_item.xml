@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="15dp">
+
+    <Button
+        android:id="@+id/community_main_page_item_prev"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/page_prev_setdrawable"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/community_main_page_item_box"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/community_main_page_item_box"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.8">
+
+        <RelativeLayout
+            android:id="@+id/community_main_page_item0"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/page_round_unchoice"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/community_main_page_item_more1"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.1">
+
+            <TextView
+                android:id="@+id/community_main_page_item0t"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/button_design_color" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/community_main_page_item_more1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/page_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/community_main_page_item1"
+            app:layout_constraintStart_toEndOf="@+id/community_main_page_item0"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.07" />
+
+        <RelativeLayout
+            android:id="@+id/community_main_page_item1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="3dp"
+            android:background="@drawable/page_round_unchoice"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/community_main_page_item2"
+            app:layout_constraintStart_toEndOf="@+id/community_main_page_item_more1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.1">
+
+            <TextView
+                android:id="@+id/community_main_page_item1t"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/button_design_color" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/community_main_page_item2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="3dp"
+            android:background="@drawable/page_round_unchoice"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/community_main_page_item3"
+            app:layout_constraintStart_toEndOf="@+id/community_main_page_item1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.1">
+
+            <TextView
+                android:id="@+id/community_main_page_item2t"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/button_design_color" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/community_main_page_item3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="3dp"
+            android:background="@drawable/page_round_unchoice"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/community_main_page_item4"
+            app:layout_constraintStart_toEndOf="@+id/community_main_page_item2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.1">
+
+            <TextView
+                android:id="@+id/community_main_page_item3t"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/button_design_color" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/community_main_page_item4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="3dp"
+            android:background="@drawable/page_round_unchoice"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/community_main_page_item5"
+            app:layout_constraintStart_toEndOf="@+id/community_main_page_item3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.1">
+
+            <TextView
+                android:id="@+id/community_main_page_item4t"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/button_design_color" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/community_main_page_item5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/page_round_unchoice"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/community_main_page_item_more2"
+            app:layout_constraintStart_toEndOf="@+id/community_main_page_item4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.1">
+
+            <TextView
+                android:id="@+id/community_main_page_item5t"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/button_design_color" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/community_main_page_item_more2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/page_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/community_main_page_item6"
+            app:layout_constraintStart_toEndOf="@+id/community_main_page_item5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.07" />
+
+        <RelativeLayout
+            android:id="@+id/community_main_page_item6"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/page_round_unchoice"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/community_main_page_item_more2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.1">
+
+            <TextView
+                android:id="@+id/community_main_page_item6t"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/button_design_color" />
+        </RelativeLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/community_main_page_item_next"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/page_next_setdrawable"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/community_main_page_item_box"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

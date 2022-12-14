@@ -1,8 +1,6 @@
 package com.dippola.relaxtour.retrofit;
 
-import com.dippola.relaxtour.community.auth.UserCommunityStateModel;
 import com.dippola.relaxtour.community.main.detail.AddHitModel;
-import com.dippola.relaxtour.retrofit.model.LikeUserListModel;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
@@ -16,11 +14,9 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface RetrofitInterface {
     @GET("user/{id}/")
@@ -58,6 +54,9 @@ public interface RetrofitInterface {
     Call<String> getUserCommunityState(
             @Path("id") int id
     );
+
+
+
 
 
 
