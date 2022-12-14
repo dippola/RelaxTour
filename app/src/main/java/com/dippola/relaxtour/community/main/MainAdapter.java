@@ -26,6 +26,7 @@ import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
 import com.dippola.relaxtour.retrofit.model.PostModelView;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,77 +61,84 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     public void onBindViewHolder(@NonNull MainAdapter.MainViewHolder holder, int position) {
         int i = position;
 
-        if (arrayList.get(i).getCategory().equals("qna")) {
-            holder.textq.setVisibility(View.VISIBLE);
-        }
-
-        if (arrayList.get(i).getUser_image() == null || arrayList.get(i).getUser_image().length() == 0) {
-            holder.userimageload.setVisibility(View.GONE);
-            Glide.with(holder.userImage.getContext()).load(context.getResources().getDrawable(R.drawable.nullpic)).apply(userr).into(holder.userImage);
+        if (CommunityMain.isLoading) {
+            holder.load.setVisibility(View.VISIBLE);
+            holder.item.setVisibility(View.GONE);
         } else {
-            Glide.with(holder.userImage.getContext()).load(arrayList.get(i).getUser_image()).apply(userr).listener(new RequestListener<Drawable>() {
-                @Override
-                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                    return false;
-                }
+            holder.load.setVisibility(View.GONE);
+            holder.item.setVisibility(View.VISIBLE);
+            if (arrayList.get(i).getCategory().equals("qna")) {
+                holder.textq.setVisibility(View.VISIBLE);
+            }
 
-                @Override
-                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                    holder.userimageload.setVisibility(View.GONE);
-                    return false;
-                }
-            }).into(holder.userImage);
-        }
-
-        if (arrayList.get(i).getImageurlcount() == 0) {
-            holder.imageurllayout.setVisibility(View.GONE);
-        } else {
-            Glide.with(holder.firstimg.getContext()).load(String.valueOf(arrayList.get(i).getImageurl().split("●")[1])).apply(imgr).listener(new RequestListener<Drawable>() {
-                @Override
-                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                    return false;
-                }
-
-                @Override
-                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                    holder.imgload.setVisibility(View.GONE);
-                    return false;
-                }
-            }).into(holder.firstimg);
-            if (arrayList.get(i).getImageurlcount() == 1) {
-                holder.imageurlcount.setVisibility(View.GONE);
+            if (arrayList.get(i).getUser_image() == null || arrayList.get(i).getUser_image().length() == 0) {
+                holder.userimageload.setVisibility(View.GONE);
+                Glide.with(holder.userImage.getContext()).load(context.getResources().getDrawable(R.drawable.nullpic)).apply(userr).into(holder.userImage);
             } else {
-                holder.imageurlcount.setText("+" + String.valueOf(arrayList.get(i).getImageurlcount() - 2));
+                Glide.with(holder.userImage.getContext()).load(arrayList.get(i).getUser_image()).apply(userr).listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        holder.userimageload.setVisibility(View.GONE);
+                        return false;
+                    }
+                }).into(holder.userImage);
             }
-        }
 
-        holder.title.setText(arrayList.get(i).getTitle());
-        holder.view.setText(String.valueOf(arrayList.get(i).getView()));
-        holder.like.setText(String.valueOf(arrayList.get(i).getLike()));
-        holder.date.setText(getDateResult(arrayList.get(i).getDate()));
-        holder.commentcount.setText(String.valueOf(arrayList.get(i).getCommentcount()));
-        holder.nickname.setText(String.valueOf(arrayList.get(i).getNickname()));
+            if (arrayList.get(i).getImageurlcount() == 0) {
+                holder.imageurllayout.setVisibility(View.GONE);
+            } else {
+                Glide.with(holder.firstimg.getContext()).load(String.valueOf(arrayList.get(i).getImageurl().split("●")[1])).apply(imgr).listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
 
-
-        holder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, CommunityMainDetail.class);
-                intent.putExtra("parent_id", arrayList.get(i).getParent_id());
-                context.startActivity(intent);
-            }
-        });
-
-        holder.userImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ImageViewer.class);
-                if (arrayList.get(i).getUser_image() != null) {
-                    intent.putExtra("url", arrayList.get(i).getUser_image());
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        holder.imgload.setVisibility(View.GONE);
+                        return false;
+                    }
+                }).into(holder.firstimg);
+                if (arrayList.get(i).getImageurlcount() == 1) {
+                    holder.imageurlcount.setVisibility(View.GONE);
+                } else {
+                    holder.imageurlcount.setText("+" + String.valueOf(arrayList.get(i).getImageurlcount() - 2));
                 }
-                context.startActivity(intent);
             }
-        });
+
+            holder.title.setText(arrayList.get(i).getTitle());
+            holder.view.setText(String.valueOf(arrayList.get(i).getView()));
+            holder.like.setText(String.valueOf(arrayList.get(i).getLike()));
+            holder.date.setText(getDateResult(arrayList.get(i).getDate()));
+            holder.commentcount.setText(String.valueOf(arrayList.get(i).getCommentcount()));
+            holder.nickname.setText(String.valueOf(arrayList.get(i).getNickname()));
+
+
+            holder.item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, CommunityMainDetail.class);
+                    intent.putExtra("parent_id", arrayList.get(i).getParent_id());
+                    context.startActivity(intent);
+                }
+            });
+
+            holder.userImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ImageViewer.class);
+                    if (arrayList.get(i).getUser_image() != null) {
+                        intent.putExtra("url", arrayList.get(i).getUser_image());
+                    }
+                    context.startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override
@@ -143,6 +151,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         TextView title, date, view, nickname, like, commentcount, imageurlcount, textq;
         ConstraintLayout item, imageurllayout;
         ProgressBar imgload, userimageload;
+//        ShimmerFrameLayout load;
+        ConstraintLayout load;
 
         public MainViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -160,6 +170,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             this.imgload = itemView.findViewById(R.id.community_main_item_img_load);
             this.userimageload = itemView.findViewById(R.id.community_main_item_userimageload);
             this.textq = itemView.findViewById(R.id.community_main_item_q);
+            this.load = itemView.findViewById(R.id.community_main_item_loadinitem);
         }
     }
 

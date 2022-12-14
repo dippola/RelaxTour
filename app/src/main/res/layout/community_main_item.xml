@@ -7,6 +7,228 @@
     android:paddingVertical="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/community_main_item_loadinitem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/page_round"
+        android:elevation="2dp"
+        android:paddingHorizontal="22dp"
+        android:paddingVertical="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.95">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/community_main_item_box_top_load"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/community_main_item_userimage_load"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/shimmer_color"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.11" />
+
+                <TextView
+                    android:id="@+id/community_main_item_title_load"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginEnd="7dp"
+                    android:background="@color/shimmer_color"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textColor="@color/text_color"
+                    android:textSize="14dp"
+                    app:layout_constraintStart_toEndOf="@+id/community_main_item_userimage_load"
+                    app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage_load"
+                    app:layout_constraintWidth_percent="0.4" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/community_main_item_imageurlcount_layout_load"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/community_main_item_nickdate_layout_load"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage_load">
+
+                    <ImageView
+                        android:id="@+id/community_main_item_imageurlcount_img_load"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@color/shimmer_color"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/community_main_item_nickdate_layout_load"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="5dp"
+                    app:layout_constraintEnd_toStartOf="@+id/community_main_item_imageurlcount_layout_load"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/community_main_item_userimage_load">
+
+                    <TextView
+                        android:id="@+id/community_main_item_nickname_load"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/shimmer_color"
+                        android:textColor="@color/community_nostrong_color"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.2" />
+
+                    <TextView
+                        android:id="@+id/community_main_item_date_load"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/shimmer_color"
+                        android:textColor="@color/community_nostrong_color"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.25" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/community_main_item_line_load"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/community_main_line_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/community_main_item_box_top_load" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="7dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/community_main_item_line_load">
+
+                <LinearLayout
+                    android:id="@+id/community_main_item_bottom1_load"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/community_main_item_bottom2_load"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/community_main_item_view_icon_load"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:background="@drawable/community_view_icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/community_main_item_view_load"
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:background="@color/shimmer_color"
+                        android:textSize="13dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/community_main_item_view_icon_load"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/community_main_item_bottom2_load"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/community_main_item_bottom3_load"
+                    app:layout_constraintStart_toEndOf="@+id/community_main_item_bottom1_load"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/community_like_icon" />
+
+                    <TextView
+                        android:id="@+id/community_main_item_like_load"
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/shimmer_color"
+                        android:textSize="13dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/community_main_item_bottom3_load"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/community_main_item_bottom2_load"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/community_main_item_comment_icon_load"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/community_comment_icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/community_main_item_comment_count_load"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/community_main_item_comment_count_load"
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/shimmer_color"
+                        android:textSize="13dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/community_main_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -40,22 +262,22 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:indeterminateTint="@color/button_design_color"
-                app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage"
                 app:layout_constraintBottom_toBottomOf="@+id/community_main_item_userimage"
+                app:layout_constraintEnd_toEndOf="@+id/community_main_item_userimage"
                 app:layout_constraintStart_toStartOf="@+id/community_main_item_userimage"
-                app:layout_constraintEnd_toEndOf="@+id/community_main_item_userimage"/>
+                app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage" />
 
             <TextView
                 android:id="@+id/community_main_item_q"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Q"
                 android:layout_marginStart="7dp"
-                android:textStyle="bold"
+                android:text="Q"
                 android:textColor="@color/button_design_color"
+                android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintStart_toEndOf="@+id/community_main_item_userimage"
-                app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage"
-                android:visibility="gone"/>
+                app:layout_constraintTop_toTopOf="@+id/community_main_item_userimage" />
 
             <TextView
                 android:id="@+id/community_main_item_title"
@@ -97,17 +319,18 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/community_main_item_imageurlcount_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
-                    android:textColor="@color/button_design_color_2"
                     android:background="@drawable/dialog_load_layout"
                     android:paddingHorizontal="4dp"
                     android:paddingVertical="1dp"
+                    android:textColor="@color/button_design_color_2"
                     android:textSize="12dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/community_main_item_imageurlcount_img" />
@@ -119,9 +342,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="5dp"
-                app:layout_constraintTop_toBottomOf="@+id/community_main_item_userimage"
                 app:layout_constraintEnd_toStartOf="@+id/community_main_item_imageurlcount_layout"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/community_main_item_userimage">
 
                 <TextView
                     android:id="@+id/community_main_item_nickname"

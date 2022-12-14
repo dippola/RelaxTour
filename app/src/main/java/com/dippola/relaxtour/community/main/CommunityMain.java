@@ -71,6 +71,8 @@ public class CommunityMain extends AppCompatActivity {
 
     List<PostModelView> lists = new ArrayList<>();
 
+    public static boolean isLoading;
+
     private DatabaseHandler databaseHandler;
     private FirebaseAuth auth;
     private SwipeRefreshLayout refresh;
@@ -122,7 +124,7 @@ public class CommunityMain extends AppCompatActivity {
         setImageAuthIcon();
         onClickAuth();
         nowPage = 1;
-        loadCommunityAll(nowPage);
+        loadCommunityAllFirst(nowPage);
         Animation show = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.fab_open);
         Animation close = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.fab_close);
         onClickFloating(show, close);
@@ -300,6 +302,7 @@ public class CommunityMain extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    startLoad();
                     if (tab2.isChecked()) {
                         tab2.setChecked(false);
                     } else if (tab3.isChecked()) {
@@ -307,7 +310,6 @@ public class CommunityMain extends AppCompatActivity {
                     }
                     tab1.setTextColor(ContextCompat.getColor(CommunityMain.this, R.color.tab_text_checked_color));
                     tab1bg.startAnimation(show1);
-                    startLoad();
                     loadCommunityAll(1);
                 } else {
                     tab1.setTextColor(ContextCompat.getColor(CommunityMain.this, R.color.tab_text_unchecked_color));
@@ -319,6 +321,7 @@ public class CommunityMain extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    startLoad();
                     if (tab1.isChecked()) {
                         tab1.setChecked(false);
                     } else if (tab3.isChecked()) {
@@ -326,7 +329,6 @@ public class CommunityMain extends AppCompatActivity {
                     }
                     tab2.setTextColor(ContextCompat.getColor(CommunityMain.this, R.color.tab_text_checked_color));
                     tab2bg.startAnimation(show2);
-                    startLoad();
                     loadCommunityCategory(1, "free");
                 } else {
                     tab2.setTextColor(ContextCompat.getColor(CommunityMain.this, R.color.tab_text_unchecked_color));
@@ -338,6 +340,7 @@ public class CommunityMain extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    startLoad();
                     if (tab1.isChecked()) {
                         tab1.setChecked(false);
                     } else if (tab2.isChecked()) {
@@ -345,7 +348,6 @@ public class CommunityMain extends AppCompatActivity {
                     }
                     tab3.setTextColor(ContextCompat.getColor(CommunityMain.this, R.color.tab_text_checked_color));
                     tab3bg.startAnimation(show3);
-                    startLoad();
                     loadCommunityCategory(1, "qna");
                 } else {
                     tab3.setTextColor(ContextCompat.getColor(CommunityMain.this, R.color.tab_text_unchecked_color));
@@ -366,15 +368,17 @@ public class CommunityMain extends AppCompatActivity {
 
     private void startReflesh() {
         startLoad();
-        List<PostModelView> lists = new ArrayList<>();
         if (tab1.isChecked()) {
-            RetrofitClient.getApiService().getMainPageAll(1).enqueue(new Callback<PostsViewWitPages>() {
+            RetrofitClient.getApiService().getMainPageAll(nowPage).enqueue(new Callback<PostsViewWitPages>() {
                 @Override
                 public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                     if (response.isSuccessful()) {
+                        int beforeCount = lists.size();
+                        lists.clear();
                         lists.addAll(response.body().getPosts());
-                        setRecyclerView(lists);
-                        finishedLoad();
+                        isLoading = false;
+//                        itemChange(beforeCount, lists.size());
+                        setRecyclerView();
                         refresh.setRefreshing(false);
                     }
                 }
@@ -389,9 +393,11 @@ public class CommunityMain extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                     if (response.isSuccessful()) {
+                        int beforeCount = lists.size();
+                        lists.clear();
                         lists.addAll(response.body().getPosts());
-                        setRecyclerView(lists);
-                        finishedLoad();
+                        isLoading = false;
+                        setRecyclerView();
                         refresh.setRefreshing(false);
                     }
                 }
@@ -406,9 +412,11 @@ public class CommunityMain extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                     if (response.isSuccessful()) {
+                        int beforeCount = lists.size();
+                        lists.clear();
                         lists.addAll(response.body().getPosts());
-                        setRecyclerView(lists);
-                        finishedLoad();
+                        isLoading = false;
+                        setRecyclerView();
                         refresh.setRefreshing(false);
                     }
                 }
@@ -703,17 +711,38 @@ public class CommunityMain extends AppCompatActivity {
         }
     }
 
-    private void loadCommunityAll(int page) {
-        lists.clear();
+    private void loadCommunityAllFirst(int page) {
         RetrofitClient.getApiService().getMainPageAll(page).enqueue(new Callback<PostsViewWitPages>() {
             @Override
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
                     lists.addAll(response.body().getPosts());
-                    int page_count = response.body().getPages();
-                    setRecyclerView(lists);
+                    setRecyclerView();
                     setPagination(response.body().getPages(), page);
-                    finishedLoad();
+                    recyclerView.setVisibility(View.VISIBLE);
+                    pagebox.setVisibility(View.VISIBLE);
+                    itemload.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void loadCommunityAll(int page) {
+        RetrofitClient.getApiService().getMainPageAll(page).enqueue(new Callback<PostsViewWitPages>() {
+            @Override
+            public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
+                if (response.isSuccessful()) {
+                    int beforeCount = lists.size();
+                    lists.clear();
+                    lists.addAll(response.body().getPosts());
+                    isLoading = false;
+                    setRecyclerView();
+                    setPagination(response.body().getPages(), page);
                 }
             }
 
@@ -724,16 +753,16 @@ public class CommunityMain extends AppCompatActivity {
         });
     }
     private void loadCommunityCategory(int page, String category) {
-        lists.clear();
         RetrofitClient.getApiService().getMainPageCategory(category, page).enqueue(new Callback<PostsViewWitPages>() {
             @Override
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
+                    int beforeCount = lists.size();
+                    lists.clear();
                     lists.addAll(response.body().getPosts());
-                    int page_count = response.body().getPages();
-                    setRecyclerView(lists);
+                    isLoading = false;
+                    setRecyclerView();
                     setPagination(response.body().getPages(), page);
-                    finishedLoad();
                 }
             }
 
@@ -744,7 +773,19 @@ public class CommunityMain extends AppCompatActivity {
         });
     }
 
-    private void setRecyclerView(List<PostModelView> lists) {
+    private void itemChange(int beforeCount, int afterCount) {
+        if (beforeCount == afterCount) {
+            adapter.notifyItemRangeChanged(0, afterCount);
+        } else if (beforeCount > afterCount) {
+            adapter.notifyItemRangeRemoved(afterCount, (beforeCount - afterCount));
+            adapter.notifyItemRangeChanged(0, afterCount);
+        } else {
+            adapter.notifyItemRangeInserted(beforeCount, (afterCount - beforeCount));
+            adapter.notifyItemRangeChanged(0, afterCount);
+        }
+    }
+
+    private void setRecyclerView() {
         RequestOptions userr = new RequestOptions();
         userr.transform(new CircleCrop());
         RequestOptions imgr = new RequestOptions();
@@ -755,15 +796,8 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void startLoad() {
-        itemload.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.INVISIBLE);
-        pagebox.setVisibility(View.INVISIBLE);
-    }
-
-    private void finishedLoad() {
-        recyclerView.setVisibility(View.VISIBLE);
-        pagebox.setVisibility(View.VISIBLE);
-        itemload.setVisibility(View.GONE);
+        isLoading = true;
+        adapter.notifyItemRangeChanged(0, lists.size());
     }
 
     private void setPagination(int totalPage, int nowPage) {
