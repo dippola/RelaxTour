@@ -77,8 +77,11 @@ public class CommunityMainDetail extends AppCompatActivity {
     private List<PostCommentModel> commentModelList = new ArrayList<>();
     public static List<String> imageList = new ArrayList<>();
 
+    public static boolean isCommentLoad;
+
     private ShimmerFrameLayout topMiddleLoad, bottomLoad;
     private ConstraintLayout topFinish, middleFinish, bottomFinish, commentLayout;
+    private RelativeLayout likecommentrefbox;
     private ConstraintLayout load_body;
     private NestedScrollView scrollView;
     private Button back, refresh, refreshload, commentViewMore;
@@ -91,6 +94,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     private RecyclerView commentlist;
     private ProgressBar commentMoreLoad;
     public static EditText editComment;
+    private ConstraintLayout firstCommentLoad1, firstCommentLoad2;
 
     //share list
     private ConstraintLayout listLayout;
@@ -149,6 +153,7 @@ public class CommunityMainDetail extends AppCompatActivity {
         topMiddleLoad = findViewById(R.id.community_main_detail_load);
         bottomLoad = findViewById(R.id.community_main_detail_comment_item_load);
         topFinish = findViewById(R.id.community_main_detail_load_top_finish);
+        likecommentrefbox = findViewById(R.id.community_main_detail_likecomment_box);
         middleFinish = findViewById(R.id.community_main_detail_load_middle_finish);
         bottomFinish = findViewById(R.id.community_main_detail_load_bottom_finish);
         topFinish.setVisibility(View.INVISIBLE);
@@ -156,6 +161,8 @@ public class CommunityMainDetail extends AppCompatActivity {
         bottomFinish.setVisibility(View.INVISIBLE);
         load_body = findViewById(R.id.community_main_detail_body_box_load);
         load_body.setMinHeight(y);
+        firstCommentLoad1 = findViewById(R.id.community_main_detail_comment_item_load1);
+        firstCommentLoad2 = findViewById(R.id.community_main_detail_comment_item_load2);
         scrollView = findViewById(R.id.community_main_detail_scrollview);
         back = findViewById(R.id.community_main_detail_backbtn);
         like = findViewById(R.id.community_main_detail_likebtn);
@@ -469,10 +476,19 @@ public class CommunityMainDetail extends AppCompatActivity {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isCommentLoad = true;
+                if (adapter != null) {
+                    adapter.notifyItemRangeChanged(0, commentModelList.size());
+                }
+
                 Animation animation = AnimationUtils.loadAnimation(CommunityMainDetail.this, R.anim.refresh_turn);
                 refreshload.startAnimation(animation);
                 bottomLoad.setVisibility(View.VISIBLE);
-                bottomFinish.setVisibility(View.GONE);
+                if (adapter == null) {
+                    bottomFinish.setVisibility(View.GONE);
+                } else {
+                    likecommentrefbox.setVisibility(View.INVISIBLE);
+                }
                 getData("refresh");
             }
         });
@@ -850,11 +866,13 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void setComment(int size, String from) {
+        isCommentLoad = false;
         if (size == 0) {
             nullcomment.setVisibility(View.VISIBLE);
             commentLayout.setVisibility(View.GONE);
             bottomLoad.setVisibility(View.GONE);
             bottomFinish.setVisibility(View.VISIBLE);
+            adapter = null;
         } else {
             Log.d("CommentDatil>>>", "list size: " + commentModelList.size());
             nullcomment.setVisibility(View.GONE);
@@ -864,6 +882,11 @@ public class CommunityMainDetail extends AppCompatActivity {
             bottomLoad.setVisibility(View.GONE);
             commentLayout.setVisibility(View.VISIBLE);
             bottomFinish.setVisibility(View.VISIBLE);
+            likecommentrefbox.setVisibility(View.VISIBLE);
+
+            //if first load finished firstCommentLoad1 gone
+            firstCommentLoad1.setVisibility(View.GONE);
+            firstCommentLoad2.setVisibility(View.GONE);
 
             if (from.equals("refresh")) {
                 refreshload.clearAnimation();

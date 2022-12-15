@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +19,7 @@ import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,44 +48,51 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
     public void onBindViewHolder(@NonNull MainDetailCommentAdapter.CustomViewHolder holder, int position) {
         int i = position;
 
-        holder.body.setText(list.get(i).getBody());
-        if (list.get(i).getUser_url().equals("")) {
-            Glide.with(context).load(R.drawable.nullpic).transform(new CircleCrop()).into(holder.img);
+        if (CommunityMainDetail.isCommentLoad) {
+            holder.itemLoad.setVisibility(View.VISIBLE);
+            holder.item.setVisibility(View.GONE);
         } else {
-            Glide.with(context).load(list.get(i).getUser_url()).transform(new CircleCrop()).into(holder.img);
-        }
-        holder.date.setText(getDateResult(list.get(i).getDate()));
-        holder.nickname.setText(list.get(i).getNickname());
-        if (list.get(i).getTo_id() != 0) {
-            holder.tonickname.setVisibility(View.VISIBLE);
-            holder.tonickname.setText(String.valueOf("@" + list.get(i).getTo_nickname()));
-        } else {
-            holder.tonickname.setVisibility(View.GONE);
-        }
-
-        holder.nickname.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!list.get(i).getNickname().equals(new DatabaseHandler(context).getUserModel().getNickname())) {
-                    CommunityMainDetail.towho.setText(list.get(i).getNickname());
-                    CommunityMainDetail.towhoid = list.get(i).getParent_user();
-                    CommunityMainDetail.towho.setVisibility(View.VISIBLE);
-                    CommunityMainDetail.editComment.requestFocus();
-                    CommunityMainDetail.showKeyboard(view);
-                }
+            holder.item.setVisibility(View.VISIBLE);
+            holder.itemLoad.setVisibility(View.GONE);
+            holder.body.setText(list.get(i).getBody());
+            if (list.get(i).getUser_url().equals("")) {
+                Glide.with(context).load(R.drawable.nullpic).transform(new CircleCrop()).into(holder.img);
+            } else {
+                Glide.with(context).load(list.get(i).getUser_url()).transform(new CircleCrop()).into(holder.img);
             }
-        });
-
-        holder.img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ImageViewer.class);
-                if (list.get(i).getUser_url() != null) {
-                    intent.putExtra("url", list.get(i).getUser_url());
-                }
-                context.startActivity(intent);
+            holder.date.setText(getDateResult(list.get(i).getDate()));
+            holder.nickname.setText(list.get(i).getNickname());
+            if (list.get(i).getTo_id() != 0) {
+                holder.tonickname.setVisibility(View.VISIBLE);
+                holder.tonickname.setText(String.valueOf("@" + list.get(i).getTo_nickname()));
+            } else {
+                holder.tonickname.setVisibility(View.GONE);
             }
-        });
+
+            holder.nickname.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!list.get(i).getNickname().equals(new DatabaseHandler(context).getUserModel().getNickname())) {
+                        CommunityMainDetail.towho.setText(list.get(i).getNickname());
+                        CommunityMainDetail.towhoid = list.get(i).getParent_user();
+                        CommunityMainDetail.towho.setVisibility(View.VISIBLE);
+                        CommunityMainDetail.editComment.requestFocus();
+                        CommunityMainDetail.showKeyboard(view);
+                    }
+                }
+            });
+
+            holder.img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ImageViewer.class);
+                    if (list.get(i).getUser_url() != null) {
+                        intent.putExtra("url", list.get(i).getUser_url());
+                    }
+                    context.startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override
@@ -95,6 +104,8 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
         ImageView img;
         TextView nickname, date, body, tonickname;
         Button more;
+        ConstraintLayout item;
+        ShimmerFrameLayout itemLoad;
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.img = itemView.findViewById(R.id.community_main_detail_comment_item_img);
@@ -103,6 +114,8 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
             this.body = itemView.findViewById(R.id.community_main_detail_comment_item_body);
             this.more = itemView.findViewById(R.id.community_main_detail_comment_item_more);
             this.tonickname = itemView.findViewById(R.id.community_main_detail_comment_item_tonickname);
+            this.item = itemView.findViewById(R.id.community_main_detail_comment_item);
+            this.itemLoad = itemView.findViewById(R.id.community_main_detail_comment_item_loadii);
         }
     }
 

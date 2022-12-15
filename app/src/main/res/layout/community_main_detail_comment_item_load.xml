@@ -166,7 +166,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/community_main_detail_comment_item_1111"
+            android:id="@+id/community_main_detail_comment_item_load2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/community_main_detail_comment_item_load1">
@@ -244,7 +244,7 @@
             android:background="@color/community_main_line_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/community_main_detail_comment_item_1111" />
+            app:layout_constraintTop_toBottomOf="@id/community_main_detail_comment_item_load2" />
 
         <View
             android:layout_width="match_parent"
