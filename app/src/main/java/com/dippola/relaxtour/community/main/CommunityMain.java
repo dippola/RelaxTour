@@ -78,9 +78,9 @@ public class CommunityMain extends AppCompatActivity {
     private SwipeRefreshLayout refresh;
     private ImageView authicon;
     private ProgressBar iconload;
-    public static RecyclerView recyclerView;
-    public static ShimmerFrameLayout itemload;
-    public static ConstraintLayout pagebox;
+    private RecyclerView recyclerView;
+    private ShimmerFrameLayout itemload;
+    private ConstraintLayout pagebox;
     private FloatingActionButton fabmain;
     private ConstraintLayout fab1, fab2;
     private Button back;
@@ -388,7 +388,7 @@ public class CommunityMain extends AppCompatActivity {
                 }
             });
         } else if (tab2.isChecked()) {
-            RetrofitClient.getApiService().getMainPageCategory("free", 1).enqueue(new Callback<PostsViewWitPages>() {
+            RetrofitClient.getApiService().getMainPageCategory("free", nowPage).enqueue(new Callback<PostsViewWitPages>() {
                 @Override
                 public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                     if (response.isSuccessful()) {
@@ -407,7 +407,7 @@ public class CommunityMain extends AppCompatActivity {
                 }
             });
         } else if (tab3.isChecked()) {
-            RetrofitClient.getApiService().getMainPageCategory("qna", 1).enqueue(new Callback<PostsViewWitPages>() {
+            RetrofitClient.getApiService().getMainPageCategory("qna", nowPage).enqueue(new Callback<PostsViewWitPages>() {
                 @Override
                 public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                     if (response.isSuccessful()) {
@@ -716,6 +716,7 @@ public class CommunityMain extends AppCompatActivity {
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
                     lists.addAll(response.body().getPosts());
+                    isLoading = false;
                     setRecyclerView();
                     setPagination(response.body().getPages(), page);
                     recyclerView.setVisibility(View.VISIBLE);
@@ -736,7 +737,6 @@ public class CommunityMain extends AppCompatActivity {
             @Override
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
-                    int beforeCount = lists.size();
                     lists.clear();
                     lists.addAll(response.body().getPosts());
                     isLoading = false;
@@ -790,6 +790,7 @@ public class CommunityMain extends AppCompatActivity {
         RequestOptions imgr = new RequestOptions();
         imgr.transform(new CenterCrop(), new RoundedCorners(20));
         adapter = new MainAdapter(CommunityMain.this, lists, userr, imgr);
+        adapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(CommunityMain.this));
         recyclerView.setAdapter(adapter);
     }
@@ -810,7 +811,6 @@ public class CommunityMain extends AppCompatActivity {
         } else {
             position = nowPage%10;
         }//
-        Log.d("CommunityMain>>>", "position: " + position);
         if (nowPage <= 5) {
             prev.setEnabled(false);
             p0.setVisibility(View.GONE);

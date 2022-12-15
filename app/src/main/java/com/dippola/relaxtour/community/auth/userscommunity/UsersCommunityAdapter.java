@@ -1,9 +1,8 @@
-package com.dippola.relaxtour.community.main;
+package com.dippola.relaxtour.community.auth.userscommunity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +23,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
+import com.dippola.relaxtour.community.main.CommunityMain;
+import com.dippola.relaxtour.community.main.MainAdapter;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
 import com.dippola.relaxtour.retrofit.model.PostModelView;
-import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,33 +35,30 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
-
+public class UsersCommunityAdapter extends RecyclerView.Adapter<UsersCommunityAdapter.MainViewHolder> {
     List<PostModelView> arrayList;
     Context context;
     RequestOptions userr, imgr;
-
-    public MainAdapter(Context context, List<PostModelView> arrayList, RequestOptions userr, RequestOptions imgr) {
+    public UsersCommunityAdapter(Context context, List<PostModelView> arrayList, RequestOptions userr, RequestOptions imgr) {
         this.context = context;
         this.arrayList = arrayList;
         this.userr = userr;
         this.imgr = imgr;
     }
-
     @NonNull
     @Override
-    public MainAdapter.MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UsersCommunityAdapter.MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.community_main_item, parent, false);
-        MainAdapter.MainViewHolder holder = new MainAdapter.MainViewHolder(view);
+        MainViewHolder holder = new MainViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MainAdapter.MainViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UsersCommunityAdapter.MainViewHolder holder, int position) {
         int i = position;
 
-        if (CommunityMain.isLoading) {
+        if (UsersCommunity.isLoading) {
             holder.load.setVisibility(View.VISIBLE);
             holder.item.setVisibility(View.GONE);
         } else {
@@ -156,9 +153,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         TextView title, date, view, nickname, like, commentcount, imageurlcount, textq;
         ConstraintLayout item, imageurllayout;
         ProgressBar imgload, userimageload;
-//        ShimmerFrameLayout load;
         ConstraintLayout load;
-
         public MainViewHolder(@NonNull View itemView) {
             super(itemView);
             this.userImage = itemView.findViewById(R.id.community_main_item_userimage);
@@ -178,8 +173,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             this.load = itemView.findViewById(R.id.community_main_item_loadinitem);
         }
     }
-
-
     private String getDateResult(String dateFromServer) {
         //3번째 글 2022-11-24 21:06
         String nowTime = getTime();

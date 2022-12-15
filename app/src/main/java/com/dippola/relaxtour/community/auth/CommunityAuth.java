@@ -151,7 +151,6 @@ public class CommunityAuth extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    Log.d("CommunityAuth>>>", "1");
                     String[] bodySplit = response.body().split("/");
                     postCount.setText(bodySplit[0]);
                     postCountLoad.setVisibility(View.GONE);
@@ -160,9 +159,7 @@ public class CommunityAuth extends AppCompatActivity {
                     likeCount.setText(bodySplit[2]);
                     likeCountLoad.setVisibility(View.GONE);
                 } else {
-                    Log.d("CommunityAuth>>>", "2");
                 }
-                Log.d("CommunityAuth>>>", "3: " + response.toString());
             }
 
             @Override

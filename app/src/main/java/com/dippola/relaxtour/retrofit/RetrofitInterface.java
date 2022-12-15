@@ -55,6 +55,18 @@ public interface RetrofitInterface {
             @Path("id") int id
     );
 
+    @GET("user/{id}/community/posts/page={page}/")
+    Call<PostsViewWitPages> getUserCommunityPostsPage(
+            @Path("id") int id,
+            @Path("page") int page
+    );
+
+    @GET("user/{id}/community/category={category}/page={page}/")
+    Call<PostsViewWitPages> getUserCommunityCategoryPage(
+            @Path("id") int id,
+            @Path("category") String category,
+            @Path("page") int page
+    );
 
 
 

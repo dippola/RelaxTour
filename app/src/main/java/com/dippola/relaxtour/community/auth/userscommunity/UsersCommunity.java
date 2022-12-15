@@ -1,16 +1,38 @@
 package com.dippola.relaxtour.community.auth.userscommunity;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.main.CommunityMain;
+import com.dippola.relaxtour.community.main.MainAdapter;
+import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.PostModelView;
 import com.dippola.relaxtour.retrofit.model.PostsViewWitPages;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,39 +43,106 @@ import retrofit2.Response;
 
 public class UsersCommunity extends AppCompatActivity {
 
-    private Button back;
-    private RecyclerView recyclerView;
+    public static boolean isLoading;
+    private DatabaseHandler databaseHandler;
+    private int myId;
+
     private List<PostModelView> lists = new ArrayList<>();
+
+    private SwipeRefreshLayout refresh;
+    private RecyclerView recyclerView;
+    private ShimmerFrameLayout itemload;
+    private ConstraintLayout pagebox;
+    private Button back;
+    private RadioButton tab1, tab2, tab3;
+    private ImageView tab1bg, tab2bg, tab3bg;
+    private Button prev, next;
+    private RelativeLayout p0, p1, p2, p3, p4, p5, p6;
+    private ImageView m1, m2;
+    private TextView t0, t1, t2, t3, t4, t5, t6;
+
     private int nowPage;
+    private String from;
+
+    private UsersCommunityAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.users_community);
 
-        nowPage = 1;
+        databaseHandler = new DatabaseHandler(UsersCommunity.this);
+        myId = databaseHandler.getUserModel().getId();
 
-        String from = getIntent().getStringExtra("from");
-        getData(from);
+        nowPage = 1;
+        from = getIntent().getStringExtra("from");
+        setInit();
+        loadCommunityAllFirst(nowPage);
+        onClickBackBtn();
+        setRefresh();
+        setOnClickTab();
     }
 
     private void setInit() {
-        back = findViewById(R.id.users_community_back);
+        refresh = findViewById(R.id.users_community_refresh);
         recyclerView = findViewById(R.id.users_community_recyclerview);
+        recyclerView.setVisibility(View.INVISIBLE);
+        itemload = findViewById(R.id.users_community_load_item);
+        itemload.startShimmer();
+        pagebox = findViewById(R.id.users_community_page_box);
+        pagebox.setVisibility(View.GONE);
+        back = findViewById(R.id.users_community_backbtn);
+        tab1 = findViewById(R.id.users_community_tab1);
+        tab1.setChecked(true);
+        tab1.setTextColor(ContextCompat.getColor(UsersCommunity.this, R.color.tab_text_checked_color));
+        tab2 = findViewById(R.id.users_community_tab2);
+        tab3 = findViewById(R.id.users_community_tab3);
+        tab1bg = findViewById(R.id.users_community_tab1bg);
+        tab1bg.setVisibility(View.VISIBLE);
+        tab2bg = findViewById(R.id.users_community_tab2bg);
+        tab3bg = findViewById(R.id.users_community_tab3bg);
+        prev = findViewById(R.id.community_main_page_item_prev);
+        next = findViewById(R.id.community_main_page_item_next);
+        p0 = findViewById(R.id.community_main_page_item0);
+        m1 = findViewById(R.id.community_main_page_item_more1);
+        p1 = findViewById(R.id.community_main_page_item1);
+        p2 = findViewById(R.id.community_main_page_item2);
+        p3 = findViewById(R.id.community_main_page_item3);
+        p4 = findViewById(R.id.community_main_page_item4);
+        p5 = findViewById(R.id.community_main_page_item5);
+        p6 = findViewById(R.id.community_main_page_item6);
+        m2 = findViewById(R.id.community_main_page_item_more2);
+        next = findViewById(R.id.community_main_page_item_next);
+        t0 = findViewById(R.id.community_main_page_item0t);
+        t1 = findViewById(R.id.community_main_page_item1t);
+        t2 = findViewById(R.id.community_main_page_item2t);
+        t3 = findViewById(R.id.community_main_page_item3t);
+        t4 = findViewById(R.id.community_main_page_item4t);
+        t5 = findViewById(R.id.community_main_page_item5t);
+        t6 = findViewById(R.id.community_main_page_item6t);
     }
 
-    private void getData(String from) {
-        if (from.equals("posts")) {
-            getPostsData();
-        }
+    private void onClickBackBtn() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
-    private void getPostsData() {
-        RetrofitClient.getApiService().getMainPageAll(nowPage).enqueue(new Callback<PostsViewWitPages>() {
+    private void loadCommunityAllFirst(int page) {
+        RetrofitClient.getApiService().getUserCommunityPostsPage(myId, page).enqueue(new Callback<PostsViewWitPages>() {
             @Override
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
-                    lists = response.body().getPosts();
+                    lists.addAll(response.body().getPosts());
+                    isLoading = false;
+                    setRecyclerView();
+                    setPagination(response.body().getPages(), page);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    pagebox.setVisibility(View.VISIBLE);
+                    itemload.setVisibility(View.GONE);
                 }
             }
 
@@ -62,5 +151,478 @@ public class UsersCommunity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setRecyclerView() {
+        RequestOptions userr = new RequestOptions();
+        userr.transform(new CircleCrop());
+        RequestOptions imgr = new RequestOptions();
+        imgr.transform(new CenterCrop(), new RoundedCorners(20));
+        adapter = new UsersCommunityAdapter(UsersCommunity.this, lists, userr, imgr);
+        adapter.setHasStableIds(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(UsersCommunity.this));
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setOnClickTab() {
+        Animation show1 = AnimationUtils.loadAnimation(UsersCommunity.this, R.anim.tab_anim_1);
+        Animation hide1 = AnimationUtils.loadAnimation(UsersCommunity.this, R.anim.tab_anim_2);
+        Animation show2 = AnimationUtils.loadAnimation(UsersCommunity.this, R.anim.tab_anim_1);
+        Animation hide2 = AnimationUtils.loadAnimation(UsersCommunity.this, R.anim.tab_anim_2);
+        Animation show3 = AnimationUtils.loadAnimation(UsersCommunity.this, R.anim.tab_anim_1);
+        Animation hide3 = AnimationUtils.loadAnimation(UsersCommunity.this, R.anim.tab_anim_2);
+        show1.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                tab1bg.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        hide1.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                tab1bg.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        show2.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                tab2bg.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        hide2.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                tab2bg.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        show3.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                tab3bg.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        hide3.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                tab3bg.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        tab1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    startLoad();
+                    if (tab2.isChecked()) {
+                        tab2.setChecked(false);
+                    } else if (tab3.isChecked()) {
+                        tab3.setChecked(false);
+                    }
+                    tab1.setTextColor(ContextCompat.getColor(UsersCommunity.this, R.color.tab_text_checked_color));
+                    tab1bg.startAnimation(show1);
+                    loadCommunityAll(1);
+                } else {
+                    tab1.setTextColor(ContextCompat.getColor(UsersCommunity.this, R.color.tab_text_unchecked_color));
+                    tab1bg.startAnimation(hide1);
+                }
+            }
+        });
+        tab2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    startLoad();
+                    if (tab1.isChecked()) {
+                        tab1.setChecked(false);
+                    } else if (tab3.isChecked()) {
+                        tab3.setChecked(false);
+                    }
+                    tab2.setTextColor(ContextCompat.getColor(UsersCommunity.this, R.color.tab_text_checked_color));
+                    tab2bg.startAnimation(show2);
+                    loadCommunityCategory(1, "free");
+                } else {
+                    tab2.setTextColor(ContextCompat.getColor(UsersCommunity.this, R.color.tab_text_unchecked_color));
+                    tab2bg.startAnimation(hide2);
+                }
+            }
+        });
+        tab3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    startLoad();
+                    if (tab1.isChecked()) {
+                        tab1.setChecked(false);
+                    } else if (tab2.isChecked()) {
+                        tab2.setChecked(false);
+                    }
+                    tab3.setTextColor(ContextCompat.getColor(UsersCommunity.this, R.color.tab_text_checked_color));
+                    tab3bg.startAnimation(show3);
+                    loadCommunityCategory(1, "qna");
+                } else {
+                    tab3.setTextColor(ContextCompat.getColor(UsersCommunity.this, R.color.tab_text_unchecked_color));
+                    tab3bg.startAnimation(hide3);
+                }
+            }
+        });
+    }
+
+    private void loadCommunityAll(int page) {
+        RetrofitClient.getApiService().getUserCommunityPostsPage(myId, page).enqueue(new Callback<PostsViewWitPages>() {
+            @Override
+            public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
+                if (response.isSuccessful()) {
+                    lists.clear();
+                    lists.addAll(response.body().getPosts());
+                    isLoading = false;
+                    setRecyclerView();
+                    setPagination(response.body().getPages(), page);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
+
+            }
+        });
+    }
+    private void loadCommunityCategory(int page, String category) {
+        RetrofitClient.getApiService().getUserCommunityCategoryPage(myId, category, page).enqueue(new Callback<PostsViewWitPages>() {
+            @Override
+            public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
+                if (response.isSuccessful()) {
+                    int beforeCount = lists.size();
+                    lists.clear();
+                    lists.addAll(response.body().getPosts());
+                    isLoading = false;
+                    setRecyclerView();
+                    setPagination(response.body().getPages(), page);
+                }
+                Log.d("UsersCommunity>>>", "2: " + response);
+            }
+
+            @Override
+            public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
+                Log.d("UsersCommunity>>>", "3: " + t.getMessage());
+            }
+        });
+    }
+
+    private void startLoad() {
+        isLoading = true;
+        adapter.notifyItemRangeChanged(0, lists.size());
+    }
+
+    private void setRefresh() {
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                startReflesh();
+            }
+        });
+    }
+
+    private void startReflesh() {
+        startLoad();
+        if (tab1.isChecked()) {
+            RetrofitClient.getApiService().getUserCommunityPostsPage(myId, nowPage).enqueue(new Callback<PostsViewWitPages>() {
+                @Override
+                public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
+                    if (response.isSuccessful()) {
+                        int beforeCount = lists.size();
+                        lists.clear();
+                        lists.addAll(response.body().getPosts());
+                        isLoading = false;
+//                        itemChange(beforeCount, lists.size());
+                        setRecyclerView();
+                        refresh.setRefreshing(false);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
+
+                }
+            });
+        } else if (tab2.isChecked()) {
+            RetrofitClient.getApiService().getUserCommunityCategoryPage(myId, "free", nowPage).enqueue(new Callback<PostsViewWitPages>() {
+                @Override
+                public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
+                    if (response.isSuccessful()) {
+                        int beforeCount = lists.size();
+                        lists.clear();
+                        lists.addAll(response.body().getPosts());
+                        isLoading = false;
+                        setRecyclerView();
+                        refresh.setRefreshing(false);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
+
+                }
+            });
+        } else if (tab3.isChecked()) {
+            RetrofitClient.getApiService().getUserCommunityCategoryPage(myId, "qna", nowPage).enqueue(new Callback<PostsViewWitPages>() {
+                @Override
+                public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
+                    if (response.isSuccessful()) {
+                        int beforeCount = lists.size();
+                        lists.clear();
+                        lists.addAll(response.body().getPosts());
+                        isLoading = false;
+                        setRecyclerView();
+                        refresh.setRefreshing(false);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
+    private void setPagination(int totalPage, int nowPage) {
+        onClickPagination(totalPage);
+        int rest = totalPage%5;
+        int position;
+        if (nowPage <= 5) {
+            position = nowPage;
+        } else if (nowPage > 5 && nowPage <= 10) {
+            position = nowPage - 5;
+        } else {
+            position = nowPage%10;
+        }//
+        if (nowPage <= 5) {
+            prev.setEnabled(false);
+            p0.setVisibility(View.GONE);
+            m1.setVisibility(View.GONE);
+        } else {
+            t0.setText("1");
+        }//
+        if ((totalPage - nowPage) < 5) {//last block
+            next.setEnabled(false);
+            m2.setVisibility(View.GONE);
+            p6.setVisibility(View.GONE);
+            if (rest == 1) {
+                p2.setVisibility(View.GONE);
+                p3.setVisibility(View.GONE);
+                p4.setVisibility(View.GONE);
+                p5.setVisibility(View.GONE);
+            } else if (rest == 2) {
+                p3.setVisibility(View.GONE);
+                p4.setVisibility(View.GONE);
+                p5.setVisibility(View.GONE);
+            } else if (rest == 3) {
+                p4.setVisibility(View.GONE);
+                p5.setVisibility(View.GONE);
+            } else if (rest == 4) {
+                p5.setVisibility(View.GONE);
+            }
+        } else {
+            t6.setText(String.valueOf(totalPage));
+        }//
+        if (position == 1) {
+            p1.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
+            t1.setText(String.valueOf(nowPage));
+            t2.setText(String.valueOf(nowPage + 1));
+            t3.setText(String.valueOf(nowPage + 2));
+            t4.setText(String.valueOf(nowPage + 3));
+            t5.setText(String.valueOf(nowPage + 4));
+            t1.setTextColor(getResources().getColor(R.color.button_design_color_2));
+        } else if (position == 2) {
+            p2.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
+            t1.setText(String.valueOf(nowPage - 1));
+            t2.setText(String.valueOf(nowPage));
+            t3.setText(String.valueOf(nowPage + 1));
+            t4.setText(String.valueOf(nowPage + 2));
+            t5.setText(String.valueOf(nowPage + 3));
+            t2.setTextColor(getResources().getColor(R.color.button_design_color_2));
+        } else if (position == 3) {
+            p3.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
+            t1.setText(String.valueOf(nowPage - 2));
+            t2.setText(String.valueOf(nowPage - 1));
+            t3.setText(String.valueOf(nowPage));
+            t4.setText(String.valueOf(nowPage + 1));
+            t5.setText(String.valueOf(nowPage + 2));
+            t3.setTextColor(getResources().getColor(R.color.button_design_color_2));
+        } else if (position == 4) {
+            p4.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
+            t1.setText(String.valueOf(nowPage - 3));
+            t2.setText(String.valueOf(nowPage - 2));
+            t3.setText(String.valueOf(nowPage - 1));
+            t4.setText(String.valueOf(nowPage));
+            t5.setText(String.valueOf(nowPage + 1));
+            t4.setTextColor(getResources().getColor(R.color.button_design_color_2));
+        } else if (position == 5) {
+            p5.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
+            t1.setText(String.valueOf(nowPage - 4));
+            t2.setText(String.valueOf(nowPage - 3));
+            t3.setText(String.valueOf(nowPage - 2));
+            t4.setText(String.valueOf(nowPage - 1));
+            t5.setText(String.valueOf(nowPage));
+            t5.setTextColor(getResources().getColor(R.color.button_design_color_2));
+        }//
+    }
+
+    private void onClickPagination(int totalPage) {
+        prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage -= 1;
+                setAllPageUnChoice();
+                startReflesh();
+            }
+        });
+        p0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage = 1;
+                setAllPageUnChoice();
+                t0.setTextColor(getResources().getColor(R.color.button_design_color_2));
+                startReflesh();
+            }
+        });
+        p1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage = Integer.parseInt(t1.getText().toString());
+                setAllPageUnChoice();
+                t1.setTextColor(getResources().getColor(R.color.button_design_color_2));
+                startReflesh();
+            }
+        });
+        p2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage = Integer.parseInt(t2.getText().toString());
+                setAllPageUnChoice();
+                t2.setTextColor(getResources().getColor(R.color.button_design_color_2));
+                startReflesh();
+            }
+        });
+        p3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage = Integer.parseInt(t3.getText().toString());
+                setAllPageUnChoice();
+                t3.setTextColor(getResources().getColor(R.color.button_design_color_2));
+                startReflesh();
+            }
+        });
+        p4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage = Integer.parseInt(t4.getText().toString());
+                setAllPageUnChoice();
+                t4.setTextColor(getResources().getColor(R.color.button_design_color_2));
+                startReflesh();
+            }
+        });
+        p5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage = Integer.parseInt(t5.getText().toString());
+                setAllPageUnChoice();
+                t5.setTextColor(getResources().getColor(R.color.button_design_color_2));
+                startReflesh();
+            }
+        });
+        p6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage = totalPage;
+                setAllPageUnChoice();
+                t6.setTextColor(getResources().getColor(R.color.button_design_color_2));
+                startReflesh();
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nowPage += 1;
+                setAllPageUnChoice();
+                startReflesh();
+            }
+        });
+    }
+
+    private void setAllPageUnChoice() {
+        p0.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
+        p1.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
+        p2.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
+        p3.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
+        p4.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
+        p5.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
+        p6.setBackground(getResources().getDrawable(R.drawable.page_round_unchoice));
+        t0.setTextColor(getResources().getColor(R.color.button_design_color));
+        t1.setTextColor(getResources().getColor(R.color.button_design_color));
+        t2.setTextColor(getResources().getColor(R.color.button_design_color));
+        t3.setTextColor(getResources().getColor(R.color.button_design_color));
+        t4.setTextColor(getResources().getColor(R.color.button_design_color));
+        t5.setTextColor(getResources().getColor(R.color.button_design_color));
+        t6.setTextColor(getResources().getColor(R.color.button_design_color));
     }
 }

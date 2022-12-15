@@ -228,7 +228,7 @@
                     <View
                         android:id="@+id/community_write_bottom_lock"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
+                        android:layout_height="140dp"
                         android:layout_marginTop="15dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
