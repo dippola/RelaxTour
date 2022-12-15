@@ -23,8 +23,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
-import com.dippola.relaxtour.community.main.CommunityMain;
-import com.dippola.relaxtour.community.main.MainAdapter;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
 import com.dippola.relaxtour.retrofit.model.PostModelView;
 
@@ -35,11 +33,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class UsersCommunityAdapter extends RecyclerView.Adapter<UsersCommunityAdapter.MainViewHolder> {
+public class UsersCommunityPostsAdapter extends RecyclerView.Adapter<UsersCommunityPostsAdapter.MainViewHolder> {
     List<PostModelView> arrayList;
     Context context;
     RequestOptions userr, imgr;
-    public UsersCommunityAdapter(Context context, List<PostModelView> arrayList, RequestOptions userr, RequestOptions imgr) {
+    public UsersCommunityPostsAdapter(Context context, List<PostModelView> arrayList, RequestOptions userr, RequestOptions imgr) {
         this.context = context;
         this.arrayList = arrayList;
         this.userr = userr;
@@ -47,7 +45,7 @@ public class UsersCommunityAdapter extends RecyclerView.Adapter<UsersCommunityAd
     }
     @NonNull
     @Override
-    public UsersCommunityAdapter.MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UsersCommunityPostsAdapter.MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.community_main_item, parent, false);
         MainViewHolder holder = new MainViewHolder(view);
@@ -55,7 +53,7 @@ public class UsersCommunityAdapter extends RecyclerView.Adapter<UsersCommunityAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UsersCommunityAdapter.MainViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UsersCommunityPostsAdapter.MainViewHolder holder, int position) {
         int i = position;
 
         if (UsersCommunity.isLoading) {

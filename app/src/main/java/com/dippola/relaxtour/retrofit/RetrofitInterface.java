@@ -1,5 +1,7 @@
 package com.dippola.relaxtour.retrofit;
 
+import com.dippola.relaxtour.community.auth.userscommunity.UserCommentWithPageModel;
+import com.dippola.relaxtour.community.auth.userscommunity.UsersCommunityCommentModel;
 import com.dippola.relaxtour.community.main.detail.AddHitModel;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
@@ -61,13 +63,18 @@ public interface RetrofitInterface {
             @Path("page") int page
     );
 
-    @GET("user/{id}/community/category={category}/page={page}/")
+    @GET("user/{id}/community/posts/category={category}/page={page}/")
     Call<PostsViewWitPages> getUserCommunityCategoryPage(
             @Path("id") int id,
             @Path("category") String category,
             @Path("page") int page
     );
 
+    @GET("user/{id}/community/comments/page={page}/")
+    Call<UserCommentWithPageModel> getUserCommentAll(
+            @Path("id") int id,
+            @Path("page") int page
+    );
 
 
 

@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,8 +25,6 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.community.main.CommunityMain;
-import com.dippola.relaxtour.community.main.MainAdapter;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.PostModelView;
@@ -48,12 +45,14 @@ public class UsersCommunity extends AppCompatActivity {
     private int myId;
 
     private List<PostModelView> lists = new ArrayList<>();
+    private List<UsersCommunityCommentModel> commentLists = new ArrayList<>();
 
     private SwipeRefreshLayout refresh;
     private RecyclerView recyclerView;
     private ShimmerFrameLayout itemload;
     private ConstraintLayout pagebox;
     private Button back;
+    private ConstraintLayout tabbox;
     private RadioButton tab1, tab2, tab3;
     private ImageView tab1bg, tab2bg, tab3bg;
     private Button prev, next;
@@ -64,7 +63,9 @@ public class UsersCommunity extends AppCompatActivity {
     private int nowPage;
     private String from;
 
-    private UsersCommunityAdapter adapter;
+    private UsersCommunityPostsAdapter adapter;
+    private UsersCommunityCommentsAdapter commentAdapter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,7 +78,14 @@ public class UsersCommunity extends AppCompatActivity {
         nowPage = 1;
         from = getIntent().getStringExtra("from");
         setInit();
-        loadCommunityAllFirst(nowPage);
+        if (from.equals("post")) {
+            loadPostAllFirst(nowPage);
+        } else if (from.equals("comment")) {
+            loadCommentAllFirst(nowPage);
+            tabbox.setVisibility(View.GONE);
+        } else if (from.equals("like")) {
+
+        }
         onClickBackBtn();
         setRefresh();
         setOnClickTab();
@@ -92,6 +100,7 @@ public class UsersCommunity extends AppCompatActivity {
         pagebox = findViewById(R.id.users_community_page_box);
         pagebox.setVisibility(View.GONE);
         back = findViewById(R.id.users_community_backbtn);
+        tabbox = findViewById(R.id.users_community_tab_box);
         tab1 = findViewById(R.id.users_community_tab1);
         tab1.setChecked(true);
         tab1.setTextColor(ContextCompat.getColor(UsersCommunity.this, R.color.tab_text_checked_color));
@@ -131,14 +140,14 @@ public class UsersCommunity extends AppCompatActivity {
         });
     }
 
-    private void loadCommunityAllFirst(int page) {
+    private void loadPostAllFirst(int page) {
         RetrofitClient.getApiService().getUserCommunityPostsPage(myId, page).enqueue(new Callback<PostsViewWitPages>() {
             @Override
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
                     lists.addAll(response.body().getPosts());
                     isLoading = false;
-                    setRecyclerView();
+                    setRecyclerViewFromPost();
                     setPagination(response.body().getPages(), page);
                     recyclerView.setVisibility(View.VISIBLE);
                     pagebox.setVisibility(View.VISIBLE);
@@ -153,15 +162,44 @@ public class UsersCommunity extends AppCompatActivity {
         });
     }
 
-    private void setRecyclerView() {
+    private void setRecyclerViewFromPost() {
         RequestOptions userr = new RequestOptions();
         userr.transform(new CircleCrop());
         RequestOptions imgr = new RequestOptions();
         imgr.transform(new CenterCrop(), new RoundedCorners(20));
-        adapter = new UsersCommunityAdapter(UsersCommunity.this, lists, userr, imgr);
+        adapter = new UsersCommunityPostsAdapter(UsersCommunity.this, lists, userr, imgr);
         adapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(UsersCommunity.this));
         recyclerView.setAdapter(adapter);
+    }
+
+    private void loadCommentAllFirst(int page) {
+        RetrofitClient.getApiService().getUserCommentAll(myId, page).enqueue(new Callback<UserCommentWithPageModel>() {
+            @Override
+            public void onResponse(Call<UserCommentWithPageModel> call, Response<UserCommentWithPageModel> response) {
+                if (response.isSuccessful()) {
+                    commentLists.addAll(response.body().getList());
+                    isLoading = false;
+                    setRecyclerViewFromComment();
+                    setPagination(response.body().getPages(), page);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    pagebox.setVisibility(View.VISIBLE);
+                    itemload.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserCommentWithPageModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void setRecyclerViewFromComment() {
+        commentAdapter = new UsersCommunityCommentsAdapter(UsersCommunity.this, commentLists);
+        commentAdapter.setHasStableIds(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(UsersCommunity.this));
+        recyclerView.setAdapter(commentAdapter);
     }
 
     private void setOnClickTab() {
@@ -334,7 +372,7 @@ public class UsersCommunity extends AppCompatActivity {
                     lists.clear();
                     lists.addAll(response.body().getPosts());
                     isLoading = false;
-                    setRecyclerView();
+                    setRecyclerViewFromPost();
                     setPagination(response.body().getPages(), page);
                 }
             }
@@ -354,7 +392,7 @@ public class UsersCommunity extends AppCompatActivity {
                     lists.clear();
                     lists.addAll(response.body().getPosts());
                     isLoading = false;
-                    setRecyclerView();
+                    setRecyclerViewFromPost();
                     setPagination(response.body().getPages(), page);
                 }
                 Log.d("UsersCommunity>>>", "2: " + response);
@@ -369,31 +407,35 @@ public class UsersCommunity extends AppCompatActivity {
 
     private void startLoad() {
         isLoading = true;
-        adapter.notifyItemRangeChanged(0, lists.size());
+        if (!from.equals("comment")) {
+            adapter.notifyItemRangeChanged(0, lists.size());
+        }
     }
 
     private void setRefresh() {
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                startReflesh();
+                if (from.equals("post")) {
+                    startRefleshFromPost();
+                } else if (from.equals("comment")) {
+                    startRefleshFromComment();
+                }
             }
         });
     }
 
-    private void startReflesh() {
+    private void startRefleshFromPost() {
         startLoad();
         if (tab1.isChecked()) {
             RetrofitClient.getApiService().getUserCommunityPostsPage(myId, nowPage).enqueue(new Callback<PostsViewWitPages>() {
                 @Override
                 public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                     if (response.isSuccessful()) {
-                        int beforeCount = lists.size();
                         lists.clear();
                         lists.addAll(response.body().getPosts());
                         isLoading = false;
-//                        itemChange(beforeCount, lists.size());
-                        setRecyclerView();
+                        setRecyclerViewFromPost();
                         refresh.setRefreshing(false);
                     }
                 }
@@ -408,11 +450,10 @@ public class UsersCommunity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                     if (response.isSuccessful()) {
-                        int beforeCount = lists.size();
                         lists.clear();
                         lists.addAll(response.body().getPosts());
                         isLoading = false;
-                        setRecyclerView();
+                        setRecyclerViewFromPost();
                         refresh.setRefreshing(false);
                     }
                 }
@@ -427,11 +468,10 @@ public class UsersCommunity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                     if (response.isSuccessful()) {
-                        int beforeCount = lists.size();
                         lists.clear();
                         lists.addAll(response.body().getPosts());
                         isLoading = false;
-                        setRecyclerView();
+                        setRecyclerViewFromPost();
                         refresh.setRefreshing(false);
                     }
                 }
@@ -442,6 +482,27 @@ public class UsersCommunity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void startRefleshFromComment() {
+        startLoad();
+        RetrofitClient.getApiService().getUserCommentAll(myId, nowPage).enqueue(new Callback<UserCommentWithPageModel>() {
+            @Override
+            public void onResponse(Call<UserCommentWithPageModel> call, Response<UserCommentWithPageModel> response) {
+                if (response.isSuccessful()) {
+                    commentLists.clear();
+                    commentLists.addAll(response.body().getList());
+                    isLoading = false;
+                    setRecyclerViewFromComment();
+                    refresh.setRefreshing(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserCommentWithPageModel> call, Throwable t) {
+
+            }
+        });
     }
 
     private void setPagination(int totalPage, int nowPage) {
@@ -533,7 +594,7 @@ public class UsersCommunity extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage -= 1;
                 setAllPageUnChoice();
-                startReflesh();
+                startRefleshFromPost();
             }
         });
         p0.setOnClickListener(new View.OnClickListener() {
@@ -542,7 +603,7 @@ public class UsersCommunity extends AppCompatActivity {
                 nowPage = 1;
                 setAllPageUnChoice();
                 t0.setTextColor(getResources().getColor(R.color.button_design_color_2));
-                startReflesh();
+                startRefleshFromPost();
             }
         });
         p1.setOnClickListener(new View.OnClickListener() {
@@ -551,7 +612,7 @@ public class UsersCommunity extends AppCompatActivity {
                 nowPage = Integer.parseInt(t1.getText().toString());
                 setAllPageUnChoice();
                 t1.setTextColor(getResources().getColor(R.color.button_design_color_2));
-                startReflesh();
+                startRefleshFromPost();
             }
         });
         p2.setOnClickListener(new View.OnClickListener() {
@@ -560,7 +621,7 @@ public class UsersCommunity extends AppCompatActivity {
                 nowPage = Integer.parseInt(t2.getText().toString());
                 setAllPageUnChoice();
                 t2.setTextColor(getResources().getColor(R.color.button_design_color_2));
-                startReflesh();
+                startRefleshFromPost();
             }
         });
         p3.setOnClickListener(new View.OnClickListener() {
@@ -569,7 +630,7 @@ public class UsersCommunity extends AppCompatActivity {
                 nowPage = Integer.parseInt(t3.getText().toString());
                 setAllPageUnChoice();
                 t3.setTextColor(getResources().getColor(R.color.button_design_color_2));
-                startReflesh();
+                startRefleshFromPost();
             }
         });
         p4.setOnClickListener(new View.OnClickListener() {
@@ -578,7 +639,7 @@ public class UsersCommunity extends AppCompatActivity {
                 nowPage = Integer.parseInt(t4.getText().toString());
                 setAllPageUnChoice();
                 t4.setTextColor(getResources().getColor(R.color.button_design_color_2));
-                startReflesh();
+                startRefleshFromPost();
             }
         });
         p5.setOnClickListener(new View.OnClickListener() {
@@ -587,7 +648,7 @@ public class UsersCommunity extends AppCompatActivity {
                 nowPage = Integer.parseInt(t5.getText().toString());
                 setAllPageUnChoice();
                 t5.setTextColor(getResources().getColor(R.color.button_design_color_2));
-                startReflesh();
+                startRefleshFromPost();
             }
         });
         p6.setOnClickListener(new View.OnClickListener() {
@@ -596,7 +657,7 @@ public class UsersCommunity extends AppCompatActivity {
                 nowPage = totalPage;
                 setAllPageUnChoice();
                 t6.setTextColor(getResources().getColor(R.color.button_design_color_2));
-                startReflesh();
+                startRefleshFromPost();
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
@@ -604,7 +665,7 @@ public class UsersCommunity extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage += 1;
                 setAllPageUnChoice();
-                startReflesh();
+                startRefleshFromPost();
             }
         });
     }
