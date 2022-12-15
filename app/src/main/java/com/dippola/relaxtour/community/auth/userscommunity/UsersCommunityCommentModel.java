@@ -7,6 +7,9 @@ public class UsersCommunityCommentModel {
     @SerializedName("parent_id")
     @Expose
     private int parent_id;
+    @SerializedName("towho")
+    @Expose
+    private String towho;
     @SerializedName("body")
     @Expose
     private String body;
@@ -20,6 +23,14 @@ public class UsersCommunityCommentModel {
 
     public void setParent_id(int parent_id) {
         this.parent_id = parent_id;
+    }
+
+    public String getTowho() {
+        return towho;
+    }
+
+    public void setTowho(String towho) {
+        this.towho = towho;
     }
 
     public String getBody() {

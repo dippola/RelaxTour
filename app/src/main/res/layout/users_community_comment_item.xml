@@ -21,13 +21,23 @@
         app:layout_constraintWidth_percent="0.95">
 
         <TextView
+            android:id="@+id/users_community_comment_item_towho"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/button_design_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
             android:id="@+id/users_community_comment_item_body"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="3"
+            android:layout_marginStart="5dp"
             android:text="body"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/users_community_comment_item_towho"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <View
             android:id="@+id/users_community_comment_item_line1"

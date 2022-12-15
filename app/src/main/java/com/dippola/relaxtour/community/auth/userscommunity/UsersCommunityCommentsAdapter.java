@@ -42,6 +42,9 @@ public class UsersCommunityCommentsAdapter extends RecyclerView.Adapter<UsersCom
     @Override
     public void onBindViewHolder(@NonNull UsersCommunityCommentsAdapter.ViewHolder holder, int position) {
         int i = position;
+        if (!String.valueOf(list.get(i).getTowho()).equals("")) {
+            holder.towho.setText("@" + String.valueOf(list.get(i).getTowho()));
+        }
         holder.body.setText(String.valueOf(list.get(i).getBody()));
         holder.date.setText(String.valueOf(list.get(i).getDate()).split("\\.")[0].split(":")[0] + ":" + String.valueOf(list.get(i).getDate()).split("\\.")[0].split(":")[1]);
 
@@ -62,10 +65,11 @@ public class UsersCommunityCommentsAdapter extends RecyclerView.Adapter<UsersCom
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView body, date;
+        TextView towho, body, date;
         ConstraintLayout box;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.towho = itemView.findViewById(R.id.users_community_comment_item_towho);
             this.body = itemView.findViewById(R.id.users_community_comment_item_body);
             this.date = itemView.findViewById(R.id.users_community_comment_item_date);
             this.box = itemView.findViewById(R.id.users_community_comment_item_body_box);
