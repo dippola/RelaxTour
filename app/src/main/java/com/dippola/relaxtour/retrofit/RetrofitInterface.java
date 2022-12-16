@@ -76,7 +76,7 @@ public interface RetrofitInterface {
             @Path("page") int page
     );
 
-    @GET("user/{id}/community/likes/page={page}")
+    @GET("user/{id}/community/likes/page={page}/")
     Call<PostsViewWitPages> getUserCommunityLikePostsPage(
             @Path("id") int id,
             @Path("page") int page

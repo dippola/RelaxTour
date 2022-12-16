@@ -208,18 +208,18 @@ public class CommunitySignIn extends AppCompatActivity {
                             startActivity(intent);
                             load.setVisibility(View.GONE);
                         } else {
-                            getToken(response.body().get(0).getId(), response.body().get(0).getEmail(), response.body().get(0).getUid(), response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getProvider(), response.body().get(0).getNotification());
-                            auth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        goToMain();
-                                    } else {
-                                        Toast.makeText(CommunitySignIn.this, "failed: " + task.getException(), Toast.LENGTH_SHORT).show();
-                                        load.setVisibility(View.GONE);
-                                    }
-                                }
-                            });
+                            getToken("", "email", response.body().get(0).getId(), response.body().get(0).getEmail(), response.body().get(0).getUid(), response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getProvider(), response.body().get(0).getNotification());
+//                            auth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<AuthResult> task) {
+//                                    if (task.isSuccessful()) {
+//                                        goToMain();
+//                                    } else {
+//                                        Toast.makeText(CommunitySignIn.this, "failed: " + task.getException(), Toast.LENGTH_SHORT).show();
+//                                        load.setVisibility(View.GONE);
+//                                    }
+//                                }
+//                            });
                         }
                     } else {
                         load.setVisibility(View.GONE);
@@ -271,8 +271,8 @@ public class CommunitySignIn extends AppCompatActivity {
                             startActivity(intent);
                             load.setVisibility(View.GONE);
                         } else {
-                            getToken(response.body().get(0).getId(), response.body().get(0).getEmail(), response.body().get(0).getUid(), response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getProvider(), response.body().get(0).getNotification());
-                            firebaseAuthWithGoogle(idToken);
+                            getToken(idToken, "google", response.body().get(0).getId(), response.body().get(0).getEmail(), response.body().get(0).getUid(), response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getProvider(), response.body().get(0).getNotification());
+//                            firebaseAuthWithGoogle(idToken);
                         }
                     } else {
                         Log.d("CommunitySignIn>>>", "3: " + response.message());
@@ -290,7 +290,7 @@ public class CommunitySignIn extends AppCompatActivity {
         });
     }
 
-    private void firebaseAuthWithGoogle(String idToken) {
+    private void firebaseAuthWithGoogle(String idToken, String token) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -298,7 +298,7 @@ public class CommunitySignIn extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information=
-                            goToMain();
+                            updateTokenInServer(token);
 //                            updateUI(user);
                         } else {
                             load.setVisibility(View.GONE);
@@ -318,21 +318,61 @@ public class CommunitySignIn extends AppCompatActivity {
         editPassword.setText("");
     }
 
-    private void getToken(int id, String email, String uid, String nickname, String imageurl, String provider, boolean notification) {
+    private void getToken(String idToken, String from, int id, String email, String uid, String nickname, String imageurl, String provider, boolean notification) {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
             public void onComplete(@NonNull Task<String> task) {
                 if (task.isSuccessful()) {
-                    updateDatabase(id, email, uid, nickname, task.getResult(), imageurl, provider, notification);
+                    updateDatabase(idToken, from, id, email, uid, nickname, task.getResult(), imageurl, provider, notification);
                 }
             }
         });
     }
 
-    private void updateDatabase(int id, String email, String uid, String nickname, String token, String imageurl, String provider, boolean notification) {
+    private void updateDatabase(String idToken, String from, int id, String email, String uid, String nickname, String token, String imageurl, String provider, boolean notification) {
         DatabaseHandler databaseHandler = new DatabaseHandler(CommunitySignIn.this);
         databaseHandler.makeDbUserWhenSignIn(id, email, uid, nickname, token, imageurl, provider, notification);
+        signIn(idToken, from, token);
     }
+
+    private void signIn(String idToken, String from, String token) {
+        if (from.equals("google")) {
+            firebaseAuthWithGoogle(idToken, token);
+        } else {
+            auth.signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        updateTokenInServer(token);
+                    } else {
+                        Toast.makeText(CommunitySignIn.this, "failed: " + task.getException(), Toast.LENGTH_SHORT).show();
+                        load.setVisibility(View.GONE);
+                    }
+                }
+            });
+        }
+    }
+
+    private void updateTokenInServer(String token) {
+        UserModel userModel = new UserModel();
+        userModel.setToken(token);
+        RetrofitClient.getApiService().updateUser(auth.getCurrentUser().getUid(), userModel).enqueue(new Callback<UserModel>() {
+            @Override
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                if (response.isSuccessful()) {
+                    goToMain();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserModel> call, Throwable t) {
+                Toast.makeText(CommunitySignIn.this, "Sign In Failed : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                load.setVisibility(View.GONE);
+            }
+        });
+    }
+
+
 
     private void goToMain() {
         Toast.makeText(CommunitySignIn.this, "Sign In Successful", Toast.LENGTH_SHORT).show();
