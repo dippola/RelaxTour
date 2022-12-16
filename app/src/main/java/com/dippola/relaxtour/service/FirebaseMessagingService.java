@@ -15,6 +15,7 @@ import androidx.core.app.NotificationCompat;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.auth.CommunityProfileChange;
+import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.UserModel;
@@ -35,24 +36,34 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     public void onMessageReceived(RemoteMessage remoteMessage) {
 //        super.onMessageReceived(remoteMessage);
         if (remoteMessage.getNotification() != null) {
-            sendNotification(remoteMessage.getNotification().getBody());
+            sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
         }
     }
 
-    private void sendNotification(String messageBody) {
+    private void sendNotification(String title, String messageBody) {
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         if (databaseHandler.getNotificationAgree() == 1) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent;
+            String showTitle;
+            if (title.contains("●") && title.split("●")[0].equals("comment")) {
+                intent = new Intent(this, CommunityMainDetail.class);
+                intent.putExtra("parent_id", Integer.parseInt(title.split("●")[1]));
+                showTitle = title.split("●")[2];
+            } else {
+                intent = new Intent(this, MainActivity.class);
+                showTitle = title;
+            }
+
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                    PendingIntent.FLAG_ONE_SHOT);
+                    PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
             String channelId = "relax tour notification channel id";
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(this, channelId)
                             .setSmallIcon(R.drawable.tabicon_chakra)
-                            .setContentTitle("Relax Tour")
+                            .setContentTitle(showTitle)
                             .setContentText(messageBody)
                             .setAutoCancel(true)
                             .setSound(defaultSoundUri)
