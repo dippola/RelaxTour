@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.community.main.ForHitsModel;
+import com.dippola.relaxtour.community.main.notification.NotificationItem;
 import com.dippola.relaxtour.dialog.AddFavDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
 import com.dippola.relaxtour.pages.ChakraPage;
@@ -107,6 +108,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //for community hits
     private final String FOR_HITS = "create table if not exists forhits(postid INTEGER, date TEXT);";
 
+    //c notification
+    private final String CNOTIFI_TEAM = "create table if not exists cnotification(title TEXT, body TEXT, date TEXT, postid INTEGER);";
+
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -157,12 +161,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREDIT_TEAM);
         sqLiteDatabase.execSQL(USER_TEAM);
         sqLiteDatabase.execSQL(FOR_HITS);
+        sqLiteDatabase.execSQL(CNOTIFI_TEAM);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE ispro");
-        sqLiteDatabase.execSQL("DROP TABLE " + NOTIFICATION_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + PAGE_ICON_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + PLAYING_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + RAIN_TABLE_NAME);
@@ -174,8 +177,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE " + HZ_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE " + CREDIT_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE forhits");
-        sqLiteDatabase.execSQL(ISPRO_TEAM);
-        sqLiteDatabase.execSQL(NOTIFICATION_TEAM);
         sqLiteDatabase.execSQL(PAGE_ICON_TEAM);
         sqLiteDatabase.execSQL(PLAYING_TEAM);
         sqLiteDatabase.execSQL(RAIN_TEAM);
@@ -1104,6 +1105,46 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void updateForHits(int postid, String date) {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("update forhits set date = " + "'" + date + "'" + " where postid = " + postid);
+    }
+
+    public List<NotificationItem> getNotificationList(int start, int end) {
+        NotificationItem item = null;
+        List<NotificationItem> list = new ArrayList<>();
+        openDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from cnotification", null);
+        cursor.moveToPosition(start);
+        while (cursor.getPosition() != end) {
+            if (cursor.isAfterLast()) {
+                break;
+            }
+            Log.d("DatabaseHandler>>>", "cursor position: " + cursor.getPosition());
+            item = new NotificationItem(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3));
+            list.add(item);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        closeDatabse();
+        return list;
+    }
+
+    public void insertCNotification(String title, String body, String date, int postid) {
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("title", title);
+        contentValues.put("body", body);
+        contentValues.put("date", date);
+        contentValues.put("postid", postid);
+        sqLiteDatabase.insert("cnotification", null, contentValues);
+    }
+
+    public void deleteCNotification(String body, String date, int postid) {
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("delete from cnotification where body = " + "'" + body + "'" + " and date = " + "'" + date + "'" + " and postid = " + postid);
+    }
+
+    public void deleteNotificationAll() {
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("delete from cnotification");
     }
 
 

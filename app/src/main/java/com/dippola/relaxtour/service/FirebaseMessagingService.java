@@ -1,10 +1,12 @@
 package com.dippola.relaxtour.service;
 
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -21,6 +23,10 @@ import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,6 +56,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                     intent = new Intent(this, CommunityMainDetail.class);
                     intent.putExtra("parent_id", Integer.parseInt(title.split("●")[1]));
                     showTitle = title.split("●")[2];
+                    insertDB(title.split("●")[2], messageBody, Integer.parseInt(title.split("●")[1]));
                 } else {
                     intent = new Intent(Intent.ACTION_VIEW);
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -89,5 +96,22 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
             notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
         }
+    }
+
+    private void insertDB(String title, String body, int postid) {
+        SharedPreferences sharedPreferences = getSharedPreferences("haveNewNotification", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("haveNewNotification", true);
+        editor.apply();
+        DatabaseHandler databaseHandler = new DatabaseHandler(this);
+        String date = getTime();
+        databaseHandler.insertCNotification(title, body, date, postid);
+    }
+    private String getTime() {
+        long now = System.currentTimeMillis();
+        Date mDate = new Date(now);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String date = format.format(mDate);
+        return date;
     }
 }

@@ -1,6 +1,8 @@
 package com.dippola.relaxtour.community.main;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +38,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.auth.CommunityAuth;
+import com.dippola.relaxtour.community.main.notification.Notification;
 import com.dippola.relaxtour.community.main.write.CommunityWrite;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.community.signIn.CommunitySignIn;
@@ -74,6 +77,8 @@ public class CommunityMain extends AppCompatActivity {
 
     public static boolean isLoading;
 
+    private SharedPreferences sharedPreferences;
+
     private DatabaseHandler databaseHandler;
     private FirebaseAuth auth;
     private SwipeRefreshLayout refresh;
@@ -98,6 +103,10 @@ public class CommunityMain extends AppCompatActivity {
     private ImageView m1, m2;
     private TextView t0, t1, t2, t3, t4, t5, t6;
     private int nowPage;
+
+    //notification
+    private ConstraintLayout notification;
+    private ImageView notification_circle;
 
     private RelativeLayout fbg;
 
@@ -163,6 +172,27 @@ public class CommunityMain extends AppCompatActivity {
         fbg = findViewById(R.id.community_main_floating_background);
         fbg.setVisibility(View.GONE);
         setPaginationInit();
+
+        notification = findViewById(R.id.community_main_notification);
+        notification_circle = findViewById(R.id.community_main_notification_circle);
+        setNotificationVisible();
+        setNotification();
+    }
+
+    private void setNotification() {
+        sharedPreferences = getSharedPreferences("haveNewNotification", Activity.MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("haveNewNotification", false)) {
+            notification_circle.setVisibility(View.VISIBLE);
+        } else {
+            notification_circle.setVisibility(View.GONE);
+        }
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CommunityMain.this, Notification.class));
+                notification_circle.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void setPaginationInit() {
@@ -582,6 +612,7 @@ public class CommunityMain extends AppCompatActivity {
 
                         }
                     });
+                    setNotificationVisible();
                 }
             } else if (result.getResultCode() == FROM_CREATE_PROFILE) {
                 if (result.getData().getBooleanExtra("isCreatePic", false)) {
@@ -609,6 +640,7 @@ public class CommunityMain extends AppCompatActivity {
                 } else {
                     Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(authicon);
                 }
+                setNotificationVisible();
             } else if (result.getResultCode() == FROM_AUTH) {
                 if (result.getData().getBooleanExtra("isChangePic", false)) {
                     iconload.setVisibility(View.VISIBLE);
@@ -647,6 +679,7 @@ public class CommunityMain extends AppCompatActivity {
                         iconload.setVisibility(View.GONE);
                     }
                 }
+                setNotificationVisible();
             } else if (result.getResultCode() == FROM_WRITE) {
                 if (result.getData().getBooleanExtra("write", false)) {
                     startReflesh();
@@ -997,4 +1030,21 @@ public class CommunityMain extends AppCompatActivity {
         t6.setTextColor(getResources().getColor(R.color.button_design_color));
     }
 
+    private void setNotificationVisible() {
+        if (auth.getCurrentUser() == null) {
+            notification.setVisibility(View.GONE);
+        } else {
+            notification.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (sharedPreferences != null) {
+            if (sharedPreferences.getBoolean("haveNewNotification", false)) {
+                notification_circle.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 }

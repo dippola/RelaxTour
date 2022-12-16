@@ -43,6 +43,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.main.write.CommunityWrite;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.LikeUserListModel;
@@ -499,9 +500,13 @@ public class CommunityMainDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (editComment.getText().toString().length() != 0) {
-                    sendCommentLoad();
-                    hideKeyboard(view);
-                    sendComment();
+                    if (editComment.getText().toString().contains("●")) {
+                        Toast.makeText(CommunityMainDetail.this, "'●' characters are not allowed.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        sendCommentLoad();
+                        hideKeyboard(view);
+                        sendComment();
+                    }
                 } else {
                     Toast.makeText(CommunityMainDetail.this, "Please enter the contents", Toast.LENGTH_SHORT).show();
                 }

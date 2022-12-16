@@ -82,8 +82,8 @@ public class CommunityWrite extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int y = (int)(size.y * 0.3);
-        int x = (int)(size.x * 0.2);
+        int y = (int) (size.y * 0.3);
+        int x = (int) (size.x * 0.2);
 
         String category = getIntent().getStringExtra("category");
 
@@ -174,7 +174,9 @@ public class CommunityWrite extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 hideKeyboard(view);
-                if (title.getText().toString().length() == 0) {
+                if (title.getText().toString().contains("●")) {
+                    Toast.makeText(CommunityWrite.this, "'●' characters are not allowed.", Toast.LENGTH_SHORT).show();
+                } else if (title.getText().toString().length() == 0) {
                     Toast.makeText(CommunityWrite.this, "Please enter a title", Toast.LENGTH_SHORT).show();
                 } else if (body.getText().toString().length() == 0) {
                     Toast.makeText(CommunityWrite.this, "Please enter a body", Toast.LENGTH_SHORT).show();
@@ -234,6 +236,7 @@ public class CommunityWrite extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
+
     private void onClickAddImg() {
         addimg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -325,7 +328,7 @@ public class CommunityWrite extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int x = (int)(size.x * 0.3);
+        int x = (int) (size.x * 0.3);
         ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
         params.width = x * urllist.size();
         recyclerView.setLayoutParams(params);
@@ -341,6 +344,7 @@ public class CommunityWrite extends AppCompatActivity {
             }
         });
     }
+
     private void onClickGoBack() {
         goback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -349,6 +353,7 @@ public class CommunityWrite extends AppCompatActivity {
             }
         });
     }
+
     private void expand(final View v) {
         int matchParentMeasureSpec = View.MeasureSpec.makeMeasureSpec(((View) v.getParent()).getWidth(), View.MeasureSpec.EXACTLY);
         int wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -358,13 +363,12 @@ public class CommunityWrite extends AppCompatActivity {
         // Older versions of android (pre API 21) cancel animations for views with a height of 0.
         v.getLayoutParams().height = 1;
         v.setVisibility(View.VISIBLE);
-        Animation a = new Animation()
-        {
+        Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
                 v.getLayoutParams().height = interpolatedTime == 1
                         ? ViewGroup.LayoutParams.WRAP_CONTENT
-                        : (int)(targetHeight * interpolatedTime);
+                        : (int) (targetHeight * interpolatedTime);
                 v.requestLayout();
             }
 
@@ -375,21 +379,20 @@ public class CommunityWrite extends AppCompatActivity {
         };
 
         // Expansion speed of 1dp/ms
-        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density));
+        a.setDuration((int) (targetHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
 
     private void collapse(final View v) {
         final int initialHeight = v.getMeasuredHeight();
 
-        Animation a = new Animation()
-        {
+        Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if(interpolatedTime == 1){
+                if (interpolatedTime == 1) {
                     v.setVisibility(View.GONE);
-                }else{
-                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                } else {
+                    v.getLayoutParams().height = initialHeight - (int) (initialHeight * interpolatedTime);
                     v.requestLayout();
                 }
             }
@@ -401,14 +404,14 @@ public class CommunityWrite extends AppCompatActivity {
         };
 
         // Collapse speed of 1dp/ms
-        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+        a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
 
     public static String rd(int wordLength) {
         Random r = new Random();
         StringBuilder sb = new StringBuilder(wordLength);
-        for(int i = 0; i < wordLength; i++) {
+        for (int i = 0; i < wordLength; i++) {
             char tmp = (char) ('a' + r.nextInt('z' - 'a'));
             sb.append(tmp);
         }

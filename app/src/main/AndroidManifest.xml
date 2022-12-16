@@ -29,7 +29,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity" android:screenOrientation="portrait" android:launchMode="singleInstance"/>
+<!--        <activity android:name=".MainActivity" android:screenOrientation="portrait" android:launchMode="singleInstance"/>-->
+        <activity android:name=".MainActivity" android:screenOrientation="portrait" />
         <service android:name=".notification.NotificationService" android:stopWithTask="true"/>
         <receiver android:name=".notification.NotificationActionService"/>
         <receiver android:name=".notification.TimerNotificationActionService"/>
@@ -57,9 +58,11 @@
         <activity android:name=".community.ImageViewer" android:screenOrientation="portrait" />
         <activity android:name=".community.main.detail.DetailImageViewer" android:screenOrientation="portrait" />
         <activity android:name=".community.auth.CommunityAuthResetPasswordDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
-        <activity android:name=".community.main.detail.CommunityMainDetail" android:screenOrientation="portrait" android:launchMode="singleInstance"/>
+<!--        <activity android:name=".community.main.detail.CommunityMainDetail" android:screenOrientation="portrait" android:launchMode="singleInstance"/>-->
+        <activity android:name=".community.main.detail.CommunityMainDetail" android:screenOrientation="portrait" />
         <service android:name=".community.main.write.UploadService"/>
         <activity android:name=".community.auth.userscommunity.UsersCommunity" android:screenOrientation="portrait"/>
+        <activity android:name=".community.main.notification.Notification" android:screenOrientation="portrait"/>
         <activity android:name=".dialog.Premium" android:screenOrientation="portrait"/>
         <activity android:name=".dialog.ResetDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".dialog.credit_dialog.CreditDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
