@@ -84,7 +84,8 @@ public class UsersCommunity extends AppCompatActivity {
             loadCommentAllFirst(nowPage);
             tabbox.setVisibility(View.GONE);
         } else if (from.equals("like")) {
-
+            loadLikeAllFirst(nowPage);
+            tabbox.setVisibility(View.GONE);
         }
         onClickBackBtn();
         setRefresh();
@@ -190,6 +191,28 @@ public class UsersCommunity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UserCommentWithPageModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void loadLikeAllFirst(int page) {
+        RetrofitClient.getApiService().getUserCommunityLikePostsPage(myId, page).enqueue(new Callback<PostsViewWitPages>() {
+            @Override
+            public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
+                if (response.isSuccessful()) {
+                    lists.addAll(response.body().getPosts());
+                    isLoading = false;
+                    setRecyclerViewFromPost();
+                    setPagination(response.body().getPages(), page);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    pagebox.setVisibility(View.VISIBLE);
+                    itemload.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
 
             }
         });
@@ -420,6 +443,8 @@ public class UsersCommunity extends AppCompatActivity {
                     startRefleshFromPost();
                 } else if (from.equals("comment")) {
                     startRefleshFromComment();
+                } else if (from.equals("like")) {
+                    startRefleshFromLike();
                 }
             }
         });
@@ -500,6 +525,27 @@ public class UsersCommunity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UserCommentWithPageModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void startRefleshFromLike() {
+        startLoad();
+        RetrofitClient.getApiService().getUserCommunityLikePostsPage(myId, nowPage).enqueue(new Callback<PostsViewWitPages>() {
+            @Override
+            public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
+                if (response.isSuccessful()) {
+                    lists.clear();
+                    lists.addAll(response.body().getPosts());
+                    isLoading = false;
+                    setRecyclerViewFromPost();
+                    refresh.setRefreshing(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
 
             }
         });
