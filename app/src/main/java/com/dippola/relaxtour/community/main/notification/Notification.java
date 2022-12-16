@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 
@@ -56,6 +58,9 @@ public class Notification extends AppCompatActivity {
         back = findViewById(R.id.notification_back);
         zero = findViewById(R.id.notification_null);
         more = findViewById(R.id.notification_more);
+        if (list.size() == 0) {
+            more.setVisibility(View.GONE);
+        }
         deleteAll = findViewById(R.id.notification_toolbar_btn);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,11 +95,17 @@ public class Notification extends AppCompatActivity {
     }
 
     private void setRecyclerView() {
-        adapter = new NotificationAdapter(Notification.this, list, databaseHandler, recyclerView, zero);
+        RequestOptions userr = new RequestOptions();
+        userr.transform(new CircleCrop());
+        adapter = new NotificationAdapter(Notification.this, list, databaseHandler, recyclerView, zero, userr);
         adapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(Notification.this));
         recyclerView.setAdapter(adapter);
-        more.setVisibility(View.VISIBLE);
+        if (list.size() != 0) {
+            more.setVisibility(View.VISIBLE);
+        } else {
+            more.setVisibility(View.GONE);
+        }
     }
 
     private void onClickMore() {
@@ -120,8 +131,12 @@ public class Notification extends AppCompatActivity {
             public void onClick(View view) {
                 int listSize = list.size();
                 list.clear();
+                more.setVisibility(View.GONE);
                 databaseHandler.deleteNotificationAll();
-                adapter.notifyItemRangeRemoved(0, listSize);
+                if (adapter != null) {
+                    adapter.notifyItemRangeRemoved(0, listSize);
+                }
+                zero.setVisibility(View.VISIBLE);
             }
         });
     }

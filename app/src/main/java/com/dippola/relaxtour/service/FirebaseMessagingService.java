@@ -55,13 +55,17 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 if (title.split("●")[0].equals("comment")) {
                     intent = new Intent(this, CommunityMainDetail.class);
                     intent.putExtra("parent_id", Integer.parseInt(title.split("●")[1]));
-                    showTitle = title.split("●")[2];
-                    insertDB(title.split("●")[2], messageBody, Integer.parseInt(title.split("●")[1]));
-                } else {
+                    showTitle = title.split("●")[4];
+                    insertDB(title, messageBody);
+                } else if (title.split("●")[0].equals("update")){
                     intent = new Intent(Intent.ACTION_VIEW);
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
                     intent.setData(Uri.parse("market://details?id=com.dippola.relaxtour"));
                     showTitle = title.split("●")[1];
+                    insertDB(title, messageBody);
+                } else {
+                    intent = new Intent(this, MainActivity.class);
+                    showTitle = title;
                 }
             } else {
                 intent = new Intent(this, MainActivity.class);
@@ -98,14 +102,14 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         }
     }
 
-    private void insertDB(String title, String body, int postid) {
+    private void insertDB(String title, String body) {
         SharedPreferences sharedPreferences = getSharedPreferences("haveNewNotification", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("haveNewNotification", true);
         editor.apply();
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         String date = getTime();
-        databaseHandler.insertCNotification(title, body, date, postid);
+        databaseHandler.insertCNotification(title, body, date);
     }
     private String getTime() {
         long now = System.currentTimeMillis();

@@ -1117,8 +1117,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             if (cursor.isAfterLast()) {
                 break;
             }
-            Log.d("DatabaseHandler>>>", "cursor position: " + cursor.getPosition());
-            item = new NotificationItem(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3));
+            item = new NotificationItem(cursor.getString(0), cursor.getString(1), cursor.getString(2));
             list.add(item);
             cursor.moveToNext();
         }
@@ -1127,19 +1126,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return list;
     }
 
-    public void insertCNotification(String title, String body, String date, int postid) {
+    public void insertCNotification(String title, String body, String date) {
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("title", title);
         contentValues.put("body", body);
         contentValues.put("date", date);
-        contentValues.put("postid", postid);
         sqLiteDatabase.insert("cnotification", null, contentValues);
     }
 
-    public void deleteCNotification(String body, String date, int postid) {
+    public void deleteCNotification(String body, String date) {
         sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.execSQL("delete from cnotification where body = " + "'" + body + "'" + " and date = " + "'" + date + "'" + " and postid = " + postid);
+        sqLiteDatabase.execSQL("delete from cnotification where body = " + "'" + body + "'" + " and date = " + "'" + date + "'");
     }
 
     public void deleteNotificationAll() {

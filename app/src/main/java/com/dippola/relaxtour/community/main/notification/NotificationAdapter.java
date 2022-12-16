@@ -2,16 +2,21 @@ package com.dippola.relaxtour.community.main.notification;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
@@ -28,13 +33,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     DatabaseHandler databaseHandler;
     RecyclerView recyclerView;
     ConstraintLayout zero;
+    RequestOptions requestOptions;
 
-    public NotificationAdapter(Context context, List<NotificationItem> list, DatabaseHandler databaseHandler, RecyclerView recyclerView, ConstraintLayout zero) {
+    public NotificationAdapter(Context context, List<NotificationItem> list, DatabaseHandler databaseHandler, RecyclerView recyclerView, ConstraintLayout zero, RequestOptions requestOptions) {
         this.context = context;
         this.list = list;
         this.databaseHandler = databaseHandler;
         this.recyclerView = recyclerView;
         this.zero = zero;
+        this.requestOptions = requestOptions;
     }
 
     @NonNull
@@ -48,13 +55,30 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(@NonNull NotificationAdapter.CustomViewHolder holder, int position) {
         int i = position;
-        holder.title.setText(list.get(i).getTitle());
+
+        String[] s = list.get(i).title.split("●");
+        Log.d("NotificationAdapter>>>", "check1: " + s[0]);
+        if (s[0].equals("comment")) {
+            holder.title.setText(s[4]);
+            holder.nickname.setText(s[3]);
+            if (s[2].equals("")) {
+                Glide.with(holder.img.getContext()).load(R.drawable.nullpic).apply(requestOptions).into(holder.img);
+            } else {
+                Glide.with(holder.img.getContext()).load(s[2]).apply(requestOptions).into(holder.img);
+            }
+        } else if (s[0].equals("update")) {
+            holder.title.setText("A new version has been released.");
+            holder.img.setVisibility(View.GONE);
+            holder.nickname.setVisibility(View.GONE);
+        }
+
+
         holder.body.setText(list.get(i).getBody());
-        holder.date.setText(list.get(i).getDate());
+        holder.date.setText(resultDate(list.get(i).getDate()));
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                databaseHandler.deleteCNotification(list.get(i).getBody(), list.get(i).getDate(), list.get(i).getPostid());
+                databaseHandler.deleteCNotification(list.get(i).getBody(), list.get(i).getDate());
                 list.remove(i);
                 notifyItemRemoved(i);
                 if (list.size() == 0) {
@@ -67,9 +91,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.box.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, CommunityMainDetail.class);
-                intent.putExtra("parent_id", list.get(i).getPostid());
-                context.startActivity(intent);
+                if (s[0].equals("comment")) {
+                    Intent intent = new Intent(context, CommunityMainDetail.class);
+                    intent.putExtra("parent_id", Integer.parseInt(s[1]));
+                    context.startActivity(intent);
+                } else if (s[0].equals("update")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                    intent.setData(Uri.parse("market://details?id=com.dippola.relaxtour"));
+                    context.startActivity(intent);
+                }
             }
         });
     }
@@ -81,8 +112,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout box;
-        TextView title, body, date;
+        TextView title, body, date, nickname;
         Button delete;
+        ImageView img;
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.box = itemView.findViewById(R.id.notificatoin_item_box);
@@ -90,6 +122,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             this.body = itemView.findViewById(R.id.notification_item_body);
             this.date = itemView.findViewById(R.id.notification_item_date);
             this.delete = itemView.findViewById(R.id.notification_item_delete);
+            this.nickname = itemView.findViewById(R.id.notification_item_nickname);
+            this.img = itemView.findViewById(R.id.notification_item_img);
         }
     }
 
