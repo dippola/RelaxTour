@@ -45,10 +45,17 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         if (databaseHandler.getNotificationAgree() == 1) {
             Intent intent;
             String showTitle;
-            if (title.contains("●") && title.split("●")[0].equals("comment")) {
-                intent = new Intent(this, CommunityMainDetail.class);
-                intent.putExtra("parent_id", Integer.parseInt(title.split("●")[1]));
-                showTitle = title.split("●")[2];
+            if (title.contains("●")) {
+                if (title.split("●")[0].equals("comment")) {
+                    intent = new Intent(this, CommunityMainDetail.class);
+                    intent.putExtra("parent_id", Integer.parseInt(title.split("●")[1]));
+                    showTitle = title.split("●")[2];
+                } else {
+                    intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                    intent.setData(Uri.parse("market://details?id=com.dippola.relaxtour"));
+                    showTitle = title.split("●")[1];
+                }
             } else {
                 intent = new Intent(this, MainActivity.class);
                 showTitle = title;
