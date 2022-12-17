@@ -7,14 +7,39 @@
     android:padding="30dp">
 
     <TextView
-        android:id="@+id/ask_delete_all_playlist_dialog_text"
+        android:id="@+id/fix_server_dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:text="Are you sure you want to delete the playlist?"
+        android:text="The server is being maintained."
         android:textColor="@color/text_color"
         android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estimated Time: "
+        android:layout_marginBottom="5dp"/>
+    <TextView
+        android:id="@+id/fix_server_dialog_start_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:text="~"/>
+    <TextView
+        android:id="@+id/fix_server_dialog_end_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="15dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -23,7 +48,7 @@
         android:layout_gravity="center_horizontal">
 
         <Button
-            android:id="@+id/ask_delete_all_playlist_dialog_ok"
+            android:id="@+id/fix_server_dialog_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ok"
@@ -33,18 +58,6 @@
             android:layout_marginHorizontal="6dp"
             android:layout_marginVertical="7dp"
             android:elevation="5dp"/>
-
-        <Button
-            android:id="@+id/ask_delete_all_playlist_dialog_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="cancel"
-            android:textColor="@color/button_text_color"
-            android:background="@drawable/button_design_2"
-            android:layout_weight="1"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginVertical="7dp"
-            android:elevation="5dp" />
     </LinearLayout>
 
 </LinearLayout>

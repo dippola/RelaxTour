@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -60,6 +61,9 @@ public class UsersCommunity extends AppCompatActivity {
     private ImageView m1, m2;
     private TextView t0, t1, t2, t3, t4, t5, t6;
 
+    private RelativeLayout load;
+    private NestedScrollView scrollView;
+
     private int nowPage;
     private String from;
 
@@ -90,6 +94,8 @@ public class UsersCommunity extends AppCompatActivity {
         onClickBackBtn();
         setRefresh();
         setOnClickTab();
+
+
     }
 
     private void setInit() {
@@ -130,6 +136,8 @@ public class UsersCommunity extends AppCompatActivity {
         t4 = findViewById(R.id.community_main_page_item4t);
         t5 = findViewById(R.id.community_main_page_item5t);
         t6 = findViewById(R.id.community_main_page_item6t);
+        load = findViewById(R.id.users_community_load);
+        scrollView = findViewById(R.id.users_community_scrollview);
     }
 
     private void onClickBackBtn() {
@@ -450,6 +458,17 @@ public class UsersCommunity extends AppCompatActivity {
         });
     }
 
+    private void setRefreshInPage() {
+        if (from.equals("post")) {
+            startRefleshFromPost();
+        } else if (from.equals("comment")) {
+            load.setVisibility(View.VISIBLE);
+            startRefleshFromComment();
+        } else if (from.equals("like")) {
+            startRefleshFromLike();
+        }
+    }
+
     private void startRefleshFromPost() {
         startLoad();
         if (tab1.isChecked()) {
@@ -520,6 +539,14 @@ public class UsersCommunity extends AppCompatActivity {
                     isLoading = false;
                     setRecyclerViewFromComment();
                     refresh.setRefreshing(false);
+                    if (load.getVisibility() == View.VISIBLE) {
+                        load.setVisibility(View.GONE);
+                    }
+//                    scrollView.smoothScrollToPosition(0);
+//                    scrollView.smoothScrollBy(0, 0);
+//                    scrollView.scrollTo(0,0);
+                    scrollView.smoothScrollTo(0, 0);
+//                    refresh.scrollTo(0, 0);
                 }
             }
 
@@ -640,7 +667,7 @@ public class UsersCommunity extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage -= 1;
                 setAllPageUnChoice();
-                startRefleshFromPost();
+                setRefreshInPage();
             }
         });
         p0.setOnClickListener(new View.OnClickListener() {
@@ -648,8 +675,9 @@ public class UsersCommunity extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage = 1;
                 setAllPageUnChoice();
+                p0.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
                 t0.setTextColor(getResources().getColor(R.color.button_design_color_2));
-                startRefleshFromPost();
+                setRefreshInPage();
             }
         });
         p1.setOnClickListener(new View.OnClickListener() {
@@ -657,8 +685,9 @@ public class UsersCommunity extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage = Integer.parseInt(t1.getText().toString());
                 setAllPageUnChoice();
+                p1.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
                 t1.setTextColor(getResources().getColor(R.color.button_design_color_2));
-                startRefleshFromPost();
+                setRefreshInPage();
             }
         });
         p2.setOnClickListener(new View.OnClickListener() {
@@ -666,8 +695,9 @@ public class UsersCommunity extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage = Integer.parseInt(t2.getText().toString());
                 setAllPageUnChoice();
+                p2.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
                 t2.setTextColor(getResources().getColor(R.color.button_design_color_2));
-                startRefleshFromPost();
+                setRefreshInPage();
             }
         });
         p3.setOnClickListener(new View.OnClickListener() {
@@ -675,8 +705,9 @@ public class UsersCommunity extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage = Integer.parseInt(t3.getText().toString());
                 setAllPageUnChoice();
+                p3.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
                 t3.setTextColor(getResources().getColor(R.color.button_design_color_2));
-                startRefleshFromPost();
+                setRefreshInPage();
             }
         });
         p4.setOnClickListener(new View.OnClickListener() {
@@ -684,8 +715,9 @@ public class UsersCommunity extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage = Integer.parseInt(t4.getText().toString());
                 setAllPageUnChoice();
+                p4.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
                 t4.setTextColor(getResources().getColor(R.color.button_design_color_2));
-                startRefleshFromPost();
+                setRefreshInPage();
             }
         });
         p5.setOnClickListener(new View.OnClickListener() {
@@ -693,8 +725,9 @@ public class UsersCommunity extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage = Integer.parseInt(t5.getText().toString());
                 setAllPageUnChoice();
+                p5.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
                 t5.setTextColor(getResources().getColor(R.color.button_design_color_2));
-                startRefleshFromPost();
+                setRefreshInPage();
             }
         });
         p6.setOnClickListener(new View.OnClickListener() {
@@ -702,8 +735,9 @@ public class UsersCommunity extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage = totalPage;
                 setAllPageUnChoice();
+                p6.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
                 t6.setTextColor(getResources().getColor(R.color.button_design_color_2));
-                startRefleshFromPost();
+                setRefreshInPage();
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
@@ -711,7 +745,7 @@ public class UsersCommunity extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage += 1;
                 setAllPageUnChoice();
-                startRefleshFromPost();
+                setRefreshInPage();
             }
         });
     }

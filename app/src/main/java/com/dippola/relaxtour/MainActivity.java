@@ -31,6 +31,7 @@ import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.AddFavDialog;
 import com.dippola.relaxtour.dialog.AskDeleteAllPlaylistDialog;
+import com.dippola.relaxtour.dialog.FixServerDialog;
 import com.dippola.relaxtour.dialog.ThemeDialog;
 import com.dippola.relaxtour.maintablayout.MainTabAdapter;
 import com.dippola.relaxtour.maintablayout.MainTabItem;
@@ -51,7 +52,11 @@ import com.dippola.relaxtour.service.TimerService;
 import com.dippola.relaxtour.setting.SettingDialog;
 import com.dippola.relaxtour.timer.Timer2;
 import com.dippola.relaxtour.timer.TimerDialog;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (load.getVisibility() == View.VISIBLE) {
+            load.setVisibility(View.GONE);
+        }
         sharedPreferences = getSharedPreferences("modeTable", MODE_PRIVATE);
         String mode = sharedPreferences.getString("mode", "default");
         ThemeHelper.applyTheme(mode);
@@ -253,7 +261,23 @@ public class MainActivity extends AppCompatActivity {
         community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, CommunityMain.class));
+                load.setVisibility(View.VISIBLE);
+                FirebaseFirestore.getInstance().collection("app_status").document("fix_server").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            boolean fix = Boolean.TRUE.equals(task.getResult().getBoolean("fix"));
+                            if (!fix) {
+                                startActivity(new Intent(MainActivity.this, CommunityMain.class));
+                            } else {
+                                String st = task.getResult().getString("start_time");
+                                String et = task.getResult().getString("end_time");
+                                FixServerDialog.showDialog(MainActivity.this, st, et);
+                                load.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                });
             }
         });
 

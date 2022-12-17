@@ -104,7 +104,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
                         return false;
                     }
                 }).into(holder.firstimg);
-                if (arrayList.get(i).getImageurlcount() == 1) {
+                if (arrayList.get(i).getImageurlcount() == 2) {
                     holder.imageurlcount.setVisibility(View.GONE);
                 } else {
                     holder.imageurlcount.setText("+" + String.valueOf(arrayList.get(i).getImageurlcount() - 2));

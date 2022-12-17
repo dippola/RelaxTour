@@ -220,21 +220,7 @@ public class CommunityMain extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                finish();
-                FirebaseMessaging.getInstance().getToken()
-                        .addOnCompleteListener(new OnCompleteListener<String>() {
-                            @Override
-                            public void onComplete(@NonNull Task<String> task) {
-                                if (!task.isSuccessful()) {
-//                                    Log.w(TAG, "FCM registration token failed", task.getException());
-                                    return;
-                                }
-
-                                // Get new FCM registration token
-                                String token = task.getResult();
-                                Log.d("CommunityMain>>>", "token: " + token);
-                            }
-                        });
+                finish();
             }
         });
     }
@@ -945,6 +931,7 @@ public class CommunityMain extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage = 1;
                 setAllPageUnChoice();
+                p0.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
                 t0.setTextColor(getResources().getColor(R.color.button_design_color_2));
                 startReflesh();
             }
@@ -954,6 +941,7 @@ public class CommunityMain extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage = Integer.parseInt(t1.getText().toString());
                 setAllPageUnChoice();
+                p1.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
                 t1.setTextColor(getResources().getColor(R.color.button_design_color_2));
                 startReflesh();
             }
@@ -963,6 +951,7 @@ public class CommunityMain extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage = Integer.parseInt(t2.getText().toString());
                 setAllPageUnChoice();
+                p2.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
                 t2.setTextColor(getResources().getColor(R.color.button_design_color_2));
                 startReflesh();
             }
@@ -972,6 +961,7 @@ public class CommunityMain extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage = Integer.parseInt(t3.getText().toString());
                 setAllPageUnChoice();
+                p3.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
                 t3.setTextColor(getResources().getColor(R.color.button_design_color_2));
                 startReflesh();
             }
@@ -981,6 +971,7 @@ public class CommunityMain extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage = Integer.parseInt(t4.getText().toString());
                 setAllPageUnChoice();
+                p4.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
                 t4.setTextColor(getResources().getColor(R.color.button_design_color_2));
                 startReflesh();
             }
@@ -990,6 +981,7 @@ public class CommunityMain extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage = Integer.parseInt(t5.getText().toString());
                 setAllPageUnChoice();
+                p5.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
                 t5.setTextColor(getResources().getColor(R.color.button_design_color_2));
                 startReflesh();
             }
@@ -999,6 +991,7 @@ public class CommunityMain extends AppCompatActivity {
             public void onClick(View view) {
                 nowPage = totalPage;
                 setAllPageUnChoice();
+                p6.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
                 t6.setTextColor(getResources().getColor(R.color.button_design_color_2));
                 startReflesh();
             }
