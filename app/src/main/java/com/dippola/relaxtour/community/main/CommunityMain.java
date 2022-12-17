@@ -27,6 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -55,6 +56,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
@@ -90,6 +92,8 @@ public class CommunityMain extends AppCompatActivity {
     private FloatingActionButton fabmain;
     private ConstraintLayout fab1, fab2;
     private Button back;
+    private NestedScrollView scrollView;
+    private AppBarLayout appBarLayout;
 
     //tab layout
     private ConstraintLayout tabbox;
@@ -151,6 +155,8 @@ public class CommunityMain extends AppCompatActivity {
         itemload.startShimmer();
         pagebox = findViewById(R.id.community_main_page_box);
         pagebox.setVisibility(View.GONE);
+        scrollView = findViewById(R.id.community_main_scrollview);
+        appBarLayout = findViewById(R.id.community_main_appbarlayout);
 
         tabbox = findViewById(R.id.community_main_tab_box);
         tabGroup = findViewById(R.id.community_main_tab_group);
@@ -410,6 +416,8 @@ public class CommunityMain extends AppCompatActivity {
 //                        itemChange(beforeCount, lists.size());
                         setRecyclerView();
                         refresh.setRefreshing(false);
+                        scrollView.smoothScrollTo(0, 0);
+                        appBarLayout.setExpanded(true);
                     }
                 }
 
@@ -429,6 +437,8 @@ public class CommunityMain extends AppCompatActivity {
                         isLoading = false;
                         setRecyclerView();
                         refresh.setRefreshing(false);
+                        scrollView.smoothScrollTo(0, 0);
+                        appBarLayout.setExpanded(true);
                     }
                 }
 
@@ -448,6 +458,8 @@ public class CommunityMain extends AppCompatActivity {
                         isLoading = false;
                         setRecyclerView();
                         refresh.setRefreshing(false);
+                        scrollView.smoothScrollTo(0, 0);
+                        appBarLayout.setExpanded(true);
                     }
                 }
 
@@ -831,7 +843,8 @@ public class CommunityMain extends AppCompatActivity {
 
     private void startLoad() {
         isLoading = true;
-        adapter.notifyItemRangeChanged(0, lists.size());
+//        adapter.notifyItemRangeChanged(0, lists.size());
+        adapter.notifyDataSetChanged();
     }
 
     private void setPagination(int totalPage, int nowPage) {

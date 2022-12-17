@@ -31,6 +31,7 @@ import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.PostModelView;
 import com.dippola.relaxtour.retrofit.model.PostsViewWitPages;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,7 @@ public class UsersCommunity extends AppCompatActivity {
 
     private RelativeLayout load;
     private NestedScrollView scrollView;
+    private AppBarLayout appBarLayout;
 
     private int nowPage;
     private String from;
@@ -94,8 +96,6 @@ public class UsersCommunity extends AppCompatActivity {
         onClickBackBtn();
         setRefresh();
         setOnClickTab();
-
-
     }
 
     private void setInit() {
@@ -138,6 +138,7 @@ public class UsersCommunity extends AppCompatActivity {
         t6 = findViewById(R.id.community_main_page_item6t);
         load = findViewById(R.id.users_community_load);
         scrollView = findViewById(R.id.users_community_scrollview);
+        appBarLayout = findViewById(R.id.users_community_appbarlayout);
     }
 
     private void onClickBackBtn() {
@@ -439,7 +440,8 @@ public class UsersCommunity extends AppCompatActivity {
     private void startLoad() {
         isLoading = true;
         if (!from.equals("comment")) {
-            adapter.notifyItemRangeChanged(0, lists.size());
+//            adapter.notifyItemRangeChanged(0, lists.size());
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -481,6 +483,8 @@ public class UsersCommunity extends AppCompatActivity {
                         isLoading = false;
                         setRecyclerViewFromPost();
                         refresh.setRefreshing(false);
+                        scrollView.smoothScrollTo(0, 0);
+                        appBarLayout.setExpanded(true);
                     }
                 }
 
@@ -499,6 +503,8 @@ public class UsersCommunity extends AppCompatActivity {
                         isLoading = false;
                         setRecyclerViewFromPost();
                         refresh.setRefreshing(false);
+                        scrollView.smoothScrollTo(0, 0);
+                        appBarLayout.setExpanded(true);
                     }
                 }
 
@@ -517,6 +523,8 @@ public class UsersCommunity extends AppCompatActivity {
                         isLoading = false;
                         setRecyclerViewFromPost();
                         refresh.setRefreshing(false);
+                        scrollView.smoothScrollTo(0, 0);
+                        appBarLayout.setExpanded(true);
                     }
                 }
 
@@ -542,11 +550,7 @@ public class UsersCommunity extends AppCompatActivity {
                     if (load.getVisibility() == View.VISIBLE) {
                         load.setVisibility(View.GONE);
                     }
-//                    scrollView.smoothScrollToPosition(0);
-//                    scrollView.smoothScrollBy(0, 0);
-//                    scrollView.scrollTo(0,0);
                     scrollView.smoothScrollTo(0, 0);
-//                    refresh.scrollTo(0, 0);
                 }
             }
 
