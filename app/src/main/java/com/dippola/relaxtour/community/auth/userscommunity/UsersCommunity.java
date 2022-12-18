@@ -602,11 +602,36 @@ public class UsersCommunity extends AppCompatActivity {
         } else {
             position = 5;
         }//
-        if (nowPage <= 5) {//first block
+        if (nowPage <= 5) {//position is in first block
             prev.setEnabled(false);
             p0.setVisibility(View.GONE);
             m1.setVisibility(View.GONE);
-        } else {//not first block and check last block
+
+            if (totalPage <= 5) {//first block is last
+                m2.setVisibility(View.GONE);
+                p6.setVisibility(View.GONE);
+                next.setEnabled(false);
+                if (rest == 1) {
+                    p2.setVisibility(View.GONE);
+                    p3.setVisibility(View.GONE);
+                    p4.setVisibility(View.GONE);
+                    p5.setVisibility(View.GONE);
+                } else if (rest == 2) {
+                    p3.setVisibility(View.GONE);
+                    p4.setVisibility(View.GONE);
+                    p5.setVisibility(View.GONE);
+                } else if (rest == 3) {
+                    p4.setVisibility(View.GONE);
+                    p5.setVisibility(View.GONE);
+                } else if (rest == 4) {
+                    p5.setVisibility(View.GONE);
+                }
+            } else {
+                m2.setVisibility(View.VISIBLE);
+                p6.setVisibility(View.VISIBLE);
+                t6.setText(String.valueOf(totalPage));
+            }
+        } else {//position not in first block
             prev.setEnabled(true);
             p0.setVisibility(View.VISIBLE);
             m1.setVisibility(View.VISIBLE);
@@ -652,31 +677,31 @@ public class UsersCommunity extends AppCompatActivity {
                     isLast = true;
                 }
             }
-        }//
 
-        if (isLast) {//last block
-            next.setEnabled(false);
-            m2.setVisibility(View.GONE);
-            p6.setVisibility(View.GONE);
-            if (rest == 1) {
-                p2.setVisibility(View.GONE);
-                p3.setVisibility(View.GONE);
-                p4.setVisibility(View.GONE);
-                p5.setVisibility(View.GONE);
-            } else if (rest == 2) {
-                p3.setVisibility(View.GONE);
-                p4.setVisibility(View.GONE);
-                p5.setVisibility(View.GONE);
-            } else if (rest == 3) {
-                p4.setVisibility(View.GONE);
-                p5.setVisibility(View.GONE);
-            } else if (rest == 4) {
-                p5.setVisibility(View.GONE);
-            }
-        } else {
-            m2.setVisibility(View.VISIBLE);
-            p6.setVisibility(View.VISIBLE);
-            t6.setText(String.valueOf(totalPage));
+            if (isLast) {//position is in last block
+                next.setEnabled(false);
+                m2.setVisibility(View.GONE);
+                p6.setVisibility(View.GONE);
+                if (rest == 1) {
+                    p2.setVisibility(View.GONE);
+                    p3.setVisibility(View.GONE);
+                    p4.setVisibility(View.GONE);
+                    p5.setVisibility(View.GONE);
+                } else if (rest == 2) {
+                    p3.setVisibility(View.GONE);
+                    p4.setVisibility(View.GONE);
+                    p5.setVisibility(View.GONE);
+                } else if (rest == 3) {
+                    p4.setVisibility(View.GONE);
+                    p5.setVisibility(View.GONE);
+                } else if (rest == 4) {
+                    p5.setVisibility(View.GONE);
+                }
+            } else {
+                m2.setVisibility(View.VISIBLE);
+                p6.setVisibility(View.VISIBLE);
+                t6.setText(String.valueOf(totalPage));
+            }//
         }//
 
         if (position == 1) {
@@ -732,15 +757,17 @@ public class UsersCommunity extends AppCompatActivity {
         p6.setVisibility(View.VISIBLE);
         m1.setVisibility(View.VISIBLE);
         m2.setVisibility(View.VISIBLE);
+        prev.setEnabled(true);
+        next.setEnabled(true);
     }
 
     private void onClickPagination(int totalPage) {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nowPage -= 1;
-                setAllPageUnChoice();
-                setRefreshInPage();
+//                nowPage -= 1;
+//                setAllPageUnChoice();
+//                setRefreshInPage();
             }
         });
         p0.setOnClickListener(new View.OnClickListener() {
@@ -816,9 +843,9 @@ public class UsersCommunity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nowPage += 1;
-                setAllPageUnChoice();
-                setRefreshInPage();
+//                nowPage += 1;
+//                setAllPageUnChoice();
+//                setRefreshInPage();
             }
         });
     }
