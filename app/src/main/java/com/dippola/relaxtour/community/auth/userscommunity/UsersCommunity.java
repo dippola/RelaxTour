@@ -415,6 +415,7 @@ public class UsersCommunity extends AppCompatActivity {
             }
         });
     }
+
     private void loadCommunityCategory(int page, String category) {
         RetrofitClient.getApiService().getUserCommunityCategoryPage(myId, category, page).enqueue(new Callback<PostsViewWitPages>() {
             @Override
@@ -546,6 +547,7 @@ public class UsersCommunity extends AppCompatActivity {
                     commentLists.addAll(response.body().getList());
                     isLoading = false;
                     setRecyclerViewFromComment();
+                    setPagination(response.body().getPages(), nowPage);
                     refresh.setRefreshing(false);
                     if (load.getVisibility() == View.VISIBLE) {
                         load.setVisibility(View.GONE);
@@ -571,6 +573,7 @@ public class UsersCommunity extends AppCompatActivity {
                     lists.addAll(response.body().getPosts());
                     isLoading = false;
                     setRecyclerViewFromPost();
+                    setPagination(response.body().getPages(), nowPage);
                     refresh.setRefreshing(false);
                 }
             }
@@ -583,24 +586,75 @@ public class UsersCommunity extends AppCompatActivity {
     }
 
     private void setPagination(int totalPage, int nowPage) {
+        allShowAgain();
         onClickPagination(totalPage);
-        int rest = totalPage%5;
+        int rest = totalPage % 5;
         int position;
-        if (nowPage <= 5) {
-            position = nowPage;
-        } else if (nowPage > 5 && nowPage <= 10) {
-            position = nowPage - 5;
+        boolean isLast = false;
+        if (nowPage % 10 == 1 || nowPage % 10 == 6) {
+            position = 1;
+        } else if (nowPage % 10 == 2 || nowPage % 10 == 7) {
+            position = 2;
+        } else if (nowPage % 10 == 3 || nowPage % 10 == 8) {
+            position = 3;
+        } else if (nowPage % 10 == 4 || nowPage % 10 == 9) {
+            position = 4;
         } else {
-            position = nowPage%10;
+            position = 5;
         }//
-        if (nowPage <= 5) {
+        if (nowPage <= 5) {//first block
             prev.setEnabled(false);
             p0.setVisibility(View.GONE);
             m1.setVisibility(View.GONE);
-        } else {
+        } else {//not first block and check last block
+            prev.setEnabled(true);
+            p0.setVisibility(View.VISIBLE);
+            m1.setVisibility(View.VISIBLE);
             t0.setText("1");
+            if (totalPage % 10 == 1) {
+                if (nowPage == totalPage) {
+                    isLast = true;
+                }
+            } else if (totalPage % 10 == 2) {
+                if (nowPage == (totalPage - 1) || nowPage == totalPage) {
+                    isLast = true;
+                }
+            } else if (totalPage % 10 == 3) {
+                if (nowPage == (totalPage - 2) || nowPage == (totalPage - 1) || nowPage == totalPage) {
+                    isLast = true;
+                }
+            } else if (totalPage % 10 == 4) {
+                if (nowPage == (totalPage - 3) || nowPage == (totalPage - 2) || nowPage == (totalPage - 1) || nowPage == totalPage) {
+                    isLast = true;
+                }
+            } else if (totalPage % 10 == 5) {
+                if (nowPage == (totalPage - 4) || nowPage == (totalPage - 3) || nowPage == (totalPage - 2) || nowPage == (totalPage - 1) || nowPage == totalPage) {
+                    isLast = true;
+                }
+            } else if (totalPage % 10 == 6) {
+                if (nowPage == totalPage) {
+                    isLast = true;
+                }
+            } else if (totalPage % 10 == 7) {
+                if (nowPage == (totalPage - 1) || nowPage == totalPage) {
+                    isLast = true;
+                }
+            } else if (totalPage % 10 == 8) {
+                if (nowPage == (totalPage - 2) || nowPage == (totalPage - 1) || nowPage == totalPage) {
+                    isLast = true;
+                }
+            } else if (totalPage % 10 == 9) {
+                if (nowPage == (totalPage - 3) || nowPage == (totalPage - 2) || nowPage == (totalPage - 1) || nowPage == totalPage) {
+                    isLast = true;
+                }
+            } else if (totalPage % 10 == 0) {
+                if (nowPage == (totalPage - 4) || nowPage == (totalPage - 3) || nowPage == (totalPage - 2) || nowPage == (totalPage - 1) || nowPage == totalPage) {
+                    isLast = true;
+                }
+            }
         }//
-        if ((totalPage - nowPage) < 5) {//last block
+
+        if (isLast) {//last block
             next.setEnabled(false);
             m2.setVisibility(View.GONE);
             p6.setVisibility(View.GONE);
@@ -620,8 +674,11 @@ public class UsersCommunity extends AppCompatActivity {
                 p5.setVisibility(View.GONE);
             }
         } else {
+            m2.setVisibility(View.VISIBLE);
+            p6.setVisibility(View.VISIBLE);
             t6.setText(String.valueOf(totalPage));
         }//
+
         if (position == 1) {
             p1.setBackground(getResources().getDrawable(R.drawable.page_round_choice));
             t1.setText(String.valueOf(nowPage));
@@ -663,6 +720,18 @@ public class UsersCommunity extends AppCompatActivity {
             t5.setText(String.valueOf(nowPage));
             t5.setTextColor(getResources().getColor(R.color.button_design_color_2));
         }//
+    }
+
+    private void allShowAgain() {
+        p0.setVisibility(View.VISIBLE);
+        p1.setVisibility(View.VISIBLE);
+        p2.setVisibility(View.VISIBLE);
+        p3.setVisibility(View.VISIBLE);
+        p4.setVisibility(View.VISIBLE);
+        p5.setVisibility(View.VISIBLE);
+        p6.setVisibility(View.VISIBLE);
+        m1.setVisibility(View.VISIBLE);
+        m2.setVisibility(View.VISIBLE);
     }
 
     private void onClickPagination(int totalPage) {
