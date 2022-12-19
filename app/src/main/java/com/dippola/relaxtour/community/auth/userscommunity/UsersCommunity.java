@@ -765,9 +765,27 @@ public class UsersCommunity extends AppCompatActivity {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                nowPage -= 1;
-//                setAllPageUnChoice();
-//                setRefreshInPage();
+                if (nowPage % 10 == 1 || nowPage % 10 == 6) {
+                    nowPage -= 1;
+                    setAllPageUnChoice();
+                    setRefreshInPage();
+                } else if (nowPage % 10 == 2 || nowPage % 10 == 7) {
+                    nowPage -= 2;
+                    setAllPageUnChoice();
+                    setRefreshInPage();
+                } else if (nowPage % 10 == 3 || nowPage % 10 == 8) {
+                    nowPage -= 3;
+                    setAllPageUnChoice();
+                    setRefreshInPage();
+                } else if (nowPage % 10 == 4 || nowPage % 10 == 9) {
+                    nowPage -=4;
+                    setAllPageUnChoice();
+                    setRefreshInPage();
+                } else if (nowPage % 10 == 5 || nowPage % 10 == 0) {
+                    nowPage -=5;
+                    setAllPageUnChoice();
+                    setRefreshInPage();
+                }
             }
         });
         p0.setOnClickListener(new View.OnClickListener() {
@@ -843,9 +861,27 @@ public class UsersCommunity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                nowPage += 1;
-//                setAllPageUnChoice();
-//                setRefreshInPage();
+                if (nowPage % 10 == 1 || nowPage % 10 == 6) {
+                    nowPage += 5;
+                    setAllPageUnChoice();
+                    setRefreshInPage();
+                } else if (nowPage % 10 == 2 || nowPage % 10 == 7) {
+                    nowPage += 4;
+                    setAllPageUnChoice();
+                    setRefreshInPage();
+                } else if (nowPage % 10 == 3 || nowPage % 10 == 8) {
+                    nowPage += 3;
+                    setAllPageUnChoice();
+                    setRefreshInPage();
+                } else if (nowPage % 10 == 4 || nowPage % 10 == 9) {
+                    nowPage += 2;
+                    setAllPageUnChoice();
+                    setRefreshInPage();
+                } else if (nowPage % 10 == 5 || nowPage % 10 == 0) {
+                    nowPage += 1;
+                    setAllPageUnChoice();
+                    setRefreshInPage();
+                }
             }
         });
     }
