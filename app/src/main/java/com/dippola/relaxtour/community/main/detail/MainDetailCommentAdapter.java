@@ -25,6 +25,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCommentAdapter.CustomViewHolder> {
@@ -121,10 +122,17 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
 
     private String getDateResult(String dateFromServer) {
         //2022-12-02T14:19:41.556741Z
+//        String postTime = changeTime(dateFromServer);
+//        String date[] = postTime.split(" ");
+//        String time[] = date[1].split("\\:");
+//        return date[0] + " " + time[0] + ":" + time[1];
+        String nowTime = getTime();
         String postTime = changeTime(dateFromServer);
-        String date[] = postTime.split(" ");
-        String time[] = date[1].split("\\:");
-        return date[0] + " " + time[0] + ":" + time[1];
+        if (nowTime.split(" ")[0].equals(postTime.split(" ")[0])) {
+            return postTime.split(" ")[1].split(":")[0] + ":" + postTime.split(" ")[1].split(":")[1];
+        } else {
+            return postTime.split(" ")[0];
+        }
     }
     private String changeTime(String dateFromServer) {
         String[] cut = dateFromServer.split("T");
@@ -143,5 +151,13 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
             e.printStackTrace();
         }
         return dueDateAsNormal;
+    }
+
+    private String getTime() {
+        long now = System.currentTimeMillis();
+        Date mDate = new Date(now);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String date = format.format(mDate);
+        return date;
     }
 }
