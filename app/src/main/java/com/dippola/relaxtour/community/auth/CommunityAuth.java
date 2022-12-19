@@ -2,6 +2,7 @@ package com.dippola.relaxtour.community.auth;
 
 import android.content.Intent;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -82,6 +83,9 @@ public class CommunityAuth extends AppCompatActivity {
     private SwitchCompat notification;
     private View backtop;
 
+    //bottom text
+    private TextView text1, text2;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +146,26 @@ public class CommunityAuth extends AppCompatActivity {
                     intent.putExtra("url", imageurl);
                 }
                 startActivity(intent);
+            }
+        });
+
+        text1 = findViewById(R.id.community_auth_bottom_intent1);
+        text2 = findViewById(R.id.community_auth_bottom_intent2);
+        setOnClickBottomText();
+    }
+
+    private void setOnClickBottomText() {
+        text1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://dippola.com/product/relax_tour_privacy_policy")));
+            }
+        });
+
+        text2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://dippola.com/product/relax_tour_privacy_policy")));
             }
         });
     }
@@ -355,30 +379,20 @@ public class CommunityAuth extends AppCompatActivity {
             public void onClick(View view) {
                 load.setVisibility(View.VISIBLE);
 
-                if (nickname.getText().toString().equals("nickname not set")) {
+                String nick = databaseHandler.getUserModel().getNickname();
+                if (nickname == null) {
+                    Intent intent = new Intent(CommunityAuth.this, CommunityProfileCreate.class);
+                    intent.putExtra("from", "auth");
+                    launcher.launch(intent);
+                    load.setVisibility(View.GONE);
+                } else if (nickname.equals("") || nickname.equals("null")) {
                     Intent intent = new Intent(CommunityAuth.this, CommunityProfileCreate.class);
                     intent.putExtra("from", "auth");
                     launcher.launch(intent);
                     load.setVisibility(View.GONE);
                 } else {
-                    Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityAuth.this).getUserModel().getId());
-                    call.enqueue(new Callback<List<UserModel>>() {
-                        @Override
-                        public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-                            if (response.isSuccessful()) {
-                                if (response.body().get(0).getNickname().length() != 0) {
-                                    launcher.launch(new Intent(CommunityAuth.this, CommunityProfileChange.class));
-                                    load.setVisibility(View.GONE);
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<UserModel>> call, Throwable t) {
-
-                        }
-                    });
+                    launcher.launch(new Intent(CommunityAuth.this, CommunityProfileChange.class));
+                    load.setVisibility(View.GONE);
                 }
             }
         });

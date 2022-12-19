@@ -3,6 +3,7 @@ package com.dippola.relaxtour.community.main;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -116,6 +117,10 @@ public class CommunityMain extends AppCompatActivity {
 
     private MainAdapter adapter;
 
+    //bottom intent
+    private TextView text1, text2;
+    private ConstraintLayout btibox;
+
     public static final int FROM_SIGNIN = 105;
     public static final int FROM_CREATE_PROFILE = 106;
     public static final int FROM_AUTH = 107;
@@ -151,12 +156,15 @@ public class CommunityMain extends AppCompatActivity {
         iconload = findViewById(R.id.community_main_iconload);
         recyclerView = findViewById(R.id.community_main_recyclerview);
         recyclerView.setVisibility(View.INVISIBLE);
+        btibox = findViewById(R.id.community_main_bottom_intent_box);
+        btibox.setVisibility(View.GONE);
         itemload = findViewById(R.id.community_main_load_item);
         itemload.startShimmer();
         pagebox = findViewById(R.id.community_main_page_box);
         pagebox.setVisibility(View.GONE);
         scrollView = findViewById(R.id.community_main_scrollview);
         appBarLayout = findViewById(R.id.community_main_appbarlayout);
+
 
         tabbox = findViewById(R.id.community_main_tab_box);
         tabGroup = findViewById(R.id.community_main_tab_group);
@@ -183,6 +191,26 @@ public class CommunityMain extends AppCompatActivity {
         notification_circle = findViewById(R.id.community_main_notification_circle);
         setNotificationVisible();
         setNotification();
+
+        text1 = findViewById(R.id.community_main_bottom_intent1);
+        text2 = findViewById(R.id.community_main_bottom_intent2);
+        setOnClickBottomText();
+    }
+
+    private void setOnClickBottomText() {
+        text1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://dippola.com/product/relax_tour_privacy_policy")));
+            }
+        });
+
+        text2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://dippola.com/product/relax_tour_privacy_policy")));
+            }
+        });
     }
 
     private void setNotification() {
@@ -769,6 +797,7 @@ public class CommunityMain extends AppCompatActivity {
                     setRecyclerView();
                     setPagination(response.body().getPages(), page);
                     recyclerView.setVisibility(View.VISIBLE);
+                    btibox.setVisibility(View.VISIBLE);
                     pagebox.setVisibility(View.VISIBLE);
                     itemload.setVisibility(View.GONE);
                 }
