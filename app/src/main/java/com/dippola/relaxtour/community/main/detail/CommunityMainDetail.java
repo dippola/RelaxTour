@@ -51,6 +51,8 @@ import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -384,7 +386,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                 commentMoreLoad.setVisibility(View.VISIBLE);
                 int lastid = commentModelList.get(commentModelList.size() - 1).getId();
                 int beforeSize = commentModelList.size();
-                RetrofitClient.getApiService().getMainCommentMore(id, lastid).enqueue(new Callback<List<PostCommentModel>>() {
+                RetrofitClient.getApiService().getMainCommentMore(id, lastid, getString(R.string.appkey)).enqueue(new Callback<List<PostCommentModel>>() {
                     @Override
                     public void onResponse(Call<List<PostCommentModel>> call, Response<List<PostCommentModel>> response) {
                         if (response.isSuccessful()) {
@@ -424,7 +426,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                 like.setEnabled(false);
                 int myId = databaseHandler.getUserModel().getId();
                 LikeUserListModel model = new LikeUserListModel(id, myId);
-                RetrofitClient.getApiService().setLike(id, myId).enqueue(new Callback<String>() {
+                RetrofitClient.getApiService().setLike(id, myId, getString(R.string.appkey)).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if (response.isSuccessful()) {
@@ -521,7 +523,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             Log.d("MainDetail>>>", "1");
             model.setTo_id(towhoid);
         }
-        RetrofitClient.getApiService().createComment(id, new DatabaseHandler(CommunityMainDetail.this).getUserModel().getId(), model).enqueue(new Callback<PostCommentModel>() {
+        RetrofitClient.getApiService().createComment(id, new DatabaseHandler(CommunityMainDetail.this).getUserModel().getId(), model, getString(R.string.appkey)).enqueue(new Callback<PostCommentModel>() {
             @Override
             public void onResponse(Call<PostCommentModel> call, Response<PostCommentModel> response) {
                 if (response.isSuccessful()) {
@@ -546,7 +548,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void resetComments() {
-        RetrofitClient.getApiService().getPostAllComments(id).enqueue(new Callback<List<PostCommentModel>>() {
+        RetrofitClient.getApiService().getPostAllComments(id, getString(R.string.appkey)).enqueue(new Callback<List<PostCommentModel>>() {
             @Override
             public void onResponse(Call<List<PostCommentModel>> call, Response<List<PostCommentModel>> response) {
                 if (response.isSuccessful()) {
@@ -608,7 +610,10 @@ public class CommunityMainDetail extends AppCompatActivity {
     private void getData(String from) {
         AddHitModel addHitModel = new AddHitModel();
         addHitModel.setWillAddHit(willAddHit);
-        RetrofitClient.getApiService().getPost(id, addHitModel).enqueue(new Callback<PostDetailWithComments>() {
+        AddHitModelK addHitModelK = new AddHitModelK();
+        addHitModelK.setAddHitModel(addHitModel);
+        addHitModelK.setKey(getString(R.string.appkey));
+        RetrofitClient.getApiService().getPost(id, addHitModelK, getString(R.string.appkey)).enqueue(new Callback<PostDetailWithComments>() {
             @Override
             public void onResponse(Call<PostDetailWithComments> call, Response<PostDetailWithComments> response) {
                 if (response.isSuccessful()) {

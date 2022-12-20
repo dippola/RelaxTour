@@ -23,21 +23,21 @@ import retrofit2.Response;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        RetrofitClient.getApiService().getUser(18).enqueue(new Callback<List<UserModel>>() {
-            @Override
-            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
-                if (response.isSuccessful()) {
-                    Log.d("UtilTest>>>", "1: " + response);
-                    Log.d("UtilTest>>>", "response: " + response);
-                } else {
-                    Log.d("UtilTest>>>", "2: " + response);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<UserModel>> call, Throwable t) {
-                Log.d("UtilTest>>>", "3: " + t.getMessage());
-            }
-        });
+//        RetrofitClient.getApiService().getUser(18, getString(R.string.appkey)).enqueue(new Callback<List<UserModel>>() {
+//            @Override
+//            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+//                if (response.isSuccessful()) {
+//                    Log.d("UtilTest>>>", "1: " + response);
+//                    Log.d("UtilTest>>>", "response: " + response);
+//                } else {
+//                    Log.d("UtilTest>>>", "2: " + response);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<UserModel>> call, Throwable t) {
+//                Log.d("UtilTest>>>", "3: " + t.getMessage());
+//            }
+//        });
     }
 }
