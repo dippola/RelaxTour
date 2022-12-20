@@ -124,6 +124,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
                 public void onClick(View view) {
                     Intent intent = new Intent(context, CommunityMainDetail.class);
                     intent.putExtra("parent_id", arrayList.get(i).getParent_id());
+                    intent.putExtra("parent_user", arrayList.get(i).getParent_user());
                     context.startActivity(intent);
                 }
             });

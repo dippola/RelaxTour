@@ -26,6 +26,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -51,6 +52,9 @@ import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -70,6 +74,7 @@ import retrofit2.Response;
 public class CommunityMainDetail extends AppCompatActivity {
 
     private int id;
+    private int parent_user;
 
     private DatabaseHandler databaseHandler;
     private boolean willAddHit;
@@ -118,6 +123,13 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     private MainDetailCommentAdapter adapter;
 
+    //bottomsheet
+    private Button more;
+    private LinearLayout include;
+    private BottomSheetBehavior bottomSheetBehavior;
+    private View outside;
+    private LinearLayout l1, l2, l3;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +137,7 @@ public class CommunityMainDetail extends AppCompatActivity {
 
         databaseHandler = new DatabaseHandler(CommunityMainDetail.this);
         id = getIntent().getIntExtra("parent_id", 0);
+        parent_user = getIntent().getIntExtra("parent_user", 0);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -194,11 +207,76 @@ public class CommunityMainDetail extends AppCompatActivity {
         editComment = findViewById(R.id.community_main_detail_editcomment);
         towho = findViewById(R.id.community_main_detail_towho);
         towhoid = 0;
+        setBottomSheet();
         setScrollView();
         onClickOk();
         onClickRefresh();
         onClickViewMore();
         onClickLike();
+    }
+
+    private void setBottomSheet() {
+        more = findViewById(R.id.community_main_detail_more);
+        include = findViewById(R.id.community_main_detail_bottom_sheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(include);
+        outside = findViewById(R.id.community_main_detail_bottom_sheet_outside);
+        l1 = findViewById(R.id.community_bottom_sheet1);
+        l2 = findViewById(R.id.community_bottom_sheet2);
+        l3 = findViewById(R.id.community_bottom_sheet3);
+        if (databaseHandler.getUserModel().getId() != parent_user) {
+            l1.setVisibility(View.GONE);
+            l2.setVisibility(View.GONE);
+        }
+        outside.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    outside.setVisibility(View.GONE);
+                }
+            }
+        });
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    outside.setVisibility(View.VISIBLE);
+                } else {
+                    outside.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+            }
+        });
+        l1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        l2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        l3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void setImageInit() {
