@@ -1,11 +1,13 @@
 package com.dippola.relaxtour.community.main.detail;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,6 +28,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,7 +50,8 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.community.main.write.CommunityWrite;
+import com.dippola.relaxtour.community.dialog.DeleteCommunityDialog;
+import com.dippola.relaxtour.community.dialog.ReportDialog;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.LikeUserListModel;
@@ -53,10 +60,6 @@ import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -73,8 +76,11 @@ import retrofit2.Response;
 
 public class CommunityMainDetail extends AppCompatActivity {
 
+    public static final int FROM_DELETE = 301;
+    public static final int FROM_REPORT = 302;
+
     private int id;
-    private int parent_user;
+    private static int parent_user;
 
     private DatabaseHandler databaseHandler;
     private boolean willAddHit;
@@ -126,9 +132,11 @@ public class CommunityMainDetail extends AppCompatActivity {
     //bottomsheet
     private Button more;
     private LinearLayout include;
-    private BottomSheetBehavior bottomSheetBehavior;
+    public static BottomSheetBehavior bottomSheetBehavior;
     private View outside;
-    private LinearLayout l1, l2, l3;
+    private static LinearLayout l1, l2, l3;
+    public static String bottomFrom;
+    public static int comment_parent_user, comment_parent_id, comment_index;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -216,17 +224,16 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void setBottomSheet() {
+        bottomFrom = "";
         more = findViewById(R.id.community_main_detail_more);
         include = findViewById(R.id.community_main_detail_bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(include);
+        bottomSheetBehavior.setDraggable(true);
         outside = findViewById(R.id.community_main_detail_bottom_sheet_outside);
         l1 = findViewById(R.id.community_bottom_sheet1);
         l2 = findViewById(R.id.community_bottom_sheet2);
         l3 = findViewById(R.id.community_bottom_sheet3);
-        if (databaseHandler.getUserModel().getId() != parent_user) {
-            l1.setVisibility(View.GONE);
-            l2.setVisibility(View.GONE);
-        }
+
         outside.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -254,7 +261,9 @@ public class CommunityMainDetail extends AppCompatActivity {
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                bottomFrom = "post";
                 if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                    setBottomSheetBehavior(CommunityMainDetail.this);
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 }
             }
@@ -268,16 +277,129 @@ public class CommunityMainDetail extends AppCompatActivity {
         l2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(CommunityMainDetail.this, DeleteCommunityDialog.class);
+                intent.putExtra("delete", bottomFrom);
+                intent.putExtra("id", id);
+                if (bottomFrom.equals("comment")) {
+                    intent.putExtra("commentid", comment_parent_id);
+                }
+                launcher.launch(intent);
             }
         });
         l3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, ReportDialog.class);
+                intent.putExtra("report", bottomFrom);
+                if (bottomFrom.equals("post")) {
+                    intent.putExtra("id", id);
+                } else if (bottomFrom.equals("comment")) {
+                    intent.putExtra("id", comment_parent_id);
+                }
+                launcher.launch(intent);
+            }
+        });
+        GestureDetector detector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(@NonNull MotionEvent motionEvent) {
+                return false;
+            }
 
+            @Override
+            public void onShowPress(@NonNull MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public boolean onSingleTapUp(@NonNull MotionEvent motionEvent) {
+                if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(@NonNull MotionEvent motionEvent, @NonNull MotionEvent motionEvent1, float v, float v1) {
+                if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+                return false;
+            }
+
+            @Override
+            public void onLongPress(@NonNull MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public boolean onFling(@NonNull MotionEvent motionEvent, @NonNull MotionEvent motionEvent1, float v, float v1) {
+                return false;
+            }
+        });
+        l1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                detector.onTouchEvent(motionEvent);
+                return false;
+            }
+        });
+        l2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                detector.onTouchEvent(motionEvent);
+                return false;
+            }
+        });
+        l3.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                detector.onTouchEvent(motionEvent);
+                return false;
             }
         });
     }
+
+    public static void setBottomSheetBehavior(Context context) {
+        int myId = new DatabaseHandler(context).getUserModel().getId();
+        if (bottomFrom.equals("post")) {
+            if (myId != CommunityMainDetail.parent_user) {
+                l1.setVisibility(View.GONE);
+                l2.setVisibility(View.GONE);
+            } else {
+                l1.setVisibility(View.VISIBLE);
+                l2.setVisibility(View.VISIBLE);
+            }
+        } else if (bottomFrom.equals("comment")) {
+            if (myId != comment_parent_user) {
+                l1.setVisibility(View.GONE);
+                l2.setVisibility(View.GONE);
+            } else {
+                l1.setVisibility(View.VISIBLE);
+                l2.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == FROM_DELETE) {
+                if (result.getData().getBooleanExtra("isDelete", false)) {
+                    if (result.getData().getStringExtra("from").equals("post")) {
+                        Toast.makeText(CommunityMainDetail.this, "Post deletion complete", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else if (result.getData().getStringExtra("from").equals("comment")) {
+                        Log.d("MainDetail>>>", "from: " + result.getData().getStringExtra("from"));
+                        commentModelList.remove(comment_index);
+                        adapter.notifyItemRemoved(comment_index);
+                        commentcount.setText(String.valueOf(Integer.parseInt(commentcount.getText().toString()) - 1));
+                    }
+                }
+            } else if (result.getResultCode() == FROM_REPORT) {
+
+            }
+        }
+    });
 
     private void setImageInit() {
         imagebox = findViewById(R.id.community_main_detail_image_box);
@@ -698,7 +820,6 @@ public class CommunityMainDetail extends AppCompatActivity {
                     postModel = response.body().getPost();
                     commentModelList = response.body().getComments();
                     likeUserList = response.body().getLikeuserlist();
-                    Log.d("MainDetail>>>", "size: " + likeUserList.size());
                     setData(postModel);
                     setComment(commentModelList.size(), from);
                 }
@@ -962,7 +1083,6 @@ public class CommunityMainDetail extends AppCompatActivity {
             bottomFinish.setVisibility(View.VISIBLE);
             adapter = null;
         } else {
-            Log.d("CommentDatil>>>", "list size: " + commentModelList.size());
             nullcomment.setVisibility(View.GONE);
             adapter = new MainDetailCommentAdapter(commentModelList, CommunityMainDetail.this);
             commentlist.setLayoutManager(new LinearLayoutManager(CommunityMainDetail.this));
@@ -1007,6 +1127,12 @@ public class CommunityMainDetail extends AppCompatActivity {
     public void onBackPressed() {
         if (commentsendload.getVisibility() == View.GONE) {
             super.onBackPressed();
+        } else {
+            if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 

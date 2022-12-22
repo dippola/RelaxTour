@@ -20,6 +20,7 @@ import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -91,6 +92,20 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
                         intent.putExtra("url", list.get(i).getUser_url());
                     }
                     context.startActivity(intent);
+                }
+            });
+
+            holder.more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CommunityMainDetail.bottomFrom = "comment";
+                    CommunityMainDetail.comment_parent_user = list.get(i).getParent_user();
+                    CommunityMainDetail.comment_parent_id = list.get(i).getId();
+                    CommunityMainDetail.comment_index = i;
+                    CommunityMainDetail.setBottomSheetBehavior(context);
+                    if (CommunityMainDetail.bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                        CommunityMainDetail.bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    }
                 }
             });
         }

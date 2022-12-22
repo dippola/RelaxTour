@@ -63,8 +63,8 @@
         <service android:name=".community.main.write.UploadService"/>
         <activity android:name=".community.auth.userscommunity.UsersCommunity" android:screenOrientation="portrait"/>
         <activity android:name=".community.main.notification.Notification" android:screenOrientation="portrait"/>
-        <activity android:name=".community.dialog.DeletePostDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
-        <activity android:name=".community.dialog.ReportDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
+        <activity android:name=".community.dialog.DeleteCommunityDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
+        <activity android:name=".community.dialog.ReportDialog" android:screenOrientation="portrait"/>
         <activity android:name=".dialog.Premium" android:screenOrientation="portrait"/>
         <activity android:name=".dialog.ResetDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".dialog.credit_dialog.CreditDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>

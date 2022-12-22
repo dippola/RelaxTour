@@ -176,4 +176,11 @@ public interface RetrofitInterface {
             @Header("key") String appkey
     );
 
+    @DELETE("post/{pk}/comment/{id}/delete/")
+    Call<String> deleteComment(
+            @Path("pk") int pk,
+            @Path("id") int id,
+            @Header("key") String appkey
+    );
+
 }
