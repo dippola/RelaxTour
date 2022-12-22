@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -105,13 +106,23 @@ public class DeleteCommunityDialog extends AppCompatActivity {
                         intent.putExtra("from", from);
                         setResult(CommunityMainDetail.FROM_DELETE, intent);
                         finish();
+                    } else {
+                        setFinishOnTouchOutside(true);
+                        ok.setEnabled(true);
+                        cancel.setEnabled(true);
+                        load.setVisibility(View.INVISIBLE);
+                        Toast.makeText(DeleteCommunityDialog.this, "It failed because the internet was unstable.\nError: " + response.message(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                setFinishOnTouchOutside(true);
+                ok.setEnabled(true);
+                cancel.setEnabled(true);
+                load.setVisibility(View.INVISIBLE);
+                Toast.makeText(DeleteCommunityDialog.this, "It failed because the internet was unstable.\nError: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -128,13 +139,23 @@ public class DeleteCommunityDialog extends AppCompatActivity {
                         intent.putExtra("from", from);
                         setResult(CommunityMainDetail.FROM_DELETE, intent);
                         finish();
+                    } else {
+                        setFinishOnTouchOutside(true);
+                        ok.setEnabled(true);
+                        cancel.setEnabled(true);
+                        load.setVisibility(View.INVISIBLE);
+                        Toast.makeText(DeleteCommunityDialog.this, "It failed because the internet was unstable.\nError: " + response.message(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                setFinishOnTouchOutside(true);
+                ok.setEnabled(true);
+                cancel.setEnabled(true);
+                load.setVisibility(View.INVISIBLE);
+                Toast.makeText(DeleteCommunityDialog.this, "It failed because the internet was unstable.\nError: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
