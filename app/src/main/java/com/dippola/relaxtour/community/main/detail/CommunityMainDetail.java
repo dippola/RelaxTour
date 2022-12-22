@@ -50,8 +50,8 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.community.dialog.DeleteCommunityDialog;
-import com.dippola.relaxtour.community.dialog.ReportDialog;
+import com.dippola.relaxtour.community.bottomsheet_intent.DeleteCommunityDialog;
+import com.dippola.relaxtour.community.bottomsheet_intent.Report;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.LikeUserListModel;
@@ -77,7 +77,6 @@ import retrofit2.Response;
 public class CommunityMainDetail extends AppCompatActivity {
 
     public static final int FROM_DELETE = 301;
-    public static final int FROM_REPORT = 302;
 
     private int id;
     private static int parent_user;
@@ -289,14 +288,14 @@ public class CommunityMainDetail extends AppCompatActivity {
         l3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CommunityMainDetail.this, ReportDialog.class);
-                intent.putExtra("report", bottomFrom);
-                if (bottomFrom.equals("post")) {
-                    intent.putExtra("id", id);
-                } else if (bottomFrom.equals("comment")) {
-                    intent.putExtra("id", comment_parent_id);
+                Intent intent = new Intent(CommunityMainDetail.this, Report.class);
+                intent.putExtra("from", bottomFrom);
+                intent.putExtra("postid", id);
+                intent.putExtra("decuser", databaseHandler.getUserModel().getId());
+                if (bottomFrom.equals("comment")) {
+                    intent.putExtra("commentid", comment_parent_id);
                 }
-                launcher.launch(intent);
+                startActivity(intent);
             }
         });
         GestureDetector detector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
@@ -395,8 +394,6 @@ public class CommunityMainDetail extends AppCompatActivity {
                         commentcount.setText(String.valueOf(Integer.parseInt(commentcount.getText().toString()) - 1));
                     }
                 }
-            } else if (result.getResultCode() == FROM_REPORT) {
-
             }
         }
     });

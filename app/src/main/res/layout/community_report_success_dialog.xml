@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_layout"
+    android:padding="30dp"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/community_report_success_idalog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Report completed"
+        android:textStyle="bold"
+        android:textSize="15dp"/>
+
+    <TextView
+        android:id="@+id/community_report_success_idalog_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thank you for your cooperation for\na healthy community.\n\nThe report will be reviewed by the management team and taken action."
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp">
+        <Button
+            android:id="@+id/community_report_success_dialog_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ok"
+            android:layout_marginVertical="7dp"
+            android:background="@drawable/button_design"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+</LinearLayout>
