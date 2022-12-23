@@ -381,6 +381,7 @@ public class CommunityWrite extends AppCompatActivity {
         // Expansion speed of 1dp/ms
         a.setDuration((int) (targetHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
+        uandd.setBackgroundResource(R.drawable.fav_page_item_up);
     }
 
     private void collapse(final View v) {
@@ -406,6 +407,7 @@ public class CommunityWrite extends AppCompatActivity {
         // Collapse speed of 1dp/ms
         a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
+        uandd.setBackgroundResource(R.drawable.fav_page_item_down);
     }
 
     public static String rd(int wordLength) {
