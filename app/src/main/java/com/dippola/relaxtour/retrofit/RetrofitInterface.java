@@ -117,7 +117,7 @@ public interface RetrofitInterface {
     @PUT("post/{pk}/")
     Call<PostDetailWithComments> getPost(
             @Path("pk") int pk,
-            @Body AddHitModelK willAddHitK,
+            @Body AddHitModel willAddHit,
             @Header("key") String appkey
     );
 

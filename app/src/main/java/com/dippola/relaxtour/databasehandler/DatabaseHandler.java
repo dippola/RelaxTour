@@ -654,6 +654,45 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return favListItems;
     }
 
+    public ArrayList<FavListItem> getListInCommunityShare(String fromserver) {
+        FavListItem favListItem = null;
+        ArrayList<FavListItem> favListItems = new ArrayList<>();
+        openDatabase();
+
+        String[] list = fromserver.split("●");
+        String title = list[0];
+        for (int i = 0; i < list.length; i++) {
+            if (i != 0) {
+                String pageName = getPageName(Integer.parseInt(list[i].split("-")[0]));
+                int position = Integer.parseInt(list[i].split("-")[1]);
+                int seek = Integer.parseInt(list[i].split("-")[2]);
+                Cursor cursor = sqLiteDatabase.rawQuery("select * from '" + pageName + "'" + " where position = " + position, null);
+                cursor.moveToFirst();
+                Log.d("DatabaseHandler>>>", "seek: " + cursor.getInt(7));
+                favListItem = new FavListItem(
+                        cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getString(2),
+                        cursor.getBlob(3),
+                        cursor.getBlob(4),
+                        cursor.getBlob(5),
+                        cursor.getBlob(6),
+                        seek,
+                        cursor.getInt(8),
+                        title,
+                        cursor.getInt(9),
+                        cursor.getString(10),
+                        cursor.getInt(11),
+                        cursor.getInt(12)
+                );
+                favListItems.add(favListItem);
+                cursor.close();
+            }
+        }
+        closeDatabse();
+        return favListItems;
+    }
+
     public void removeFavList(String title) {
         sqLiteDatabase = this.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("select _rowid_ from favtitle where title = " + "'" + title + "'", null);

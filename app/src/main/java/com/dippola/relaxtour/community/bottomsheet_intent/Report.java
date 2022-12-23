@@ -76,6 +76,13 @@ public class Report extends AppCompatActivity {
         editText = findViewById(R.id.community_report_edittext);
         load = findViewById(R.id.community_report_load);
         load.setVisibility(View.GONE);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void setRadioGroup() {

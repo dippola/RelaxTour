@@ -51,6 +51,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.bottomsheet_intent.DeleteCommunityDialog;
+import com.dippola.relaxtour.community.bottomsheet_intent.EditPost;
 import com.dippola.relaxtour.community.bottomsheet_intent.Report;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
@@ -270,7 +271,11 @@ public class CommunityMainDetail extends AppCompatActivity {
         l1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (bottomFrom.equals("post")) {
+                    Intent intent = new Intent(CommunityMainDetail.this, EditPost.class);
+                    intent.putExtra("id", id);
+                    launcher.launch(intent);
+                }
             }
         });
         l2.setOnClickListener(new View.OnClickListener() {
@@ -807,10 +812,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     private void getData(String from) {
         AddHitModel addHitModel = new AddHitModel();
         addHitModel.setWillAddHit(willAddHit);
-        AddHitModelK addHitModelK = new AddHitModelK();
-        addHitModelK.setAddHitModel(addHitModel);
-        addHitModelK.setKey(getString(R.string.appkey));
-        RetrofitClient.getApiService().getPost(id, addHitModelK, getString(R.string.appkey)).enqueue(new Callback<PostDetailWithComments>() {
+        RetrofitClient.getApiService().getPost(id, addHitModel, getString(R.string.appkey)).enqueue(new Callback<PostDetailWithComments>() {
             @Override
             public void onResponse(Call<PostDetailWithComments> call, Response<PostDetailWithComments> response) {
                 if (response.isSuccessful()) {
@@ -1134,7 +1136,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void setList(String list) {
-        String favList[] = String.valueOf(list).split("●");
+        String[] favList = String.valueOf(list).split("●");
         listTitle.setText(favList[0]);
         List<String> splitList = new ArrayList<>();
         for (int i = 0; i < favList.length; i++) {

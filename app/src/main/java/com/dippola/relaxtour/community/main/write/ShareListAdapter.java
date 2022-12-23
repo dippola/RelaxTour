@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.pages.adapter.FavTitleAdapter;
 import com.dippola.relaxtour.pages.item.FavListItem;
@@ -61,6 +62,7 @@ public class ShareListAdapter extends RecyclerView.Adapter<ShareListAdapter.View
         }
 
         holder.name.setText(listitems.get(position).getName());
+        holder.seekBar.setMax(MainActivity.maxVolumn);
         holder.seekBar.setProgress(listitems.get(position).getSeek());
         holder.seekBar.setEnabled(false);
     }
