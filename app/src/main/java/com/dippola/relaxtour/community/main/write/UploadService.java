@@ -97,15 +97,15 @@ public class UploadService extends Service {
     public static void upload(TextView loadtext, Activity activity, Context context, List<UriAndFileNameModel> urllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
         if (urllist.size() != 0) {
             loadtext.setText("Image Uploading... 0/" + urllist.size());
-            upload1(loadtext, activity, context, urllist, rd, myid, model, load);
+            upload1(1, loadtext, activity, context, urllist, rd, myid, model, load);
         } else {
             model.setImageurl("");
             uploadToDjango(activity, context, myid, model, load, loadtext);
         }
     }
 
-    private static void upload1(TextView loadtext, Activity activity, Context context, List<UriAndFileNameModel> urllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
-        int i = 1;
+    private static void upload1(int i, TextView loadtext, Activity activity, Context context, List<UriAndFileNameModel> urllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
+        final int position = i;
         StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + urllist.get(i - 1).getName());
         reference.putFile(urllist.get(i - 1).getUri()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -113,117 +113,14 @@ public class UploadService extends Service {
                 reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        loadtext.setText("Image Uploading... " + i + "/" + urllist.size());
+                        loadtext.setText("Image Uploading... " + position + "/" + urllist.size());
                         resultUrlList.add(uri.toString());
-                        if (urllist.size() == i) {
+                        if (urllist.size() == position) {
                             checkurllistsize(urllist.size(), resultUrlList, rd, loadtext, context, activity, myid, model, load);
                         } else {
-                            upload2(loadtext, activity, context, urllist, rd, myid, model, load);
+                            int positionPlus = position + 1;
+                            upload1(positionPlus, loadtext, activity, context, urllist, rd, myid, model, load);
                         }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-            }
-        });
-    }
-
-    private static void upload2(TextView loadtext, Activity activity, Context context, List<UriAndFileNameModel> urllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
-        int i = 2;
-        StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + urllist.get(i - 1).getName());
-        reference.putFile(urllist.get(i - 1).getUri()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        loadtext.setText("Image Uploading... " + i + "/" + urllist.size());
-                        resultUrlList.add(uri.toString());
-                        if (urllist.size() == i) {
-                            checkurllistsize(urllist.size(), resultUrlList, rd, loadtext, context, activity, myid, model, load);
-                        } else {
-                            upload3(loadtext, activity, context, urllist, rd, myid, model, load);
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-            }
-        });
-    }
-
-    private static void upload3(TextView loadtext, Activity activity, Context context, List<UriAndFileNameModel> urllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
-        int i = 3;
-        StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + urllist.get(i - 1).getName());
-        reference.putFile(urllist.get(i - 1).getUri()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        loadtext.setText("Image Uploading... " + i + "/" + urllist.size());
-                        resultUrlList.add(uri.toString());
-                        if (urllist.size() == i) {
-                            checkurllistsize(urllist.size(), resultUrlList, rd, loadtext, context, activity, myid, model, load);
-                        } else {
-                            upload4(loadtext, activity, context, urllist, rd, myid, model, load);
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-            }
-        });
-    }
-
-    private static void upload4(TextView loadtext, Activity activity, Context context, List<UriAndFileNameModel> urllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
-        int i = 4;
-        StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + urllist.get(i - 1).getName());
-        reference.putFile(urllist.get(i - 1).getUri()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        loadtext.setText("Image Uploading... " + i + "/" + urllist.size());
-                        resultUrlList.add(uri.toString());
-                        if (urllist.size() == i) {
-                            checkurllistsize(urllist.size(), resultUrlList, rd, loadtext, context, activity, myid, model, load);
-                        } else {
-                            upload5(loadtext, activity, context, urllist, rd, myid, model, load);
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-            }
-        });
-    }
-
-    private static void upload5(TextView loadtext, Activity activity, Context context, List<UriAndFileNameModel> urllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
-        int i = 5;
-        StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + urllist.get(i - 1).getName());
-        reference.putFile(urllist.get(i - 1).getUri()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        loadtext.setText("Image Uploading... " + i + "/" + urllist.size());
-                        resultUrlList.add(uri.toString());
-                        checkurllistsize(urllist.size(), resultUrlList, rd, loadtext, context, activity, myid, model, load);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
