@@ -1,4 +1,4 @@
-package com.dippola.relaxtour.community.main.write;
+package com.dippola.relaxtour.community.bottomsheet_intent;
 
 import android.content.Context;
 import android.net.Uri;
@@ -16,41 +16,44 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.main.write.CommunityWrite;
+import com.dippola.relaxtour.community.main.write.WriteImageAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class WriteImageAdapter extends RecyclerView.Adapter<WriteImageAdapter.CustomViewHolder> {
-    List<UriAndFileNameModel> urllist;
+public class EditImageAdapter extends RecyclerView.Adapter<EditImageAdapter.CustomViewHolder>{
+    List<Uri> urllist;
     Context context;
     ConstraintLayout.LayoutParams params;
-
-    public WriteImageAdapter(List<UriAndFileNameModel> urllist, Context context, ConstraintLayout.LayoutParams params) {
+    public EditImageAdapter(List<Uri> urllist, Context context, ConstraintLayout.LayoutParams params) {
         this.urllist = urllist;
         this.context = context;
         this.params = params;
     }
     @NonNull
     @Override
-    public WriteImageAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public EditImageAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.community_write_recyclerview_item, parent, false);
-        CustomViewHolder holder = new CustomViewHolder(view);
+        EditImageAdapter.CustomViewHolder holder = new EditImageAdapter.CustomViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WriteImageAdapter.CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull EditImageAdapter.CustomViewHolder holder, int position) {
         int i = position;
         holder.img.setLayoutParams(params);
         if (urllist.get(i) == null) {
             holder.box.setVisibility(View.GONE);
         } else {
-            Glide.with(context).load(urllist.get(i).getUri().toString()).transform(new CenterCrop(), new RoundedCorners(40)).into(holder.img);
+            Glide.with(context).load(urllist.get(i).toString()).transform(new CenterCrop(), new RoundedCorners(40)).into(holder.img);
             holder.box.setVisibility(View.VISIBLE);
         }
         holder.cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                EditPost.deleteUrlList.add(urllist.get(i));
                 int index = urllist.indexOf(urllist.get(i));
                 urllist.remove(index);
                 notifyItemRemoved(index);

@@ -604,11 +604,21 @@ public class CommunityMain extends AppCompatActivity {
         authicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (auth.getCurrentUser() == null) {
-                    launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
-                } else {
-                    launcher.launch(new Intent(CommunityMain.this, CommunityAuth.class));
-                }
+//                if (auth.getCurrentUser() == null) {
+//                    launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
+//                } else {
+//                    launcher.launch(new Intent(CommunityMain.this, CommunityAuth.class));
+//                }
+                StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/npbkmqpvvg/");
+                reference.listAll().addOnCompleteListener(new OnCompleteListener<ListResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<ListResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("EditPost>>>", "size: " + task.getResult().getItems().size());
+                        }
+                    }
+                });
+                //ybshoflimh
             }
         });
     }

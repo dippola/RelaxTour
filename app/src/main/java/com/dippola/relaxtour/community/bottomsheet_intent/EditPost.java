@@ -74,8 +74,10 @@ public class EditPost extends AppCompatActivity {
     public static TextView imagecount;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private WriteImageAdapter adapter;
+    private EditImageAdapter adapter;
     private List<Uri> urllist = new ArrayList<>();
+    public static List<Uri> deleteUrlList = new ArrayList<>();
+    public static List<Uri> addUrlList = new ArrayList<>();
     public static RelativeLayout load;
     private TextView loadtext;
 
@@ -140,7 +142,7 @@ public class EditPost extends AppCompatActivity {
         getData();
 
         setRecyclerView(paramsToAdapter);
-//        onClickOk();
+        onClickOk();
     }
 
     private void getData() {
@@ -277,14 +279,14 @@ public class EditPost extends AppCompatActivity {
                     }
                     model.setList(list);
 
-                    UploadService uploadService = new UploadService();
+                    EditUploadService uploadService = new EditUploadService();
                     Intent intent = new Intent(EditPost.this, uploadService.getClass());
                     if (Build.VERSION.SDK_INT >= 26) {
                         startForegroundService(intent);
                     } else {
                         startService(intent);
                     }
-                    UploadService.upload(loadtext, EditPost.this, EditPost.this, urllist, rd, myProfile.getId(), model, load);
+                    EditUploadService.deleteImage(loadtext, EditPost.this, EditPost.this, urllist, deleteUrlList, addUrlList, rd, myProfile.getId(), model, load);
                 }
             }
         });
@@ -301,7 +303,7 @@ public class EditPost extends AppCompatActivity {
     }
 
     private void setRecyclerView(ConstraintLayout.LayoutParams params) {
-        adapter = new WriteImageAdapter(urllist, EditPost.this, params);
+        adapter = new EditImageAdapter(urllist, EditPost.this, params);
         layoutManager = new LinearLayoutManager(EditPost.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -343,6 +345,7 @@ public class EditPost extends AppCompatActivity {
                                     if (dataSize < 5242880) {
                                         if (!urllist.contains(imageUri.toString())) {
                                             urllist.add(imageUri);
+                                            addUrlList.add(imageUri);
                                         }
                                     } else {
                                         Toast.makeText(EditPost.this, "Maximum image capacity available for selection is 5 MB", Toast.LENGTH_SHORT).show();
@@ -362,6 +365,7 @@ public class EditPost extends AppCompatActivity {
                             if (dataSize < 5242880) {
                                 Uri imageUri = data.getData();
                                 urllist.add(imageUri);
+                                addUrlList.add(imageUri);
                             } else {
                                 Toast.makeText(EditPost.this, "Maximum image capacity available for selection is 5 MB", Toast.LENGTH_SHORT).show();
                             }

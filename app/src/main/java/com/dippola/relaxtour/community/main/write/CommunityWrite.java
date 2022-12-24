@@ -39,6 +39,7 @@ import com.dippola.relaxtour.pages.item.FavListItem;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,7 +62,7 @@ public class CommunityWrite extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private WriteImageAdapter adapter;
-    private List<Uri> urllist = new ArrayList<>();
+    private List<UriAndFileNameModel> urllist = new ArrayList<>();
     public static RelativeLayout load;
     private TextView loadtext;
 
@@ -254,7 +255,7 @@ public class CommunityWrite extends AppCompatActivity {
         });
     }
 
-    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+    final ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
             if (result.getResultCode() == RESULT_OK) {
@@ -271,12 +272,12 @@ public class CommunityWrite extends AppCompatActivity {
                                     InputStream fileInputStream = getApplicationContext().getContentResolver().openInputStream(imageUri);
                                     int dataSize = fileInputStream.available();
                                     if (dataSize < 5242880) {
-                                        if (!urllist.contains(imageUri.toString())) {
-                                            urllist.add(imageUri);
+                                        UriAndFileNameModel uriAndFileNameModel = new UriAndFileNameModel(imageUri, imageUri.getLastPathSegment());
+                                        if (!urllist.contains(uriAndFileNameModel)) {
+                                            urllist.add(uriAndFileNameModel);
                                         }
                                     } else {
                                         Toast.makeText(CommunityWrite.this, "Maximum image capacity available for selection is 5 MB", Toast.LENGTH_SHORT).show();
-
                                     }
                                 } catch (FileNotFoundException e) {
                                     e.printStackTrace();
@@ -291,7 +292,8 @@ public class CommunityWrite extends AppCompatActivity {
                             int dataSize = fileInputStream.available();
                             if (dataSize < 5242880) {
                                 Uri imageUri = data.getData();
-                                urllist.add(imageUri);
+                                UriAndFileNameModel uriAndFileNameModel = new UriAndFileNameModel(imageUri, imageUri.getLastPathSegment());
+                                urllist.add(uriAndFileNameModel);
                             } else {
                                 Toast.makeText(CommunityWrite.this, "Maximum image capacity available for selection is 5 MB", Toast.LENGTH_SHORT).show();
                             }
