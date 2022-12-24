@@ -140,7 +140,7 @@ public class EditPost extends AppCompatActivity {
         getData();
 
         setRecyclerView(paramsToAdapter);
-        onClickOk();
+//        onClickOk();
     }
 
     private void getData() {
@@ -162,12 +162,13 @@ public class EditPost extends AppCompatActivity {
                     title.setText(model.getTitle());
                     body.setText(model.getBody());
                     if (!model.getImageurl().equals("")) {
-                        for (int i = 0; i < model.getImageurl().split("●").length - 1; i++) {
+                        for (int i = 0; i < model.getImageurl().split("●").length; i++) {
                             if (i != 0) {
                                 Uri uri = Uri.parse(model.getImageurl().split("●")[i]);
                                 urllist.add(uri);
                             }
                         }
+                        setImage();
                     }
                     if (!model.getList().equals("")) {
                         String[] favList = model.getList().split("●");
