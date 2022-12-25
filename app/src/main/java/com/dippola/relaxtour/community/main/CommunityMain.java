@@ -29,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -604,21 +605,16 @@ public class CommunityMain extends AppCompatActivity {
         authicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (auth.getCurrentUser() == null) {
-//                    launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
-//                } else {
-//                    launcher.launch(new Intent(CommunityMain.this, CommunityAuth.class));
-//                }
-                StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/npbkmqpvvg/");
-                reference.listAll().addOnCompleteListener(new OnCompleteListener<ListResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<ListResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("EditPost>>>", "size: " + task.getResult().getItems().size());
-                        }
-                    }
-                });
-                //ybshoflimh
+                if (auth.getCurrentUser() == null) {
+                    launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
+                } else {
+                    launcher.launch(new Intent(CommunityMain.this, CommunityAuth.class));
+                }
+
+//                Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/relax-tour-de785.appspot.com/o/community%2Fmain%2Fbmadydkdyq%2Fimage%253A12190?alt=media&token=83d309d5-d557-4321-ae16-b0de2ae88e68");
+//                String name = uri.getLastPathSegment().split("/")[uri.getLastPathSegment().split("/").length - 1];
+//                String documentFile = DocumentFile.fromSingleUri(CommunityMain.this, uri).getName();
+//                Log.d("CommunityMain>>>", "file name from uri: " + name);
             }
         });
     }

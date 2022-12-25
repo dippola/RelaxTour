@@ -39,6 +39,7 @@ import com.dippola.relaxtour.community.main.write.CommunityWrite;
 import com.dippola.relaxtour.community.main.write.ShareListAdapter;
 import com.dippola.relaxtour.community.main.write.ShareListDialog;
 import com.dippola.relaxtour.community.main.write.UploadService;
+import com.dippola.relaxtour.community.main.write.UriAndFileNameModel;
 import com.dippola.relaxtour.community.main.write.WriteImageAdapter;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.pages.item.FavListItem;
@@ -65,6 +66,8 @@ public class EditPost extends AppCompatActivity {
     private int FROM_GALLERY = 1;
     public static int FROM_LIST = 2;
 
+    private PostModelDetail model;
+
     private NestedScrollView scrollView;
     private Button goback, ok, addshare;
     private EditText title, body;
@@ -76,8 +79,9 @@ public class EditPost extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private EditImageAdapter adapter;
     private List<Uri> urllist = new ArrayList<>();
+    private String rd;
     public static List<Uri> deleteUrlList = new ArrayList<>();
-    public static List<Uri> addUrlList = new ArrayList<>();
+    public static List<UriAndFileNameModel> addUrlList = new ArrayList<>();
     public static RelativeLayout load;
     private TextView loadtext;
 
@@ -107,6 +111,7 @@ public class EditPost extends AppCompatActivity {
     }
 
     private void setInit(int y, int x) {
+        model = new PostModelDetail();
         load = findViewById(R.id.community_write_load);
         load.setVisibility(View.VISIBLE);
         loadtext = findViewById(R.id.community_write_load_text);
@@ -152,7 +157,6 @@ public class EditPost extends AppCompatActivity {
             @Override
             public void onResponse(Call<PostDetailWithComments> call, Response<PostDetailWithComments> response) {
                 if (response.isSuccessful()) {
-                    PostModelDetail model = new PostModelDetail();
                     model = response.body().getPost();
                     if (model.getCategory().equals("free")) {
                         listbox.setVisibility(View.VISIBLE);
@@ -164,6 +168,7 @@ public class EditPost extends AppCompatActivity {
                     title.setText(model.getTitle());
                     body.setText(model.getBody());
                     if (!model.getImageurl().equals("")) {
+                        rd = model.getImageurl().split("●")[0];
                         for (int i = 0; i < model.getImageurl().split("●").length; i++) {
                             if (i != 0) {
                                 Uri uri = Uri.parse(model.getImageurl().split("●")[i]);
@@ -171,6 +176,8 @@ public class EditPost extends AppCompatActivity {
                             }
                         }
                         setImage();
+                    } else {
+                        rd = "";
                     }
                     if (!model.getList().equals("")) {
                         String[] favList = model.getList().split("●");
@@ -254,19 +261,15 @@ public class EditPost extends AppCompatActivity {
                     Toast.makeText(EditPost.this, "Please enter a body", Toast.LENGTH_SHORT).show();
                 } else {
                     load.setVisibility(View.VISIBLE);
-                    PostModelDetail model = new PostModelDetail();
                     DatabaseHandler databaseHandler = new DatabaseHandler(EditPost.this);
                     UserModel myProfile = databaseHandler.getUserModel();
-                    model.setParent_user(myProfile.getId());
-                    model.setNickname(myProfile.getNickname());
-                    model.setUser_url(myProfile.getImageurl());
-                    model.setCategory(getIntent().getStringExtra("category"));
                     model.setTitle(title.getText().toString());
                     model.setBody(body.getText().toString());
-                    String rd = "";
-                    if (urllist.size() != 0) {
+
+                    if (rd.equals("")) {//원래 image없었음.
                         rd = rd(10);
                     }
+
                     String list = "";
                     if (favListItems.size() != 0) {
                         list += listtitle.getText().toString() + "●";
@@ -286,7 +289,7 @@ public class EditPost extends AppCompatActivity {
                     } else {
                         startService(intent);
                     }
-                    EditUploadService.deleteImage(loadtext, EditPost.this, EditPost.this, urllist, deleteUrlList, addUrlList, rd, myProfile.getId(), model, load);
+                    EditUploadService.deleteImage(id, loadtext, EditPost.this, EditPost.this, urllist, deleteUrlList, addUrlList, rd, myProfile.getId(), model, load);
                 }
             }
         });
@@ -334,7 +337,7 @@ public class EditPost extends AppCompatActivity {
                     Intent data = result.getData();
                     if (data.getClipData() != null) {
                         ClipData clipData = result.getData().getClipData();
-                        if (urllist.size() + clipData.getItemCount() > 5) {
+                        if (urllist.size() + addUrlList.size() + clipData.getItemCount() > 5) {
                             Toast.makeText(EditPost.this, "You can add up to 5 photos.", Toast.LENGTH_SHORT).show();
                         } else {
                             for (int i = 0; i < clipData.getItemCount(); i++) {
@@ -343,9 +346,9 @@ public class EditPost extends AppCompatActivity {
                                     InputStream fileInputStream = getApplicationContext().getContentResolver().openInputStream(imageUri);
                                     int dataSize = fileInputStream.available();
                                     if (dataSize < 5242880) {
-                                        if (!urllist.contains(imageUri.toString())) {
-                                            urllist.add(imageUri);
-                                            addUrlList.add(imageUri);
+                                        if (!addUrlList.contains(imageUri.toString())) {
+                                            UriAndFileNameModel uriAndFileNameModel = new UriAndFileNameModel(imageUri, imageUri.getLastPathSegment());
+                                            addUrlList.add(uriAndFileNameModel);
                                         }
                                     } else {
                                         Toast.makeText(EditPost.this, "Maximum image capacity available for selection is 5 MB", Toast.LENGTH_SHORT).show();
@@ -364,8 +367,8 @@ public class EditPost extends AppCompatActivity {
                             int dataSize = fileInputStream.available();
                             if (dataSize < 5242880) {
                                 Uri imageUri = data.getData();
-                                urllist.add(imageUri);
-                                addUrlList.add(imageUri);
+                                UriAndFileNameModel uriAndFileNameModel = new UriAndFileNameModel(imageUri, imageUri.getLastPathSegment());
+                                addUrlList.add(uriAndFileNameModel);
                             } else {
                                 Toast.makeText(EditPost.this, "Maximum image capacity available for selection is 5 MB", Toast.LENGTH_SHORT).show();
                             }

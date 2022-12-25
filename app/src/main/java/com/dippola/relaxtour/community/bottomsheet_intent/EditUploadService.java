@@ -28,6 +28,7 @@ import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.community.main.write.CommunityWrite;
 import com.dippola.relaxtour.community.main.write.FinishedUploadNotification;
 import com.dippola.relaxtour.community.main.write.UploadService;
+import com.dippola.relaxtour.community.main.write.UriAndFileNameModel;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,7 +36,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -48,7 +48,7 @@ import retrofit2.Response;
 
 public class EditUploadService extends Service {
     public static final String CHANNEL_ID = "edit upload";
-    public static List<Uri> urilist = new ArrayList<>();
+//    public static List<Uri> urilist = new ArrayList<>();
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -98,81 +98,119 @@ public class EditUploadService extends Service {
         }
     }
 
-    public static void deleteImage(TextView loadtext, Activity activity, Context context, List<Uri> urllist, List<Uri> deleteUrlList, List<Uri> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
-        loadtext.setText("Post Uploading...");
+    public static void deleteImage(int postid, TextView loadtext, Activity activity, Context context, List<Uri> urllist, List<Uri> deleteUrlList, List<UriAndFileNameModel> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
+        loadtext.setText("Delete Image...");
         if (deleteUrlList.size() != 0) {
-            StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd);
-            reference.listAll().addOnCompleteListener(new OnCompleteListener<ListResult>() {
-                @Override
-                public void onComplete(@NonNull Task<ListResult> task) {
-                    if (task.isSuccessful()) {
-                        int size = task.getResult().getItems().size();
-                    }
-                }
-            });
+            for (int i = 0; i < deleteUrlList.size(); i++) {
+                deleteImage2(postid, i, loadtext, activity, context, urllist, deleteUrlList, addUrllist, rd, myid, model, load);
+            }
         } else {
-            uploadToDjango(activity, context, myid, model, load, loadtext);
+            upload(postid, loadtext, activity, context, urllist, addUrllist, rd, myid, model, load);
         }
     }
 
-    private static void deleteImage2() {
-
+    private static void deleteImage2(int postid, int i, TextView loadtext, Activity activity, Context context, List<Uri> urllist, List<Uri> deleteUrlList, List<UriAndFileNameModel> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
+        Uri uri = deleteUrlList.get(i);
+        String fileName = uri.getLastPathSegment().split("/")[uri.getLastPathSegment().split("/").length - 1];
+        StorageReference reference1 = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + fileName);
+        reference1.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    if (deleteUrlList.size() == i + 1) {
+                        upload(postid, loadtext, activity, context, urllist, addUrllist, rd, myid, model, load);
+                    } else {
+                        int iplus = i + 1;
+                        deleteImage2(postid, iplus, loadtext, activity, context, urllist, deleteUrlList, addUrllist, rd, myid, model, load);
+                    }
+                }
+            }
+        });
     }
 
-    private static void upload(TextView loadtext, Activity activity, Context context, List<Uri> urllist, List<Uri> deleteUrlList, List<Uri> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
-        List<String> resultUrlList = new ArrayList<>();
+    private static void upload(int postid, TextView loadtext, Activity activity, Context context, List<Uri> urllist, List<UriAndFileNameModel> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
+        loadtext.setText("Image Uploading... 0/" + addUrllist.size());
         if (addUrllist.size() != 0) {
             for (int i = 0; i < addUrllist.size(); i++) {
-                Uri uri = addUrllist.get(i);
-                int position = i;
-                int pos = (i+1);
-                StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + String.valueOf(i));
-                reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                        reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                loadtext.setText("Image Uploading... " + pos + "/" + addUrllist.size());
-                                resultUrlList.add(uri.toString());
-                                checkurllistsize(addUrllist.size(), resultUrlList, loadtext, activity, context, urllist, deleteUrlList, addUrllist, rd, myid, model, load);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-
-                            }
-                        });
-                    }
-                });
+                upload2(postid, i, loadtext, activity, context, urllist, addUrllist, rd, myid, model, load);
             }
         } else {
 //            model.setImageurl("");
-            deleteImage(loadtext, activity, context, urllist, deleteUrlList, addUrllist, rd, myid, model, load);
-//            uploadToDjango(activity, context, myid, model, load, loadtext);
+//            deleteImage(loadtext, activity, context, urllist, deleteUrlList, addUrllist, rd, myid, model, load);
+            List<String> nulllist = new ArrayList<>();
+            uploadToDjango(postid, activity, context, myid, model, load, loadtext, rd, urllist, nulllist);
         }
     }
 
-    private static void checkurllistsize(int size, List<String> resultUrlList, TextView loadtext, Activity activity, Context context, List<Uri> urllist, List<Uri> deleteUrlList, List<Uri> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
-        if (size == resultUrlList.size()) {
-            String resultUrlStrings = rd;
-            for (int i = 0; i < resultUrlList.size(); i++) {
-                resultUrlStrings += "●" + resultUrlList.get(i);
-            }
-            model.setImageurl(resultUrlStrings);
-            deleteImage(loadtext, activity, context, urllist, deleteUrlList, addUrllist, rd, myid, model, load);
-//            uploadToDjango(activity, context, myid, model, load, loadtext);
-        }
-    }
-
-    public static void uploadToDjango(Activity activity, Context context, int id, PostModelDetail model, RelativeLayout load, TextView loadtext) {
-        loadtext.setText("Post Uploading...");
-        RetrofitClient.getApiService().createPost(id, model, context.getString(R.string.appkey)).enqueue(new Callback<PostModelDetail>() {
+    private static void upload2(int postid, int i, TextView loadtext, Activity activity, Context context, List<Uri> urllist, List<UriAndFileNameModel> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
+        List<String> downloadUrl = new ArrayList<>();
+        Uri uri = addUrllist.get(i).getUri();
+        int position = i;
+        StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + addUrllist.get(position).getName());
+        reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onResponse(Call<PostModelDetail> call, Response<PostModelDetail> response) {
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        downloadUrl.add(uri.toString());
+                        int iplus = i + 1;
+                        loadtext.setText("Image Uploading... " + iplus + "/" + addUrllist.size());
+                        if (addUrllist.size() == i + 1) {
+                            checkurllistsize(postid, addUrllist.size(), loadtext, activity, context, urllist, rd, myid, model, load, downloadUrl);
+                        } else {
+                            upload2(postid, iplus, loadtext, activity, context, urllist, addUrllist, rd, myid, model, load);
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    private static void checkurllistsize(int postid, int size, TextView loadtext, Activity activity, Context context, List<Uri> urllist, String rd, int myid, PostModelDetail model, RelativeLayout load, List<String> downloadUrl) {
+        if (size == urllist.size()) {
+//            String resultUrlStrings = rd;
+//            for (int i = 0; i < urllist.size(); i++) {
+//                resultUrlStrings += "●" + urllist.get(i).toString();
+//            }
+//            model.setImageurl(resultUrlStrings);
+//            deleteImage(loadtext, activity, context, urllist, deleteUrlList, addUrllist, rd, myid, model, load);
+            uploadToDjango(postid, activity, context, myid, model, load, loadtext, rd, urllist, downloadUrl);
+        }
+    }
+
+    public static void uploadToDjango(int postid, Activity activity, Context context, int id, PostModelDetail model, RelativeLayout load, TextView loadtext, String rd, List<Uri> urlList, List<String> downloadUrl) {
+        loadtext.setText("Post Uploading...");
+        String resultUrlString = "";
+
+        PostModelDetail postModelDetail = new PostModelDetail();
+        postModelDetail.setTitle(model.getTitle());
+        postModelDetail.setBody(model.getBody());
+        if (urlList.size() != 0 || downloadUrl.size() != 0) {
+            resultUrlString = rd;
+            for (int i = 0; i < urlList.size(); i++) {
+                resultUrlString += "●" + urlList.get(i).toString();
+            }
+            for (int i = 0; i < downloadUrl.size(); i++) {
+                resultUrlString += "●" + downloadUrl.get(i);
+            }
+        }
+        postModelDetail.setImageurl(resultUrlString);
+        if (model.getList().length() == 0) {
+            postModelDetail.setList("");
+        } else {
+            postModelDetail.setList(model.getList());
+        }
+        RetrofitClient.getApiService().updateMain(postid, postModelDetail, context.getString(R.string.appkey)).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    Log.d("CommunityWrite>>>", "1: " + response.message());
+                    Log.d("CommunityWrite>>>", "2: " + response.body());
                     Toast.makeText(context, "Post registration complete", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, CommunityMain.class);
                     intent.putExtra("write", true);
@@ -182,13 +220,15 @@ public class EditUploadService extends Service {
                     FinishedUploadNotification.finishedUploadNotification(context);
                     activity.finish();
                 } else {
+                    Log.d("CommunityWrite>>>", "3: " + response.body());
                     Toast.makeText(context, "The Internet connection was unstable and failed.\nPlease try again.\n" + response.message(), Toast.LENGTH_SHORT).show();
                 }
                 load.setVisibility(View.GONE);
             }
 
             @Override
-            public void onFailure(Call<PostModelDetail> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d("CommunityWrite>>>", "4: " + t.toString());
                 Intent intent1 = new Intent(context, UploadService.class);
                 context.stopService(intent1);
                 Toast.makeText(context, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -196,4 +236,6 @@ public class EditUploadService extends Service {
             }
         });
     }
+
+
 }

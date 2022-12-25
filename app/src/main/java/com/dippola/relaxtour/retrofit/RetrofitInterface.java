@@ -1,13 +1,10 @@
 package com.dippola.relaxtour.retrofit;
 
 import com.dippola.relaxtour.community.auth.userscommunity.UserCommentWithPageModel;
-import com.dippola.relaxtour.community.auth.userscommunity.UsersCommunityCommentModel;
 import com.dippola.relaxtour.community.main.detail.AddHitModel;
-import com.dippola.relaxtour.community.main.detail.AddHitModelK;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
-import com.dippola.relaxtour.retrofit.model.PostUpdateModel;
 import com.dippola.relaxtour.retrofit.model.PostsViewWitPages;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 
@@ -16,14 +13,11 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface RetrofitInterface {
     @GET("user/{id}/")
@@ -136,9 +130,9 @@ public interface RetrofitInterface {
     );
 
     @PUT("post/{pk}/update/")
-    Call<PostUpdateModel> updateMain(
+    Call<String> updateMain(
             @Path("pk") int pk,
-            @Body PostUpdateModel mainModel,
+            @Body PostModelDetail mainModel,
             @Header("key") String appkey
     );
 

@@ -58,7 +58,7 @@ public class EditImageAdapter extends RecyclerView.Adapter<EditImageAdapter.Cust
                 urllist.remove(index);
                 notifyItemRemoved(index);
                 notifyDataSetChanged();
-                CommunityWrite.imagecount.setText(urllist.size() + "/5");
+                EditPost.imagecount.setText(urllist.size() + "/5");
             }
         });
     }
