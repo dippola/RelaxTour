@@ -1,7 +1,6 @@
 package com.dippola.relaxtour.community.bottomsheet_intent;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +15,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.community.main.write.CommunityWrite;
-import com.dippola.relaxtour.community.main.write.WriteImageAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EditImageAdapter extends RecyclerView.Adapter<EditImageAdapter.CustomViewHolder>{
-    List<Uri> urllist;
+    List<UriAndFromModel> urllist;
     Context context;
     ConstraintLayout.LayoutParams params;
-    public EditImageAdapter(List<Uri> urllist, Context context, ConstraintLayout.LayoutParams params) {
+    public EditImageAdapter(List<UriAndFromModel> urllist, Context context, ConstraintLayout.LayoutParams params) {
         this.urllist = urllist;
         this.context = context;
         this.params = params;
@@ -47,13 +43,13 @@ public class EditImageAdapter extends RecyclerView.Adapter<EditImageAdapter.Cust
         if (urllist.get(i) == null) {
             holder.box.setVisibility(View.GONE);
         } else {
-            Glide.with(context).load(urllist.get(i).toString()).transform(new CenterCrop(), new RoundedCorners(40)).into(holder.img);
+            Glide.with(context).load(urllist.get(i).getUrl().toString()).transform(new CenterCrop(), new RoundedCorners(40)).into(holder.img);
             holder.box.setVisibility(View.VISIBLE);
         }
         holder.cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditPost.deleteUrlList.add(urllist.get(i));
+                EditPost.deleteUrlList.add(urllist.get(i).getUrl());
                 int index = urllist.indexOf(urllist.get(i));
                 urllist.remove(index);
                 notifyItemRemoved(index);

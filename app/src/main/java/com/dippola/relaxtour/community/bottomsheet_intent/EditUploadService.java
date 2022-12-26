@@ -98,18 +98,17 @@ public class EditUploadService extends Service {
         }
     }
 
-    public static void deleteImage(int postid, TextView loadtext, Activity activity, Context context, List<Uri> urllist, List<Uri> deleteUrlList, List<UriAndFileNameModel> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
-        loadtext.setText("Delete Image...");
+    public static void deleteImage(int postid, TextView loadtext, Activity activity, Context context, List<UriAndFromModel> urllist, List<Uri> deleteUrlList, List<UriAndFileNameModel> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
+        Log.d("EditUploadService>>>", "delete size: " + deleteUrlList.size());
         if (deleteUrlList.size() != 0) {
-            for (int i = 0; i < deleteUrlList.size(); i++) {
-                deleteImage2(postid, i, loadtext, activity, context, urllist, deleteUrlList, addUrllist, rd, myid, model, load);
-            }
+            deleteImage2(postid, 0, loadtext, activity, context, urllist, deleteUrlList, addUrllist, rd, myid, model, load);
         } else {
             upload(postid, loadtext, activity, context, urllist, addUrllist, rd, myid, model, load);
         }
     }
 
-    private static void deleteImage2(int postid, int i, TextView loadtext, Activity activity, Context context, List<Uri> urllist, List<Uri> deleteUrlList, List<UriAndFileNameModel> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
+    private static void deleteImage2(int postid, int i, TextView loadtext, Activity activity, Context context, List<UriAndFromModel> urllist, List<Uri> deleteUrlList, List<UriAndFileNameModel> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
+        loadtext.setText("Delete Image... " + i + "/" + deleteUrlList.size());
         Uri uri = deleteUrlList.get(i);
         String fileName = uri.getLastPathSegment().split("/")[uri.getLastPathSegment().split("/").length - 1];
         StorageReference reference1 = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + fileName);
@@ -128,12 +127,11 @@ public class EditUploadService extends Service {
         });
     }
 
-    private static void upload(int postid, TextView loadtext, Activity activity, Context context, List<Uri> urllist, List<UriAndFileNameModel> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
-        loadtext.setText("Image Uploading... 0/" + addUrllist.size());
+    private static void upload(int postid, TextView loadtext, Activity activity, Context context, List<UriAndFromModel> urllist, List<UriAndFileNameModel> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
         if (addUrllist.size() != 0) {
-            for (int i = 0; i < addUrllist.size(); i++) {
-                upload2(postid, i, loadtext, activity, context, urllist, addUrllist, rd, myid, model, load);
-            }
+            loadtext.setText("Image Uploading... 0/" + addUrllist.size());
+            List<String> downloadUrl = new ArrayList<>();
+            upload2(postid, 0, loadtext, activity, context, urllist, addUrllist, rd, myid, model, load, downloadUrl);
         } else {
 //            model.setImageurl("");
 //            deleteImage(loadtext, activity, context, urllist, deleteUrlList, addUrllist, rd, myid, model, load);
@@ -142,11 +140,9 @@ public class EditUploadService extends Service {
         }
     }
 
-    private static void upload2(int postid, int i, TextView loadtext, Activity activity, Context context, List<Uri> urllist, List<UriAndFileNameModel> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
-        List<String> downloadUrl = new ArrayList<>();
+    private static void upload2(int postid, int i, TextView loadtext, Activity activity, Context context, List<UriAndFromModel> urllist, List<UriAndFileNameModel> addUrllist, String rd, int myid, PostModelDetail model, RelativeLayout load, List<String> downloadUrl) {
         Uri uri = addUrllist.get(i).getUri();
-        int position = i;
-        StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + addUrllist.get(position).getName());
+        StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + addUrllist.get(i).getName());
         reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -157,9 +153,9 @@ public class EditUploadService extends Service {
                         int iplus = i + 1;
                         loadtext.setText("Image Uploading... " + iplus + "/" + addUrllist.size());
                         if (addUrllist.size() == i + 1) {
-                            checkurllistsize(postid, addUrllist.size(), loadtext, activity, context, urllist, rd, myid, model, load, downloadUrl);
+                            uploadToDjango(postid, activity, context, myid, model, load, loadtext, rd, urllist, downloadUrl);
                         } else {
-                            upload2(postid, iplus, loadtext, activity, context, urllist, addUrllist, rd, myid, model, load);
+                            upload2(postid, iplus, loadtext, activity, context, urllist, addUrllist, rd, myid, model, load, downloadUrl);
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -172,34 +168,32 @@ public class EditUploadService extends Service {
         });
     }
 
-    private static void checkurllistsize(int postid, int size, TextView loadtext, Activity activity, Context context, List<Uri> urllist, String rd, int myid, PostModelDetail model, RelativeLayout load, List<String> downloadUrl) {
-        if (size == urllist.size()) {
-//            String resultUrlStrings = rd;
-//            for (int i = 0; i < urllist.size(); i++) {
-//                resultUrlStrings += "●" + urllist.get(i).toString();
-//            }
-//            model.setImageurl(resultUrlStrings);
-//            deleteImage(loadtext, activity, context, urllist, deleteUrlList, addUrllist, rd, myid, model, load);
-            uploadToDjango(postid, activity, context, myid, model, load, loadtext, rd, urllist, downloadUrl);
-        }
-    }
-
-    public static void uploadToDjango(int postid, Activity activity, Context context, int id, PostModelDetail model, RelativeLayout load, TextView loadtext, String rd, List<Uri> urlList, List<String> downloadUrl) {
+    public static void uploadToDjango(int postid, Activity activity, Context context, int id, PostModelDetail model, RelativeLayout load, TextView loadtext, String rd, List<UriAndFromModel> urlList, List<String> downloadUrl) {
+        Log.d("EditUploadService>>>", "add size: " + downloadUrl.size());
         loadtext.setText("Post Uploading...");
         String resultUrlString = "";
 
         PostModelDetail postModelDetail = new PostModelDetail();
         postModelDetail.setTitle(model.getTitle());
         postModelDetail.setBody(model.getBody());
-        if (urlList.size() != 0 || downloadUrl.size() != 0) {
+
+        if (urlList.size() != 0) {
             resultUrlString = rd;
             for (int i = 0; i < urlList.size(); i++) {
-                resultUrlString += "●" + urlList.get(i).toString();
+                if (urlList.get(i).getFrom().equals("exist")) {
+                    resultUrlString += "●" + urlList.get(i).getUrl().toString();
+                }
+            }
+        }
+        if (downloadUrl.size() != 0) {
+            if (resultUrlString.length() == 0) {
+                resultUrlString = rd;
             }
             for (int i = 0; i < downloadUrl.size(); i++) {
                 resultUrlString += "●" + downloadUrl.get(i);
             }
         }
+
         postModelDetail.setImageurl(resultUrlString);
         if (model.getList().length() == 0) {
             postModelDetail.setList("");

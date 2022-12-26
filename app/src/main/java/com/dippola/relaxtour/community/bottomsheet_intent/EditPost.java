@@ -78,10 +78,10 @@ public class EditPost extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private EditImageAdapter adapter;
-    private List<Uri> urllist = new ArrayList<>();
+    private List<UriAndFromModel> urllist;
     private String rd;
-    public static List<Uri> deleteUrlList = new ArrayList<>();
-    public static List<UriAndFileNameModel> addUrlList = new ArrayList<>();
+    public static List<Uri> deleteUrlList;
+    public static List<UriAndFileNameModel> addUrlList;
     public static RelativeLayout load;
     private TextView loadtext;
 
@@ -105,6 +105,10 @@ public class EditPost extends AppCompatActivity {
         int x = (int) (size.x * 0.2);
 
         id = getIntent().getIntExtra("id", 0);
+
+        urllist = new ArrayList<>();
+        deleteUrlList = new ArrayList<>();
+        addUrlList = new ArrayList<>();
 
         setInit(y, x);
         setInitShareList();
@@ -172,7 +176,8 @@ public class EditPost extends AppCompatActivity {
                         for (int i = 0; i < model.getImageurl().split("●").length; i++) {
                             if (i != 0) {
                                 Uri uri = Uri.parse(model.getImageurl().split("●")[i]);
-                                urllist.add(uri);
+                                UriAndFromModel uriAndFromModel = new UriAndFromModel(uri, "exist");
+                                urllist.add(uriAndFromModel);
                             }
                         }
                         setImage();
@@ -349,6 +354,8 @@ public class EditPost extends AppCompatActivity {
                                         if (!addUrlList.contains(imageUri.toString())) {
                                             UriAndFileNameModel uriAndFileNameModel = new UriAndFileNameModel(imageUri, imageUri.getLastPathSegment());
                                             addUrlList.add(uriAndFileNameModel);
+                                            UriAndFromModel uriAndFromModel = new UriAndFromModel(imageUri, "new");
+                                            urllist.add(uriAndFromModel);
                                         }
                                     } else {
                                         Toast.makeText(EditPost.this, "Maximum image capacity available for selection is 5 MB", Toast.LENGTH_SHORT).show();
@@ -369,6 +376,8 @@ public class EditPost extends AppCompatActivity {
                                 Uri imageUri = data.getData();
                                 UriAndFileNameModel uriAndFileNameModel = new UriAndFileNameModel(imageUri, imageUri.getLastPathSegment());
                                 addUrlList.add(uriAndFileNameModel);
+                                UriAndFromModel uriAndFromModel = new UriAndFromModel(imageUri, "new");
+                                urllist.add(uriAndFromModel);
                             } else {
                                 Toast.makeText(EditPost.this, "Maximum image capacity available for selection is 5 MB", Toast.LENGTH_SHORT).show();
                             }
