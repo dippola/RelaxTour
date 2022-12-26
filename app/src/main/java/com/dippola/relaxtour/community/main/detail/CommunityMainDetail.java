@@ -78,6 +78,7 @@ import retrofit2.Response;
 public class CommunityMainDetail extends AppCompatActivity {
 
     public static final int FROM_DELETE = 301;
+    public static final int FROM_EDITPOST = 302;
 
     private int id;
     private static int parent_user;
@@ -398,6 +399,11 @@ public class CommunityMainDetail extends AppCompatActivity {
                         adapter.notifyItemRemoved(comment_index);
                         commentcount.setText(String.valueOf(Integer.parseInt(commentcount.getText().toString()) - 1));
                     }
+                }
+            } else if (result.getResultCode() == FROM_EDITPOST) {
+                if (result.getData().getBooleanExtra("isEdit", false)) {
+                    //reflesh
+                    onCreate(null);
                 }
             }
         }

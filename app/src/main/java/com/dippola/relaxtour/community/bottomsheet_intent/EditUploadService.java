@@ -25,6 +25,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.main.CommunityMain;
+import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
 import com.dippola.relaxtour.community.main.write.CommunityWrite;
 import com.dippola.relaxtour.community.main.write.FinishedUploadNotification;
 import com.dippola.relaxtour.community.main.write.UploadService;
@@ -206,9 +207,9 @@ public class EditUploadService extends Service {
                 if (response.isSuccessful()) {
                     Log.d("CommunityWrite>>>", "2: " + response.body());
                     Toast.makeText(context, "Post registration complete", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(context, CommunityMain.class);
-                    intent.putExtra("write", true);
-                    activity.setResult(CommunityMain.FROM_WRITE, intent);
+                    Intent intent = new Intent(context, CommunityMainDetail.class);
+                    intent.putExtra("isEdit", true);
+                    activity.setResult(CommunityMainDetail.FROM_EDITPOST, intent);
                     Intent intent1 = new Intent(context, UploadService.class);
                     context.stopService(intent1);
                     FinishedUploadNotification.finishedUploadNotification(context);
