@@ -94,7 +94,7 @@ public class DeleteCommunityDialog extends AppCompatActivity {
     }
 
     private void deletePost() {
-        RetrofitClient.getApiService().deleteMain(id, getString(R.string.appkey)).enqueue(new Callback<String>() {
+        RetrofitClient.getApiService(DeleteCommunityDialog.this).deleteMain(id, getString(R.string.appkey)).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
@@ -127,7 +127,7 @@ public class DeleteCommunityDialog extends AppCompatActivity {
     }
 
     private void deleteComment() {
-        RetrofitClient.getApiService().deleteComment(id, commentid, getString(R.string.appkey)).enqueue(new Callback<String>() {
+        RetrofitClient.getApiService(DeleteCommunityDialog.this).deleteComment(id, commentid, getString(R.string.appkey)).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {

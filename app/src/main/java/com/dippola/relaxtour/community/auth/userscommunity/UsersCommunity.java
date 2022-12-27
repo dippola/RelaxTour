@@ -151,7 +151,7 @@ public class UsersCommunity extends AppCompatActivity {
     }
 
     private void loadPostAllFirst(int page) {
-        RetrofitClient.getApiService().getUserCommunityPostsPage(myId, page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
+        RetrofitClient.getApiService(UsersCommunity.this).getUserCommunityPostsPage(myId, page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
             @Override
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
@@ -184,7 +184,7 @@ public class UsersCommunity extends AppCompatActivity {
     }
 
     private void loadCommentAllFirst(int page) {
-        RetrofitClient.getApiService().getUserCommentAll(myId, page, getString(R.string.appkey)).enqueue(new Callback<UserCommentWithPageModel>() {
+        RetrofitClient.getApiService(UsersCommunity.this).getUserCommentAll(myId, page, getString(R.string.appkey)).enqueue(new Callback<UserCommentWithPageModel>() {
             @Override
             public void onResponse(Call<UserCommentWithPageModel> call, Response<UserCommentWithPageModel> response) {
                 if (response.isSuccessful()) {
@@ -206,7 +206,7 @@ public class UsersCommunity extends AppCompatActivity {
     }
 
     private void loadLikeAllFirst(int page) {
-        RetrofitClient.getApiService().getUserCommunityLikePostsPage(myId, page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
+        RetrofitClient.getApiService(UsersCommunity.this).getUserCommunityLikePostsPage(myId, page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
             @Override
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
@@ -397,7 +397,7 @@ public class UsersCommunity extends AppCompatActivity {
     }
 
     private void loadCommunityAll(int page) {
-        RetrofitClient.getApiService().getUserCommunityPostsPage(myId, page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
+        RetrofitClient.getApiService(UsersCommunity.this).getUserCommunityPostsPage(myId, page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
             @Override
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
@@ -417,7 +417,7 @@ public class UsersCommunity extends AppCompatActivity {
     }
 
     private void loadCommunityCategory(int page, String category) {
-        RetrofitClient.getApiService().getUserCommunityCategoryPage(myId, category, page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
+        RetrofitClient.getApiService(UsersCommunity.this).getUserCommunityCategoryPage(myId, category, page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
             @Override
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
@@ -475,7 +475,7 @@ public class UsersCommunity extends AppCompatActivity {
     private void startRefleshFromPost() {
         startLoad();
         if (tab1.isChecked()) {
-            RetrofitClient.getApiService().getUserCommunityPostsPage(myId, nowPage, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
+            RetrofitClient.getApiService(UsersCommunity.this).getUserCommunityPostsPage(myId, nowPage, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
                 @Override
                 public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                     if (response.isSuccessful()) {
@@ -495,7 +495,7 @@ public class UsersCommunity extends AppCompatActivity {
                 }
             });
         } else if (tab2.isChecked()) {
-            RetrofitClient.getApiService().getUserCommunityCategoryPage(myId, "free", nowPage, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
+            RetrofitClient.getApiService(UsersCommunity.this).getUserCommunityCategoryPage(myId, "free", nowPage, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
                 @Override
                 public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                     if (response.isSuccessful()) {
@@ -515,7 +515,7 @@ public class UsersCommunity extends AppCompatActivity {
                 }
             });
         } else if (tab3.isChecked()) {
-            RetrofitClient.getApiService().getUserCommunityCategoryPage(myId, "qna", nowPage, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
+            RetrofitClient.getApiService(UsersCommunity.this).getUserCommunityCategoryPage(myId, "qna", nowPage, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
                 @Override
                 public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                     if (response.isSuccessful()) {
@@ -539,7 +539,7 @@ public class UsersCommunity extends AppCompatActivity {
 
     private void startRefleshFromComment() {
         startLoad();
-        RetrofitClient.getApiService().getUserCommentAll(myId, nowPage, getString(R.string.appkey)).enqueue(new Callback<UserCommentWithPageModel>() {
+        RetrofitClient.getApiService(UsersCommunity.this).getUserCommentAll(myId, nowPage, getString(R.string.appkey)).enqueue(new Callback<UserCommentWithPageModel>() {
             @Override
             public void onResponse(Call<UserCommentWithPageModel> call, Response<UserCommentWithPageModel> response) {
                 if (response.isSuccessful()) {
@@ -565,7 +565,7 @@ public class UsersCommunity extends AppCompatActivity {
 
     private void startRefleshFromLike() {
         startLoad();
-        RetrofitClient.getApiService().getUserCommunityLikePostsPage(myId, nowPage, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
+        RetrofitClient.getApiService(UsersCommunity.this).getUserCommunityLikePostsPage(myId, nowPage, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
             @Override
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {

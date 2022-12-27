@@ -171,7 +171,7 @@ public class CommunityAuth extends AppCompatActivity {
     }
 
     private void getUserData() {
-        RetrofitClient.getApiService().getUserCommunityState(databaseHandler.getUserModel().getId(), getString(R.string.appkey)).enqueue(new Callback<String>() {
+        RetrofitClient.getApiService(CommunityAuth.this).getUserCommunityState(databaseHandler.getUserModel().getId(), getString(R.string.appkey)).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
@@ -229,7 +229,7 @@ public class CommunityAuth extends AppCompatActivity {
                     Log.d("CommunityAuth>>>", "1");
                     UserModel userModel = new UserModel();
                     userModel.setNotification(true);
-                    RetrofitClient.getApiService().updateUser(auth.getCurrentUser().getUid(), userModel, getString(R.string.appkey)).enqueue(new Callback<UserModel>() {
+                    RetrofitClient.getApiService(CommunityAuth.this).updateUser(auth.getCurrentUser().getUid(), userModel, getString(R.string.appkey)).enqueue(new Callback<UserModel>() {
                         @Override
                         public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                             if (response.isSuccessful()) {
@@ -253,7 +253,7 @@ public class CommunityAuth extends AppCompatActivity {
                     Log.d("CommunityAuth>>>", "2");
                     UserModel userModel = new UserModel();
                     userModel.setNotification(false);
-                    RetrofitClient.getApiService().updateUser(auth.getCurrentUser().getUid(), userModel, getString(R.string.appkey)).enqueue(new Callback<UserModel>() {
+                    RetrofitClient.getApiService(CommunityAuth.this).updateUser(auth.getCurrentUser().getUid(), userModel, getString(R.string.appkey)).enqueue(new Callback<UserModel>() {
                         @Override
                         public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                             if (response.isSuccessful()) {
@@ -319,7 +319,7 @@ public class CommunityAuth extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Call<List<UserModel>> call;
-                call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityAuth.this).getUserModel().getId(), getString(R.string.appkey));
+                call = RetrofitClient.getApiService(CommunityAuth.this).getUser(new DatabaseHandler(CommunityAuth.this).getUserModel().getId(), getString(R.string.appkey));
                 call.enqueue(new Callback<List<UserModel>>() {
                     @Override
                     public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -467,7 +467,7 @@ public class CommunityAuth extends AppCompatActivity {
             @Override
             public void onSuccess(Void unused) {
                 Call<String> call;
-                call = RetrofitClient.getApiService().deleteUser(auth.getCurrentUser().getUid(), getString(R.string.appkey));
+                call = RetrofitClient.getApiService(CommunityAuth.this).deleteUser(auth.getCurrentUser().getUid(), getString(R.string.appkey));
                 call.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
@@ -543,7 +543,7 @@ public class CommunityAuth extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             Call<String> call;
-                            call = RetrofitClient.getApiService().deleteUser(auth.getCurrentUser().getUid(), getString(R.string.appkey));
+                            call = RetrofitClient.getApiService(CommunityAuth.this).deleteUser(auth.getCurrentUser().getUid(), getString(R.string.appkey));
                             call.enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(Call<String> call, Response<String> response) {

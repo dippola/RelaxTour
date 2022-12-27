@@ -150,7 +150,7 @@ public class EditPost extends AppCompatActivity {
     private void getData() {
         AddHitModel willAddHit = new AddHitModel();
         willAddHit.setWillAddHit(false);
-        RetrofitClient.getApiService().getPost(id, willAddHit, getString(R.string.appkey)).enqueue(new Callback<PostDetailWithComments>() {
+        RetrofitClient.getApiService(EditPost.this).getPost(id, willAddHit, getString(R.string.appkey)).enqueue(new Callback<PostDetailWithComments>() {
             @Override
             public void onResponse(Call<PostDetailWithComments> call, Response<PostDetailWithComments> response) {
                 if (response.isSuccessful()) {

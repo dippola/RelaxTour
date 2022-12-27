@@ -106,7 +106,7 @@ public class CommunityAuthResetPasswordDialog extends AppCompatActivity {
                     } else if (pattern.matcher(editEmail.getText().toString()).matches()) {
                         loadVissibility();
                         Call<List<UserModel>> call;
-                        call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityAuthResetPasswordDialog.this).getUserModel().getId(), getString(R.string.appkey));
+                        call = RetrofitClient.getApiService(CommunityAuthResetPasswordDialog.this).getUser(new DatabaseHandler(CommunityAuthResetPasswordDialog.this).getUserModel().getId(), getString(R.string.appkey));
                         call.enqueue(new Callback<List<UserModel>>() {
                             @Override
                             public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {

@@ -436,7 +436,7 @@ public class CommunityMain extends AppCompatActivity {
     private void startReflesh() {
         startLoad();
         if (tab1.isChecked()) {
-            RetrofitClient.getApiService().getMainPageAll(nowPage, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
+            RetrofitClient.getApiService(CommunityMain.this).getMainPageAll(nowPage, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
                 @Override
                 public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                     if (response.isSuccessful()) {
@@ -459,7 +459,7 @@ public class CommunityMain extends AppCompatActivity {
                 }
             });
         } else if (tab2.isChecked()) {
-            RetrofitClient.getApiService().getMainPageCategory("free", nowPage, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
+            RetrofitClient.getApiService(CommunityMain.this).getMainPageCategory("free", nowPage, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
                 @Override
                 public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                     if (response.isSuccessful()) {
@@ -481,7 +481,7 @@ public class CommunityMain extends AppCompatActivity {
                 }
             });
         } else if (tab3.isChecked()) {
-            RetrofitClient.getApiService().getMainPageCategory("qna", nowPage, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
+            RetrofitClient.getApiService(CommunityMain.this).getMainPageCategory("qna", nowPage, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
                 @Override
                 public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                     if (response.isSuccessful()) {
@@ -630,7 +630,7 @@ public class CommunityMain extends AppCompatActivity {
                 } else if (result.getData().getBooleanExtra("isSignIn", false)) {
                     iconload.setVisibility(View.VISIBLE);
                     Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityMain.this).getUserModel().getId(), getString(R.string.appkey));
+                    call = RetrofitClient.getApiService(CommunityMain.this).getUser(new DatabaseHandler(CommunityMain.this).getUserModel().getId(), getString(R.string.appkey));
                     call.enqueue(new Callback<List<UserModel>>() {
                         @Override
                         public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -655,7 +655,7 @@ public class CommunityMain extends AppCompatActivity {
                 if (result.getData().getBooleanExtra("isCreatePic", false)) {
                     iconload.setVisibility(View.VISIBLE);
                     Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityMain.this).getUserModel().getId(), getString(R.string.appkey));
+                    call = RetrofitClient.getApiService(CommunityMain.this).getUser(new DatabaseHandler(CommunityMain.this).getUserModel().getId(), getString(R.string.appkey));
                     call.enqueue(new Callback<List<UserModel>>() {
                         @Override
                         public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -682,7 +682,7 @@ public class CommunityMain extends AppCompatActivity {
                 if (result.getData().getBooleanExtra("isChangePic", false)) {
                     iconload.setVisibility(View.VISIBLE);
                     Call<List<UserModel>> call;
-                    call = RetrofitClient.getApiService().getUser(new DatabaseHandler(CommunityMain.this).getUserModel().getId(), getString(R.string.appkey));
+                    call = RetrofitClient.getApiService(CommunityMain.this).getUser(new DatabaseHandler(CommunityMain.this).getUserModel().getId(), getString(R.string.appkey));
                     call.enqueue(new Callback<List<UserModel>>() {
                         @Override
                         public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -741,7 +741,7 @@ public class CommunityMain extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             Call<String> call;
-                            call = RetrofitClient.getApiService().deleteUser(auth.getCurrentUser().getUid(), getString(R.string.appkey));
+                            call = RetrofitClient.getApiService(CommunityMain.this).deleteUser(auth.getCurrentUser().getUid(), getString(R.string.appkey));
                             call.enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(Call<String> call, Response<String> response) {
@@ -796,7 +796,7 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void loadCommunityAllFirst(int page) {
-        RetrofitClient.getApiService().getMainPageAll(page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
+        RetrofitClient.getApiService(CommunityMain.this).getMainPageAll(page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
             @Override
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
@@ -819,7 +819,7 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void loadCommunityAll(int page) {
-        RetrofitClient.getApiService().getMainPageAll(page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
+        RetrofitClient.getApiService(CommunityMain.this).getMainPageAll(page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
             @Override
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
@@ -838,7 +838,7 @@ public class CommunityMain extends AppCompatActivity {
         });
     }
     private void loadCommunityCategory(int page, String category) {
-        RetrofitClient.getApiService().getMainPageCategory(category, page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
+        RetrofitClient.getApiService(CommunityMain.this).getMainPageCategory(category, page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
             @Override
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {

@@ -203,7 +203,7 @@ public class EditUploadService extends Service {
         } else {
             postModelDetail.setList(model.getList());
         }
-        RetrofitClient.getApiService().updateMain(postid, postModelDetail, context.getString(R.string.appkey)).enqueue(new Callback<String>() {
+        RetrofitClient.getApiService(context).updateMain(postid, postModelDetail, context.getString(R.string.appkey)).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
