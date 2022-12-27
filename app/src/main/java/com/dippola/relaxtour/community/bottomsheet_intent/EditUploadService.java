@@ -205,7 +205,6 @@ public class EditUploadService extends Service {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    Log.d("CommunityWrite>>>", "2: " + response.body());
                     Toast.makeText(context, "Post registration complete", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, CommunityMainDetail.class);
                     intent.putExtra("isEdit", true);
@@ -215,7 +214,6 @@ public class EditUploadService extends Service {
                     FinishedUploadNotification.finishedUploadNotification(context);
                     activity.finish();
                 } else {
-                    Log.d("CommunityWrite>>>", "3: " + response.body());
                     Toast.makeText(context, "The Internet connection was unstable and failed.\nPlease try again.\n" + response.message(), Toast.LENGTH_SHORT).show();
                 }
                 load.setVisibility(View.GONE);
@@ -223,7 +221,6 @@ public class EditUploadService extends Service {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.d("CommunityWrite>>>", "4: " + t.toString());
                 Intent intent1 = new Intent(context, UploadService.class);
                 context.stopService(intent1);
                 Toast.makeText(context, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();

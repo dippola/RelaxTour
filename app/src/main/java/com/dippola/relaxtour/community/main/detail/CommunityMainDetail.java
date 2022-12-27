@@ -39,6 +39,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -95,6 +96,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     public static boolean isCommentLoad;
 
     private ShimmerFrameLayout topMiddleLoad, bottomLoad;
+    private SwipeRefreshLayout refreshLayout;
     private ConstraintLayout topFinish, middleFinish, bottomFinish, commentLayout;
     private RelativeLayout likecommentrefbox;
     private ConstraintLayout load_body;
@@ -144,19 +146,25 @@ public class CommunityMainDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.community_main_detail);
 
-        databaseHandler = new DatabaseHandler(CommunityMainDetail.this);
         id = getIntent().getIntExtra("parent_id", 0);
         parent_user = getIntent().getIntExtra("parent_user", 0);
+
+        if (id == 0) {
+            finish();
+        } else if (parent_user == 0) {
+            finish();
+        }
+
+        databaseHandler = new DatabaseHandler(CommunityMainDetail.this);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int y = (int) (size.y * 0.25);
-
         checkHits();
         setInit(y);
-        setListInit();
         setImageInit();
+        setListInit();
         getData("");
     }
 
@@ -175,8 +183,11 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void setInit(int y) {
+        refreshLayout = findViewById(R.id.community_main_detail_refresh);
         topMiddleLoad = findViewById(R.id.community_main_detail_load);
+        topMiddleLoad.setVisibility(View.VISIBLE);
         bottomLoad = findViewById(R.id.community_main_detail_comment_item_load);
+        bottomLoad.setVisibility(View.VISIBLE);
         topFinish = findViewById(R.id.community_main_detail_load_top_finish);
         likecommentrefbox = findViewById(R.id.community_main_detail_likecomment_box);
         middleFinish = findViewById(R.id.community_main_detail_load_middle_finish);
@@ -216,12 +227,43 @@ public class CommunityMainDetail extends AppCompatActivity {
         editComment = findViewById(R.id.community_main_detail_editcomment);
         towho = findViewById(R.id.community_main_detail_towho);
         towhoid = 0;
+        setRefreshLayout();
         setBottomSheet();
         setScrollView();
         onClickOk();
         onClickRefresh();
         onClickViewMore();
         onClickLike();
+        onClickBack();
+    }
+
+    private void onClickBack() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    private void setRefreshLayout() {
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                startRefresh();
+            }
+        });
+    }
+
+    private void startRefresh() {
+        topMiddleLoad.setVisibility(View.VISIBLE);
+        bottomLoad.setVisibility(View.VISIBLE);
+        topFinish.setVisibility(View.INVISIBLE);
+        middleFinish.setVisibility(View.INVISIBLE);
+        bottomFinish.setVisibility(View.INVISIBLE);
+
+        refreshLayout.setRefreshing(false);
+        getData("");
     }
 
     private void setBottomSheet() {
@@ -402,8 +444,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                 }
             } else if (result.getResultCode() == FROM_EDITPOST) {
                 if (result.getData().getBooleanExtra("isEdit", false)) {
-                    //reflesh
-                    onCreate(null);
+                    startRefresh();
                 }
             }
         }
