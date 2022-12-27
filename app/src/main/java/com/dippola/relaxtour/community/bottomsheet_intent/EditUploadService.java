@@ -134,8 +134,6 @@ public class EditUploadService extends Service {
             List<String> downloadUrl = new ArrayList<>();
             upload2(postid, 0, loadtext, activity, context, urllist, addUrllist, rd, myid, model, load, downloadUrl);
         } else {
-//            model.setImageurl("");
-//            deleteImage(loadtext, activity, context, urllist, deleteUrlList, addUrllist, rd, myid, model, load);
             List<String> nulllist = new ArrayList<>();
             uploadToDjango(postid, activity, context, myid, model, load, loadtext, rd, urllist, nulllist);
         }
@@ -162,7 +160,11 @@ public class EditUploadService extends Service {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        if (addUrllist.size() == i + 1) {
+                            uploadToDjango(postid, activity, context, myid, model, load, loadtext, rd, urllist, downloadUrl);
+                        } else {
+                            upload2(postid, i + 1, loadtext, activity, context, urllist, addUrllist, rd, myid, model, load, downloadUrl);
+                        }
                     }
                 });
             }
