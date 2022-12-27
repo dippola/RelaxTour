@@ -10,8 +10,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-//    public static final String BASE_URL="http://ec2-3-101-48-97.us-west-1.compute.amazonaws.com:8080/";
-    public static final String BASE_URL="http://ec2-3-101-48-97.us-west-1.compute.amazonaws.com:8080/";
 
     public static RetrofitInterface getApiService(Context context){
         return getInstance(context).create(RetrofitInterface.class);

@@ -174,7 +174,7 @@ public class CommunityProfileCreate extends AppCompatActivity {
 
     private void checkNicknameAready() {
         Call<List<UserModel>> call;
-        call = RetrofitClient.getApiService().searchNickname(editNickname.getText().toString(), getString(R.string.appkey));
+        call = RetrofitClient.getApiService(CommunityProfileCreate.this).searchNickname(editNickname.getText().toString(), getString(R.string.appkey));
         call.enqueue(new Callback<List<UserModel>>() {
             @Override
             public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -249,7 +249,7 @@ public class CommunityProfileCreate extends AppCompatActivity {
         if (uri != null && uri.length() != 0) {
             userModel.setImageurl(uri);
         }
-        RetrofitClient.getApiService().updateUser(auth.getCurrentUser().getUid(), userModel, getString(R.string.appkey)).enqueue(new Callback<UserModel>() {
+        RetrofitClient.getApiService(CommunityProfileCreate.this).updateUser(auth.getCurrentUser().getUid(), userModel, getString(R.string.appkey)).enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 if (response.isSuccessful()) {

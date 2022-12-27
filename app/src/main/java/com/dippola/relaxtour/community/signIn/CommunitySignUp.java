@@ -130,7 +130,7 @@ public class CommunitySignUp extends AppCompatActivity {
 
     private void checkUserAreadyWhenEmail(String email) {
         Call<List<UserModel>> call;
-        call = RetrofitClient.getApiService().searchEmail(email, getString(R.string.appkey));
+        call = RetrofitClient.getApiService(CommunitySignUp.this).searchEmail(email, getString(R.string.appkey));
         call.enqueue(new Callback<List<UserModel>>() {
             @Override
             public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -216,7 +216,7 @@ public class CommunitySignUp extends AppCompatActivity {
 
     private void checkUserAreadyWhenGoogle(String email, String idToken) {
         Call<List<UserModel>> call;
-        call = RetrofitClient.getApiService().searchEmail(email, getString(R.string.appkey));
+        call = RetrofitClient.getApiService(CommunitySignUp.this).searchEmail(email, getString(R.string.appkey));
         call.enqueue(new Callback<List<UserModel>>() {
             @Override
             public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
@@ -280,7 +280,7 @@ public class CommunitySignUp extends AppCompatActivity {
         userModel.setImageurl("");
         userModel.setProvider(provider);
         userModel.setToken(token);
-        RetrofitClient.getApiService().createUser(userModel, getString(R.string.appkey)).enqueue(new Callback<UserModel>() {
+        RetrofitClient.getApiService(CommunitySignUp.this).createUser(userModel, getString(R.string.appkey)).enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 if (response.isSuccessful()) {
