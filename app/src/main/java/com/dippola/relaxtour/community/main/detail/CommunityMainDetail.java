@@ -1130,7 +1130,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             adapter = null;
         } else {
             nullcomment.setVisibility(View.GONE);
-            adapter = new MainDetailCommentAdapter(commentModelList, CommunityMainDetail.this);
+            adapter = new MainDetailCommentAdapter(commentModelList, CommunityMainDetail.this, databaseHandler.getUserModel().getId());
             commentlist.setLayoutManager(new LinearLayoutManager(CommunityMainDetail.this));
             commentlist.setAdapter(adapter);
             bottomLoad.setVisibility(View.GONE);

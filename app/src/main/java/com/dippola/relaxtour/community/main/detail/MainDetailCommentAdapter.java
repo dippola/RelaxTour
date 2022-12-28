@@ -32,10 +32,12 @@ import java.util.TimeZone;
 public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCommentAdapter.CustomViewHolder> {
     List<PostCommentModel> list;
     Context context;
+    int myid;
 
-    public MainDetailCommentAdapter(List<PostCommentModel> list, Context context) {
+    public MainDetailCommentAdapter(List<PostCommentModel> list, Context context, int myid) {
         this.list = list;
         this.context = context;
+        this.myid = myid;
     }
     @NonNull
     @Override
@@ -69,6 +71,10 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
                 holder.tonickname.setText(String.valueOf("@" + list.get(i).getTo_nickname()));
             } else {
                 holder.tonickname.setVisibility(View.GONE);
+            }
+
+            if (list.get(i).getParent_user() == myid) {
+                holder.recomment.setVisibility(View.GONE);
             }
 
             holder.nickname.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +114,19 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
                     }
                 }
             });
+
+            holder.recomment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!list.get(i).getNickname().equals(new DatabaseHandler(context).getUserModel().getNickname())) {
+                        CommunityMainDetail.towho.setText(list.get(i).getNickname());
+                        CommunityMainDetail.towhoid = list.get(i).getParent_user();
+                        CommunityMainDetail.towho.setVisibility(View.VISIBLE);
+                        CommunityMainDetail.editComment.requestFocus();
+                        CommunityMainDetail.showKeyboard(view);
+                    }
+                }
+            });
         }
     }
 
@@ -118,7 +137,7 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
 
     public class CustomViewHolder extends RecyclerView.ViewHolder{
         ImageView img;
-        TextView nickname, date, body, tonickname;
+        TextView nickname, date, body, tonickname, recomment;
         Button more;
         ConstraintLayout item;
         ShimmerFrameLayout itemLoad;
@@ -129,6 +148,7 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
             this.date = itemView.findViewById(R.id.community_main_detail_comment_item_date);
             this.body = itemView.findViewById(R.id.community_main_detail_comment_item_body);
             this.more = itemView.findViewById(R.id.community_main_detail_comment_item_more);
+            this.recomment = itemView.findViewById(R.id.community_main_detail_comment_item_recomment);
             this.tonickname = itemView.findViewById(R.id.community_main_detail_comment_item_tonickname);
             this.item = itemView.findViewById(R.id.community_main_detail_comment_item);
             this.itemLoad = itemView.findViewById(R.id.community_main_detail_comment_item_loadii);

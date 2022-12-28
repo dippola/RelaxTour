@@ -89,6 +89,7 @@
     <color name="auth_email_icon_color">#fbfef9</color>
     <color name="community_main_line_color">#998D97A8</color>
     <color name="community_nostrong_color">#C4D5D5D5</color>
+    <color name="community_date_text_color">#A5A9AE</color>
 
     <color name="shimmer_color">#8D97A8</color>
 
