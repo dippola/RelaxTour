@@ -1,6 +1,7 @@
 package com.dippola.relaxtour.community.main.notification;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -25,6 +30,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class Notification extends AppCompatActivity {
+
+    public static final int FROM_DELETE_ALL_DIALOG = 100;
 
     private SharedPreferences sharedPreferences;
 
@@ -133,15 +140,27 @@ public class Notification extends AppCompatActivity {
         deleteAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int listSize = list.size();
-                list.clear();
-                more.setVisibility(View.GONE);
-                databaseHandler.deleteNotificationAll();
-                if (adapter != null) {
-                    adapter.notifyItemRangeRemoved(0, listSize);
-                }
-                zero.setVisibility(View.VISIBLE);
+                Intent intent = new Intent(Notification.this, DeleteAllDialog.class);
+                launcher.launch(intent);
             }
         });
     }
+
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == FROM_DELETE_ALL_DIALOG) {
+                if (result.getData().getBooleanExtra("isDelete", false)) {
+                    int listSize = list.size();
+                    list.clear();
+                    more.setVisibility(View.GONE);
+                    databaseHandler.deleteNotificationAll();
+                    if (adapter != null) {
+                        adapter.notifyItemRangeRemoved(0, listSize);
+                    }
+                    zero.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    });
 }

@@ -151,8 +151,6 @@ public class CommunityMainDetail extends AppCompatActivity {
 
         if (id == 0) {
             finish();
-        } else if (parent_user == 0) {
-            finish();
         }
 
         databaseHandler = new DatabaseHandler(CommunityMainDetail.this);
@@ -864,6 +862,8 @@ public class CommunityMainDetail extends AppCompatActivity {
             public void onResponse(Call<PostDetailWithComments> call, Response<PostDetailWithComments> response) {
                 if (response.isSuccessful()) {
                     postModel = response.body().getPost();
+                    parent_user = postModel.getParent_user();
+                    setBottomSheetBehavior(CommunityMainDetail.this);
                     commentModelList = response.body().getComments();
                     likeUserList = response.body().getLikeuserlist();
                     setData(postModel);
@@ -885,9 +885,9 @@ public class CommunityMainDetail extends AppCompatActivity {
         }
         title.setText(model.getTitle());
         if (model.getUser_url().length() != 0) {
-            Glide.with(CommunityMainDetail.this).load(model.getUser_url()).transform(new CircleCrop()).into(userimg);
+            Glide.with(getApplicationContext()).load(model.getUser_url()).transform(new CircleCrop()).into(userimg);
         } else {
-            Glide.with(CommunityMainDetail.this).load(R.drawable.nullpic).transform(new CircleCrop()).into(userimg);
+            Glide.with(getApplicationContext()).load(R.drawable.nullpic).transform(new CircleCrop()).into(userimg);
         }
         if (!String.valueOf(model.getImageurl()).equals("")) {
             String[] imgsplit = String.valueOf(model.getImageurl()).split("●");
@@ -929,7 +929,7 @@ public class CommunityMainDetail extends AppCompatActivity {
         requestOptions.transform(new CenterCrop(), new RoundedCorners(40));
         if (images.size() == 1) {
             img1.setVisibility(View.VISIBLE);
-            Glide.with(img1_1).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -943,7 +943,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             }).into(img1_1);
         } else if (images.size() == 2) {
             img2.setVisibility(View.VISIBLE);
-            Glide.with(img2_1).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -955,7 +955,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img2_1);
-            Glide.with(img2_2).load(images.get(1)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(1)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -969,7 +969,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             }).into(img2_2);
         } else if (images.size() == 3) {
             img3.setVisibility(View.VISIBLE);
-            Glide.with(img3_1).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -981,7 +981,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img3_1);
-            Glide.with(img3_2).load(images.get(1)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(1)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -993,7 +993,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img3_2);
-            Glide.with(img3_3).load(images.get(2)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(2)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -1007,7 +1007,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             }).into(img3_3);
         } else if (images.size() == 4) {
             img4.setVisibility(View.VISIBLE);
-            Glide.with(img4_1).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -1019,7 +1019,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img4_1);
-            Glide.with(img4_2).load(images.get(1)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(1)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -1031,7 +1031,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img4_2);
-            Glide.with(img4_3).load(images.get(2)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(2)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -1043,7 +1043,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img4_3);
-            Glide.with(img4_4).load(images.get(3)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(3)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -1057,7 +1057,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             }).into(img4_4);
         } else if (images.size() == 5) {
             img5.setVisibility(View.VISIBLE);
-            Glide.with(img5_1).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(0)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -1069,7 +1069,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img5_1);
-            Glide.with(img5_2).load(images.get(1)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(1)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -1081,7 +1081,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img5_2);
-            Glide.with(img5_3).load(images.get(2)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(2)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -1093,7 +1093,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img5_3);
-            Glide.with(img5_4).load(images.get(3)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(3)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
@@ -1105,7 +1105,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     return false;
                 }
             }).into(img5_4);
-            Glide.with(img5_5).load(images.get(4)).apply(requestOptions).listener(new RequestListener<Drawable>() {
+            Glide.with(getApplicationContext()).load(images.get(4)).apply(requestOptions).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     return false;
