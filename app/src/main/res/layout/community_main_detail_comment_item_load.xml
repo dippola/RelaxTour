@@ -113,15 +113,24 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.09" />
 
+            <Button
+                android:id="@+id/community_main_detail_comment_item_more_load"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/community_more"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/community_main_detail_comment_item_img_load" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/community_main_detail_comment_item_nickname_box_load"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                app:layout_constraintBottom_toBottomOf="@+id/community_main_detail_comment_item_img_load"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/community_main_detail_comment_item_more_load"
                 app:layout_constraintStart_toEndOf="@+id/community_main_detail_comment_item_img_load"
-                app:layout_constraintTop_toTopOf="@+id/community_main_detail_comment_item_img_load"
-                app:layout_constraintWidth_percent="0.5">
+                app:layout_constraintTop_toTopOf="@+id/community_main_detail_comment_item_img_load">
 
                 <TextView
                     android:id="@+id/community_main_detail_comment_item_nickname_load"
@@ -135,34 +144,46 @@
                     app:layout_constraintWidth_percent="0.4" />
 
                 <TextView
+                    android:id="@+id/community_main_detail_comment_item_tonickname_load"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/button_design_color"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/community_main_detail_comment_item_nickname_load" />
+
+                <TextView
+                    android:id="@+id/community_main_detail_comment_item_body_load"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/shimmer_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/community_main_detail_comment_item_tonickname_load" />
+
+                <TextView
                     android:id="@+id/community_main_detail_comment_item_date_load"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:background="@color/shimmer_color"
                     android:textSize="13dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/community_main_detail_comment_item_nickname_load"
-                    app:layout_constraintWidth_percent="0.5" />
+                    app:layout_constraintTop_toBottomOf="@+id/community_main_detail_comment_item_body_load"
+                    app:layout_constraintWidth_percent="0.25" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:background="@color/shimmer_color"
+                    android:gravity="center_vertical"
+                    android:textSize="13dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/community_main_detail_comment_item_date_load"
+                    app:layout_constraintStart_toEndOf="@+id/community_main_detail_comment_item_date_load"
+                    app:layout_constraintTop_toTopOf="@+id/community_main_detail_comment_item_date_load"
+                    app:layout_constraintWidth_percent="0.15" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <Button
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginEnd="15dp"
-                android:background="@drawable/community_more"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/community_main_detail_comment_item_img_load" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@color/shimmer_color"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/community_main_detail_comment_item_nickname_box_load"
-                app:layout_constraintTop_toBottomOf="@+id/community_main_detail_comment_item_nickname_box_load"
-                app:layout_constraintWidth_percent="0.7" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -183,15 +204,24 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.09" />
 
+            <Button
+                android:id="@+id/community_main_detail_comment_item_more_load2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/community_more"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/community_main_detail_comment_item_img_load2" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/community_main_detail_comment_item_nickname_box_load2"
+                android:id="@+id/community_main_detail_comment_item_nickname_boxii"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                app:layout_constraintBottom_toBottomOf="@+id/community_main_detail_comment_item_img_load2"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/community_main_detail_comment_item_more_load2"
                 app:layout_constraintStart_toEndOf="@+id/community_main_detail_comment_item_img_load2"
-                app:layout_constraintTop_toTopOf="@+id/community_main_detail_comment_item_img_load2"
-                app:layout_constraintWidth_percent="0.5">
+                app:layout_constraintTop_toTopOf="@+id/community_main_detail_comment_item_img_load2">
 
                 <TextView
                     android:id="@+id/community_main_detail_comment_item_nickname_load2"
@@ -205,34 +235,46 @@
                     app:layout_constraintWidth_percent="0.4" />
 
                 <TextView
+                    android:id="@+id/community_main_detail_comment_item_tonickname_load2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/button_design_color"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/community_main_detail_comment_item_nickname_load2" />
+
+                <TextView
+                    android:id="@+id/community_main_detail_comment_item_body_load2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/shimmer_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/community_main_detail_comment_item_tonickname_load2" />
+
+                <TextView
                     android:id="@+id/community_main_detail_comment_item_date_load2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:background="@color/shimmer_color"
                     android:textSize="13dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/community_main_detail_comment_item_nickname_load2"
-                    app:layout_constraintWidth_percent="0.5" />
+                    app:layout_constraintTop_toBottomOf="@+id/community_main_detail_comment_item_body_load2"
+                    app:layout_constraintWidth_percent="0.25" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:background="@color/shimmer_color"
+                    android:gravity="center_vertical"
+                    android:textSize="13dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/community_main_detail_comment_item_date_load2"
+                    app:layout_constraintStart_toEndOf="@+id/community_main_detail_comment_item_date_load2"
+                    app:layout_constraintTop_toTopOf="@+id/community_main_detail_comment_item_date_load2"
+                    app:layout_constraintWidth_percent="0.15" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <Button
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginEnd="15dp"
-                android:background="@drawable/community_more"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/community_main_detail_comment_item_img_load2" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@color/shimmer_color"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/community_main_detail_comment_item_nickname_box_load2"
-                app:layout_constraintTop_toBottomOf="@+id/community_main_detail_comment_item_nickname_box_load2"
-                app:layout_constraintWidth_percent="0.7" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
