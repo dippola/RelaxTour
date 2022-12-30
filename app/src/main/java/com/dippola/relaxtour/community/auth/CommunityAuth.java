@@ -318,6 +318,8 @@ public class CommunityAuth extends AppCompatActivity {
         deleteaccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                load.setVisibility(View.VISIBLE);
+                deleteaccount.setEnabled(false);
                 Call<List<UserModel>> call;
                 call = RetrofitClient.getApiService(CommunityAuth.this).getUser(new DatabaseHandler(CommunityAuth.this).getUserModel().getId(), getString(R.string.appkey));
                 call.enqueue(new Callback<List<UserModel>>() {
@@ -329,6 +331,7 @@ public class CommunityAuth extends AppCompatActivity {
                             intent.putExtra("provider", response.body().get(0).getProvider());
                             launcher.launch(intent);
                             load.setVisibility(View.GONE);
+                            deleteaccount.setEnabled(true);
                         }
                     }
 

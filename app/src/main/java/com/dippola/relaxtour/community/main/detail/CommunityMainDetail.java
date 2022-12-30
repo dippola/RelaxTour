@@ -776,6 +776,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     resetComments();
                     editComment.setText("");
+                    towho.setVisibility(View.GONE);
                     towho.setText("");
                     towhoid = 0;
                     sendCommentFinished();

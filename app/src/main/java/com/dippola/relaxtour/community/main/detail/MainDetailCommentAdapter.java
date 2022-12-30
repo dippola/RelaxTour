@@ -2,6 +2,7 @@ package com.dippola.relaxtour.community.main.detail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,7 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
             holder.item.setVisibility(View.VISIBLE);
             holder.itemLoad.setVisibility(View.GONE);
             holder.body.setText(list.get(i).getBody());
-            if (list.get(i).getUser_url().equals("")) {
+            if (list.get(i).getUser_url() == null || list.get(i).getUser_url().equals("")) {
                 Glide.with(context).load(R.drawable.nullpic).transform(new CircleCrop()).into(holder.img);
             } else {
                 Glide.with(context).load(list.get(i).getUser_url()).transform(new CircleCrop()).into(holder.img);
@@ -170,7 +171,8 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
         }
     }
     private String changeTime(String dateFromServer) {
-        String[] cut = dateFromServer.split("T");
+        Log.d("DetailCommentAdapter>>>", "date from server: " + dateFromServer);
+        String[] cut = dateFromServer.split(" ");
         String[] cut1 = cut[1].split("\\.");
         String result = cut[0] + " " + cut1[0];
         SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
