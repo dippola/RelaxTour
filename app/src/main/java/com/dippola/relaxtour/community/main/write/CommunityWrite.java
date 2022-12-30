@@ -187,8 +187,6 @@ public class CommunityWrite extends AppCompatActivity {
                     DatabaseHandler databaseHandler = new DatabaseHandler(CommunityWrite.this);
                     UserModel myProfile = databaseHandler.getUserModel();
                     model.setParent_user(myProfile.getId());
-                    model.setNickname(myProfile.getNickname());
-                    model.setUser_url(myProfile.getImageurl());
                     model.setCategory(getIntent().getStringExtra("category"));
                     model.setTitle(title.getText().toString());
                     model.setBody(body.getText().toString());

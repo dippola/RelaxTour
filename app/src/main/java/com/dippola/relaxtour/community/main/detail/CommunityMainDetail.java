@@ -1286,7 +1286,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private String changeTime(String dateFromServer) {
-        String[] cut = dateFromServer.split("T");
+        String[] cut = dateFromServer.split(" ");
         String[] cut1 = cut[1].split("\\.");
         String result = cut[0] + " " + cut1[0];
         SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
