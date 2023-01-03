@@ -171,7 +171,6 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
         }
     }
     private String changeTime(String dateFromServer) {
-        Log.d("DetailCommentAdapter>>>", "date from server: " + dateFromServer);
         String[] cut = dateFromServer.split(" ");
         String[] cut1 = cut[1].split("\\.");
         String result = cut[0] + " " + cut1[0];
