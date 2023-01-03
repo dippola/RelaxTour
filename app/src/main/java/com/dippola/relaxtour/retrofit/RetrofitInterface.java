@@ -2,6 +2,7 @@ package com.dippola.relaxtour.retrofit;
 
 import com.dippola.relaxtour.community.auth.userscommunity.UserCommentWithPageModel;
 import com.dippola.relaxtour.community.main.detail.AddHitModel;
+import com.dippola.relaxtour.community.main.detail.CommentWithPageWhenMore;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
@@ -163,10 +164,10 @@ public interface RetrofitInterface {
             @Header("key") String appkey
     );
 
-    @GET("post/{pk}/comments/more={lastid}/")
-    Call<List<PostCommentModel>> getMainCommentMore(
+    @GET("post/{pk}/comments/more={page}/")
+    Call<CommentWithPageWhenMore> getMainCommentMore(
             @Path("pk") int pk,
-            @Path("lastid") int lastid,
+            @Path("page") int page,
             @Header("key") String appkey
     );
 

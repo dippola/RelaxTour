@@ -95,6 +95,8 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     public static boolean isCommentLoad;
 
+    private int nowPage;
+
     private ShimmerFrameLayout topMiddleLoad, bottomLoad;
     private SwipeRefreshLayout refreshLayout;
     private ConstraintLayout topFinish, middleFinish, bottomFinish, commentLayout;
@@ -631,29 +633,39 @@ public class CommunityMainDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 commentMoreLoad.setVisibility(View.VISIBLE);
-                int lastid = commentModelList.get(commentModelList.size() - 1).getId();
+                int np = getNextCommentPage();
                 int beforeSize = commentModelList.size();
-                RetrofitClient.getApiService(CommunityMainDetail.this).getMainCommentMore(id, lastid, getString(R.string.appkey)).enqueue(new Callback<List<PostCommentModel>>() {
+                RetrofitClient.getApiService(CommunityMainDetail.this).getMainCommentMore(id, getNextCommentPage(), getString(R.string.appkey)).enqueue(new Callback<CommentWithPageWhenMore>() {
                     @Override
-                    public void onResponse(Call<List<PostCommentModel>> call, Response<List<PostCommentModel>> response) {
+                    public void onResponse(Call<CommentWithPageWhenMore> call, Response<CommentWithPageWhenMore> response) {
                         if (response.isSuccessful()) {
-                            if (response.body().size() != 0) {
-                                int addSize = commentModelList.size() + response.body().size() - 1;
-                                commentModelList.addAll(response.body());
+                            if (response.body().getComments().size() != 0) {
+                                commentViewMore.setText("View More <" + np + "/" + String.valueOf(response.body().getPages()) + ">");
+                                int addSize = commentModelList.size() + response.body().getComments().size() - 1;
+                                commentModelList.addAll(response.body().getComments());
                                 adapter.notifyItemRangeChanged(beforeSize, addSize);
+                                nowPage += 1;
+                                if (nowPage == response.body().getPages()) {
+                                    commentViewMore.setEnabled(false);
+                                }
                             }
                         }
                         commentMoreLoad.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void onFailure(Call<List<PostCommentModel>> call, Throwable t) {
+                    public void onFailure(Call<CommentWithPageWhenMore> call, Throwable t) {
                         commentMoreLoad.setVisibility(View.GONE);
                         Toast.makeText(CommunityMainDetail.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
+    }
+
+    private int getNextCommentPage() {
+        int i = nowPage + 1;
+        return i;
     }
 
     private void setListInit() {
@@ -856,6 +868,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void getData(String from) {
+        nowPage = 1;
         AddHitModel addHitModel = new AddHitModel();
         addHitModel.setWillAddHit(willAddHit);
         RetrofitClient.getApiService(CommunityMainDetail.this).getPost(id, addHitModel, getString(R.string.appkey)).enqueue(new Callback<PostDetailWithComments>() {
@@ -867,6 +880,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     setBottomSheetBehavior(CommunityMainDetail.this);
                     commentModelList = response.body().getComments();
                     likeUserList = response.body().getLikeuserlist();
+                    commentViewMore.setText("View More <" + nowPage + "/" + String.valueOf(response.body().getCommentsPages()) + ">");
                     setData(postModel);
                     setComment(commentModelList.size(), from);
                 }
