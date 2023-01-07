@@ -11,18 +11,18 @@
         android:layout_height="0dp"
         android:background="#7C000000"
         android:clickable="true"
-        android:visibility="gone"
         android:translationZ="11dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:indeterminateTint="@color/button_design_color"
-            />
+            android:indeterminateTint="@color/button_design_color" />
     </RelativeLayout>
 
     <ScrollView
@@ -207,6 +207,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/community_auth_box1">
+
                 <View
                     android:id="@+id/community_auth_guide3"
                     android:layout_width="0dp"
@@ -216,6 +217,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.8" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/community_auth_post_box"
                     android:layout_width="0dp"
@@ -256,13 +258,14 @@
                         android:layout_width="13dp"
                         android:layout_height="13dp"
                         android:indeterminateTint="@color/button_design_color"
-                        app:layout_constraintTop_toTopOf="@+id/community_auth_post_count"
                         app:layout_constraintBottom_toBottomOf="@+id/community_auth_post_count"
+                        app:layout_constraintEnd_toEndOf="@+id/community_auth_post_count"
                         app:layout_constraintStart_toStartOf="@+id/community_auth_post_count"
-                        app:layout_constraintEnd_toEndOf="@+id/community_auth_post_count"/>
+                        app:layout_constraintTop_toTopOf="@+id/community_auth_post_count" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/community_auth_comment_box"
                     android:layout_width="0dp"
@@ -302,11 +305,12 @@
                         android:layout_width="13dp"
                         android:layout_height="13dp"
                         android:indeterminateTint="@color/button_design_color"
-                        app:layout_constraintTop_toTopOf="@+id/community_auth_commend_count"
                         app:layout_constraintBottom_toBottomOf="@+id/community_auth_commend_count"
+                        app:layout_constraintEnd_toEndOf="@+id/community_auth_commend_count"
                         app:layout_constraintStart_toStartOf="@+id/community_auth_commend_count"
-                        app:layout_constraintEnd_toEndOf="@+id/community_auth_commend_count"/>
+                        app:layout_constraintTop_toTopOf="@+id/community_auth_commend_count" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/community_auth_my_like_post"
                     android:layout_width="0dp"
@@ -343,16 +347,18 @@
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toEndOf="@+id/community_auth_my_like_post_text"
                         app:layout_constraintTop_toTopOf="parent" />
+
                     <ProgressBar
                         android:id="@+id/community_auth_likes_progressbar"
                         android:layout_width="13dp"
                         android:layout_height="13dp"
                         android:indeterminateTint="@color/button_design_color"
-                        app:layout_constraintTop_toTopOf="@+id/community_auth_my_like_post_count"
                         app:layout_constraintBottom_toBottomOf="@+id/community_auth_my_like_post_count"
+                        app:layout_constraintEnd_toEndOf="@+id/community_auth_my_like_post_count"
                         app:layout_constraintStart_toStartOf="@+id/community_auth_my_like_post_count"
-                        app:layout_constraintEnd_toEndOf="@+id/community_auth_my_like_post_count"/>
+                        app:layout_constraintTop_toTopOf="@+id/community_auth_my_like_post_count" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/community_auth_find_password_in_auth"
                     android:layout_width="0dp"
@@ -391,6 +397,7 @@
                         app:layout_constraintStart_toEndOf="@+id/community_auth_reset_password_in_auth_text"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/community_auth_notification"
                     android:layout_width="0dp"
@@ -429,6 +436,7 @@
                         app:thumbTint="@color/switch_thumb_color"
                         app:trackTint="@color/switch_track_color" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/community_auth_suggestions"
                     android:layout_width="0dp"
@@ -466,6 +474,7 @@
                         app:layout_constraintStart_toEndOf="@+id/community_auth_suggestions_text"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/community_auth_sign_out"
                     android:layout_width="0dp"
@@ -503,6 +512,7 @@
                         app:layout_constraintStart_toEndOf="@+id/community_auth_signout_text"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/community_auth_delete_account"
                     android:layout_width="0dp"
@@ -554,20 +564,20 @@
                         android:layout_height="wrap_content"
                         android:text="Privacy Policy"
                         android:textColor="@color/button_design_color"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/community_auth_bottom_intent2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
                         android:text="Terms and Conditions"
                         android:textColor="@color/button_design_color"
-                        app:layout_constraintTop_toBottomOf="@+id/community_auth_bottom_intent1"
-                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginTop="15dp"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/community_auth_bottom_intent1" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -575,7 +585,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="#00000000"
-                    app:layout_constraintTop_toBottomOf="@+id/community_auth_bottom_intent_box"/>
+                    app:layout_constraintTop_toBottomOf="@+id/community_auth_bottom_intent_box" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

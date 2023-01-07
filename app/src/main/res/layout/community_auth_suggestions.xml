@@ -35,16 +35,17 @@
         android:layout_height="0dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/edittext"
+        android:elevation="5dp"
         android:gravity="start"
         android:hint="Please fill out the suggestions."
         android:padding="10dp"
+        android:textCursorDrawable="@drawable/edittext_cursor"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/community_auth_suggestions_title"
-        app:layout_constraintWidth_percent="0.9"
-        android:elevation="5dp"/>
+        app:layout_constraintWidth_percent="0.9" />
 
     <TextView
         android:id="@+id/community_auth_suggestions_text1"

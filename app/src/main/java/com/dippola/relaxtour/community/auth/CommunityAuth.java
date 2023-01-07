@@ -161,7 +161,7 @@ public class CommunityAuth extends AppCompatActivity {
         suggestions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(CommunityAuth.this, Suggestions.class));
             }
         });
     }
