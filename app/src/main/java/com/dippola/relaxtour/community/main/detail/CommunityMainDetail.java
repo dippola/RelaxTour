@@ -1,5 +1,6 @@
 package com.dippola.relaxtour.community.main.detail;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -640,7 +641,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     public void onResponse(Call<CommentWithPageWhenMore> call, Response<CommentWithPageWhenMore> response) {
                         if (response.isSuccessful()) {
                             if (response.body().getComments().size() != 0) {
-                                commentViewMore.setText("View More <" + np + "/" + String.valueOf(response.body().getPages()) + ">");
+                                commentViewMore.setText("View More (" + np + "/" + String.valueOf(response.body().getPages()) + ")");
                                 int addSize = commentModelList.size() + response.body().getComments().size() - 1;
                                 commentModelList.addAll(response.body().getComments());
                                 adapter.notifyItemRangeChanged(beforeSize, addSize);
@@ -880,7 +881,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                     setBottomSheetBehavior(CommunityMainDetail.this);
                     commentModelList = response.body().getComments();
                     likeUserList = response.body().getLikeuserlist();
-                    commentViewMore.setText("View More <" + nowPage + "/" + String.valueOf(response.body().getCommentsPages()) + ">");
+                    commentViewMore.setText("View More (" + nowPage + "/" + String.valueOf(response.body().getCommentsPages()) + ")");
                     if (nowPage == response.body().getCommentsPages()) {
                         commentViewMore.setEnabled(false);
                     }
@@ -1177,9 +1178,11 @@ public class CommunityMainDetail extends AppCompatActivity {
         });
     }
 
-    public static void showKeyboard(View v) {
-        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+    public static void showKeyboard(View v, Context context) {
+//        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
+//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        InputMethodManager manager = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
+        manager.showSoftInput(editComment, InputMethodManager.SHOW_IMPLICIT);
     }
 
     private void hideKeyboard(View v) {

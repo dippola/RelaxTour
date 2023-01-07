@@ -85,8 +85,9 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
                         CommunityMainDetail.towho.setText(list.get(i).getNickname());
                         CommunityMainDetail.towhoid = list.get(i).getParent_user();
                         CommunityMainDetail.towho.setVisibility(View.VISIBLE);
+                        CommunityMainDetail.editComment.clearFocus();
                         CommunityMainDetail.editComment.requestFocus();
-                        CommunityMainDetail.showKeyboard(view);
+                        CommunityMainDetail.showKeyboard(view, context);
                     }
                 }
             });
@@ -123,8 +124,9 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
                         CommunityMainDetail.towho.setText(list.get(i).getNickname());
                         CommunityMainDetail.towhoid = list.get(i).getParent_user();
                         CommunityMainDetail.towho.setVisibility(View.VISIBLE);
+                        CommunityMainDetail.editComment.clearFocus();
                         CommunityMainDetail.editComment.requestFocus();
-                        CommunityMainDetail.showKeyboard(view);
+                        CommunityMainDetail.showKeyboard(view, context);
                     }
                 }
             });
