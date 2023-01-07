@@ -2,6 +2,7 @@ package com.dippola.relaxtour.community.main.detail;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -103,5 +104,15 @@ public class DetailImageViewer extends AppCompatActivity {
         public int getCount() {
             return items.size();
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        try {
+            return super.onTouchEvent(event);
+        } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 }
