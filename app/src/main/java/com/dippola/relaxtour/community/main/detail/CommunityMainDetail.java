@@ -881,6 +881,9 @@ public class CommunityMainDetail extends AppCompatActivity {
                     commentModelList = response.body().getComments();
                     likeUserList = response.body().getLikeuserlist();
                     commentViewMore.setText("View More <" + nowPage + "/" + String.valueOf(response.body().getCommentsPages()) + ">");
+                    if (nowPage == response.body().getCommentsPages()) {
+                        commentViewMore.setEnabled(false);
+                    }
                     setData(postModel);
                     setComment(commentModelList.size(), from);
                 }
