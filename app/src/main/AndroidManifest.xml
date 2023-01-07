@@ -51,6 +51,8 @@
         <activity android:name=".community.signIn.CommunityAskSignUpDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".community.signIn.CommunityAlreadyUserDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".community.auth.CommunityAuth" android:screenOrientation="portrait" />
+        <activity android:name=".community.auth.Suggestions" android:screenOrientation="portrait" />
+        <activity android:name=".community.auth.SuggestionsSuccessDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".community.auth.CommunityProfileChange" android:screenOrientation="portrait" />
         <activity android:name=".community.auth.CommunityAskSignOutDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".community.auth.CommunityAskDeleteAccountDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>

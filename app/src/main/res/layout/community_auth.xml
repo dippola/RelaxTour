@@ -430,7 +430,7 @@
                         app:trackTint="@color/switch_track_color" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/community_auth_sign_out"
+                    android:id="@+id/community_auth_suggestions"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
@@ -441,6 +441,43 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/community_auth_notification"
+                    app:layout_constraintWidth_percent="0.8">
+
+                    <TextView
+                        android:id="@+id/community_auth_suggestions_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="suggestions"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/community_auth_suggestions_goto1"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/community_auth_suggestions_goto1"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/community_auth_goto_icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toEndOf="@+id/community_auth_suggestions_text"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/community_auth_sign_out"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/community_auth_box_round"
+                    android:elevation="5dp"
+                    android:paddingHorizontal="30dp"
+                    android:paddingVertical="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/community_auth_suggestions"
                     app:layout_constraintWidth_percent="0.8">
 
                     <TextView

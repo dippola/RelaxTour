@@ -76,7 +76,7 @@ public class CommunityAuth extends AppCompatActivity {
     private RelativeLayout load;
     private Button back, editprofile;
     private ProgressBar imgload, postCountLoad, commentCountLoad, likeCountLoad;
-    private ConstraintLayout myPost, myComment, myLikePost, signout, deleteaccount, findPassword;
+    private ConstraintLayout myPost, myComment, myLikePost, suggestions, signout, deleteaccount, findPassword;
     private boolean isChangePic;
     private String provider;
     private String imageurl;
@@ -132,6 +132,8 @@ public class CommunityAuth extends AppCompatActivity {
         postCountLoad = findViewById(R.id.community_auth_post_progressbar);
         commentCountLoad = findViewById(R.id.community_auth_comment_progressbar);
         likeCountLoad = findViewById(R.id.community_auth_likes_progressbar);
+        suggestions = findViewById(R.id.community_auth_suggestions);
+        setSuggestions();
         signout = findViewById(R.id.community_auth_sign_out);
         deleteaccount = findViewById(R.id.community_auth_delete_account);
         provicerIcon = findViewById(R.id.community_auth_email_icon);
@@ -153,6 +155,15 @@ public class CommunityAuth extends AppCompatActivity {
         text1 = findViewById(R.id.community_auth_bottom_intent1);
         text2 = findViewById(R.id.community_auth_bottom_intent2);
         setOnClickBottomText();
+    }
+
+    private void setSuggestions() {
+        suggestions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void setOnClickBottomText() {
