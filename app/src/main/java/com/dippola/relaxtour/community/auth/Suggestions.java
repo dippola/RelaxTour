@@ -29,7 +29,8 @@ import java.util.TimeZone;
 
 public class Suggestions extends AppCompatActivity {
 
-    public static final int FROM_SUGGESTIONS = 100;
+    public static final int FROM_SUCCESS = 100;
+    public static final int FROM_ASK = 101;
 
     EditText editText;
     Button send;
@@ -55,8 +56,9 @@ public class Suggestions extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                load.setVisibility(View.VISIBLE);
-                saveSuggestionsFirestore();
+                Intent intent = new Intent(Suggestions.this, SuggestionsSuccessDialog.class);
+                intent.putExtra("from", "ask");
+                launcher.launch(intent);
             }
         });
     }
@@ -71,6 +73,7 @@ public class Suggestions extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Intent intent = new Intent(Suggestions.this, SuggestionsSuccessDialog.class);
+                    intent.putExtra("from", "save");
                     launcher.launch(intent);
                 }
             }
@@ -86,8 +89,13 @@ public class Suggestions extends AppCompatActivity {
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
-            if (result.getResultCode() == FROM_SUGGESTIONS) {
+            if (result.getResultCode() == FROM_SUCCESS) {
                 finish();
+            } else if (result.getResultCode() == FROM_ASK) {
+                if (result.getData().getBooleanExtra("willSend", false)) {
+                    load.setVisibility(View.VISIBLE);
+                    saveSuggestionsFirestore();
+                }
             }
         }
     });
