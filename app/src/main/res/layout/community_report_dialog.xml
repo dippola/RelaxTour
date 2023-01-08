@@ -12,7 +12,6 @@
         android:id="@+id/community_report_success_idalog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Report completed"
         android:textStyle="bold"
         android:textSize="15dp"/>
 
@@ -20,7 +19,6 @@
         android:id="@+id/community_report_success_idalog_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thank you for your cooperation for\na healthy community.\n\nThe report will be reviewed by the management team and taken action."
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"/>
 
@@ -37,5 +35,14 @@
             android:layout_marginVertical="7dp"
             android:background="@drawable/button_design"
             android:textColor="#FFFFFF" />
+        <Button
+            android:id="@+id/community_report_success_dialog_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ok"
+            android:layout_marginVertical="7dp"
+            android:background="@drawable/button_design_2"
+            android:textColor="@color/button_text_color"
+            android:layout_marginStart="10dp"/>
     </LinearLayout>
 </LinearLayout>

@@ -2,7 +2,6 @@ package com.dippola.relaxtour.community.bottomsheet_intent;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +31,8 @@ import java.util.TimeZone;
 
 public class Report extends AppCompatActivity {
 
-    public static final int FROM_REPORT_DIALOG = 400;
+    public static final int FROM_REPORT_DIALOG_SUCCESS = 400;
+    public static final int FROM_REPORT_DIALOG_ASK = 401;
 
     private Button back, ok, cancel;
     private RadioGroup radioGroup;
@@ -102,8 +102,9 @@ public class Report extends AppCompatActivity {
                 if (selectIndex == -1) {
                     Toast.makeText(Report.this, "Please select a reason.", Toast.LENGTH_SHORT).show();
                 } else {
-                    load.setVisibility(View.VISIBLE);
-                    saveFirebaseFirestore();
+                    Intent intent = new Intent(Report.this, ReportDialog.class);
+                    intent.putExtra("from", "ask");
+                    launcher.launch(intent);
                 }
             }
         });
@@ -130,8 +131,13 @@ public class Report extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Intent intent = new Intent(Report.this, ReportSuccessDialog.class);
+                    load.setVisibility(View.GONE);
+                    Intent intent = new Intent(Report.this, ReportDialog.class);
+                    intent.putExtra("from", "save");
                     launcher.launch(intent);
+                } else {
+                    load.setVisibility(View.GONE);
+                    Toast.makeText(Report.this, "Error: failed because the internet was unstable.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -146,8 +152,13 @@ public class Report extends AppCompatActivity {
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
-            if (result.getResultCode() == FROM_REPORT_DIALOG) {
+            if (result.getResultCode() == FROM_REPORT_DIALOG_SUCCESS) {
                 finish();
+            } else if (result.getResultCode() == FROM_REPORT_DIALOG_ASK) {
+                if (result.getData().getBooleanExtra("isReport", false)) {
+                    load.setVisibility(View.VISIBLE);
+                    saveFirebaseFirestore();
+                }
             }
         }
     });

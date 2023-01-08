@@ -67,7 +67,7 @@
         <activity android:name=".community.main.notification.Notification" android:screenOrientation="portrait"/>
         <activity android:name=".community.bottomsheet_intent.DeleteCommunityDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".community.bottomsheet_intent.Report" android:screenOrientation="portrait"/>
-        <activity android:name=".community.bottomsheet_intent.ReportSuccessDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
+        <activity android:name=".community.bottomsheet_intent.ReportDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".community.bottomsheet_intent.EditPost" android:screenOrientation="portrait"/>
         <activity android:name=".community.main.notification.DeleteAllDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".dialog.Premium" android:screenOrientation="portrait"/>

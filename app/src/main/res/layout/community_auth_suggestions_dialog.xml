@@ -12,7 +12,6 @@
         android:id="@+id/community_auth_suggestions_dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Completed sending suggestions"
         android:textStyle="bold"
         android:textSize="15dp"/>
 
@@ -20,7 +19,6 @@
         android:id="@+id/community_auth_suggestions_dialog_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="We will actively reflect\nyour suggestions and update them."
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"/>
 

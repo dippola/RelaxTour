@@ -18,6 +18,7 @@ public class SuggestionsSuccessDialog extends AppCompatActivity {
 
     private Button ok, cancel;
     private TextView title, body;
+    private String from;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class SuggestionsSuccessDialog extends AppCompatActivity {
         ok = findViewById(R.id.community_auth_suggestions_dialog_ok);
         cancel = findViewById(R.id.community_auth_suggestions_dialog_cancel);
 
-        String from = getIntent().getStringExtra("from");
+        from = getIntent().getStringExtra("from");
 
         if (from.equals("ask")) {
             title.setText("Suggestions");
@@ -69,4 +70,16 @@ public class SuggestionsSuccessDialog extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (from.equals("ask")) {
+            Intent intent = new Intent(SuggestionsSuccessDialog.this, Suggestions.class);
+            intent.putExtra("willSend", false);
+            setResult(Suggestions.FROM_ASK, intent);
+            finish();
+        } else {
+            setResult(Suggestions.FROM_SUCCESS);
+            finish();
+        }
+    }
 }
