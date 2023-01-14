@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="5dp"
+    android:id="@+id/admin_report_item">
+
+    <LinearLayout
+        android:id="@+id/admin_report_item1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/admin_report_item2">
+
+        <TextView
+            android:id="@+id/admin_report_item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2023-01-01 00:00:00" />
+
+        <TextView
+            android:id="@+id/admin_report_item_from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="from" />
+
+        <TextView
+            android:id="@+id/admin_report_item_choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="choice" />
+
+        <TextView
+            android:id="@+id/admin_report_item_decuser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="decUser" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/admin_report_item2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/admin_report_item1">
+
+        <TextView
+            android:id="@+id/admin_report_item_postid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="postid" />
+
+        <TextView
+            android:id="@+id/admin_report_item_commentid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="commentid" />
+
+        <TextView
+            android:id="@+id/admin_report_item_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="edit" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/dialog_layout_line_color"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

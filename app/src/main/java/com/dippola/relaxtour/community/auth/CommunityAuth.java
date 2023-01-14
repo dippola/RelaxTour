@@ -30,9 +30,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.admin.Admin;
 import com.dippola.relaxtour.community.auth.userscommunity.UsersCommunity;
 import com.dippola.relaxtour.community.main.CommunityMain;
-import com.dippola.relaxtour.community.Test;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
@@ -51,7 +51,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -103,7 +102,7 @@ public class CommunityAuth extends AppCompatActivity {
         onClickDeleteAccount();
         onClickFindPassword();
         setNotification();
-        test();
+        admin();
     }
 
     private void setInit() {
@@ -619,18 +618,14 @@ public class CommunityAuth extends AppCompatActivity {
         }
     }
 
-    private void test() {
-        TextView test = findViewById(R.id.community_auth_title);
-        test.setOnClickListener(new View.OnClickListener() {
+    private void admin() {
+        TextView title = findViewById(R.id.community_auth_title);
+        title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(new Intent(CommunityAuth.this, Test.class));
-                FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        Log.d("Test>>>", "s: " + s);
-                    }
-                });
+                if (databaseHandler.getUserModel().getEmail().equals("dippolas@gmail.com")) {
+                    startActivity(new Intent(CommunityAuth.this, Admin.class));
+                }
             }
         });
     }

@@ -119,6 +119,7 @@ public class Report extends AppCompatActivity {
     }
 
     private void saveFirebaseFirestore() {
+        String nowDate = getUTCTime();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> map = new HashMap<>();
         map.put("from", from);
@@ -127,7 +128,8 @@ public class Report extends AppCompatActivity {
         map.put("commentid", commentId);
         map.put("choice", selectIndex);
         map.put("edit", editText.getText().toString());
-        db.collection("report").document(getUTCTime()).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        map.put("date", nowDate);
+        db.collection("report").document(nowDate).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
