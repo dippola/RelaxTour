@@ -134,6 +134,7 @@ public class AdminDetail extends AppCompatActivity {
 
     private void setRecyclerView() {
         adapter = new AdminDetailCommentAdapter(commentList);
+        Log.d("AdminDetail>>>", "comment list siez: " + commentList.size());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(AdminDetail.this));
         recyclerView.setAdapter(adapter);

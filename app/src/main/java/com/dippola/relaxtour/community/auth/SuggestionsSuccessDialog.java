@@ -27,6 +27,8 @@ public class SuggestionsSuccessDialog extends AppCompatActivity {
         setContentView(R.layout.community_auth_suggestions_dialog);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        setFinishOnTouchOutside(false);
+
         title = findViewById(R.id.community_auth_suggestions_dialog_title);
         body = findViewById(R.id.community_auth_suggestions_dialog_body);
         ok = findViewById(R.id.community_auth_suggestions_dialog_ok);

@@ -27,6 +27,8 @@ public class ReportDialog extends AppCompatActivity {
         setContentView(R.layout.community_report_dialog);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        setFinishOnTouchOutside(false);
+
         from = getIntent().getStringExtra("from");
 
         title = findViewById(R.id.community_report_success_idalog_title);
