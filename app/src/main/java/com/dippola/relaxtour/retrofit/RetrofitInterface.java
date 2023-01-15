@@ -179,4 +179,11 @@ public interface RetrofitInterface {
             @Header("key") String appkey
     );
 
+    @DELETE("myadmin/post/{pk}/delete/")
+    Call<String> adminPostDelete(
+            @Path("pk") int pk,
+            @Header("key") String appkey,
+            @Header("why") String why
+    );
+
 }

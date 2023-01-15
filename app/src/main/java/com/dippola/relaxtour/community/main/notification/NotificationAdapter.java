@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -70,9 +71,20 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.title.setText("A new version has been released.");
             holder.img.setVisibility(View.GONE);
             holder.nickname.setVisibility(View.GONE);
+        } else if (s[0].equals("admin")) {
+            ConstraintSet set = new ConstraintSet();
+            set.clone(holder.box);
+            set.connect(holder.date.getId(), ConstraintSet.TOP, holder.body.getId(), ConstraintSet.BOTTOM);
+            set.applyTo(holder.box);
+            holder.title.setText(s[4]);
+            holder.nickname.setVisibility(View.GONE);
+            holder.img.setVisibility(View.GONE);
+            holder.body.setMaxLines(50);
         }
 
-
+        if (s[0].equals("admin")) {
+            holder.body.setText(list.get(i).getBody());
+        }
         holder.body.setText(list.get(i).getBody());
         holder.date.setText(resultDate(list.get(i).getDate()));
         holder.delete.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +111,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
                     intent.setData(Uri.parse("market://details?id=com.dippola.relaxtour"));
+                    context.startActivity(intent);
+                } else if (s[0].equals("admin")) {
+                    Intent intent = new Intent(context, AdminNotificationDialog.class);
+                    intent.putExtra("body", list.get(position).getBody());
                     context.startActivity(intent);
                 }
             }
@@ -129,9 +145,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     private String resultDate(String d1) {
         if (d1.split(" ")[0].equals(getTime().split(" ")[0])) {
-            return d1.split(" ")[0];
+            return d1.split(" ")[1].split(":")[0] + ":" + d1.split(" ")[1].split(":")[1];
         } else {
-            return d1;
+            return d1.split(" ")[0];
         }
     }
 

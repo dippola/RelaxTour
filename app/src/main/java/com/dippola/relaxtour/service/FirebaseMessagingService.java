@@ -16,7 +16,9 @@ import androidx.core.app.NotificationCompat;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
+import com.dippola.relaxtour.community.main.notification.Notification;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -54,6 +56,10 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
                     intent.setData(Uri.parse("market://details?id=com.dippola.relaxtour"));
                     showTitle = title.split("●")[1];
+                    insertDB(title, messageBody);
+                } else if (title.split("●")[0].equals("admin")) {
+                    intent = new Intent(this, Notification.class);
+                    showTitle = title.split("●")[4];
                     insertDB(title, messageBody);
                 } else {
                     intent = new Intent(this, MainActivity.class);

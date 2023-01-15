@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_layout"
+    android:padding="30dp"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal">
+    <TextView
+        android:id="@+id/admin_notification_dialog_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Policy violation"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/admin_notification_dialog_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Policy violation"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"/>
+    <TextView
+        android:id="@+id/admin_notification_dialog_text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center_horizontal"
+        android:text="For suggestions or complaints,\nemail dippolas@gmail.com\nor\nuse the Suggestions menu." />
+    <Button
+        android:id="@+id/admin_notification_dialog_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ok"
+        android:background="@drawable/button_design"
+        android:textColor="#ffffff"
+        android:layout_marginTop="20dp"/>
+</LinearLayout>

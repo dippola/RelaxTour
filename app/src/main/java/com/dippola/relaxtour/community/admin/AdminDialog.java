@@ -17,7 +17,7 @@ public class AdminDialog extends AppCompatActivity {
 
     Button b0, b1, b2, b3, b4, b5;
     String date, from;
-    int postid, commentid;
+    int postid, commentid, choice;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +30,7 @@ public class AdminDialog extends AppCompatActivity {
         from = getIntent().getStringExtra("from");
         postid = getIntent().getIntExtra("postid", 0);
         commentid = getIntent().getIntExtra("commentid", 0);
+        choice = getIntent().getIntExtra("choice", 0);
 
         setInit();
     }
@@ -94,6 +95,9 @@ public class AdminDialog extends AppCompatActivity {
             intent.putExtra("from", from);
             intent.putExtra("postid", postid);
             intent.putExtra("commentid", commentid);
+        } else if (i == 2) {
+            intent.putExtra("postid", postid);
+            intent.putExtra("why", choice);
         }
         intent.putExtra("click", i);
         setResult(Admin.FROM_ADMIN_DIALOG, intent);

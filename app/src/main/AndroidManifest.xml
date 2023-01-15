@@ -77,6 +77,7 @@
         <activity android:name=".community.admin.Admin" android:screenOrientation="portrait" />
         <activity android:name=".community.admin.AdminDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".community.admin.detail.AdminDetail" android:screenOrientation="portrait" />
+        <activity android:name=".community.main.notification.AdminNotificationDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
 
 
 
