@@ -57,6 +57,7 @@ import com.dippola.relaxtour.community.bottomsheet_intent.EditPost;
 import com.dippola.relaxtour.community.bottomsheet_intent.Report;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.CommentAllList;
 import com.dippola.relaxtour.retrofit.model.LikeUserListModel;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
@@ -809,20 +810,23 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     private void resetComments() {
-        RetrofitClient.getApiService(CommunityMainDetail.this).getPostAllComments(id, getString(R.string.appkey)).enqueue(new Callback<List<PostCommentModel>>() {
+        RetrofitClient.getApiService(CommunityMainDetail.this).getPostAllComments(id, getString(R.string.appkey)).enqueue(new Callback<CommentAllList>() {
             @Override
-            public void onResponse(Call<List<PostCommentModel>> call, Response<List<PostCommentModel>> response) {
+            public void onResponse(Call<CommentAllList> call, Response<CommentAllList> response) {
                 if (response.isSuccessful()) {
                     commentModelList.clear();
-                    commentModelList = response.body();
+                    commentModelList = response.body().getComments();
                     setComment(commentModelList.size(), "refresh");
                     scrollDown();
+                    Log.d("MainDetail>>>", "1: " + response.body().getComments().size());
+                } else {
+                    Log.d("MainDetail>>>", "2");
                 }
             }
 
             @Override
-            public void onFailure(Call<List<PostCommentModel>> call, Throwable t) {
-
+            public void onFailure(Call<CommentAllList> call, Throwable t) {
+                Log.d("MainDetail>>>", "3: " + t.getMessage());
             }
         });
     }

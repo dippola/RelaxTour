@@ -31,9 +31,13 @@ public class AdminDetailCommentAdapter extends RecyclerView.Adapter<AdminDetailC
 
     @Override
     public void onBindViewHolder(@NonNull AdminDetailCommentAdapter.CustomViewHolder holder, int position) {
-        Glide.with(holder.userimg.getContext()).load(list.get(position).getUser_url()).into(holder.userimg);
+        if (list.get(position).getUser_url() == null || list.get(position).getUser_url().equals("")) {
+            Glide.with(holder.userimg.getContext()).load(R.drawable.nullpic).into(holder.userimg);
+        } else {
+            Glide.with(holder.userimg.getContext()).load(list.get(position).getUser_url()).into(holder.userimg);
+        }
         holder.usernickname.setText(list.get(position).getNickname());
-        if (list.get(position).getTo_nickname().equals("") || list.get(position).getTo_nickname() == null) {
+        if (list.get(position).getTo_nickname() == null || list.get(position).getTo_nickname().equals("")) {
             holder.towho.setVisibility(View.GONE);
         } else {
             holder.towho.setText(list.get(position).getTo_nickname());

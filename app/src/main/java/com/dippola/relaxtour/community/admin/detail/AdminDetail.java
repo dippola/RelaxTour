@@ -15,6 +15,7 @@ import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.main.detail.AddHitModel;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.CommentAllList;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 
@@ -44,6 +45,7 @@ public class AdminDetail extends AppCompatActivity {
         setContentView(R.layout.admin_detail);
 
         postid = getIntent().getIntExtra("postid", 0);
+        Log.d("AdminDetail>>>", "postid: " + postid);
         commentid = getIntent().getIntExtra("commentid", 0);
 
         setInit();
@@ -66,6 +68,24 @@ public class AdminDetail extends AppCompatActivity {
     }
 
     private void getData() {
+        RetrofitClient.getApiService(AdminDetail.this).getPostAllComments(postid, getString(R.string.appkey)).enqueue(new Callback<CommentAllList>() {
+            @Override
+            public void onResponse(Call<CommentAllList> call, Response<CommentAllList> response) {
+                if (response.isSuccessful()) {
+                    Log.d("AdminDetail>>>", "1");
+                    commentList = response.body().getComments();
+                    setRecyclerView();
+                } else {
+                    Log.d("AdminDetail>>>", "2");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommentAllList> call, Throwable t) {
+                Log.d("AdminDetail>>>", "3: " + t.getMessage());
+            }
+        });
+
         AddHitModel addHitModel = new AddHitModel();
         addHitModel.setWillAddHit(false);
         RetrofitClient.getApiService(AdminDetail.this).getPost(postid, addHitModel, getString(R.string.appkey)).enqueue(new Callback<PostDetailWithComments>() {
@@ -113,23 +133,23 @@ public class AdminDetail extends AppCompatActivity {
             }
         }
 
-        RetrofitClient.getApiService(AdminDetail.this).getPostAllComments(postid, getString(R.string.appkey)).enqueue(new Callback<List<PostCommentModel>>() {
-            @Override
-            public void onResponse(Call<List<PostCommentModel>> call, Response<List<PostCommentModel>> response) {
-                if (response.isSuccessful()) {
-                    Log.d("AdminDetail>>>", "1");
-                    commentList = response.body();
-                    setRecyclerView();
-                } else {
-                    Log.d("AdminDetail>>>", "2");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<PostCommentModel>> call, Throwable t) {
-                Log.d("AdminDetail>>>", "3: " + t.getMessage());
-            }
-        });
+//        RetrofitClient.getApiService(AdminDetail.this).getPostAllComments(postid, getString(R.string.appkey)).enqueue(new Callback<List<PostCommentModel>>() {
+//            @Override
+//            public void onResponse(Call<List<PostCommentModel>> call, Response<List<PostCommentModel>> response) {
+//                if (response.isSuccessful()) {
+//                    Log.d("AdminDetail>>>", "1");
+//                    commentList = response.body();
+//                    setRecyclerView();
+//                } else {
+//                    Log.d("AdminDetail>>>", "2");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<PostCommentModel>> call, Throwable t) {
+//                Log.d("AdminDetail>>>", "3: " + t.getMessage());
+//            }
+//        });
     }
 
     private void setRecyclerView() {
