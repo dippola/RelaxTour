@@ -74,17 +74,18 @@
                     android:id="@+id/activity_main_title_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_above="@+id/activity_main_timer_layout"
                     android:layout_alignBottom="@+id/activity_main_setting"
                     android:layout_centerHorizontal="true"
-                    android:orientation="horizontal"
-                    android:layout_above="@+id/activity_main_timer_layout">
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Relax Tour"
-                        android:textStyle="bold"
+                        android:textColor="@color/splash_text_color"
                         android:textSize="18dp"
-                        android:textColor="@color/splash_text_color"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -115,9 +116,10 @@
                     android:layout_width="34dp"
                     android:layout_height="34dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/community_icon"
+                    android:layout_marginEnd="10dp"
                     android:layout_toLeftOf="@+id/activity_main_timer"
-                    android:layout_marginEnd="10dp"/>
+                    android:background="@drawable/community_icon" />
+
                 <Button
                     android:id="@+id/activity_main_timer"
                     android:layout_width="34dp"
@@ -133,39 +135,44 @@
                 android:layout_height="60dp"
                 android:layout_below="@+id/activity_main_topbar"
                 android:layout_marginTop="30dp">
+
                 <Button
                     android:id="@+id/activity_main_tab_left"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="6dp"
-                    android:background="@drawable/tab_left"/>
+                    android:background="@drawable/tab_left" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/activity_main_tablayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_toRightOf="@+id/activity_main_tab_left"
                     android:layout_toLeftOf="@+id/activity_main_tab_right"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                    android:layout_toRightOf="@+id/activity_main_tab_left"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/tab_right_trans"
-                    android:layout_toLeftOf="@+id/activity_main_tab_right"/>
+                    android:layout_toLeftOf="@+id/activity_main_tab_right"
+                    android:background="@drawable/tab_right_trans" />
+
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/tab_left_trans"
-                    android:layout_toRightOf="@+id/activity_main_tab_left" />
+                    android:layout_toRightOf="@+id/activity_main_tab_left"
+                    android:background="@drawable/tab_left_trans" />
+
                 <Button
                     android:id="@+id/activity_main_tab_right"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginEnd="6dp"
-                    android:background="@drawable/tab_right"/>
+                    android:background="@drawable/tab_right" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -182,14 +189,14 @@
         android:layout_height="match_parent"
         android:background="#7C000000"
         android:clickable="true"
-        android:visibility="gone"
-        android:translationZ="11dp">
+        android:translationZ="11dp"
+        android:visibility="gone">
+
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:indeterminateTint="@color/button_design_color"
-            />
+            android:indeterminateTint="@color/button_design_color" />
     </RelativeLayout>
 
     <include
@@ -201,7 +208,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#00000000" />
-
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -95,7 +95,6 @@ public interface RetrofitInterface {
     );
 
 
-
     @GET("posts/page={page}/")
     Call<PostsViewWitPages> getMainPageAll(
             @Path("page") int page,
@@ -186,4 +185,23 @@ public interface RetrofitInterface {
             @Header("why") String why
     );
 
+    @DELETE("myadmin/comment/{pk}/delete/")
+    Call<String> adminCommentDelete(
+            @Path("pk") int pk,
+            @Header("key") String appkey,
+            @Header("why") String why
+    );
+
+    @GET("myadmin/comment/{pk}/")
+    Call<Integer> adminGetCommentUser(
+            @Path("pk") int pk,
+            @Header("key") String appkey
+    );
+
+    @PUT("myadmin/user/{id}/update/")
+    Call<String> adminUserUpdate(
+            @Path("id") int id,
+            @Body UserModel userModel,
+            @Header("key") String appkey
+    );
 }

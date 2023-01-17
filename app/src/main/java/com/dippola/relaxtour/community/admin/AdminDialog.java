@@ -12,6 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.main.detail.AddHitModel;
+import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AdminDialog extends AppCompatActivity {
 
@@ -98,9 +105,17 @@ public class AdminDialog extends AppCompatActivity {
         } else if (i == 2) {
             intent.putExtra("postid", postid);
             intent.putExtra("why", choice);
+        } else if (i == 3) {
+            intent.putExtra("commentid", commentid);
+            intent.putExtra("why", choice);
+        } else if (i == 4) {
+            intent.putExtra("from", from);
+            intent.putExtra("postid", postid);
+            intent.putExtra("commentid", commentid);
         }
         intent.putExtra("click", i);
         setResult(Admin.FROM_ADMIN_DIALOG, intent);
         finish();
+
     }
 }

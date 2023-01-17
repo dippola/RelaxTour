@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -17,7 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.admin.detail.AdminDetail;
+import com.dippola.relaxtour.community.admin.profile.AdminChangeProfile;
+import com.dippola.relaxtour.community.main.detail.AddHitModel;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -105,9 +109,12 @@ public class Admin extends AppCompatActivity implements AdminAdapter.ItemClickLi
                     } else if (i == 2) {//글삭제
                         deletePost(result.getData().getIntExtra("postid", 0), result.getData().getIntExtra("why", 0));
                     } else if (i == 3) {//댓글 삭제
-
+                        deleteComment(result.getData().getIntExtra("postid", 0), result.getData().getIntExtra("why", 0));
                     } else if (i == 4) {//프로필 수정
-
+                        String from = result.getData().getStringExtra("from");
+                        int postid = result.getData().getIntExtra("postid", 0);
+                        int commentid = result.getData().getIntExtra("commentid", 0);
+                        startActivityToAdminChangeProfile1(from, postid, commentid);
                     } else if (i == 5) {//회원삭제
 
                     }
@@ -137,17 +144,81 @@ public class Admin extends AppCompatActivity implements AdminAdapter.ItemClickLi
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
                     if (response.isSuccessful()) {
-                        Log.d("Admin>>>", "1");
+                        Toast.makeText(Admin.this, "성공", Toast.LENGTH_SHORT).show();
                     } else {
-                        Log.d("Admin>>>", "2");
+                        Toast.makeText(Admin.this, "실패", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
-                    Log.d("Admin>>>", "3: " + t.getMessage());
+                    Toast.makeText(Admin.this, "에러", Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
+
+    private void deleteComment(int commentid, int why) {
+        if (commentid != 0) {
+            RetrofitClient.getApiService(Admin.this).adminCommentDelete(commentid, getString(R.string.appkey), getWhy(why)).enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(Admin.this, "성공", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Admin.this, "실패", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Toast.makeText(Admin.this, "에러", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void startActivityToAdminChangeProfile1(String from, int postid, int commentid) {
+        if (from.equals("post")) {
+            AddHitModel addHitModel = new AddHitModel();
+            addHitModel.setWillAddHit(false);
+            RetrofitClient.getApiService(Admin.this).getPost(postid, addHitModel, getString(R.string.appkey)).enqueue(new Callback<PostDetailWithComments>() {
+                @Override
+                public void onResponse(Call<PostDetailWithComments> call, Response<PostDetailWithComments> response) {
+                    if (response.isSuccessful()) {
+                        int userid = response.body().getPost().getParent_user();
+                        startActivityToAdminChangeProfile2(userid);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PostDetailWithComments> call, Throwable t) {
+
+                }
+            });
+        } else {
+            RetrofitClient.getApiService(Admin.this).adminGetCommentUser(commentid, getString(R.string.appkey)).enqueue(new Callback<Integer>() {
+                @Override
+                public void onResponse(Call<Integer> call, Response<Integer> response) {
+                    if (response.isSuccessful()) {
+                        int userid = response.body();
+                        startActivityToAdminChangeProfile2(userid);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Integer> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
+    private void startActivityToAdminChangeProfile2(int userid) {
+        if (userid != 0) {
+            Intent intent = new Intent(Admin.this, AdminChangeProfile.class);
+            intent.putExtra("userid", userid);
+            startActivity(intent);
         }
     }
 
