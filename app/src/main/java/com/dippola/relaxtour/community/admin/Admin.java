@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -46,6 +47,8 @@ public class Admin extends AppCompatActivity implements AdminAdapter.ItemClickLi
     FirebaseFirestore db;
     AdminAdapter adapter;
 
+    RelativeLayout load;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +61,7 @@ public class Admin extends AppCompatActivity implements AdminAdapter.ItemClickLi
     private void setInit() {
         db = FirebaseFirestore.getInstance();
         recyclerView = findViewById(R.id.admin_main_recyclerview);
+        load = findViewById(R.id.admin_load);
     }
 
     private void getData() {
@@ -98,6 +102,7 @@ public class Admin extends AppCompatActivity implements AdminAdapter.ItemClickLi
                 int i = result.getData().getIntExtra("click", 0);
                 if (i != 0) {
                     if (i == 100) {//신고목록에서 지우기
+                        load.setVisibility(View.VISIBLE);
                         String date = result.getData().getStringExtra("date");
                         deleteReport(date);
                     } else if (i == 1) {//글보기
@@ -107,8 +112,10 @@ public class Admin extends AppCompatActivity implements AdminAdapter.ItemClickLi
                         intent.putExtra("commentid", result.getData().getIntExtra("commentid", 0));
                         startActivity(intent);
                     } else if (i == 2) {//글삭제
+                        load.setVisibility(View.VISIBLE);
                         deletePost(result.getData().getIntExtra("postid", 0), result.getData().getIntExtra("why", 0));
                     } else if (i == 3) {//댓글 삭제
+                        load.setVisibility(View.VISIBLE);
                         deleteComment(result.getData().getIntExtra("postid", 0), result.getData().getIntExtra("why", 0));
                     } else if (i == 4) {//프로필 수정
                         String from = result.getData().getStringExtra("from");
@@ -131,6 +138,7 @@ public class Admin extends AppCompatActivity implements AdminAdapter.ItemClickLi
                     if (list.get(i).getDate().equals(date)) {
                         list.remove(i);
                         adapter.notifyItemRemoved(i);
+                        load.setVisibility(View.GONE);
                         break;
                     }
                 }
@@ -148,11 +156,13 @@ public class Admin extends AppCompatActivity implements AdminAdapter.ItemClickLi
                     } else {
                         Toast.makeText(Admin.this, "실패", Toast.LENGTH_SHORT).show();
                     }
+                    load.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
                     Toast.makeText(Admin.this, "에러", Toast.LENGTH_SHORT).show();
+                    load.setVisibility(View.GONE);
                 }
             });
         }
@@ -168,11 +178,13 @@ public class Admin extends AppCompatActivity implements AdminAdapter.ItemClickLi
                     } else {
                         Toast.makeText(Admin.this, "실패", Toast.LENGTH_SHORT).show();
                     }
+                    load.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
                     Toast.makeText(Admin.this, "에러", Toast.LENGTH_SHORT).show();
+                    load.setVisibility(View.GONE);
                 }
             });
         }

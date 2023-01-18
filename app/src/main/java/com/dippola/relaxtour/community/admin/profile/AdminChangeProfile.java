@@ -95,6 +95,7 @@ public class AdminChangeProfile extends AppCompatActivity {
                 if (listResult.getItems().size() != 0) {
                     for (StorageReference storageReference : listResult.getItems()) {
                         storageReference.delete();
+                        error.setText("삭제성공");
                     }
                     changeProfile2();
                 }

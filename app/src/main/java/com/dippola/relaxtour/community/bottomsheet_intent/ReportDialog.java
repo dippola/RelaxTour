@@ -40,7 +40,7 @@ public class ReportDialog extends AppCompatActivity {
             title.setText("Send Report");
             body.setText("Are you sure you want to\nreport it as you filled it out?");
         } else {
-            cancel.setVisibility(View.VISIBLE);
+            cancel.setVisibility(View.GONE);
             title.setText("Report completed");
             body.setText("Thank you for your cooperation for\na healthy community.\n\nThe report will be reviewed by the management team and taken action.");
         }
