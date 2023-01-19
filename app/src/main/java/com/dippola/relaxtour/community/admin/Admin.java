@@ -121,7 +121,8 @@ public class Admin extends AppCompatActivity implements AdminAdapter.ItemClickLi
                         String from = result.getData().getStringExtra("from");
                         int postid = result.getData().getIntExtra("postid", 0);
                         int commentid = result.getData().getIntExtra("commentid", 0);
-                        startActivityToAdminChangeProfile1(from, postid, commentid);
+                        int why = result.getData().getIntExtra("why", 0);
+                        startActivityToAdminChangeProfile1(from, postid, commentid, why);
                     } else if (i == 5) {//회원삭제
 
                     }
@@ -190,7 +191,7 @@ public class Admin extends AppCompatActivity implements AdminAdapter.ItemClickLi
         }
     }
 
-    private void startActivityToAdminChangeProfile1(String from, int postid, int commentid) {
+    private void startActivityToAdminChangeProfile1(String from, int postid, int commentid, int why) {
         if (from.equals("post")) {
             AddHitModel addHitModel = new AddHitModel();
             addHitModel.setWillAddHit(false);
@@ -199,7 +200,7 @@ public class Admin extends AppCompatActivity implements AdminAdapter.ItemClickLi
                 public void onResponse(Call<PostDetailWithComments> call, Response<PostDetailWithComments> response) {
                     if (response.isSuccessful()) {
                         int userid = response.body().getPost().getParent_user();
-                        startActivityToAdminChangeProfile2(userid);
+                        startActivityToAdminChangeProfile2(userid, why);
                     }
                 }
 
@@ -214,7 +215,7 @@ public class Admin extends AppCompatActivity implements AdminAdapter.ItemClickLi
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
                     if (response.isSuccessful()) {
                         int userid = response.body();
-                        startActivityToAdminChangeProfile2(userid);
+                        startActivityToAdminChangeProfile2(userid, why);
                     }
                 }
 
@@ -226,10 +227,11 @@ public class Admin extends AppCompatActivity implements AdminAdapter.ItemClickLi
         }
     }
 
-    private void startActivityToAdminChangeProfile2(int userid) {
+    private void startActivityToAdminChangeProfile2(int userid, int why) {
         if (userid != 0) {
             Intent intent = new Intent(Admin.this, AdminChangeProfile.class);
             intent.putExtra("userid", userid);
+            intent.putExtra("why", getWhy(why));
             startActivity(intent);
         }
     }

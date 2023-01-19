@@ -16,15 +16,23 @@ import androidx.core.app.NotificationCompat;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.auth.CommunityAuth;
 import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
 import com.dippola.relaxtour.community.main.notification.Notification;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.retrofit.RetrofitClient;
+import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
     @Override
@@ -61,6 +69,11 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                     intent = new Intent(this, Notification.class);
                     showTitle = title.split("●")[4];
                     insertDB(title, messageBody);
+                } else if (title.split("●")[0].equals("admin_profile")) {
+                    intent = new Intent(this, CommunityAuth.class);
+                    showTitle = title.split("●")[3];
+                    insertDB(title, messageBody);
+                    updateProfileInDB();
                 } else {
                     intent = new Intent(this, MainActivity.class);
                     showTitle = title;
@@ -108,6 +121,23 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         String date = getTime();
         databaseHandler.insertCNotification(title, body, date);
+    }
+
+    private void updateProfileInDB() {
+        DatabaseHandler databaseHandler = new DatabaseHandler(this);
+        RetrofitClient.getApiService(this).getUser(databaseHandler.getUserModel().getId(), getString(R.string.appkey)).enqueue(new Callback<List<UserModel>>() {
+            @Override
+            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                if (response.isSuccessful()) {
+                    databaseHandler.updateUserProfile(response.body().get(0).getNickname(), response.body().get(0).getImageurl(), response.body().get(0).getUid());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<UserModel>> call, Throwable t) {
+
+            }
+        });
     }
     private String getTime() {
         long now = System.currentTimeMillis();

@@ -38,6 +38,7 @@ public class AdminChangeProfile extends AppCompatActivity {
     TextView error;
 
     int userid;
+    String why;
     String userEmail;
 
     @Override
@@ -54,6 +55,7 @@ public class AdminChangeProfile extends AppCompatActivity {
         error = findViewById(R.id.admin_change_profile_error);
 
         userid = getIntent().getIntExtra("userid", 0);
+        why = getIntent().getStringExtra("why");
 
         setDate(userid);
 
@@ -89,27 +91,31 @@ public class AdminChangeProfile extends AppCompatActivity {
     }
 
     private void changeProfile1() {
-        FirebaseStorage.getInstance().getReference().child("userimages/" + userEmail).listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-            @Override
-            public void onSuccess(ListResult listResult) {
-                if (listResult.getItems().size() != 0) {
-                    for (StorageReference storageReference : listResult.getItems()) {
-                        storageReference.delete();
-                        error.setText("삭제성공");
+        if (checkBox.isChecked()) {
+            FirebaseStorage.getInstance().getReference().child("userimages/" + userEmail).listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                @Override
+                public void onSuccess(ListResult listResult) {
+                    if (listResult.getItems().size() != 0) {
+                        for (StorageReference storageReference : listResult.getItems()) {
+                            storageReference.delete();
+                            error.setText("삭제성공");
+                        }
+                        changeProfile2();
                     }
-                    changeProfile2();
                 }
-            }
-        });
+            });
+        } else {
+            changeProfile2();
+        }
     }
 
     private void changeProfile2() {
         UserModel userModel = new UserModel();
         if (checkBox.isChecked()) {
-            userModel.setImageurl(null);
+            userModel.setImageurl("");
         }
         userModel.setNickname(editText.getText().toString());
-        RetrofitClient.getApiService(AdminChangeProfile.this).adminUserUpdate(userid, userModel, getString(R.string.appkey)).enqueue(new Callback<String>() {
+        RetrofitClient.getApiService(AdminChangeProfile.this).adminUserUpdate(userid, userModel, why, getString(R.string.appkey)).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {

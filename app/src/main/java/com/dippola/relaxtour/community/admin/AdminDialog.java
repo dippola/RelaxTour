@@ -112,6 +112,7 @@ public class AdminDialog extends AppCompatActivity {
             intent.putExtra("from", from);
             intent.putExtra("postid", postid);
             intent.putExtra("commentid", commentid);
+            intent.putExtra("why", choice);
         }
         intent.putExtra("click", i);
         setResult(Admin.FROM_ADMIN_DIALOG, intent);

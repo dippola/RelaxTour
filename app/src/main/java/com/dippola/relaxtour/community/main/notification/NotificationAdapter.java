@@ -80,6 +80,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.nickname.setVisibility(View.GONE);
             holder.img.setVisibility(View.GONE);
             holder.body.setMaxLines(50);
+        } else if (s[0].equals("admin_profile")) {
+            ConstraintSet set = new ConstraintSet();
+            set.clone(holder.box);
+            set.connect(holder.date.getId(), ConstraintSet.TOP, holder.body.getId(), ConstraintSet.BOTTOM);
+            set.applyTo(holder.box);
+            holder.title.setText(s[3]);
+            holder.nickname.setVisibility(View.GONE);
+            holder.img.setVisibility(View.GONE);
+            holder.body.setMaxLines(50);
         }
 
         if (s[0].equals("admin")) {
@@ -114,7 +123,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     context.startActivity(intent);
                 } else if (s[0].equals("admin")) {
                     Intent intent = new Intent(context, AdminNotificationDialog.class);
-                    intent.putExtra("body", list.get(position).getBody());
+                    intent.putExtra("body", list.get(i).getBody());
+                    context.startActivity(intent);
+                } else if (s[0].equals("admin_profile")) {
+                    Intent intent = new Intent(context, AdminNotificationDialog.class);
+                    intent.putExtra("body", list.get(i).getBody());
                     context.startActivity(intent);
                 }
             }
