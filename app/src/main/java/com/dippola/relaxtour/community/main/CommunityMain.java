@@ -46,6 +46,7 @@ import com.dippola.relaxtour.community.main.write.CommunityWrite;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.community.signIn.CommunitySignIn;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.dialog.Premium;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.PostModelView;
 import com.dippola.relaxtour.retrofit.model.PostsViewWitPages;
@@ -76,6 +77,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class CommunityMain extends AppCompatActivity {
 
@@ -557,23 +559,51 @@ public class CommunityMain extends AppCompatActivity {
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CommunityMain.this, CommunityWrite.class);
-                intent.putExtra("category", "free");
-                launcher.launch(intent);
-                fab1.startAnimation(close);
-                fab2.startAnimation(close);
-                fbg.setVisibility(View.GONE);
+                if (databaseHandler.getIsProUser() == 1) {
+                    Toast.makeText(CommunityMain.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(CommunityMain.this, Premium.class));
+                    fab1.startAnimation(close);
+                    fab2.startAnimation(close);
+                    fbg.setVisibility(View.GONE);
+                } else if (auth.getCurrentUser() == null) {
+                    Toast.makeText(CommunityMain.this, "Login is required for community use.", Toast.LENGTH_SHORT).show();
+                    launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
+                    fab1.startAnimation(close);
+                    fab2.startAnimation(close);
+                    fbg.setVisibility(View.GONE);
+                } else {
+                    Intent intent = new Intent(CommunityMain.this, CommunityWrite.class);
+                    intent.putExtra("category", "free");
+                    launcher.launch(intent);
+                    fab1.startAnimation(close);
+                    fab2.startAnimation(close);
+                    fbg.setVisibility(View.GONE);
+                }
             }
         });
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CommunityMain.this, CommunityWrite.class);
-                intent.putExtra("category", "qna");
-                launcher.launch(intent);
-                fab1.startAnimation(close);
-                fab2.startAnimation(close);
-                fbg.setVisibility(View.GONE);
+                if (databaseHandler.getIsProUser() == 1) {
+                    Toast.makeText(CommunityMain.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(CommunityMain.this, Premium.class));
+                    fab1.startAnimation(close);
+                    fab2.startAnimation(close);
+                    fbg.setVisibility(View.GONE);
+                } else if (auth.getCurrentUser() == null) {
+                    Toast.makeText(CommunityMain.this, "Login is required for community use.", Toast.LENGTH_SHORT).show();
+                    launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
+                    fab1.startAnimation(close);
+                    fab2.startAnimation(close);
+                    fbg.setVisibility(View.GONE);
+                } else {
+                    Intent intent = new Intent(CommunityMain.this, CommunityWrite.class);
+                    intent.putExtra("category", "qna");
+                    launcher.launch(intent);
+                    fab1.startAnimation(close);
+                    fab2.startAnimation(close);
+                    fbg.setVisibility(View.GONE);
+                }
             }
         });
         fbg.setOnClickListener(new View.OnClickListener() {
@@ -605,7 +635,10 @@ public class CommunityMain extends AppCompatActivity {
         authicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (auth.getCurrentUser() == null) {
+                if (databaseHandler.getIsProUser() == 1) {
+                    Toast.makeText(CommunityMain.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(CommunityMain.this, Premium.class));
+                } else if (auth.getCurrentUser() == null) {
                     launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
                 } else {
                     launcher.launch(new Intent(CommunityMain.this, CommunityAuth.class));
@@ -801,6 +834,7 @@ public class CommunityMain extends AppCompatActivity {
             public void onResponse(Call<PostsViewWitPages> call, Response<PostsViewWitPages> response) {
                 if (response.isSuccessful()) {
                     lists.addAll(response.body().getPosts());
+                    lists = response.body().getPosts();
                     isLoading = false;
                     setRecyclerView();
                     setPagination(response.body().getPages(), page);
@@ -875,7 +909,7 @@ public class CommunityMain extends AppCompatActivity {
         userr.transform(new CircleCrop());
         RequestOptions imgr = new RequestOptions();
         imgr.transform(new CenterCrop(), new RoundedCorners(20));
-        adapter = new MainAdapter(CommunityMain.this, lists, userr, imgr);
+        adapter = new MainAdapter(CommunityMain.this, lists, userr, imgr, launcher);
         adapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(CommunityMain.this));
         recyclerView.setAdapter(adapter);

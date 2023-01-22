@@ -1,12 +1,16 @@
 package com.dippola.relaxtour.retrofit.model;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class LikeUserListModel {
+    @Keep
     @SerializedName("parent_id")
     @Expose
     private int parent_id;
+    @Keep
     @SerializedName("user_ids")
     @Expose
     private int user_ids;

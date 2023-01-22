@@ -10,17 +10,33 @@ android {
         applicationId "com.dippola.relaxtour"
         minSdk 21
         targetSdk 33
-        versionCode 24
-        versionName "1.0.24"
+        versionCode 25
+        versionName "1.0.25"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file('dippolarelaxtour.jks')
+            storePassword "shangus12!"
+            keyAlias "dippolarelaxtour"
+            keyPassword "shangus12!"
+        }
+    }
+
     buildTypes {
+        debug {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -68,7 +84,7 @@ dependencies {
     }
     implementation 'com.google.firebase:firebase-firestore'
 
-    implementation 'com.google.android.gms:play-services-auth:20.3.0'
+    implementation 'com.google.android.gms:play-services-auth:20.4.0'
 
     implementation 'com.jsibbold:zoomage:1.3.1'
 

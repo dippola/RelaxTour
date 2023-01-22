@@ -1,18 +1,24 @@
 package com.dippola.relaxtour.community.auth.userscommunity;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class UsersCommunityCommentModel {
+    @Keep
     @SerializedName("parent_id")
     @Expose
     private int parent_id;
+    @Keep
     @SerializedName("towho")
     @Expose
     private String towho;
+    @Keep
     @SerializedName("body")
     @Expose
     private String body;
+    @Keep
     @SerializedName("date")
     @Expose
     private String date;

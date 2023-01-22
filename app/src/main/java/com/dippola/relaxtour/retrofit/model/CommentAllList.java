@@ -1,5 +1,7 @@
 package com.dippola.relaxtour.retrofit.model;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,6 +9,7 @@ import java.util.List;
 
 public class CommentAllList {
 
+    @Keep
     @SerializedName("comments")
     @Expose
     private List<PostCommentModel> comments;

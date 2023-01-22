@@ -1,9 +1,12 @@
 package com.dippola.relaxtour.community.main.detail;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class AddHitModel {
+    @Keep
     @SerializedName("willAddHit")
     @Expose
     private boolean willAddHit;

@@ -1,37 +1,47 @@
 package com.dippola.relaxtour.retrofit.model;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserModel { //signup, 
+public class UserModel { //signup,
+    @Keep
     @SerializedName("id")
     @Expose
     private int id;
 
+    @Keep
     @SerializedName("email")
     @Expose
     private String email;
 
+    @Keep
     @SerializedName("uid")
     @Expose
     private String uid;
 
+    @Keep
     @SerializedName("nickname")
     @Expose
     private String nickname;
 
+    @Keep
     @SerializedName("imageurl")
     @Expose
     private String imageurl;
 
+    @Keep
     @SerializedName("provider")
     @Expose
     private String provider;
 
+    @Keep
     @SerializedName("token")
     @Expose
     private String token;
 
+    @Keep
     @SerializedName("notification")
     @Expose
     private Boolean notification;

@@ -1,14 +1,18 @@
 package com.dippola.relaxtour.retrofit.model;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class PostsViewWitPages {
+    @Keep
     @SerializedName("pages")
     @Expose
     private int pages;
+    @Keep
     @SerializedName("posts")
     @Expose
     private List<PostModelView> posts;

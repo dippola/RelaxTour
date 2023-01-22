@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -25,8 +27,12 @@ import com.bumptech.glide.request.target.Target;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
+import com.dippola.relaxtour.community.signIn.CommunitySignIn;
+import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.dialog.Premium;
 import com.dippola.relaxtour.retrofit.model.PostModelView;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,12 +46,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     List<PostModelView> arrayList;
     Context context;
     RequestOptions userr, imgr;
+    ActivityResultLauncher<Intent> launcher;
 
-    public MainAdapter(Context context, List<PostModelView> arrayList, RequestOptions userr, RequestOptions imgr) {
+    public MainAdapter(Context context, List<PostModelView> arrayList, RequestOptions userr, RequestOptions imgr, ActivityResultLauncher<Intent> launcher) {
         this.context = context;
         this.arrayList = arrayList;
         this.userr = userr;
         this.imgr = imgr;
+        this.launcher = launcher;
     }
 
     @NonNull
@@ -122,10 +130,18 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             holder.item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, CommunityMainDetail.class);
-                    intent.putExtra("parent_id", arrayList.get(i).getParent_id());
-                    intent.putExtra("parent_user", arrayList.get(i).getParent_user());
-                    context.startActivity(intent);
+                    if (new DatabaseHandler(context).getIsProUser() == 1) {
+                        Toast.makeText(context, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
+                        context.startActivity(new Intent(context, Premium.class));
+                    } else if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                        Toast.makeText(context, "Login is required for community use.", Toast.LENGTH_SHORT).show();
+                        launcher.launch(new Intent(context, CommunitySignIn.class));
+                    } else {
+                        Intent intent = new Intent(context, CommunityMainDetail.class);
+                        intent.putExtra("parent_id", arrayList.get(i).getParent_id());
+                        intent.putExtra("parent_user", arrayList.get(i).getParent_user());
+                        context.startActivity(intent);
+                    }
                 }
             });
 

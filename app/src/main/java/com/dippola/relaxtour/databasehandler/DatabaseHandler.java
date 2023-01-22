@@ -1010,19 +1010,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return userModel;
     }
 
-    public UserModel getMyPtofile() {
-        UserModel userModel = new UserModel();
-        openDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from user", null);
-        cursor.moveToFirst();
-        userModel.setEmail(cursor.getString(0));
-        userModel.setUid(cursor.getString(1));
-        userModel.setNickname(cursor.getString(2));
-        userModel.setImageurl(cursor.getString(3));
-        userModel.setProvider(cursor.getString(4));
-        return userModel;
-    }
-
     public void makeDbUserWhenSignIn(int id, String email, String uid, String nickname, String token, String imageurl, String provider, boolean notification) {
         sqLiteDatabase = this.getWritableDatabase();
         deleteUserProfile();

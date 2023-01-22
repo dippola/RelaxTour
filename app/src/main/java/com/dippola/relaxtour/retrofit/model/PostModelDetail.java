@@ -1,45 +1,60 @@
 package com.dippola.relaxtour.retrofit.model;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class PostModelDetail {
+    @Keep
     @SerializedName("parent_id")
     @Expose
     private int parent_id;
+    @Keep
     @SerializedName("parent_user")
     @Expose
     private int parent_user;
+    @Keep
     @SerializedName("nickname")
     @Expose
     private String nickname;
+    @Keep
     @SerializedName("user_url")
     @Expose
     private String user_url;
+    @Keep
     @SerializedName("category")
     @Expose
     private String category;
+    @Keep
     @SerializedName("date")
     @Expose
     private String date;
+    @Keep
     @SerializedName("title")
     @Expose
     private String title;
+    @Keep
     @SerializedName("body")
     @Expose
     private String body;
+    @Keep
     @SerializedName("imageurl")
     @Expose
     private String imageurl;
+    @Keep
     @SerializedName("view")
     @Expose
     private int view;
+    @Keep
     @SerializedName("like")
     @Expose
     private int like;
+    @Keep
     @SerializedName("list")
     @Expose
     private String list;
+    @Keep
     @SerializedName("commentcount")
     @Expose
     private int commentcount;

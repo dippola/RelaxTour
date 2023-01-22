@@ -627,7 +627,7 @@ public class CommunityAuth extends AppCompatActivity {
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (databaseHandler.getUserModel().getEmail().equals("dippolas@gmail.com")) {
+                if (databaseHandler.getUserModel().getEmail() != null && databaseHandler.getUserModel().getEmail().equals("dippolas@gmail.com")) {
                     startActivity(new Intent(CommunityAuth.this, Admin.class));
                 }
             }
