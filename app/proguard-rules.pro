@@ -23,3 +23,10 @@
 
 #-keep class retrofit2.** { *; }
 #-keep class com.google.gson.** { *; }
+
+-keep class com.dippola.relaxtour.retrofit.model.*
+-keep class com.dippola.relaxtour.community.main.detail.AddHitModel
+-keep class com.dippola.relaxtour.community.main.detail.CommentWithPageWhenMore
+-keep class com.dippola.relaxtour.community.auth.userscommunity.UserCommentWithPageModel
+-keep class com.dippola.relaxtour.community.auth.userscommunity.UsersCommunityCommentModel
+

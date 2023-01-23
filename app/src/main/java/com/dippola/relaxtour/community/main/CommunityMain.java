@@ -559,13 +559,27 @@ public class CommunityMain extends AppCompatActivity {
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (databaseHandler.getIsProUser() == 1) {
-                    Toast.makeText(CommunityMain.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(CommunityMain.this, Premium.class));
-                    fab1.startAnimation(close);
-                    fab2.startAnimation(close);
-                    fbg.setVisibility(View.GONE);
-                } else if (auth.getCurrentUser() == null) {
+//                if (databaseHandler.getIsProUser() == 1) {
+//                    Toast.makeText(CommunityMain.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(CommunityMain.this, Premium.class));
+//                    fab1.startAnimation(close);
+//                    fab2.startAnimation(close);
+//                    fbg.setVisibility(View.GONE);
+//                } else if (auth.getCurrentUser() == null) {
+//                    Toast.makeText(CommunityMain.this, "Login is required for community use.", Toast.LENGTH_SHORT).show();
+//                    launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
+//                    fab1.startAnimation(close);
+//                    fab2.startAnimation(close);
+//                    fbg.setVisibility(View.GONE);
+//                } else {
+//                    Intent intent = new Intent(CommunityMain.this, CommunityWrite.class);
+//                    intent.putExtra("category", "free");
+//                    launcher.launch(intent);
+//                    fab1.startAnimation(close);
+//                    fab2.startAnimation(close);
+//                    fbg.setVisibility(View.GONE);
+//                }
+                if (auth.getCurrentUser() == null) {
                     Toast.makeText(CommunityMain.this, "Login is required for community use.", Toast.LENGTH_SHORT).show();
                     launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
                     fab1.startAnimation(close);
@@ -584,13 +598,27 @@ public class CommunityMain extends AppCompatActivity {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (databaseHandler.getIsProUser() == 1) {
-                    Toast.makeText(CommunityMain.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(CommunityMain.this, Premium.class));
-                    fab1.startAnimation(close);
-                    fab2.startAnimation(close);
-                    fbg.setVisibility(View.GONE);
-                } else if (auth.getCurrentUser() == null) {
+//                if (databaseHandler.getIsProUser() == 1) {
+//                    Toast.makeText(CommunityMain.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(CommunityMain.this, Premium.class));
+//                    fab1.startAnimation(close);
+//                    fab2.startAnimation(close);
+//                    fbg.setVisibility(View.GONE);
+//                } else if (auth.getCurrentUser() == null) {
+//                    Toast.makeText(CommunityMain.this, "Login is required for community use.", Toast.LENGTH_SHORT).show();
+//                    launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
+//                    fab1.startAnimation(close);
+//                    fab2.startAnimation(close);
+//                    fbg.setVisibility(View.GONE);
+//                } else {
+//                    Intent intent = new Intent(CommunityMain.this, CommunityWrite.class);
+//                    intent.putExtra("category", "qna");
+//                    launcher.launch(intent);
+//                    fab1.startAnimation(close);
+//                    fab2.startAnimation(close);
+//                    fbg.setVisibility(View.GONE);
+//                }
+                if (auth.getCurrentUser() == null) {
                     Toast.makeText(CommunityMain.this, "Login is required for community use.", Toast.LENGTH_SHORT).show();
                     launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
                     fab1.startAnimation(close);
@@ -635,10 +663,16 @@ public class CommunityMain extends AppCompatActivity {
         authicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (databaseHandler.getIsProUser() == 1) {
-                    Toast.makeText(CommunityMain.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(CommunityMain.this, Premium.class));
-                } else if (auth.getCurrentUser() == null) {
+//                if (databaseHandler.getIsProUser() == 1) {
+//                    Toast.makeText(CommunityMain.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(CommunityMain.this, Premium.class));
+//                } else if (auth.getCurrentUser() == null) {
+//                    launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
+//                } else {
+//                    launcher.launch(new Intent(CommunityMain.this, CommunityAuth.class));
+//                }
+
+                if (auth.getCurrentUser() == null) {
                     launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));
                 } else {
                     launcher.launch(new Intent(CommunityMain.this, CommunityAuth.class));

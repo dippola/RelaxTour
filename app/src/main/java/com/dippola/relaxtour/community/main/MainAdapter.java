@@ -130,10 +130,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             holder.item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (new DatabaseHandler(context).getIsProUser() == 1) {
-                        Toast.makeText(context, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
-                        context.startActivity(new Intent(context, Premium.class));
-                    } else if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+//                    if (new DatabaseHandler(context).getIsProUser() == 1) {
+//                        Toast.makeText(context, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
+//                        context.startActivity(new Intent(context, Premium.class));
+//                    } else if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+//                        Toast.makeText(context, "Login is required for community use.", Toast.LENGTH_SHORT).show();
+//                        launcher.launch(new Intent(context, CommunitySignIn.class));
+//                    } else {
+//                        Intent intent = new Intent(context, CommunityMainDetail.class);
+//                        intent.putExtra("parent_id", arrayList.get(i).getParent_id());
+//                        intent.putExtra("parent_user", arrayList.get(i).getParent_user());
+//                        context.startActivity(intent);
+//                    }
+
+                    if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                         Toast.makeText(context, "Login is required for community use.", Toast.LENGTH_SHORT).show();
                         launcher.launch(new Intent(context, CommunitySignIn.class));
                     } else {
