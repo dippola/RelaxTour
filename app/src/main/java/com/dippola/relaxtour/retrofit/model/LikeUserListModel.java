@@ -15,11 +15,6 @@ public class LikeUserListModel {
     @Expose
     private int user_ids;
 
-    public LikeUserListModel(int parent_id, int user_ids) {
-        this.parent_id = parent_id;
-        this.user_ids = user_ids;
-    }
-
     public int getParent_id() {
         return parent_id;
     }

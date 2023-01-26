@@ -198,21 +198,21 @@
                         app:layout_constraintWidth_percent="0.8" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/community_main_detail_favlist_box_load"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/community_main_detail_body_box_load">
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:id="@+id/community_main_detail_favlist_box_load"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/community_main_detail_body_box_load">-->
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/community_main_detail_image_box_load"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/community_main_detail_favlist_box_load">
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:id="@+id/community_main_detail_image_box_load"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/community_main_detail_favlist_box_load">-->
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
 
                 <View
                     android:id="@+id/community_main_detail_line4_load"
@@ -222,7 +222,7 @@
                     android:background="@color/community_main_line_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/community_main_detail_image_box_load" />
+                    app:layout_constraintTop_toBottomOf="@id/community_main_detail_body_box_load" />
 
 
 

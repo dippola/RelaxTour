@@ -687,7 +687,6 @@ public class CommunityMainDetail extends AppCompatActivity {
             public void onClick(View view) {
                 like.setEnabled(false);
                 int myId = databaseHandler.getUserModel().getId();
-                LikeUserListModel model = new LikeUserListModel(id, myId);
                 RetrofitClient.getApiService(CommunityMainDetail.this).setLike(id, myId, getString(R.string.appkey)).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
@@ -881,6 +880,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             @Override
             public void onResponse(Call<PostDetailWithComments> call, Response<PostDetailWithComments> response) {
                 if (response.isSuccessful()) {
+                    Log.d("CommunityMainDetail>>>", "get data 1");
                     postModel = response.body().getPost();
                     parent_user = postModel.getParent_user();
                     setBottomSheetBehavior(CommunityMainDetail.this);
@@ -892,12 +892,14 @@ public class CommunityMainDetail extends AppCompatActivity {
                     }
                     setData(postModel);
                     setComment(commentModelList.size(), from);
+                } else {
+                    Log.d("CommunityMainDetail>>>", "get data 2");
                 }
             }
 
             @Override
             public void onFailure(Call<PostDetailWithComments> call, Throwable t) {
-
+                Log.d("CommunityMainDetail>>>", "get data 3: " + t.getMessage());
             }
         });
     }
@@ -928,11 +930,16 @@ public class CommunityMainDetail extends AppCompatActivity {
         topMiddleLoad.setVisibility(View.INVISIBLE);
         commentcount.setText(String.valueOf(model.getCommentcount()));
 
+        Log.d("CommunityMainDetail>>>", "1");
+        System.out.println("lsdfkj");
         if (checkLikeListContains(likeUserList)) {
+            Log.d("CommunityMainDetail>>>", "2");
             like.setChecked(true);
         } else {
+            Log.d("CommunityMainDetail>>>", "3");
             like.setChecked(false);
         }
+        Log.d("CommunityMainDetail>>>", "4");
         like.setEnabled(true);
     }
 

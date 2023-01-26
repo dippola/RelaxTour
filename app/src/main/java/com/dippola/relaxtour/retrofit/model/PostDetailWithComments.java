@@ -12,14 +12,17 @@ public class PostDetailWithComments {
     @SerializedName("post")
     @Expose
     private PostModelDetail post;
+
     @Keep
     @SerializedName("comments")
     @Expose
     private List<PostCommentModel> comments;
+
     @Keep
     @SerializedName("commentsPages")
     @Expose
     private int commentsPages;
+
     @Keep
     @SerializedName("likeuserlist")
     @Expose
