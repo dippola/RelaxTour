@@ -1,28 +1,37 @@
 package com.dippola.relaxtour.community.admin;
 
+import androidx.annotation.Keep;
+
 public class ReportModel {
 
+    @Keep
     int choice;
+    @Keep
     int commentid;
+    @Keep
     String date;
+    @Keep
     int decUser;
+    @Keep
     String edit;
+    @Keep
     String from;
+    @Keep
     int postid;
 
     public ReportModel() {
 
     }
 
-    public ReportModel(int choice, int commentid, String date, int decUser, String edit, String from, int postid) {
-        this.choice = choice;
-        this.commentid = commentid;
-        this.date = date;
-        this.decUser = decUser;
-        this.edit = edit;
-        this.from = from;
-        this.postid = postid;
-    }
+//    public ReportModel(int choice, int commentid, String date, int decUser, String edit, String from, int postid) {
+//        this.choice = choice;
+//        this.commentid = commentid;
+//        this.date = date;
+//        this.decUser = decUser;
+//        this.edit = edit;
+//        this.from = from;
+//        this.postid = postid;
+//    }
 
     public int getChoice() {
         return choice;
