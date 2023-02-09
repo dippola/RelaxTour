@@ -23,6 +23,7 @@ import com.dippola.relaxtour.community.main.notification.Notification;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.UserModel;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.text.SimpleDateFormat;
@@ -43,8 +44,17 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 //        super.onMessageReceived(remoteMessage);
-        if (remoteMessage.getNotification() != null) {
-            sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+//        if (remoteMessage.getNotification() != null && FirebaseAuth.getInstance().getCurrentUser() != null) {
+//            Log.d("FMS>>>", "2");
+//            sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+//        }
+    }
+
+    @Override
+    public void handleIntent(Intent intent) {
+//        super.handleIntent(intent);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            sendNotification(intent.getStringExtra("title"), intent.getStringExtra("body"));
         }
     }
 
