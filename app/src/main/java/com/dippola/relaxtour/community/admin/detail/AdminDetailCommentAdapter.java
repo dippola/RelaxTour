@@ -1,5 +1,7 @@
 package com.dippola.relaxtour.community.admin.detail;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,19 +9,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 
 import java.util.List;
 
 public class AdminDetailCommentAdapter extends RecyclerView.Adapter<AdminDetailCommentAdapter.CustomViewHolder> {
+    Context context;
     List<PostCommentModel> list;
+    int commentid;
 
-    public AdminDetailCommentAdapter(List<PostCommentModel> list) {
+    public AdminDetailCommentAdapter(Context context, List<PostCommentModel> list, int commentid) {
+        this.context = context;
         this.list = list;
+        this.commentid = commentid;
     }
     @NonNull
     @Override
@@ -35,6 +43,14 @@ public class AdminDetailCommentAdapter extends RecyclerView.Adapter<AdminDetailC
             Glide.with(holder.userimg.getContext()).load(R.drawable.nullpic).into(holder.userimg);
         } else {
             Glide.with(holder.userimg.getContext()).load(list.get(position).getUser_url()).into(holder.userimg);
+            holder.userimg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ImageViewer.class);
+                    intent.putExtra("url", list.get(position).getUser_url());
+                    context.startActivity(intent);
+                }
+            });
         }
         holder.usernickname.setText(list.get(position).getNickname());
         if (list.get(position).getTo_nickname() == null || list.get(position).getTo_nickname().equals("")) {
@@ -44,6 +60,12 @@ public class AdminDetailCommentAdapter extends RecyclerView.Adapter<AdminDetailC
         }
         holder.body.setText(list.get(position).getBody());
         holder.date.setText(list.get(position).getDate());
+
+        if (commentid != -1) {
+            if (list.get(position).getId() == commentid) {
+                holder.box.setBackgroundResource(R.color.dialog_layout_line_color);
+            }
+        }
     }
 
     @Override
@@ -54,6 +76,7 @@ public class AdminDetailCommentAdapter extends RecyclerView.Adapter<AdminDetailC
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         ImageView userimg;
         TextView usernickname, towho, body, date;
+        ConstraintLayout box;
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.userimg = itemView.findViewById(R.id.admin_detail_comment_item_img);
@@ -61,6 +84,7 @@ public class AdminDetailCommentAdapter extends RecyclerView.Adapter<AdminDetailC
             this.towho = itemView.findViewById(R.id.admin_detail_comment_item_towho);
             this.body = itemView.findViewById(R.id.admin_detail_comment_item_body);
             this.date = itemView.findViewById(R.id.admin_detail_comment_ietm_date);
+            this.box = itemView.findViewById(R.id.admin_detail_comment_item_box);
         }
     }
 }

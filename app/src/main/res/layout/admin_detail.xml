@@ -10,6 +10,12 @@
         android:layout_height="wrap_content"
         android:text="from"/>
 
+    <TextView
+        android:id="@+id/admin_detail_postuserid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="글작성자id: "/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

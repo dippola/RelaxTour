@@ -95,20 +95,20 @@ public class AdminDialog extends AppCompatActivity {
 
     private void onClick(int i) {
         Intent intent = new Intent(AdminDialog.this, Admin.class);
-        if (i == 100) {
+        if (i == 100) {//신고삭제
             intent.putExtra("date", date);
         }
-        if (i == 1) {
+        if (i == 1) {//글보기
             intent.putExtra("from", from);
             intent.putExtra("postid", postid);
             intent.putExtra("commentid", commentid);
-        } else if (i == 2) {
+        } else if (i == 2) {//글삭제
             intent.putExtra("postid", postid);
             intent.putExtra("why", choice);
-        } else if (i == 3) {
+        } else if (i == 3) {//댓글삭제
             intent.putExtra("commentid", commentid);
             intent.putExtra("why", choice);
-        } else if (i == 4) {
+        } else if (i == 4) {//프로필수정
             intent.putExtra("from", from);
             intent.putExtra("postid", postid);
             intent.putExtra("commentid", commentid);

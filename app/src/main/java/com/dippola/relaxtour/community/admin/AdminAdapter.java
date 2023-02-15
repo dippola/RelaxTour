@@ -49,7 +49,7 @@ public class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.CustomViewHo
             holder.postid.setVisibility(View.GONE);
             holder.commentid.setText("comment id: " + String.valueOf(arrayList.get(i).getCommentid()));
         }
-        holder.choice.setText("choice: " + String.valueOf(arrayList.get(i).getChoice()));
+        holder.choice.setText("choice: " + getChoice(arrayList.get(i).getChoice()));
         holder.decUser.setText("decUser: " + String.valueOf(arrayList.get(i).getDecUser()));
         if (arrayList.get(i).getEdit().equals("")) {
             holder.edit.setText("null");
@@ -89,5 +89,25 @@ public class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.CustomViewHo
 
     public interface ItemClickListener {
         void onItemClick(View view, int position);
+    }
+
+    private String getChoice(int choice) {
+        if (choice == 0) {
+            return "스팸";
+        } else if (choice == 1) {
+            return "음란물";
+        } else if (choice == 2) {
+            return "잘못정보";
+        } else if (choice == 3) {
+            return "청소년유해";
+        } else if (choice == 4) {
+            return "욕설혐오차별";
+        } else if (choice == 5) {
+            return "개인정보노출";
+        } else if (choice == 6) {
+            return "불쾌";
+        } else {
+            return "기타";
+        }
     }
 }
