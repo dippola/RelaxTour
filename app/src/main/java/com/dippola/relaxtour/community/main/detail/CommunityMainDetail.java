@@ -56,6 +56,8 @@ import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.bottomsheet_intent.DeleteCommunityDialog;
 import com.dippola.relaxtour.community.bottomsheet_intent.EditPost;
 import com.dippola.relaxtour.community.bottomsheet_intent.Report;
+import com.dippola.relaxtour.community.main.CommunityMain;
+import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.CommentAllList;
@@ -83,6 +85,7 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     public static final int FROM_DELETE = 301;
     public static final int FROM_EDITPOST = 302;
+    public static final int FROM_CREATE_PROFILE = 303;
 
     private int id;
     private static int parent_user;
@@ -449,6 +452,14 @@ public class CommunityMainDetail extends AppCompatActivity {
                 if (result.getData().getBooleanExtra("isEdit", false)) {
                     startRefresh();
                 }
+            } else if (result.getResultCode() == FROM_CREATE_PROFILE) {
+                if (result.getData().getBooleanExtra("isCreate", false)) {
+                    Intent intent = new Intent(CommunityMainDetail.this, CommunityMain.class);
+                    intent.putExtra("isCreate", true);
+                    intent.putExtra("isCreatePic", result.getData().getBooleanExtra("isCreatePic", false));
+                    setResult(CommunityMain.FROM_DETAIL, intent);
+                    finish();
+                }
             }
         }
     });
@@ -762,16 +773,26 @@ public class CommunityMainDetail extends AppCompatActivity {
         commentsend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (editComment.getText().toString().length() != 0) {
-                    if (editComment.getText().toString().contains("●")) {
-                        Toast.makeText(CommunityMainDetail.this, "'●' characters are not allowed.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        sendCommentLoad();
-                        hideKeyboard(view);
-                        sendComment();
-                    }
+                if (databaseHandler.getUserModel().getNickname() == null) {
+                    Intent intent = new Intent(CommunityMainDetail.this, CommunityProfileCreate.class);
+                    intent.putExtra("from", "detail");
+                    launcher.launch(intent);
+                } else if (databaseHandler.getUserModel().getNickname().equals("") || databaseHandler.getUserModel().getNickname().equals("null")) {
+                    Intent intent = new Intent(CommunityMainDetail.this, CommunityProfileCreate.class);
+                    intent.putExtra("from", "detail");
+                    launcher.launch(intent);
                 } else {
-                    Toast.makeText(CommunityMainDetail.this, "Please enter the contents", Toast.LENGTH_SHORT).show();
+                    if (editComment.getText().toString().length() != 0) {
+                        if (editComment.getText().toString().contains("●")) {
+                            Toast.makeText(CommunityMainDetail.this, "'●' characters are not allowed.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            sendCommentLoad();
+                            hideKeyboard(view);
+                            sendComment();
+                        }
+                    } else {
+                        Toast.makeText(CommunityMainDetail.this, "Please enter the contents", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

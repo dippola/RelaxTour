@@ -130,7 +130,7 @@ public class CommunityMain extends AppCompatActivity {
     public static final int FROM_CREATE_PROFILE = 106;
     public static final int FROM_AUTH = 107;
     public static final int FROM_WRITE = 108;
-
+    public static final int FROM_DETAIL = 109;
 
 
     @Override
@@ -572,12 +572,22 @@ public class CommunityMain extends AppCompatActivity {
                     fab2.startAnimation(close);
                     fbg.setVisibility(View.GONE);
                 } else {
-                    Intent intent = new Intent(CommunityMain.this, CommunityWrite.class);
-                    intent.putExtra("category", "free");
-                    launcher.launch(intent);
-                    fab1.startAnimation(close);
-                    fab2.startAnimation(close);
-                    fbg.setVisibility(View.GONE);
+                    if (databaseHandler.getUserModel().getNickname() == null) {
+                        Intent intent = new Intent(CommunityMain.this, CommunityProfileCreate.class);
+                        intent.putExtra("from", "main");
+                        launcher.launch(intent);
+                    } else if (databaseHandler.getUserModel().getNickname().equals("") || databaseHandler.getUserModel().getNickname().equals("null")) {
+                        Intent intent = new Intent(CommunityMain.this, CommunityProfileCreate.class);
+                        intent.putExtra("from", "main");
+                        launcher.launch(intent);
+                    } else {
+                        Intent intent = new Intent(CommunityMain.this, CommunityWrite.class);
+                        intent.putExtra("category", "free");
+                        launcher.launch(intent);
+                        fab1.startAnimation(close);
+                        fab2.startAnimation(close);
+                        fbg.setVisibility(View.GONE);
+                    }
                 }
 //                if (auth.getCurrentUser() == null) {
 //                    Toast.makeText(CommunityMain.this, "Login is required for community use.", Toast.LENGTH_SHORT).show();
@@ -611,12 +621,22 @@ public class CommunityMain extends AppCompatActivity {
                     fab2.startAnimation(close);
                     fbg.setVisibility(View.GONE);
                 } else {
-                    Intent intent = new Intent(CommunityMain.this, CommunityWrite.class);
-                    intent.putExtra("category", "qna");
-                    launcher.launch(intent);
-                    fab1.startAnimation(close);
-                    fab2.startAnimation(close);
-                    fbg.setVisibility(View.GONE);
+                    if (databaseHandler.getUserModel().getNickname() == null) {
+                        Intent intent = new Intent(CommunityMain.this, CommunityProfileCreate.class);
+                        intent.putExtra("from", "main");
+                        launcher.launch(intent);
+                    } else if (databaseHandler.getUserModel().getNickname().equals("") || databaseHandler.getUserModel().getNickname().equals("null")) {
+                        Intent intent = new Intent(CommunityMain.this, CommunityProfileCreate.class);
+                        intent.putExtra("from", "main");
+                        launcher.launch(intent);
+                    } else {
+                        Intent intent = new Intent(CommunityMain.this, CommunityWrite.class);
+                        intent.putExtra("category", "qna");
+                        launcher.launch(intent);
+                        fab1.startAnimation(close);
+                        fab2.startAnimation(close);
+                        fbg.setVisibility(View.GONE);
+                    }
                 }
 //                if (auth.getCurrentUser() == null) {
 //                    Toast.makeText(CommunityMain.this, "Login is required for community use.", Toast.LENGTH_SHORT).show();
@@ -788,6 +808,33 @@ public class CommunityMain extends AppCompatActivity {
                 if (result.getData().getBooleanExtra("write", false)) {
                     startReflesh();
                 }
+            } else if (result.getResultCode() == FROM_DETAIL) {
+                if (result.getData().getBooleanExtra("isCreatePic", false)) {
+                    iconload.setVisibility(View.VISIBLE);
+                    Call<List<UserModel>> call;
+                    call = RetrofitClient.getApiService(CommunityMain.this).getUser(new DatabaseHandler(CommunityMain.this).getUserModel().getId(), getString(R.string.appkey));
+                    call.enqueue(new Callback<List<UserModel>>() {
+                        @Override
+                        public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
+                            if (response.isSuccessful()) {
+                                if (response.body().get(0).getImageurl().length() != 0) {
+                                    Glide.with(CommunityMain.this).load(response.body().get(0).getImageurl()).transform(new CircleCrop()).into(authicon);
+                                } else {
+                                    Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(authicon);
+                                }
+                                iconload.setVisibility(View.GONE);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<UserModel>> call, Throwable t) {
+
+                        }
+                    });
+                } else {
+                    Glide.with(CommunityMain.this).load(getResources().getDrawable(R.drawable.nullpic)).transform(new CircleCrop()).into(authicon);
+                }
+                setNotificationVisible();
             }
         }
     });

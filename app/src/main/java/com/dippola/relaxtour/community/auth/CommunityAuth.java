@@ -398,12 +398,12 @@ public class CommunityAuth extends AppCompatActivity {
                 load.setVisibility(View.VISIBLE);
 
                 String nick = databaseHandler.getUserModel().getNickname();
-                if (nickname == null) {
+                if (nick == null) {
                     Intent intent = new Intent(CommunityAuth.this, CommunityProfileCreate.class);
                     intent.putExtra("from", "auth");
                     launcher.launch(intent);
                     load.setVisibility(View.GONE);
-                } else if (nickname.equals("") || nickname.equals("null")) {
+                } else if (nick.equals("") || nick.equals("null") || nick.equals("nickname not set")) {
                     Intent intent = new Intent(CommunityAuth.this, CommunityProfileCreate.class);
                     intent.putExtra("from", "auth");
                     launcher.launch(intent);

@@ -25,6 +25,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.community.auth.CommunityAuth;
+import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.UserModel;
@@ -329,6 +330,17 @@ public class CommunityProfileCreate extends AppCompatActivity {
             }
             intent.putExtra("isCreate", isCreate);
             setResult(CommunityAuth.FROM_CREATE_PROFILE, intent);
+            finish();
+        } else if (from.equals("detail")) {
+            Toast.makeText(CommunityProfileCreate.this, "Create Profile Successful", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CommunityProfileCreate.this, CommunityMainDetail.class);
+            if (imageUri != null) {
+                intent.putExtra("isCreatePic", true);
+            } else {
+                intent.putExtra("isCreatePic", false);
+            }
+            intent.putExtra("isCreate", isCreate);
+            setResult(CommunityMainDetail.FROM_CREATE_PROFILE, intent);
             finish();
         }
     }
