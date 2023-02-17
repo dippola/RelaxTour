@@ -289,10 +289,17 @@ public class CommunityProfileCreate extends AppCompatActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CommunityProfileCreate.this, CommunityMain.class);
-                intent.putExtra("isCreate", false);
-                setResult(CommunityMain.FROM_CREATE_PROFILE, intent);
-                finish();
+                if (from.equals("detail")) {
+                    Intent intent = new Intent(CommunityProfileCreate.this, CommunityMainDetail.class);
+                    intent.putExtra("isCreate", false);
+                    setResult(CommunityMainDetail.FROM_CREATE_PROFILE, intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(CommunityProfileCreate.this, CommunityMain.class);
+                    intent.putExtra("isCreate", false);
+                    setResult(CommunityMain.FROM_CREATE_PROFILE, intent);
+                    finish();
+                }
             }
         });
     }

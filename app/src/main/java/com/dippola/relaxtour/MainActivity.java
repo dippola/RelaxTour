@@ -55,6 +55,7 @@ import com.dippola.relaxtour.timer.TimerDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -261,23 +262,27 @@ public class MainActivity extends AppCompatActivity {
         community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                load.setVisibility(View.VISIBLE);
-                FirebaseFirestore.getInstance().collection("app_status").document("fix_server").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            boolean fix = Boolean.TRUE.equals(task.getResult().getBoolean("fix"));
-                            if (!fix) {
-                                startActivity(new Intent(MainActivity.this, CommunityMain.class));
-                            } else {
-                                String st = task.getResult().getString("start_time");
-                                String et = task.getResult().getString("end_time");
-                                FixServerDialog.showDialog(MainActivity.this, st, et);
-                                load.setVisibility(View.GONE);
+                if (FirebaseAuth.getInstance().getCurrentUser() != null && FirebaseAuth.getInstance().getCurrentUser().getEmail().equals("dippolas@gmail.com")) {
+                    startActivity(new Intent(MainActivity.this, CommunityMain.class));
+                } else {
+                    load.setVisibility(View.VISIBLE);
+                    FirebaseFirestore.getInstance().collection("app_status").document("fix_server").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                boolean fix = Boolean.TRUE.equals(task.getResult().getBoolean("fix"));
+                                if (!fix) {
+                                    startActivity(new Intent(MainActivity.this, CommunityMain.class));
+                                } else {
+                                    String st = task.getResult().getString("start_time");
+                                    String et = task.getResult().getString("end_time");
+                                    FixServerDialog.showDialog(MainActivity.this, st, et);
+                                    load.setVisibility(View.GONE);
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 
