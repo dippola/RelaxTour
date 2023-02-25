@@ -26,7 +26,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Notification extends AppCompatActivity {
@@ -60,8 +62,7 @@ public class Notification extends AppCompatActivity {
 
     private void setInit() {
         databaseHandler = new DatabaseHandler(Notification.this);
-        list = databaseHandler.getNotificationList(0, 19);
-        Collections.reverse(list);
+        list = databaseHandler.getNotificationList(0, 3);
         refresh = findViewById(R.id.notification_reflesh);
         recyclerView = findViewById(R.id.notification_recyclerview);
         back = findViewById(R.id.notification_back);
@@ -95,8 +96,7 @@ public class Notification extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 list.clear();
-                list = databaseHandler.getNotificationList(0, 19);
-                Collections.reverse(list);
+                list = databaseHandler.getNotificationList(0, 3);
                 more.setTextColor(getResources().getColor(R.color.button_design_color));
                 setRecyclerView();
                 refresh.setRefreshing(false);
@@ -123,10 +123,9 @@ public class Notification extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int start = list.size();
-                int end = list.size() + 20;
+                int end = list.size() + 3;
                 List<NotificationItem> addlist = databaseHandler.getNotificationList(start, end);
                 if (addlist.size() != 0) {
-                    Collections.reverse(addlist);
                     list.addAll(addlist);
                     adapter.notifyItemRangeInserted(start, addlist.size());
                 } else {

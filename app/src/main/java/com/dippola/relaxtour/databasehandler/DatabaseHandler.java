@@ -1137,7 +1137,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         NotificationItem item = null;
         List<NotificationItem> list = new ArrayList<>();
         openDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from cnotification", null);
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from cnotification order by date desc", null);
         cursor.moveToPosition(start);
         while (cursor.getPosition() != end) {
             if (cursor.isAfterLast()) {

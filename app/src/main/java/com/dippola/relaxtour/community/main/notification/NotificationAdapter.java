@@ -100,8 +100,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             @Override
             public void onClick(View view) {
                 databaseHandler.deleteCNotification(list.get(i).getBody(), list.get(i).getDate());
-                list.remove(i);
-                notifyItemRemoved(i);
+                int index = list.indexOf(list.get(i));
+                list.remove(index);
+                notifyItemRemoved(index);
                 if (list.size() == 0) {
                     recyclerView.setVisibility(View.GONE);
                     zero.setVisibility(View.VISIBLE);

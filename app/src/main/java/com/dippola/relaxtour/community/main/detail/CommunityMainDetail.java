@@ -1196,7 +1196,6 @@ public class CommunityMainDetail extends AppCompatActivity {
 
             if (from.equals("refresh")) {
                 refreshload.clearAnimation();
-                Toast.makeText(CommunityMainDetail.this, "Refreshed", Toast.LENGTH_SHORT).show();
             }
         }
     }
