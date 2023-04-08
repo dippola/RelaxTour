@@ -8,6 +8,8 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.Keep;
+
 import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.notification.NotificationService;
 import com.dippola.relaxtour.pages.ChakraPage;
@@ -21,6 +23,7 @@ import com.dippola.relaxtour.pages.item.PageItem;
 import java.util.ArrayList;
 import java.util.List;
 
+@Keep
 public class AudioController {
     public static void startTrack(Context context, PageItem pageItem) {
 

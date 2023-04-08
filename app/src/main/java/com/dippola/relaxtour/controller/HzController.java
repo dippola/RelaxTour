@@ -3,9 +3,12 @@ package com.dippola.relaxtour.controller;
 import android.media.AudioTrack;
 import android.util.Log;
 
+import androidx.annotation.Keep;
+
 import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.pages.HzPage;
 
+@Keep
 public class HzController {
     public static class p7t1 extends Thread {
         String pnp;

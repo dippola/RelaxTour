@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,6 +48,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+@Keep
 public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.CustomViewHolder> {
     ArrayList<FavTitleItem> arrayList;
     Context context;

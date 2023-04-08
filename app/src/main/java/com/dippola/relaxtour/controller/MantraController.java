@@ -1,7 +1,10 @@
 package com.dippola.relaxtour.controller;
 
+import androidx.annotation.Keep;
+
 import com.dippola.relaxtour.MPList;
 
+@Keep
 public class MantraController {
     public static class p6t1 extends Thread {
         String pnp;

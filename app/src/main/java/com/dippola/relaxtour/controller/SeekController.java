@@ -3,6 +3,8 @@ package com.dippola.relaxtour.controller;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.Keep;
+
 import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.pages.ChakraPage;
@@ -19,6 +21,7 @@ import com.dippola.relaxtour.pages.item.PageItem;
 
 import java.util.List;
 
+@Keep
 public class SeekController {
 
     public final static int MAX_VOLUME = 16;

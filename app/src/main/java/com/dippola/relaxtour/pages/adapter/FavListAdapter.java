@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.dippola.relaxtour.pages.item.FavListItem;
 
 import java.util.ArrayList;
 
+@Keep
 public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomViewHolder> {
     Context context;
     public static ArrayList<FavListItem> arrayList = new ArrayList<>();

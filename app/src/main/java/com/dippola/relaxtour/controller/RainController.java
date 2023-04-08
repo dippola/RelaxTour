@@ -2,8 +2,11 @@ package com.dippola.relaxtour.controller;
 
 import android.util.Log;
 
+import androidx.annotation.Keep;
+
 import com.dippola.relaxtour.MPList;
 
+@Keep
 public class RainController {
     public static class p1t1 extends Thread {
         String pnp;
