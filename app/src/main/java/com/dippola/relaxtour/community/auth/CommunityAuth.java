@@ -106,7 +106,6 @@ public class CommunityAuth extends AppCompatActivity {
         onClickDeleteAccount();
         onClickFindPassword();
         setNotification();
-        admin();
     }
 
     private void setInit() {
@@ -620,17 +619,5 @@ public class CommunityAuth extends AppCompatActivity {
             setResult(CommunityMain.FROM_AUTH, intent);
             super.onBackPressed();
         }
-    }
-
-    private void admin() {
-        TextView title = findViewById(R.id.community_auth_title);
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (databaseHandler.getUserModel().getEmail() != null && databaseHandler.getUserModel().getEmail().equals("dippolas@gmail.com")) {
-                    startActivity(new Intent(CommunityAuth.this, Admin.class));
-                }
-            }
-        });
     }
 }

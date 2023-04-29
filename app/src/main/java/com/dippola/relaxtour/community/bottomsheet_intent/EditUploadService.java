@@ -72,7 +72,7 @@ public class EditUploadService extends Service {
             intent.addCategory(Intent.CATEGORY_LAUNCHER);
 
             PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent,
-                    0);
+                    PendingIntent.FLAG_IMMUTABLE);
 
             NotificationCompat.Builder notification;
             if (Build.VERSION.SDK_INT >= 26) {
