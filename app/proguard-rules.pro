@@ -24,7 +24,13 @@
 #-keep class retrofit2.** { *; }
 #-keep class com.google.gson.** { *; }
 
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+
 -keep class com.dippola.relaxtour.retrofit.model.*
+-keep class com.dippola.relaxtour.community.main.CommunityMain
 -keep class com.dippola.relaxtour.community.main.detail.AddHitModel
 -keep class com.dippola.relaxtour.community.main.detail.CommentWithPageWhenMore
 -keep class com.dippola.relaxtour.community.auth.userscommunity.UserCommentWithPageModel
