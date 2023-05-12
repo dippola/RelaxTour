@@ -167,16 +167,16 @@ public class Splash extends AppCompatActivity {
     }
 
     private void checkAppVersion() {
-        String current_version = getAppVersion();
+        int current_version = Integer.parseInt(getAppVersion().replace(".", ""));
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("app_status").document("app_version").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String new_version = documentSnapshot.get("new_version").toString();
-                if (current_version.equals(new_version)) {
+                int new_version = Integer.parseInt(documentSnapshot.get("new_version").toString().replace(".", ""));
+                if (current_version >= new_version) {
                     checkFirst();
                 } else {
-                    UpdateDialog.showDialog(Splash.this, current_version, new_version);
+                    UpdateDialog.showDialog(Splash.this, String.valueOf(current_version), String.valueOf(new_version));
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
