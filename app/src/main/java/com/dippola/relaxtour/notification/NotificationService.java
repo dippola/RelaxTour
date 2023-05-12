@@ -92,7 +92,7 @@ public class NotificationService extends Service {
                 notification = new NotificationCompat.Builder(context);
             }
             notification.setSilent(true);
-            notification.setSmallIcon(R.drawable.bottom_sheet_play);
+            notification.setSmallIcon(R.drawable.tabicon_chakra);
             notification.setContentTitle("Relax Tour");//.setContentText(track.getName())
             notification.setLargeIcon(icon);
             notification.setOnlyAlertOnce(true);//show notification for only first time

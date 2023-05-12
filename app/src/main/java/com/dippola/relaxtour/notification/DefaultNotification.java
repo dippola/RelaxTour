@@ -31,7 +31,6 @@ public class DefaultNotification {
     public static void defauleNotification (Context context) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
             MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(context, "tag");
             Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.main_head);
 
@@ -51,6 +50,7 @@ public class DefaultNotification {
             PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
             NotificationCompat.Builder notification;
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             if (Build.VERSION.SDK_INT >= 26) {
                 NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "RelaxTour", NotificationManager.IMPORTANCE_DEFAULT);
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
@@ -59,8 +59,8 @@ public class DefaultNotification {
                 notification = new NotificationCompat.Builder(context);
             }
             notification.setSilent(true);
-            notification.setSmallIcon(R.drawable.bottom_sheet_play);
-            notification.setContentTitle("Relax Tour default");//.setContentText(track.getName())
+            notification.setSmallIcon(R.drawable.tabicon_chakra);
+            notification.setContentTitle("Relax Tour");//.setContentText(track.getName())
             notification.setLargeIcon(icon);
             notification.setOnlyAlertOnce(true);//show notification for only first time
             notification.setShowWhen(false);
@@ -71,16 +71,8 @@ public class DefaultNotification {
 //                notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
 //            }
 //            notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
-            if (MainActivity.bottomSheetPlayList.size() != 0) {
-                initMP(context);
-                if (AudioController.playingListindex0_1(MainActivity.bottomSheetPlayList.get(0).getPnp()).isPlaying() || AudioController.playingListindex0_2(MainActivity.bottomSheetPlayList.get(0).getPnp()).isPlaying()) {
-                    notification.addAction(R.drawable.bottom_pause, "Play", pendingIntentPlay);
-                } else {
-                    notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
-                }
-            } else {
-                notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
-            }
+
+            notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
 //            notification.addAction(R.drawable.bottom_play, "Play", pendingIntentPlay);
             notification.addAction(R.drawable.notification_close, "close", pendingIntentClose);
 
@@ -90,7 +82,7 @@ public class DefaultNotification {
             mediaSessionCompat.release();
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
 
-            notificationManagerCompat.notify(MAIN_ID, notification.build());
+            notificationManager.notify(MAIN_ID, notification.build());
         }
     }
 

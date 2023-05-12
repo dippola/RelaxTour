@@ -12,22 +12,6 @@
         android:layout_above="@+id/timer2_buttom"
         android:layout_centerHorizontal="true">
 
-        <TextView
-            android:id="@+id/hourintent"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:text="0"
-            android:textColor="@color/text_color" />
-
-        <TextView
-            android:id="@+id/minintent"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:text="0"
-            android:textColor="@color/text_color" />
-
         <ProgressBar
             android:id="@+id/progress_count1"
             style="?android:attr/progressBarStyleHorizontal"
