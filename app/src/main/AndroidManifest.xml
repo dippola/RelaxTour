@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="37"
-    android:versionName="1.0.37">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:versionCode="36"
+    android:versionName="1.0.36">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -30,17 +31,15 @@
 
 <!--        <activity android:name=".MainActivity" android:screenOrientation="portrait" android:launchMode="singleInstance"/>-->
         <activity android:name=".MainActivity" android:screenOrientation="portrait" />
-        <service android:name=".notification.NotificationService" android:stopWithTask="true"/>
+        <service android:name=".notification.NotificationService" android:stopWithTask="true" android:foregroundServiceType="mediaPlayback"/>
         <receiver android:name=".notification.NotificationActionService"/>
-        <receiver android:name=".notification.TimerNotificationActionService"/>
         <service android:name=".service.GetStateKillApp" />
         <service android:name=".service.DownloadService"/>
         <service android:name=".service.DownloadsService"/>
         <activity android:name=".timer.TimerDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".setting.SettingDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
-        <service android:name=".service.TimerService"/>
+        <service android:name=".service.TimerService"  android:stopWithTask="true" android:foregroundServiceType="mediaPlayback"/>
         <activity android:name=".setting.StorageManageDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
-        <service android:name=".service.GetStateKillApp" />
         <activity android:name=".community.main.CommunityMain" android:screenOrientation="portrait" />
         <activity android:name=".community.main.write.CommunityWrite" android:screenOrientation="portrait" />
         <activity android:name=".community.main.write.ShareListDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
@@ -80,7 +79,6 @@
         <activity android:name=".community.admin.profile.AdminChangeProfile" android:screenOrientation="portrait" />
 
 
-
 <!--        <activity android:name=".community.Test" android:screenOrientation="portrait" />-->
 
         <service
@@ -90,6 +88,12 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver android:name=".notification.TimerNotificationActionService" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

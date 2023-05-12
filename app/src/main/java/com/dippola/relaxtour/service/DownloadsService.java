@@ -1,5 +1,7 @@
 package com.dippola.relaxtour.service;
 
+import static com.dippola.relaxtour.notification.NotifiControllID.DOWNLOADS_ID;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -45,7 +47,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class DownloadsService extends Service {
-    public static final String CHANNEL_ID = "downloads";
+    public static final String CHANNEL_ID = "channel_downloads";
 
     private static FirebaseStorage storage;
     private static StorageReference reference;
@@ -81,7 +83,7 @@ public class DownloadsService extends Service {
 
             NotificationCompat.Builder notification;
             if (Build.VERSION.SDK_INT >= 26) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "RRRain", NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Downloads", NotificationManager.IMPORTANCE_DEFAULT);
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
                 notification = new NotificationCompat.Builder(context, CHANNEL_ID);
             } else {
@@ -97,7 +99,7 @@ public class DownloadsService extends Service {
             notification.setContentIntent(pIntent);
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
 
-            startForeground(4, notification.build());
+            startForeground(DOWNLOADS_ID, notification.build());
 
 //            setOnClickDownload(context, progressBar, button, download, pnp, page);
 

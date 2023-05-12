@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -259,23 +261,33 @@ public class MainActivity extends AppCompatActivity {
         community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                load.setVisibility(View.VISIBLE);
-                FirebaseFirestore.getInstance().collection("app_status").document("fix_server").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            boolean fix = Boolean.TRUE.equals(task.getResult().getBoolean("fix"));
-                            if (!fix) {
-                                startActivity(new Intent(MainActivity.this, CommunityMain.class));
-                            } else {
-                                String st = task.getResult().getString("start_time");
-                                String et = task.getResult().getString("end_time");
-                                FixServerDialog.showDialog(MainActivity.this, st, et);
-                                load.setVisibility(View.GONE);
-                            }
-                        }
+//                load.setVisibility(View.VISIBLE);
+//                FirebaseFirestore.getInstance().collection("app_status").document("fix_server").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            boolean fix = Boolean.TRUE.equals(task.getResult().getBoolean("fix"));
+//                            if (!fix) {
+//                                startActivity(new Intent(MainActivity.this, CommunityMain.class));
+//                            } else {
+//                                String st = task.getResult().getString("start_time");
+//                                String et = task.getResult().getString("end_time");
+//                                FixServerDialog.showDialog(MainActivity.this, st, et);
+//                                load.setVisibility(View.GONE);
+//                            }
+//                        }
+//                    }
+//                });
+
+
+                List<ActivityManager.RunningServiceInfo> serviceList;
+                ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                serviceList = activityManager.getRunningServices(Integer.MAX_VALUE);
+                for (ActivityManager.RunningServiceInfo service : serviceList) {
+                    if (service.foreground) {
+                        Log.d("MainActivity>>>", "Foreground service found: " + service.service.getClassName());
                     }
-                });
+                }
             }
         });
 
@@ -545,6 +557,8 @@ public class MainActivity extends AppCompatActivity {
                             pageItems.add(bottomSheetPlayList.get(i));
                             if (i == bottomSheetPlayList.size() - 1) {
                                 AudioController.stopPlayingList(pageItems);
+                                Intent intent = new Intent(MainActivity.this, NotificationService.class);
+                                stopService(intent);
                                 DefaultNotification.defauleNotification(MainActivity.this);
                             }
                         }

@@ -1,5 +1,7 @@
 package com.dippola.relaxtour.service;
 
+import static com.dippola.relaxtour.notification.NotifiControllID.FIREBASE_NOTIFICATION_ID;
+
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -119,7 +121,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 notificationManager.createNotificationChannel(channel);
             }
 
-            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+            notificationManager.notify(FIREBASE_NOTIFICATION_ID /* ID of notification */, notificationBuilder.build());
         }
     }
 

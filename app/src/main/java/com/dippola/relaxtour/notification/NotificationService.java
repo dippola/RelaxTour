@@ -1,5 +1,7 @@
 package com.dippola.relaxtour.notification;
 
+import static com.dippola.relaxtour.notification.NotifiControllID.MAIN_ID;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,7 +13,6 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -25,7 +26,7 @@ import com.dippola.relaxtour.pages.item.PageItem;
 import java.util.ArrayList;
 
 public class NotificationService extends Service {
-    public static final String CHANNEL_ID = "audio";
+    public static final String CHANNEL_ID = "channel_main";
 
     public static final String ACTION_PLAY = "actionplay";
     public static final String ACTION_CLOSE = "actionclose";
@@ -41,7 +42,7 @@ public class NotificationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         isPlaying = true;
-        startForgroundService(getApplicationContext());
+        startForgroundServiceMain(getApplicationContext());
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -62,7 +63,7 @@ public class NotificationService extends Service {
         super.onDestroy();
     }
 
-    public void startForgroundService(Context context) {
+    private void startForgroundServiceMain(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(context, "tag");
             Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.main_head);
@@ -84,7 +85,7 @@ public class NotificationService extends Service {
 
             NotificationCompat.Builder notification;
             if (Build.VERSION.SDK_INT >= 26) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "RRRain", NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "RelaxTour", NotificationManager.IMPORTANCE_DEFAULT);
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
                 notification = new NotificationCompat.Builder(context, CHANNEL_ID);
             } else {
@@ -92,10 +93,11 @@ public class NotificationService extends Service {
             }
             notification.setSilent(true);
             notification.setSmallIcon(R.drawable.bottom_sheet_play);
-            notification.setContentTitle("meditation title");//.setContentText(track.getName())
+            notification.setContentTitle("Relax Tour");//.setContentText(track.getName())
             notification.setLargeIcon(icon);
             notification.setOnlyAlertOnce(true);//show notification for only first time
             notification.setShowWhen(false);
+            notification.setOngoing(true);
 
             notification.addAction(R.drawable.bottom_pause, "Play", pendingIntentPlay);
             notification.addAction(R.drawable.notification_close, "close", pendingIntentClose);
@@ -108,7 +110,7 @@ public class NotificationService extends Service {
 //                    .build();
 
 //            notificationManagerCompat.notify(1, notification);
-            startForeground(1, notification.build());
+            startForeground(MAIN_ID, notification.build());
 //            stopForeground(true);
 //            stopSelf();
 //            Log.d(">>>", "open foreground");
@@ -117,6 +119,7 @@ public class NotificationService extends Service {
 
     public static void closeNotification(Context context) {
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
-        notificationManagerCompat.cancelAll();
+//        notificationManagerCompat.cancelAll();
+        notificationManagerCompat.cancel(MAIN_ID);
     }
 }

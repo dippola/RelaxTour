@@ -1,5 +1,7 @@
 package com.dippola.relaxtour.service;
 
+import static com.dippola.relaxtour.notification.NotifiControllID.DOWNLOAD_ID;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -45,7 +47,7 @@ import java.util.ArrayList;
 public class DownloadService extends Service {
     public static boolean isDownloadOpen;
 
-    public static final String CHANNEL_ID = "download";
+    public static final String CHANNEL_ID = "channel_download";
 
     public static ArrayList<DownloadItem> downloadList = new ArrayList<>();
 
@@ -95,7 +97,7 @@ public class DownloadService extends Service {
 
             NotificationCompat.Builder notification;
             if (Build.VERSION.SDK_INT >= 26) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "RRRain", NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Download", NotificationManager.IMPORTANCE_DEFAULT);
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
                 notification = new NotificationCompat.Builder(context, CHANNEL_ID);
             } else {
@@ -111,7 +113,7 @@ public class DownloadService extends Service {
             notification.setContentIntent(pIntent);
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
 
-            startForeground(2, notification.build());
+            startForeground(DOWNLOAD_ID, notification.build());
             Log.d("DownloadService>>>", "ok");
 
 //            setOnClickDownload(context, progressBar, button, download, pnp, page);

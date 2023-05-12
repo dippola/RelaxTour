@@ -1,5 +1,8 @@
 package com.dippola.relaxtour.notification;
 
+import static com.dippola.relaxtour.notification.NotifiControllID.DOWNLOAD_FAILED_ID;
+import static com.dippola.relaxtour.notification.NotifiControllID.DOWNLOAD_SUCCESS_ID;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,7 +21,7 @@ import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 
 public class SuccessDownloadNotification {
-    public static final String CHANNEL_ID = "success";
+    public static final String CHANNEL_ID = "channel_download_success";
 
     public static void successDownloadNotification(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
@@ -34,7 +37,7 @@ public class SuccessDownloadNotification {
 
             NotificationCompat.Builder notification;
             if (Build.VERSION.SDK_INT >= 26) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "RRRainn", NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Download Successed", NotificationManager.IMPORTANCE_DEFAULT);
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
                 notification = new NotificationCompat.Builder(context, CHANNEL_ID);
             } else {
@@ -42,7 +45,7 @@ public class SuccessDownloadNotification {
             }
             notification.setSilent(true);
             notification.setSmallIcon(R.drawable.success_download_icon);
-            notification.setContentTitle("success download");//.setContentText(track.getName())
+            notification.setContentTitle("Success Download");//.setContentText(track.getName())
             notification.setLargeIcon(icon);
             notification.setOnlyAlertOnce(true);//show notification for only first time
             notification.setShowWhen(false);
@@ -50,7 +53,7 @@ public class SuccessDownloadNotification {
             notification.setContentIntent(pIntent);
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
 
-            notificationManagerCompat.notify(2, notification.build());
+            notificationManagerCompat.notify(DOWNLOAD_SUCCESS_ID, notification.build());
         }
     }
 
@@ -69,7 +72,7 @@ public class SuccessDownloadNotification {
 
             NotificationCompat.Builder notification;
             if (Build.VERSION.SDK_INT >= 26) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "RRRain", NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Download Failed", NotificationManager.IMPORTANCE_DEFAULT);
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
                 notification = new NotificationCompat.Builder(context, CHANNEL_ID);
             } else {
@@ -85,7 +88,7 @@ public class SuccessDownloadNotification {
             notification.setContentIntent(pIntent);
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
 
-            notificationManagerCompat.notify(3, notification.build());
+            notificationManagerCompat.notify(DOWNLOAD_FAILED_ID, notification.build());
         }
     }
 }

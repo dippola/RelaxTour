@@ -129,8 +129,8 @@ public class Timer1 extends Fragment {
                 if (i1 == 0) {
                     Timer2.minintent.setText("0");
                 } else if (i1 == 1) {
-                    Timer2.minintent.setText("5");
-//                    Timer2.minintent.setText("300");
+//                    Timer2.minintent.setText("5");
+                    Timer2.minintent.setText("300");
                 } else if (i1 == 2) {
                     Timer2.minintent.setText("600");
                 } else if (i1 == 3) {

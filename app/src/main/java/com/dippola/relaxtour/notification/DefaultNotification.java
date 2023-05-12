@@ -1,5 +1,8 @@
 package com.dippola.relaxtour.notification;
 
+import static com.dippola.relaxtour.notification.NotifiControllID.DEFAULT_ID;
+import static com.dippola.relaxtour.notification.NotifiControllID.MAIN_ID;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -20,7 +23,7 @@ import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
 
 public class DefaultNotification {
-    public static final String CHANNEL_ID = "channel1";
+    public static final String CHANNEL_ID = "channel_main";
 
     public static final String ACTION_PLAY = "actionplay";
     public static final String ACTION_CLOSE = "actionclose";
@@ -49,7 +52,7 @@ public class DefaultNotification {
 
             NotificationCompat.Builder notification;
             if (Build.VERSION.SDK_INT >= 26) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "RRRain", NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "RelaxTour", NotificationManager.IMPORTANCE_DEFAULT);
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
                 notification = new NotificationCompat.Builder(context, CHANNEL_ID);
             } else {
@@ -57,7 +60,7 @@ public class DefaultNotification {
             }
             notification.setSilent(true);
             notification.setSmallIcon(R.drawable.bottom_sheet_play);
-            notification.setContentTitle("meditation title");//.setContentText(track.getName())
+            notification.setContentTitle("Relax Tour default");//.setContentText(track.getName())
             notification.setLargeIcon(icon);
             notification.setOnlyAlertOnce(true);//show notification for only first time
             notification.setShowWhen(false);
@@ -87,7 +90,7 @@ public class DefaultNotification {
             mediaSessionCompat.release();
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
 
-            notificationManagerCompat.notify(1, notification.build());
+            notificationManagerCompat.notify(MAIN_ID, notification.build());
         }
     }
 
