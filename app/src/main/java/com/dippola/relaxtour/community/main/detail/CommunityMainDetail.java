@@ -59,6 +59,7 @@ import com.dippola.relaxtour.community.bottomsheet_intent.Report;
 import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.dialog.Premium;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.CommentAllList;
 import com.dippola.relaxtour.retrofit.model.LikeUserListModel;
@@ -67,6 +68,8 @@ import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -148,6 +151,8 @@ public class CommunityMainDetail extends AppCompatActivity {
     private static LinearLayout l1, l2, l3;
     public static String bottomFrom;
     public static int comment_parent_user, comment_parent_id, comment_index;
+
+    private static FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -310,10 +315,15 @@ public class CommunityMainDetail extends AppCompatActivity {
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bottomFrom = "post";
-                if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-                    setBottomSheetBehavior(CommunityMainDetail.this);
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                if (new DatabaseHandler(CommunityMainDetail.this).getIsProUser() == 1) {
+                    Toast.makeText(CommunityMainDetail.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(CommunityMainDetail.this, Premium.class));
+                } else {
+                    bottomFrom = "post";
+                    if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                        setBottomSheetBehavior(CommunityMainDetail.this);
+                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    }
                 }
             }
         });
@@ -413,22 +423,24 @@ public class CommunityMainDetail extends AppCompatActivity {
     }
 
     public static void setBottomSheetBehavior(Context context) {
-        int myId = new DatabaseHandler(context).getUserModel().getId();
-        if (bottomFrom.equals("post")) {
-            if (myId != CommunityMainDetail.parent_user) {
-                l1.setVisibility(View.GONE);
-                l2.setVisibility(View.GONE);
-            } else {
-                l1.setVisibility(View.VISIBLE);
-                l2.setVisibility(View.VISIBLE);
-            }
-        } else if (bottomFrom.equals("comment")) {
-            if (myId != comment_parent_user) {
-                l1.setVisibility(View.GONE);
-                l2.setVisibility(View.GONE);
-            } else {
-                l1.setVisibility(View.VISIBLE);
-                l2.setVisibility(View.VISIBLE);
+        if (mAuth != null) {
+            int myId = new DatabaseHandler(context).getUserModel().getId();
+            if (bottomFrom.equals("post")) {
+                if (myId != CommunityMainDetail.parent_user) {
+                    l1.setVisibility(View.GONE);
+                    l2.setVisibility(View.GONE);
+                } else {
+                    l1.setVisibility(View.VISIBLE);
+                    l2.setVisibility(View.VISIBLE);
+                }
+            } else if (bottomFrom.equals("comment")) {
+                if (myId != comment_parent_user) {
+                    l1.setVisibility(View.GONE);
+                    l2.setVisibility(View.GONE);
+                } else {
+                    l1.setVisibility(View.VISIBLE);
+                    l2.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -696,52 +708,62 @@ public class CommunityMainDetail extends AppCompatActivity {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                like.setEnabled(false);
-                int myId = databaseHandler.getUserModel().getId();
-                RetrofitClient.getApiService(CommunityMainDetail.this).setLike(id, myId, getString(R.string.appkey)).enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        if (response.isSuccessful()) {
-                            if (response.body().equals("add")) {
-                                int i = Integer.parseInt(likecount.getText().toString());
-                                likecount.setText(String.valueOf(i + 1));
-                            } else if (response.body().equals("remove")) {
-                                int i = Integer.parseInt(likecount.getText().toString());
-                                likecount.setText(String.valueOf(i - 1));
+                if (new DatabaseHandler(CommunityMainDetail.this).getIsProUser() == 1) {
+                    Toast.makeText(CommunityMainDetail.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(CommunityMainDetail.this, Premium.class));
+                } else {
+                    like.setEnabled(false);
+                    int myId = databaseHandler.getUserModel().getId();
+                    RetrofitClient.getApiService(CommunityMainDetail.this).setLike(id, myId, getString(R.string.appkey)).enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            if (response.isSuccessful()) {
+                                if (response.body().equals("add")) {
+                                    int i = Integer.parseInt(likecount.getText().toString());
+                                    likecount.setText(String.valueOf(i + 1));
+                                } else if (response.body().equals("remove")) {
+                                    int i = Integer.parseInt(likecount.getText().toString());
+                                    likecount.setText(String.valueOf(i - 1));
+                                }
+                            } else {
+                                if (like.isChecked()) {
+                                    like.setChecked(false);
+                                } else {
+                                    like.setChecked(true);
+                                }
+                                Log.d("MainDetail>>>", "message2: " + response.message());
+                                Toast.makeText(CommunityMainDetail.this, "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                             }
-                        } else {
+                            like.setEnabled(true);
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
                             if (like.isChecked()) {
                                 like.setChecked(false);
                             } else {
                                 like.setChecked(true);
                             }
-                            Log.d("MainDetail>>>", "message2: " + response.message());
-                            Toast.makeText(CommunityMainDetail.this, "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                            like.setEnabled(true);
+                            Log.d("MainDetail>>>", "message3: " + t.getMessage());
+                            Toast.makeText(CommunityMainDetail.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
-                        like.setEnabled(true);
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        if (like.isChecked()) {
-                            like.setChecked(false);
-                        } else {
-                            like.setChecked(true);
-                        }
-                        like.setEnabled(true);
-                        Log.d("MainDetail>>>", "message3: " + t.getMessage());
-                        Toast.makeText(CommunityMainDetail.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    });
+                }
             }
         });
         like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    like.setBackgroundResource(R.drawable.community_like_icon);
+                if (mAuth != null) {
+                    if (b) {
+                        like.setBackgroundResource(R.drawable.community_like_icon);
+                    } else {
+                        like.setBackgroundResource(R.drawable.like_icon);
+                    }
                 } else {
                     like.setBackgroundResource(R.drawable.like_icon);
+                    like.setChecked(false);
                 }
             }
         });
@@ -773,25 +795,30 @@ public class CommunityMainDetail extends AppCompatActivity {
         commentsend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (databaseHandler.getUserModel().getNickname() == null) {
-                    Intent intent = new Intent(CommunityMainDetail.this, CommunityProfileCreate.class);
-                    intent.putExtra("from", "detail");
-                    launcher.launch(intent);
-                } else if (databaseHandler.getUserModel().getNickname().equals("") || databaseHandler.getUserModel().getNickname().equals("null")) {
-                    Intent intent = new Intent(CommunityMainDetail.this, CommunityProfileCreate.class);
-                    intent.putExtra("from", "detail");
-                    launcher.launch(intent);
+                if (new DatabaseHandler(CommunityMainDetail.this).getIsProUser() == 1) {
+                    Toast.makeText(CommunityMainDetail.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(CommunityMainDetail.this, Premium.class));
                 } else {
-                    if (editComment.getText().toString().length() != 0) {
-                        if (editComment.getText().toString().contains("●")) {
-                            Toast.makeText(CommunityMainDetail.this, "'●' characters are not allowed.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            sendCommentLoad();
-                            hideKeyboard(view);
-                            sendComment();
-                        }
+                    if (databaseHandler.getUserModel().getNickname() == null) {
+                        Intent intent = new Intent(CommunityMainDetail.this, CommunityProfileCreate.class);
+                        intent.putExtra("from", "detail");
+                        launcher.launch(intent);
+                    } else if (databaseHandler.getUserModel().getNickname().equals("") || databaseHandler.getUserModel().getNickname().equals("null")) {
+                        Intent intent = new Intent(CommunityMainDetail.this, CommunityProfileCreate.class);
+                        intent.putExtra("from", "detail");
+                        launcher.launch(intent);
                     } else {
-                        Toast.makeText(CommunityMainDetail.this, "Please enter the contents", Toast.LENGTH_SHORT).show();
+                        if (editComment.getText().toString().length() != 0) {
+                            if (editComment.getText().toString().contains("●")) {
+                                Toast.makeText(CommunityMainDetail.this, "'●' characters are not allowed.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                sendCommentLoad();
+                                hideKeyboard(view);
+                                sendComment();
+                            }
+                        } else {
+                            Toast.makeText(CommunityMainDetail.this, "Please enter the contents", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }
@@ -951,17 +978,18 @@ public class CommunityMainDetail extends AppCompatActivity {
         topMiddleLoad.setVisibility(View.INVISIBLE);
         commentcount.setText(String.valueOf(model.getCommentcount()));
 
-        Log.d("CommunityMainDetail>>>", "1");
-        System.out.println("lsdfkj");
-        if (checkLikeListContains(likeUserList)) {
-            Log.d("CommunityMainDetail>>>", "2");
-            like.setChecked(true);
+        if (mAuth != null) {
+            System.out.println("lsdfkj");
+            if (checkLikeListContains(likeUserList)) {
+                like.setChecked(true);
+            } else {
+                like.setChecked(false);
+            }
         } else {
-            Log.d("CommunityMainDetail>>>", "3");
             like.setChecked(false);
         }
-        Log.d("CommunityMainDetail>>>", "4");
         like.setEnabled(true);
+
     }
 
     private boolean checkLikeListContains(List<LikeUserListModel> likeUserList) {
@@ -1182,7 +1210,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             adapter = null;
         } else {
             nullcomment.setVisibility(View.GONE);
-            adapter = new MainDetailCommentAdapter(commentModelList, CommunityMainDetail.this, databaseHandler.getUserModel().getId());
+            adapter = new MainDetailCommentAdapter(commentModelList, CommunityMainDetail.this, databaseHandler.getUserModel().getId(), mAuth);
             commentlist.setLayoutManager(new LinearLayoutManager(CommunityMainDetail.this));
             commentlist.setAdapter(adapter);
             bottomLoad.setVisibility(View.GONE);

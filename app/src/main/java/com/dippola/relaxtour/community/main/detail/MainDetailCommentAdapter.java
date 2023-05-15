@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -19,9 +20,11 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.dialog.Premium;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,11 +37,13 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
     List<PostCommentModel> list;
     Context context;
     int myid;
+    FirebaseUser mAuth;
 
-    public MainDetailCommentAdapter(List<PostCommentModel> list, Context context, int myid) {
+    public MainDetailCommentAdapter(List<PostCommentModel> list, Context context, int myid, FirebaseUser mAuth) {
         this.list = list;
         this.context = context;
         this.myid = myid;
+        this.mAuth = mAuth;
     }
     @NonNull
     @Override
@@ -106,13 +111,18 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
             holder.more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    CommunityMainDetail.bottomFrom = "comment";
-                    CommunityMainDetail.comment_parent_user = list.get(i).getParent_user();
-                    CommunityMainDetail.comment_parent_id = list.get(i).getId();
-                    CommunityMainDetail.comment_index = i;
-                    CommunityMainDetail.setBottomSheetBehavior(context);
-                    if (CommunityMainDetail.bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-                        CommunityMainDetail.bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    if (mAuth != null) {
+                        CommunityMainDetail.bottomFrom = "comment";
+                        CommunityMainDetail.comment_parent_user = list.get(i).getParent_user();
+                        CommunityMainDetail.comment_parent_id = list.get(i).getId();
+                        CommunityMainDetail.comment_index = i;
+                        CommunityMainDetail.setBottomSheetBehavior(context);
+                        if (CommunityMainDetail.bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                            CommunityMainDetail.bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        }
+                    } else {
+                        Toast.makeText(context, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
+                        context.startActivity(new Intent(context, Premium.class));
                     }
                 }
             });

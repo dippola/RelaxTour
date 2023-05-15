@@ -38,8 +38,8 @@ public class UpdateDialog {
         currentVersion = layout.findViewById(R.id.update_dialog_current_version);
         newVersion = layout.findViewById(R.id.update_dialog_new_version);
 
-        currentVersion.setText("Current Version" + cv);
-        newVersion.setText("New Version" + nv);
+        currentVersion.setText("Current Version: " + cv);
+        newVersion.setText("New Version: " + nv);
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
