@@ -3,17 +3,20 @@ package com.dippola.relaxtour.notification;
 import static com.dippola.relaxtour.notification.NotifiControllID.DOWNLOAD_FAILED_ID;
 import static com.dippola.relaxtour.notification.NotifiControllID.DOWNLOAD_SUCCESS_ID;
 
+import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -24,8 +27,8 @@ public class SuccessDownloadNotification {
     public static final String CHANNEL_ID = "channel_download_success";
 
     public static void successDownloadNotification(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.main_head);
 
             Intent intent = new Intent(context, MainActivity.class);
@@ -53,13 +56,13 @@ public class SuccessDownloadNotification {
             notification.setContentIntent(pIntent);
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
 
-            notificationManagerCompat.notify(DOWNLOAD_SUCCESS_ID, notification.build());
+            notificationManager.notify(DOWNLOAD_SUCCESS_ID, notification.build());
         }
     }
 
     public static void failedDownloadNotification(Context context, String e) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.main_head);
 
             Intent intent = new Intent(context, MainActivity.class);
@@ -88,7 +91,7 @@ public class SuccessDownloadNotification {
             notification.setContentIntent(pIntent);
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
 
-            notificationManagerCompat.notify(DOWNLOAD_FAILED_ID, notification.build());
+            notificationManager.notify(DOWNLOAD_FAILED_ID, notification.build());
         }
     }
 }

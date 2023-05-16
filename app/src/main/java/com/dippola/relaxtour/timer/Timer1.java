@@ -64,24 +64,6 @@ public class Timer1 extends Fragment {
                 } else {
                     TimerService.et_timer = Integer.toString(max11+max22);
                     TimerDialog.viewPager.setCurrentItem(1);
-//                    if (max11 == 0 && max22 != 0) {
-//                        int max1122 = max22;
-//                        String maxintent = Integer.toString(max1122);
-//                        Timer2.et_timer = maxintent;
-//                        TimerDialog.viewPager.setCurrentItem(1);
-//                    }
-//                    if (max11 != 0 && max22 == 0) {
-//                        int max1122 = max11;
-//                        String maxintent = Integer.toString(max1122);
-//                        Timer2.et_timer = maxintent;
-//                        TimerDialog.viewPager.setCurrentItem(1);
-//                    }
-//                    if (max11 != 0 && max22 != 0) {
-//                        int max1122 = max11 + max22;
-//                        String maxintent = Integer.toString(max1122);
-//                        Timer2.et_timer = maxintent;
-//                        TimerDialog.viewPager.setCurrentItem(1);
-//                    }
                     if (Build.VERSION.SDK_INT >= 26) {
                         getActivity().startForegroundService(intent);
                     } else {
@@ -103,34 +85,7 @@ public class Timer1 extends Fragment {
         wheelViewmin.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                int mint = i1;
-                if (i1 == 0) {
-                    TimerService.timerMin = 0;
-                } else if (i1 == 1) {
-//                    TimerService.timerMin = 300;
-                    TimerService.timerMin = 5;
-                } else if (i1 == 2) {
-                    TimerService.timerMin = 600;
-                } else if (i1 == 3) {
-                    TimerService.timerMin = 900;
-                } else if (i1 == 4) {
-                    TimerService.timerMin = 1200;
-                } else if (i1 == 5) {
-                    TimerService.timerMin = 1500;
-                } else if (i1 == 6) {
-                    TimerService.timerMin = 1800;
-                } else if (i1 == 7) {
-                    TimerService.timerMin = 2100;
-                } else if (i1 == 8) {
-                    TimerService.timerMin = 2400;
-                } else if (i1 == 9) {
-                    TimerService.timerMin = 2700;
-                } else if (i1 == 10) {
-                    TimerService.timerMin = 3000;
-                } else if (i1 == 11) {
-                    TimerService.timerMin = 3300;
-                }
-
+                TimerService.timerMin = i1 * 300;
             }
         });
 

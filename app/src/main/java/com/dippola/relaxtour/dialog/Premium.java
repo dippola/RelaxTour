@@ -134,19 +134,19 @@ public class Premium extends AppCompatActivity {
     private void startShowQonversion() {
         setLoadVisible();
         application = getApplication();
-        Qonversion.launch(application, "tvcyUzPvRUyPLwrjhoQwujcuc_vwZC3i", false);
+        Qonversion.launch(application, getString(R.string.qonversion_key), false);
         Qonversion.offerings(new QonversionOfferingsCallback() {
             @Override
             public void onSuccess(@NotNull QOfferings offerings) {
-                QOffering offering = offerings.offeringForID("offering_id");
+                QOffering offering = offerings.offeringForID(getString(R.string.qoffering_id));
                 if (offering != null) {
                     Qonversion.products(new QonversionProductsCallback() {
                         @Override
                         public void onSuccess(@NotNull Map<String, QProduct> productsList) {
-                            Qonversion.purchase(activity, "dippola_relaxtour_premium", new QonversionPermissionsCallback() {
+                            Qonversion.purchase(activity, getString(R.string.product_id), new QonversionPermissionsCallback() {
                                 @Override
                                 public void onSuccess(@NotNull Map<String, QPermission> permissions) {
-                                    QPermission premiumPermission = permissions.get("dippola_relaxtour_premium");
+                                    QPermission premiumPermission = permissions.get(getString(R.string.product_id));
                                     if (premiumPermission != null && premiumPermission.isActive()) {
                                         // handle active permission here
                                         if (MainActivity.databaseHandler == null) {
@@ -171,7 +171,7 @@ public class Premium extends AppCompatActivity {
                                             Qonversion.restore(new QonversionPermissionsCallback() {
                                                 @Override
                                                 public void onSuccess(@NonNull Map<String, QPermission> map) {
-                                                    QPermission qPermission = map.get("dippola_relaxtour_premium");
+                                                    QPermission qPermission = map.get(getString(R.string.product_id));
                                                     if (qPermission != null && qPermission.isActive()) {
                                                         Log.d("Premium>>>", "restored");
                                                     } else {

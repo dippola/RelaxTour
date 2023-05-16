@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:versionCode="39"
-    android:versionName="1.0.39">
+    android:versionCode="40"
+    android:versionName="1.0.40">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+
 
     <application
         android:allowBackup="true"
@@ -32,7 +33,6 @@
 <!--        <activity android:name=".MainActivity" android:screenOrientation="portrait" android:launchMode="singleInstance"/>-->
         <activity android:name=".MainActivity" android:screenOrientation="portrait" />
         <service android:name=".notification.NotificationService" android:stopWithTask="true" android:foregroundServiceType="mediaPlayback"/>
-        <receiver android:name=".notification.NotificationActionService"/>
         <service android:name=".service.GetStateKillApp" />
         <service android:name=".service.DownloadService"/>
         <service android:name=".service.DownloadsService"/>
@@ -85,6 +85,12 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver android:name=".notification.NotificationActionService" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
 
         <receiver android:name=".notification.TimerNotificationActionService" android:exported="true">
             <intent-filter>

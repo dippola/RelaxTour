@@ -979,7 +979,6 @@ public class CommunityMainDetail extends AppCompatActivity {
         commentcount.setText(String.valueOf(model.getCommentcount()));
 
         if (mAuth != null) {
-            System.out.println("lsdfkj");
             if (checkLikeListContains(likeUserList)) {
                 like.setChecked(true);
             } else {

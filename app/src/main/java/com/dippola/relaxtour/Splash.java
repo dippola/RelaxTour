@@ -68,7 +68,7 @@ public class Splash extends AppCompatActivity {
         bg = findViewById(R.id.splash_background);
 
         application = getApplication();
-        Qonversion.launch(application, "tvcyUzPvRUyPLwrjhoQwujcuc_vwZC3i", false);
+        Qonversion.launch(application, getString(R.string.qonversion_key), false);
         databaseHandler.setDB(Splash.this);
         databaseHandler = new DatabaseHandler(Splash.this);
 
@@ -85,7 +85,7 @@ public class Splash extends AppCompatActivity {
         Qonversion.checkPermissions(new QonversionPermissionsCallback() {
             @Override
             public void onSuccess(@NonNull Map<String, QPermission> map) {
-                QPermission qPermission = map.get("dippola_relaxtour_premium");
+                QPermission qPermission = map.get(getString(R.string.product_id));
 
                 if (qPermission != null && qPermission.isActive()) {
                     databaseHandler.changeIsProUser(2);

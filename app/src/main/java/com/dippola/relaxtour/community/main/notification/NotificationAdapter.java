@@ -120,7 +120,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 } else if (s[0].equals("update")) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
-                    intent.setData(Uri.parse("market://details?id=com.dippola.relaxtour"));
+                    intent.setData(Uri.parse(context.getString(R.string.playstore_uri)));
                     context.startActivity(intent);
                 } else if (s[0].equals("admin")) {
                     Intent intent = new Intent(context, AdminNotificationDialog.class);

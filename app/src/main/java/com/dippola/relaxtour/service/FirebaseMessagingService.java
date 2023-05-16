@@ -74,7 +74,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 } else if (title.split("●")[0].equals("update")){
                     intent = new Intent(Intent.ACTION_VIEW);
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
-                    intent.setData(Uri.parse("market://details?id=com.dippola.relaxtour"));
+                    intent.setData(Uri.parse(getString(R.string.playstore_uri)));
                     showTitle = title.split("●")[1];
                     insertDB(title, messageBody);
                 } else if (title.split("●")[0].equals("admin")) {

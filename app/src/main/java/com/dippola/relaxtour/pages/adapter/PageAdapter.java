@@ -660,7 +660,7 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Qonversion.restore(new QonversionPermissionsCallback() {
                     @Override
                     public void onSuccess(@NonNull Map<String, QPermission> map) {
-                        QPermission qPermission = map.get("dippola_relaxtour_premium");
+                        QPermission qPermission = map.get(context.getString(R.string.product_id));
                         if (qPermission != null && qPermission.isActive()) {
                             Log.d("Premium>>>", "restored");
                             RestoreDialog.restoreDialog(context);

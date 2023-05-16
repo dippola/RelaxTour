@@ -45,7 +45,7 @@ public class UpdateDialog {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("market://details?id=com.dippola.relaxtour"));
+                intent.setData(Uri.parse(context.getString(R.string.playstore_uri)));
                 context.startActivity(intent);
             }
         });

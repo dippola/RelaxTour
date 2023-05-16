@@ -1,5 +1,7 @@
 package com.dippola.relaxtour.community.main.write;
 
+import static com.dippola.relaxtour.notification.NotifiControllID.FINISHED_POST_ID;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,9 +12,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
-import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.main.CommunityMain;
 
@@ -21,7 +21,7 @@ public class FinishedUploadNotification {
 
     public static void finishedUploadNotification(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.main_head);
 
             Intent intent = new Intent(context, CommunityMain.class);
@@ -49,7 +49,7 @@ public class FinishedUploadNotification {
             notification.setContentIntent(pIntent);
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
 
-            notificationManagerCompat.notify(4, notification.build());
+            notificationManager.notify(FINISHED_POST_ID, notification.build());
         }
     }
 }

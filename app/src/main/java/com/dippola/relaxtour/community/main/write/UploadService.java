@@ -1,5 +1,7 @@
 package com.dippola.relaxtour.community.main.write;
 
+import static com.dippola.relaxtour.notification.NotifiControllID.POST_ID;
+
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -27,10 +29,8 @@ import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -88,7 +88,7 @@ public class UploadService extends Service {
             notification.setContentIntent(pIntent);
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
 
-            startForeground(3, notification.build());
+            startForeground(POST_ID, notification.build());
 
 //            setOnClickDownload(context, progressBar, button, download, pnp, page);
         }

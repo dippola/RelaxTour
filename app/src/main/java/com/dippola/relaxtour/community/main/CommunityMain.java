@@ -206,14 +206,14 @@ public class CommunityMain extends AppCompatActivity {
         text1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://dippola.com/product/relax_tour_privacy_policy")));
+                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(getString(R.string.private_policy_url))));
             }
         });
 
         text2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://dippola.com/product/relax_tour_terms_and_conditions")));
+                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(getString(R.string.terms_and_conditions_url))));
             }
         });
     }

@@ -9,4 +9,6 @@ public class NotifiControllID {
     public static int DOWNLOAD_SUCCESS_ID = 6;
     public static int DOWNLOAD_FAILED_ID = 7;
     public static int FIREBASE_NOTIFICATION_ID = 8;
+    public static int POST_ID = 9;
+    public static int FINISHED_POST_ID = 10;
 }

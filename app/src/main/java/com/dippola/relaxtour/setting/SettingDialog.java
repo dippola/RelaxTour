@@ -112,7 +112,7 @@ public class SettingDialog extends AppCompatActivity {
                 Qonversion.restore(new QonversionPermissionsCallback() {
                     @Override
                     public void onSuccess(@NonNull Map<String, QPermission> map) {
-                        QPermission qPermission = map.get("dippola_relaxtour_premium");
+                        QPermission qPermission = map.get(getString(R.string.product_id));
                         if (qPermission != null && qPermission.isActive()) {
                             Log.d("Premium>>>", "restored");
                             RestoreDialog.restoreDialog(SettingDialog.this);
