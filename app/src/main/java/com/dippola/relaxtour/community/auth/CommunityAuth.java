@@ -30,8 +30,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.community.admin.Admin;
-import com.dippola.relaxtour.community.admin.detail.AdminDetail;
 import com.dippola.relaxtour.community.auth.userscommunity.UsersCommunity;
 import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.community.ImageViewer;

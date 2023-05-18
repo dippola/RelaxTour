@@ -29,6 +29,8 @@
 -keepattributes Signature
 -keepattributes Exceptions
 
+-keep class io.qonversion.android.sdk.** { *; }
+
 -keep class com.dippola.relaxtour.retrofit.model.*
 -keep class com.dippola.relaxtour.community.main.CommunityMain
 -keep class com.dippola.relaxtour.community.main.detail.AddHitModel

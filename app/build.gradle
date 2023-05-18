@@ -10,18 +10,18 @@ android {
         applicationId "com.dippola.relaxtour"
         minSdk 21
         targetSdk 33
-        versionCode 40
-        versionName "1.0.40"
+        versionCode 41
+        versionName "1.0.41"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
         release {
-            storeFile file('dippolarelaxtour.jks')
-            storePassword "shangus12!"
-            keyAlias "dippolarelaxtour"
-            keyPassword "shangus12!"
+            storeFile file(getResourceString("storeFileString"))
+            storePassword getResourceString("storePasswordString")
+            keyAlias getResourceString("keyAliasString")
+            keyPassword getResourceString("keyPasswordString")
         }
     }
 
@@ -44,6 +44,19 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     namespace 'com.dippola.relaxtour'
+}
+
+def getResourceString(String resourceName) {
+    def resValue = ""
+    try {
+        def stringsFile = file("${projectDir}/src/main/res/values/strings.xml")
+        def xml = new XmlParser().parse(stringsFile)
+        def node = xml.'**'.find { it.@name == resourceName }
+        resValue = node.text()
+    } catch (Exception e) {
+        e.printStackTrace()
+    }
+    return resValue
 }
 
 dependencies {
