@@ -6,20 +6,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
@@ -30,17 +25,18 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.UpdateDialog;
 import com.dippola.relaxtour.onboarding.OnBoarding;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.qonversion.android.sdk.Qonversion;
-import com.qonversion.android.sdk.QonversionError;
-import com.qonversion.android.sdk.QonversionPermissionsCallback;
-import com.qonversion.android.sdk.dto.QPermission;
-import com.qonversion.android.sdk.dto.products.QProductRenewState;
+import com.qonversion.android.sdk.QonversionConfig;
+import com.qonversion.android.sdk.dto.QEntitlement;
+import com.qonversion.android.sdk.dto.QLaunchMode;
+import com.qonversion.android.sdk.dto.QonversionError;
+import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -68,7 +64,13 @@ public class Splash extends AppCompatActivity {
         bg = findViewById(R.id.splash_background);
 
         application = getApplication();
-        Qonversion.launch(application, getString(R.string.qonversion_key), false);
+//        Qonversion.launch(application, getString(R.string.qonversion_key), false);
+        final QonversionConfig qonversionConfig = new QonversionConfig.Builder(
+                this,
+                getString(R.string.qonversion_key),
+                QLaunchMode.SubscriptionManagement
+        ).build();
+        Qonversion.initialize(qonversionConfig);
         databaseHandler.setDB(Splash.this);
         databaseHandler = new DatabaseHandler(Splash.this);
 
@@ -82,12 +84,12 @@ public class Splash extends AppCompatActivity {
     }
 
     private void checkPermission() {
-        Qonversion.checkPermissions(new QonversionPermissionsCallback() {
+        Qonversion.getSharedInstance().checkEntitlements(new QonversionEntitlementsCallback() {
             @Override
-            public void onSuccess(@NonNull Map<String, QPermission> map) {
-                QPermission qPermission = map.get(getString(R.string.product_id));
+            public void onSuccess(@NotNull Map<String, QEntitlement> entitlements) {
+                final QEntitlement premiumEntitlement = entitlements.get("premium");
 
-                if (qPermission != null && qPermission.isActive()) {
+                if (premiumEntitlement != null && premiumEntitlement.isActive()) {
                     databaseHandler.changeIsProUser(2);
                     qper = true;
                     Log.d("Splash>>>", "have permission");
@@ -101,9 +103,9 @@ public class Splash extends AppCompatActivity {
             }
 
             @Override
-            public void onError(@NonNull QonversionError qonversionError) {
+            public void onError(@NotNull QonversionError error) {
                 qper = true;
-                Log.d("Splash>>>", "qper error: " + qonversionError);
+                Log.d("Splash>>>", "qper error: " + error);
                 checkAppVersion();
             }
         });

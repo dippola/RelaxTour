@@ -3,6 +3,7 @@ package com.dippola.relaxtour.dialog;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,15 +24,19 @@ import com.dippola.relaxtour.NetworkStatus;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.qonversion.android.sdk.Qonversion;
-import com.qonversion.android.sdk.QonversionError;
-import com.qonversion.android.sdk.QonversionErrorCode;
-import com.qonversion.android.sdk.QonversionOfferingsCallback;
-import com.qonversion.android.sdk.QonversionPermissionsCallback;
-import com.qonversion.android.sdk.QonversionProductsCallback;
-import com.qonversion.android.sdk.dto.QPermission;
+import com.qonversion.android.sdk.QonversionConfig;
+import com.qonversion.android.sdk.dto.QEntitlement;
+import com.qonversion.android.sdk.dto.QLaunchMode;
+import com.qonversion.android.sdk.dto.QonversionError;
+import com.qonversion.android.sdk.dto.QonversionErrorCode;
 import com.qonversion.android.sdk.dto.offerings.QOffering;
 import com.qonversion.android.sdk.dto.offerings.QOfferings;
 import com.qonversion.android.sdk.dto.products.QProduct;
+import com.qonversion.android.sdk.internal.dto.QLaunchResult;
+import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback;
+import com.qonversion.android.sdk.listeners.QonversionLaunchCallback;
+import com.qonversion.android.sdk.listeners.QonversionOfferingsCallback;
+import com.qonversion.android.sdk.listeners.QonversionProductsCallback;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -134,19 +139,25 @@ public class Premium extends AppCompatActivity {
     private void startShowQonversion() {
         setLoadVisible();
         application = getApplication();
-        Qonversion.launch(application, getString(R.string.qonversion_key), false);
-        Qonversion.offerings(new QonversionOfferingsCallback() {
+        final QonversionConfig qonversionConfig = new QonversionConfig.Builder(
+                this,
+                getString(R.string.qonversion_key),
+                QLaunchMode.SubscriptionManagement
+        ).build();
+        Qonversion.initialize(qonversionConfig);
+
+        Qonversion.getSharedInstance().offerings(new QonversionOfferingsCallback() {
             @Override
             public void onSuccess(@NotNull QOfferings offerings) {
-                QOffering offering = offerings.offeringForID(getString(R.string.qoffering_id));
-                if (offering != null) {
-                    Qonversion.products(new QonversionProductsCallback() {
+                QOffering qOffering = offerings.offeringForID(getString(R.string.qoffering_id));
+                if (qOffering != null) {
+                    Qonversion.getSharedInstance().products(new QonversionProductsCallback() {
                         @Override
                         public void onSuccess(@NotNull Map<String, QProduct> productsList) {
-                            Qonversion.purchase(activity, getString(R.string.product_id), new QonversionPermissionsCallback() {
+                            Qonversion.getSharedInstance().purchase(activity, getString(R.string.product_id), new QonversionEntitlementsCallback() {
                                 @Override
-                                public void onSuccess(@NotNull Map<String, QPermission> permissions) {
-                                    QPermission premiumPermission = permissions.get(getString(R.string.product_id));
+                                public void onSuccess(@NotNull Map<String, QEntitlement> permissions) {
+                                    QEntitlement premiumPermission = permissions.get(getString(R.string.product_id));
                                     if (premiumPermission != null && premiumPermission.isActive()) {
                                         // handle active permission here
                                         if (MainActivity.databaseHandler == null) {
@@ -168,10 +179,10 @@ public class Premium extends AppCompatActivity {
                                     if (error.getCode() != QonversionErrorCode.CanceledPurchase) {
                                         if (error.getCode() == QonversionErrorCode.ProductAlreadyOwned) {
                                             Log.d("Premium>>>", "1: " + error.getCode());
-                                            Qonversion.restore(new QonversionPermissionsCallback() {
+                                            Qonversion.getSharedInstance().restore(new QonversionEntitlementsCallback() {
                                                 @Override
-                                                public void onSuccess(@NonNull Map<String, QPermission> map) {
-                                                    QPermission qPermission = map.get(getString(R.string.product_id));
+                                                public void onSuccess(@NonNull Map<String, QEntitlement> map) {
+                                                    QEntitlement qPermission = map.get(getString(R.string.product_id));
                                                     if (qPermission != null && qPermission.isActive()) {
                                                         Log.d("Premium>>>", "restored");
                                                     } else {
@@ -199,6 +210,9 @@ public class Premium extends AppCompatActivity {
                         }
                     });
                 }
+//                if (offerings.getMain() != null && !offerings.getMain().getProducts().isEmpty()) {
+//                    // Display products for sale
+//                }
             }
             @Override
             public void onError(@NotNull QonversionError error) {
@@ -208,4 +222,5 @@ public class Premium extends AppCompatActivity {
             }
         });
     }
+
 }

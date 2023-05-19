@@ -29,9 +29,9 @@ import com.dippola.relaxtour.dialog.credit_dialog.CreditDialog;
 import com.dippola.relaxtour.dialog.Premium;
 import com.dippola.relaxtour.onboarding.OnBoarding;
 import com.qonversion.android.sdk.Qonversion;
-import com.qonversion.android.sdk.QonversionError;
-import com.qonversion.android.sdk.QonversionPermissionsCallback;
-import com.qonversion.android.sdk.dto.QPermission;
+import com.qonversion.android.sdk.dto.QEntitlement;
+import com.qonversion.android.sdk.dto.QonversionError;
+import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback;
 
 import java.util.Map;
 
@@ -109,10 +109,10 @@ public class SettingDialog extends AppCompatActivity {
                 load.setVisibility(View.VISIBLE);
                 setFinishOnTouchOutside(false);
                 MainActivity.bottomSheetBehavior.setDraggable(false);
-                Qonversion.restore(new QonversionPermissionsCallback() {
+                Qonversion.getSharedInstance().restore(new QonversionEntitlementsCallback() {
                     @Override
-                    public void onSuccess(@NonNull Map<String, QPermission> map) {
-                        QPermission qPermission = map.get(getString(R.string.product_id));
+                    public void onSuccess(@NonNull Map<String, QEntitlement> map) {
+                        QEntitlement qPermission = map.get(getString(R.string.product_id));
                         if (qPermission != null && qPermission.isActive()) {
                             Log.d("Premium>>>", "restored");
                             RestoreDialog.restoreDialog(SettingDialog.this);

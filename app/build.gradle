@@ -10,8 +10,8 @@ android {
         applicationId "com.dippola.relaxtour"
         minSdk 21
         targetSdk 33
-        versionCode 41
-        versionName "1.0.41"
+        versionCode 42
+        versionName "1.0.42"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -71,7 +71,7 @@ dependencies {
 
     implementation "androidx.media:media:1.6.0"
 
-    implementation 'io.qonversion.android.sdk:sdk:3.+'
+    implementation 'io.qonversion.android.sdk:sdk:4.4.0'
 
     implementation("com.tbuonomo:dotsindicator:4.3")
 
