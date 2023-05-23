@@ -32,6 +32,8 @@ import androidx.core.widget.NestedScrollView;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
@@ -71,6 +73,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -219,7 +223,17 @@ public class CommunityMain extends AppCompatActivity {
     }
 
     private void setNotification() {
-        sharedPreferences = getSharedPreferences("haveNewNotification", Activity.MODE_PRIVATE);
+        try {
+            sharedPreferences = EncryptedSharedPreferences.create(
+                    "haveNewNotification",
+                    MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+                    getApplicationContext(),
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            );
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException(e);
+        }
         if (sharedPreferences.getBoolean("haveNewNotification", false)) {
             notification_circle.setVisibility(View.VISIBLE);
         } else {

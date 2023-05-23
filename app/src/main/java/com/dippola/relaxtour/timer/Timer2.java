@@ -32,16 +32,7 @@ public class Timer2 extends Fragment {
     public static Button btn_stop, btn_close;
     public static TextView tv_time;
     public static int progress;
-    public static CountDownTimer countDownTimer;
     public static int endTime;
-
-    public static int hour1;
-    public static int minute1;
-
-    public static long millisUntilFinished;
-
-    SharedPreferences sptime;
-
 
     public Timer2() {
     }

@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
@@ -61,6 +63,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,7 +123,17 @@ public class MainActivity extends AppCompatActivity {
         if (load.getVisibility() == View.VISIBLE) {
             load.setVisibility(View.GONE);
         }
-        sharedPreferences = getSharedPreferences("modeTable", MODE_PRIVATE);
+        try {
+            sharedPreferences = EncryptedSharedPreferences.create(
+                    "modeTable",
+                    MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+                    getApplicationContext(),
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            );
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException(e);
+        }
         String mode = sharedPreferences.getString("mode", "default");
         ThemeHelper.applyTheme(mode);
     }

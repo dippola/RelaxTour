@@ -24,8 +24,6 @@ public class Timer1 extends Fragment {
     public static Button timerStart, cancel;
     private String[] numpickmin;
 
-    SharedPreferences sptime;
-
     public static Boolean mTimerRunning;
 
     public Timer1() {

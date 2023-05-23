@@ -32,9 +32,7 @@ import com.qonversion.android.sdk.dto.QonversionErrorCode;
 import com.qonversion.android.sdk.dto.offerings.QOffering;
 import com.qonversion.android.sdk.dto.offerings.QOfferings;
 import com.qonversion.android.sdk.dto.products.QProduct;
-import com.qonversion.android.sdk.internal.dto.QLaunchResult;
 import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback;
-import com.qonversion.android.sdk.listeners.QonversionLaunchCallback;
 import com.qonversion.android.sdk.listeners.QonversionOfferingsCallback;
 import com.qonversion.android.sdk.listeners.QonversionProductsCallback;
 

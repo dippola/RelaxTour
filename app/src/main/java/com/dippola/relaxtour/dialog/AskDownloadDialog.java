@@ -19,6 +19,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.pages.adapter.PageAdapter;
@@ -26,6 +28,8 @@ import com.dippola.relaxtour.pages.item.DownloadItem;
 import com.dippola.relaxtour.service.DownloadService;
 import com.dippola.relaxtour.service.DownloadsService;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 
 public class AskDownloadDialog {
@@ -51,7 +55,18 @@ public class AskDownloadDialog {
         okbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedPreferences = context.getSharedPreferences("download_dialog_checkbox", MODE_PRIVATE);
+                SharedPreferences sharedPreferences;
+                try {
+                    sharedPreferences = EncryptedSharedPreferences.create(
+                            "download_dialog_checkbox",
+                            MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+                            context,
+                            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                    );
+                } catch (GeneralSecurityException | IOException e) {
+                    throw new RuntimeException(e);
+                }
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (checkBox.isChecked()) {
                     editor.putBoolean("isChecked", true);
