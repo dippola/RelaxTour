@@ -1,6 +1,7 @@
 package com.dippola.relaxtour.community.auth;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -35,6 +38,7 @@ import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
+import com.dippola.relaxtour.community.translate.SelectLanguage;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.CommentAllList;
@@ -57,6 +61,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -70,14 +77,15 @@ public class CommunityAuth extends AppCompatActivity {
     public static final int FROM_ASK_SIGNOUT = 98;
     public static final int FROM_DELETE_ACCOUNT = 97;
     public static final int FROM_GOOGLE_CLIENT = 96;
+    public static final int FROM_SELECT_LANGUAGE = 95;
 
     private ImageView img, provicerIcon;
-    private TextView nickname, email, postCount, commentCount, likeCount;
+    private TextView nickname, email, postCount, commentCount, likeCount, nowLanguage;
     private FirebaseAuth auth;
     private RelativeLayout load;
     private Button back, editprofile;
     private ProgressBar imgload, postCountLoad, commentCountLoad, likeCountLoad;
-    private ConstraintLayout myPost, myComment, myLikePost, suggestions, signout, deleteaccount, findPassword;
+    private ConstraintLayout myPost, myComment, myLikePost, suggestions, signout, deleteaccount, findPassword, languageBox;
     private boolean isChangePic;
     private String provider;
     private String imageurl;
@@ -139,7 +147,10 @@ public class CommunityAuth extends AppCompatActivity {
         provicerIcon = findViewById(R.id.community_auth_email_icon);
         findPassword = findViewById(R.id.community_auth_find_password_in_auth);
         notification = findViewById(R.id.community_auth_notification_switch);
+        languageBox = findViewById(R.id.community_auth_translate_box);
+        nowLanguage = findViewById(R.id.community_auth_translate_nowlanguage_text);
         setProfile();
+        setLanguage();
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +166,38 @@ public class CommunityAuth extends AppCompatActivity {
         text1 = findViewById(R.id.community_auth_bottom_intent1);
         text2 = findViewById(R.id.community_auth_bottom_intent2);
         setOnClickBottomText();
+    }
+
+    private void setLanguage() {
+        SharedPreferences sharedPreferences;
+        try {
+            sharedPreferences = EncryptedSharedPreferences.create(
+                    "languageTable",
+                    MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+                    getApplicationContext(),
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            );
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException(e);
+        }
+        String nowLang = sharedPreferences.getString("nowLanguage", "device_language");
+        String[] languageList = getResources().getStringArray(R.array.languagelist);
+        String showLang = "";
+        for (int i = 0; i < languageList.length; i++) {
+            if (nowLang.equals(languageList[i])) {
+                showLang = getResources().getStringArray(R.array.showlanguage)[i];
+                break;
+            }
+        }
+        nowLanguage.setText(showLang);
+        languageBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityAuth.this, SelectLanguage.class);
+                launcher.launch(intent);
+            }
+        });
     }
 
     private void setSuggestions() {
@@ -472,6 +515,8 @@ public class CommunityAuth extends AppCompatActivity {
                         deleteGoogleUser();
                     }
                 }
+            } else if (result.getResultCode() == FROM_SELECT_LANGUAGE) {
+                nowLanguage.setText(result.getData().getStringExtra("newLanguage"));
             }
         }
     });

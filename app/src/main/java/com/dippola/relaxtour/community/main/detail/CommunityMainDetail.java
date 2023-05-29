@@ -3,6 +3,7 @@ package com.dippola.relaxtour.community.main.detail;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -41,6 +42,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
@@ -58,6 +61,8 @@ import com.dippola.relaxtour.community.bottomsheet_intent.EditPost;
 import com.dippola.relaxtour.community.bottomsheet_intent.Report;
 import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
+import com.dippola.relaxtour.community.translate.Language;
+import com.dippola.relaxtour.community.translate.Translate;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.Premium;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
@@ -71,6 +76,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -124,6 +131,12 @@ public class CommunityMainDetail extends AppCompatActivity {
     public static EditText editComment;
     private ConstraintLayout firstCommentLoad1, firstCommentLoad2;
 
+    //translate
+    private LinearLayout transBox;
+    private TextView transText;
+    private ProgressBar transLoad;
+    private boolean isTrans;
+
     //share list
     private ConstraintLayout listLayout;
     private TextView listTitle, listCount;
@@ -152,7 +165,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     public static String bottomFrom;
     public static int comment_parent_user, comment_parent_id, comment_index;
 
-    private static FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+    private static FirebaseUser mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -165,6 +178,8 @@ public class CommunityMainDetail extends AppCompatActivity {
         if (id == 0) {
             finish();
         }
+
+        mAuth = FirebaseAuth.getInstance().getCurrentUser();
 
         databaseHandler = new DatabaseHandler(CommunityMainDetail.this);
 
@@ -238,6 +253,9 @@ public class CommunityMainDetail extends AppCompatActivity {
         editComment = findViewById(R.id.community_main_detail_editcomment);
         towho = findViewById(R.id.community_main_detail_towho);
         towhoid = 0;
+        transBox = findViewById(R.id.community_main_detail_translate_box);
+        transText = findViewById(R.id.community_main_detail_translate_text);
+        transLoad = findViewById(R.id.community_main_detail_translate_load);
         setRefreshLayout();
         setBottomSheet();
         setScrollView();
@@ -246,6 +264,59 @@ public class CommunityMainDetail extends AppCompatActivity {
         onClickViewMore();
         onClickLike();
         onClickBack();
+        setTranslate();
+    }
+
+    private void setTranslate() {
+        transBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isTrans) {
+                    transLoad.setVisibility(View.VISIBLE);
+                    transBox.setEnabled(false);
+                    SharedPreferences sharedPreferences;
+                    try {
+                        sharedPreferences = EncryptedSharedPreferences.create(
+                                "languageTable",
+                                MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+                                getApplicationContext(),
+                                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                        );
+                    } catch (GeneralSecurityException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String lang = sharedPreferences.getString("nowLanguage", "device_language");
+                    if (lang.equals("device_language")) {
+                        lang = Locale.getDefault().getLanguage();
+                    }
+                    Translate translate = new Translate("auto", lang, body.getText().toString());
+                    translate.setTranslateListener(new Translate.TranslateListener() {
+                        @Override
+                        public void onSuccess(String translatedText) {
+                            transText.setText("view original");
+                            transLoad.setVisibility(View.INVISIBLE);
+                            body.setText(translatedText);
+                            isTrans = true;
+                            transBox.setEnabled(true);
+                        }
+
+                        @Override
+                        public void onFailure(String ErrorText) {
+                            Toast.makeText(CommunityMainDetail.this, "Translate failed: " + ErrorText, Toast.LENGTH_SHORT).show();
+                            isTrans = false;
+                            transLoad.setVisibility(View.INVISIBLE);
+                            transBox.setEnabled(true);
+                        }
+                    });
+                } else {
+                    isTrans = false;
+                    transText.setText("translate");
+                    transLoad.setVisibility(View.INVISIBLE);
+                    body.setText(postModel.getBody());
+                }
+            }
+        });
     }
 
     private void onClickBack() {
@@ -318,6 +389,8 @@ public class CommunityMainDetail extends AppCompatActivity {
                 if (new DatabaseHandler(CommunityMainDetail.this).getIsProUser() == 1) {
                     Toast.makeText(CommunityMainDetail.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(CommunityMainDetail.this, Premium.class));
+                } else if (mAuth == null) {
+                    Toast.makeText(CommunityMainDetail.this, "Sign in is required.", Toast.LENGTH_SHORT).show();
                 } else {
                     bottomFrom = "post";
                     if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
@@ -711,6 +784,8 @@ public class CommunityMainDetail extends AppCompatActivity {
                 if (new DatabaseHandler(CommunityMainDetail.this).getIsProUser() == 1) {
                     Toast.makeText(CommunityMainDetail.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(CommunityMainDetail.this, Premium.class));
+                } else if (mAuth == null) {
+                    Toast.makeText(CommunityMainDetail.this, "Sign in is required.", Toast.LENGTH_SHORT).show();
                 } else {
                     like.setEnabled(false);
                     int myId = databaseHandler.getUserModel().getId();
@@ -798,6 +873,8 @@ public class CommunityMainDetail extends AppCompatActivity {
                 if (new DatabaseHandler(CommunityMainDetail.this).getIsProUser() == 1) {
                     Toast.makeText(CommunityMainDetail.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(CommunityMainDetail.this, Premium.class));
+                } else if (mAuth == null) {
+                    Toast.makeText(CommunityMainDetail.this, "Sign in is required to post a comment.", Toast.LENGTH_SHORT).show();
                 } else {
                     if (databaseHandler.getUserModel().getNickname() == null) {
                         Intent intent = new Intent(CommunityMainDetail.this, CommunityProfileCreate.class);

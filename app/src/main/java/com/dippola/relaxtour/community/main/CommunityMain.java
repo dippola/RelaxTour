@@ -1,11 +1,9 @@
 package com.dippola.relaxtour.community.main;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -23,13 +21,11 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
-import androidx.documentfile.provider.DocumentFile;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.security.crypto.EncryptedSharedPreferences;
@@ -54,24 +50,9 @@ import com.dippola.relaxtour.retrofit.model.PostModelView;
 import com.dippola.relaxtour.retrofit.model.PostsViewWitPages;
 import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.ListResult;
-import com.google.firebase.storage.StorageReference;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -81,7 +62,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class CommunityMain extends AppCompatActivity {
 
@@ -698,7 +678,7 @@ public class CommunityMain extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (databaseHandler.getIsProUser() == 1) {
-                    Toast.makeText(CommunityMain.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(CommunityMain.this, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(CommunityMain.this, Premium.class));
                 } else if (auth.getCurrentUser() == null) {
                     launcher.launch(new Intent(CommunityMain.this, CommunitySignIn.class));

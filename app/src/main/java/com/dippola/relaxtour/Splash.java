@@ -25,11 +25,16 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
+import com.dippola.relaxtour.community.auth.CommunityAuth;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.UpdateDialog;
 import com.dippola.relaxtour.onboarding.OnBoarding;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.qonversion.android.sdk.Qonversion;
@@ -103,7 +108,7 @@ public class Splash extends AppCompatActivity {
         Qonversion.getSharedInstance().checkEntitlements(new QonversionEntitlementsCallback() {
             @Override
             public void onSuccess(@NotNull Map<String, QEntitlement> entitlements) {
-                final QEntitlement premiumEntitlement = entitlements.get("premium");
+                final QEntitlement premiumEntitlement = entitlements.get(getString(R.string.product_id));
 
                 if (premiumEntitlement != null && premiumEntitlement.isActive()) {
                     databaseHandler.changeIsProUser(2);
@@ -114,6 +119,17 @@ public class Splash extends AppCompatActivity {
                     databaseHandler.changeIsProUser(1);
                     qper = true;
                     Log.d("Splash>>>", "null permission: ");
+                    if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                        FirebaseAuth.getInstance().signOut();
+                        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                                .requestIdToken(getString(R.string.default_web_client_id))
+                                .requestEmail()
+                                .build();
+                        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(Splash.this, gso);
+                        googleSignInClient.signOut();
+                        DatabaseHandler databaseHandler = new DatabaseHandler(Splash.this);
+                        databaseHandler.deleteUserProfile();
+                    }
                     checkAppVersion();
                 }
             }

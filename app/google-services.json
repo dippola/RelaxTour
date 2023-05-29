@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "472039606183-84v1mqsfeq2hpl9hm33kuoi0m6f1qsf6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dippola.relaxtour",
+            "certificate_hash": "763b7bea3cc8c0cd31ada877868271c59fe339c3"
+          }
+        },
+        {
+          "client_id": "472039606183-i7148dknb4tcj21p007s9ajr6vmraphv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dippola.relaxtour",
+            "certificate_hash": "c3886a4e61d4b43920d6c55df7bfd6be4398f5a2"
+          }
+        },
+        {
           "client_id": "472039606183-t4g9h2651pc938l6n6rtgs27vp4k2laj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

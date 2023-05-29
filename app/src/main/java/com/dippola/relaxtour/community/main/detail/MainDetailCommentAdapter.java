@@ -2,23 +2,29 @@ package com.dippola.relaxtour.community.main.detail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
+import com.dippola.relaxtour.community.translate.Language;
+import com.dippola.relaxtour.community.translate.Translate;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.Premium;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
@@ -26,6 +32,8 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -140,6 +148,54 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
                     }
                 }
             });
+
+            holder.translate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder.translate.setVisibility(View.GONE);
+                    holder.transLoad.setVisibility(View.VISIBLE);
+                    SharedPreferences sharedPreferences;
+                    try {
+                        sharedPreferences = EncryptedSharedPreferences.create(
+                                "languageTable",
+                                MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+                                context.getApplicationContext(),
+                                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                        );
+                    } catch (GeneralSecurityException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String nowLang = sharedPreferences.getString("nowLanguage", "device_language");
+                    if (nowLang.equals("device_language")) {
+                        nowLang = Locale.getDefault().getLanguage();
+                    }
+                    Translate translate = new Translate("auto", nowLang, list.get(i).getBody());
+                    translate.setTranslateListener(new Translate.TranslateListener() {
+                        @Override
+                        public void onSuccess(String translatedText) {
+                            holder.body.setText(translatedText);
+                            holder.transLoad.setVisibility(View.GONE);
+                            holder.transReturn.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onFailure(String ErrorText) {
+                            holder.transLoad.setVisibility(View.GONE);
+                            holder.transReturn.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+            });
+
+            holder.transReturn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder.body.setText(list.get(i).getBody());
+                    holder.transReturn.setVisibility(View.GONE);
+                    holder.translate.setVisibility(View.VISIBLE);
+                }
+            });
         }
     }
 
@@ -154,6 +210,8 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
         Button more;
         ConstraintLayout item;
         ShimmerFrameLayout itemLoad;
+        ImageView translate, transReturn;
+        ProgressBar transLoad;
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.img = itemView.findViewById(R.id.community_main_detail_comment_item_img);
@@ -165,6 +223,9 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
             this.tonickname = itemView.findViewById(R.id.community_main_detail_comment_item_tonickname);
             this.item = itemView.findViewById(R.id.community_main_detail_comment_item);
             this.itemLoad = itemView.findViewById(R.id.community_main_detail_comment_item_loadii);
+            this.translate = itemView.findViewById(R.id.community_main_detail_comment_item_translate);
+            this.transReturn = itemView.findViewById(R.id.community_main_detail_comment_item_translate_return);
+            this.transLoad = itemView.findViewById(R.id.community_main_detail_comment_item_translate_load);
         }
     }
 

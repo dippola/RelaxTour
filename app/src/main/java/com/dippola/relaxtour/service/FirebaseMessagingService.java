@@ -12,14 +12,12 @@ import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.auth.CommunityAuth;
-import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
 import com.dippola.relaxtour.community.main.notification.Notification;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;

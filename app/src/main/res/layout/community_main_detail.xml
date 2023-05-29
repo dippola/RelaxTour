@@ -205,6 +205,38 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/community_main_detail_line3" />
 
+                            <LinearLayout
+                                android:id="@+id/community_main_detail_translate_box"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/community_main_detail_body"
+                                android:layout_marginEnd="10dp">
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:background="@drawable/translate_icon"
+                                    android:layout_gravity="center_vertical"/>
+                                <TextView
+                                    android:id="@+id/community_main_detail_translate_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="translate"
+                                    android:textSize="15dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:textColor="@color/button_design_color"
+                                    android:layout_marginStart="2dp"
+                                    android:layout_marginEnd="4dp"/>
+                                <ProgressBar
+                                    android:id="@+id/community_main_detail_translate_load"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:indeterminateTint="@color/button_design_color"
+                                    android:layout_gravity="center_vertical"
+                                    android:visibility="invisible"/>
+                            </LinearLayout>
+
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/community_main_detail_favlist_box"
                                 android:layout_width="match_parent"
@@ -212,7 +244,7 @@
                                 android:layout_marginHorizontal="20dp"
                                 android:layout_marginTop="15dp"
                                 android:visibility="gone"
-                                app:layout_constraintTop_toBottomOf="@+id/community_main_detail_body">
+                                app:layout_constraintTop_toBottomOf="@+id/community_main_detail_translate_box">
 
                                 <include
                                     android:id="@+id/community_main_detail_list_layout"
