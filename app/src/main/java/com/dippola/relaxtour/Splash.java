@@ -111,12 +111,12 @@ public class Splash extends AppCompatActivity {
                 final QEntitlement premiumEntitlement = entitlements.get(getString(R.string.product_id));
 
                 if (premiumEntitlement != null && premiumEntitlement.isActive()) {
-                    databaseHandler.changeIsProUser(2);
+                    databaseHandler.changeIsProUserFromSplash(2);
                     qper = true;
                     Log.d("Splash>>>", "have permission");
                     checkAppVersion();
                 } else {
-                    databaseHandler.changeIsProUser(1);
+                    databaseHandler.changeIsProUserFromSplash(1);
                     qper = true;
                     Log.d("Splash>>>", "null permission: ");
                     if (FirebaseAuth.getInstance().getCurrentUser() != null) {
@@ -158,7 +158,6 @@ public class Splash extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         databaseHandler.closeDatabse();
-        databaseHandler.close();
     }
 
     private void animation() {

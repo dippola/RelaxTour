@@ -563,30 +563,29 @@ public class MainActivity extends AppCompatActivity {
                 if (bottomSheetPlayList.size() == 0) {
                     Toast.makeText(MainActivity.this, "The playlist is empty.", Toast.LENGTH_SHORT).show();
                 } else {
-                    CheckOpenService.checkOpenService(MainActivity.this);
-                    if (AudioController.checkIsPlaying(bottomSheetPlayList.get(0), MainActivity.this)) {//재생중
-                        pands.setBackgroundResource(R.drawable.bottom_sheet_play);
-                        ArrayList<PageItem> pageItems = new ArrayList<>();
+                    if (databaseHandler.getIsProUser() == 1) {
+                        boolean isContain = false;
+                        List<String> pnps = new ArrayList<>();
                         for (int i = 0; i < bottomSheetPlayList.size(); i++) {
-                            pageItems.add(bottomSheetPlayList.get(i));
-                            if (i == bottomSheetPlayList.size() - 1) {
-                                AudioController.stopPlayingList(pageItems);
-                                Intent intent = new Intent(MainActivity.this, NotificationService.class);
-                                stopService(intent);
-                                DefaultNotification.defauleNotification(MainActivity.this);
+                            if (bottomSheetPlayList.get(i).getIspro() == 2) {
+                                pnps.add(bottomSheetPlayList.get(i).getPnp());
+                                bottomSheetPlayList.remove(i);
+                                bottomSheetAdapter.notifyItemRemoved(i);
+                                isContain = true;
                             }
                         }
-                    } else {//재생중 아님
-                        pands.setBackgroundResource(R.drawable.bottom_pause);
-                        List<PageItem> pageItems = new ArrayList<>();
-                        for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-                            pageItems.add(bottomSheetPlayList.get(i));
-                            MPList.initalMP(bottomSheetPlayList.get(i).getPnp(), MainActivity.this, bottomSheetPlayList.get(i).getSeek());
-                            if (i == bottomSheetPlayList.size() - 1) {
-                                //playinglist start
-                                AudioController.startPlayingList(MainActivity.this, pageItems);
+                        if (isContain) {
+                            Toast.makeText(MainActivity.this, "The premium track is included in the playlist. After removing the premium track from the playlist, it will be played.", Toast.LENGTH_SHORT).show();
+                            for (int i = 0; i < pnps.size(); i++) {
+                                databaseHandler.deletePlayingList(Integer.parseInt(pnps.get(i).split("-")[0]), Integer.parseInt(pnps.get(i).split("-")[1]));
+                                databaseHandler.setIsPlay1(Integer.parseInt(pnps.get(i).split("-")[0]), Integer.parseInt(pnps.get(i).split("-")[1]));
+                                setOnClickPandS();
                             }
+                        } else {
+                            setOnClickPandS();
                         }
+                    } else {
+                        setOnClickPandS();
                     }
                 }
             }
@@ -644,6 +643,34 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setOnClickPandS() {
+        CheckOpenService.checkOpenService(MainActivity.this);
+        if (AudioController.checkIsPlaying(bottomSheetPlayList.get(0), MainActivity.this)) {//재생중
+            pands.setBackgroundResource(R.drawable.bottom_sheet_play);
+            ArrayList<PageItem> pageItems = new ArrayList<>();
+            for (int i = 0; i < bottomSheetPlayList.size(); i++) {
+                pageItems.add(bottomSheetPlayList.get(i));
+                if (i == bottomSheetPlayList.size() - 1) {
+                    AudioController.stopPlayingList(pageItems);
+                    Intent intent = new Intent(MainActivity.this, NotificationService.class);
+                    stopService(intent);
+                    DefaultNotification.defauleNotification(MainActivity.this);
+                }
+            }
+        } else {//재생중 아님
+            pands.setBackgroundResource(R.drawable.bottom_pause);
+            List<PageItem> pageItems = new ArrayList<>();
+            for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
+                pageItems.add(bottomSheetPlayList.get(i));
+                MPList.initalMP(bottomSheetPlayList.get(i).getPnp(), MainActivity.this, bottomSheetPlayList.get(i).getSeek());
+                if (i == bottomSheetPlayList.size() - 1) {
+                    //playinglist start
+                    AudioController.startPlayingList(MainActivity.this, pageItems);
+                }
+            }
+        }
     }
 
     public static class SectionsPagerAdapter extends FragmentPagerAdapter {

@@ -44,6 +44,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private SQLiteDatabase sqLiteDatabase;
 
     private static final int DATABASE_VERSION = 1;
+    //1.0.44 = 1
+    boolean isUpgradeAlready = false;
 
     private static final String DATABASE_NAME = "list.sqlite";
     private static final String DBLOCATION = "/data/data/com.dippola.relaxtour/databases/";
@@ -117,8 +119,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public static void setDB(Context context) {
         File folder = new File(DBLOCATION);
-        if (folder.exists()) {
-        } else {
+        if (!folder.exists()) {
             folder.mkdirs();
         }
         AssetManager assetManager = context.getResources().getAssets();
@@ -145,6 +146,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        Log.d("DB>>>", "onCreate");
         sqLiteDatabase.execSQL(ISPRO_TEAM);
         sqLiteDatabase.execSQL(NOTIFICATION_TEAM);
         sqLiteDatabase.execSQL(PAGE_ICON_TEAM);
@@ -165,29 +167,46 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE " + PAGE_ICON_TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE " + PLAYING_TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE " + RAIN_TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE " + WATER_TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE " + WIND_TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE " + NATURE_TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE " + CHAKRA_TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE " + MANTRA_TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE " + HZ_TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE " + CREDIT_TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE forhits");
-        sqLiteDatabase.execSQL(PAGE_ICON_TEAM);
-        sqLiteDatabase.execSQL(PLAYING_TEAM);
-        sqLiteDatabase.execSQL(RAIN_TEAM);
-        sqLiteDatabase.execSQL(RIVER_TEAM);
-        sqLiteDatabase.execSQL(WIND_TEAM);
-        sqLiteDatabase.execSQL(NATURE_TEAM);
-        sqLiteDatabase.execSQL(CHAKRA_TEAM);
-        sqLiteDatabase.execSQL(MANTRA_TEAM);
-        sqLiteDatabase.execSQL(HZ_TEAM);
-        sqLiteDatabase.execSQL(CREDIT_TEAM);
-        sqLiteDatabase.execSQL(FOR_HITS);
+    public synchronized void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        Log.d("DB>>>", "onUpgrade 0");
+        if (!isUpgradeAlready) {
+            if (i < i1) {
+                isUpgradeAlready = true;
+                onCreate(db);
+                Log.d("DB>>>", "onUpgrade 1");
+                db.execSQL("DROP TABLE " + PAGE_ICON_TABLE_NAME);
+                db.execSQL("DROP TABLE " + CREDIT_TABLE_NAME);
+                db.execSQL("DROP TABLE forhits");
+                db.execSQL(PAGE_ICON_TEAM);
+                db.execSQL(CREDIT_TEAM);
+                db.execSQL(FOR_HITS);
+                Log.d("DB>>>", "onUpgrade 2");
+                for (int ii1 = 1; ii1 < 8; ii1++) {
+                    List<PageItem> list = getPageListForUpgrade(ii1);
+                    db.execSQL("DROP TABLE " + getPageName(ii1));
+                    if (ii1 == 1) {
+                        db.execSQL(RAIN_TEAM);
+                    } else if (ii1 == 2) {
+                        db.execSQL(RIVER_TEAM);
+                    } else if (ii1 == 3) {
+                        db.execSQL(WIND_TEAM);
+                    } else if (ii1 == 4) {
+                        db.execSQL(NATURE_TEAM);
+                    } else if (ii1 == 5) {
+                        db.execSQL(CHAKRA_TEAM);
+                    } else if (ii1 == 6) {
+                        db.execSQL(MANTRA_TEAM);
+                    } else if (ii1 == 7) {
+                        db.execSQL(HZ_TEAM);
+                    }
+                    for (int ii2 = 0; ii2 < list.size(); ii2++) {
+                        db.execSQL("update " + getPageName(ii1) + " set seek = " + list.get(ii2).getSeek() + " where position = " + list.get(ii2).getPosition());
+                        db.execSQL("update " + getPageName(ii1) + " set isplay = " + list.get(ii2).getSeek() + " where position = " + list.get(ii2).getIsplay());
+                    }
+                    Log.d("DB>>>", "onUpgrade 3");
+                }
+            }
+        }
     }
 
     public void openDatabase() {
@@ -248,6 +267,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ArrayList<PageItem> pageItems = new ArrayList<>();
 
         openDatabase();
+        String sql = "SELECT * FROM " + getPageName(page);
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getBlob(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12));
+            pageItems.add(pageItem);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        closeDatabse();
+        return pageItems;
+    }
+
+    public ArrayList<PageItem> getPageListForUpgrade(int page) {
+        Log.d("DB>>>", "getPageListForUpgrade(): ");
+        PageItem pageItem = null;
+        ArrayList<PageItem> pageItems = new ArrayList<>();
+
+        sqLiteDatabase = this.getWritableDatabase();
         String sql = "SELECT * FROM " + getPageName(page);
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         cursor.moveToFirst();
@@ -440,6 +478,33 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("delete from playing where page = " + page);//bottom list에서 해당 페이지 있는거 지우기
         sqLiteDatabase.execSQL("update " + getPageName(page) + " set isplay = 2 where position = " + position);//새로 재생할거 isplay2로 바꾸기
         sqLiteDatabase.execSQL("insert into playing select * from " + getPageName(page) + " where position = " + position);//새로 재생할거 bottom list에 insert
+    }
+
+    public void setIsPlay1(int page, int position) {
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("update " + getPageName(page) + " set isplay = 1 where position = " + position);
+        if (page == 1 && RainPage.adapter != null) {
+            RainPage.arrayList.get(position - 1).setIsplay(1);
+            RainPage.adapter.notifyItemChanged(position - 1);
+        } else if (page == 2 && WaterPage.adapter != null) {
+            WaterPage.arrayList.get(position - 1).setIsplay(1);
+            WaterPage.adapter.notifyItemChanged(position - 1);
+        } else if (page == 3 && WindPage.adapter != null) {
+            WindPage.arrayList.get(position - 1).setIsplay(1);
+            WindPage.adapter.notifyItemChanged(position - 1);
+        } else if (page == 4 && NaturePage.adapter != null) {
+            NaturePage.arrayList.get(position - 1).setIsplay(1);
+            NaturePage.adapter.notifyItemChanged(position - 1);
+        } else if (page == 5 && ChakraPage.adapter != null) {
+            ChakraPage.arrayList.get(position - 1).setIsplay(1);
+            ChakraPage.adapter.notifyItemChanged(position - 1);
+        } else if (page == 6 && MantraPage.adapter != null) {
+            MantraPage.arrayList.get(position - 1).setIsplay(1);
+            MantraPage.adapter.notifyItemChanged(position - 1);
+        } else if (page == 7 && HzPage.adapter != null) {
+            HzPage.arrayList.get(position - 1).setIsplay(1);
+            HzPage.adapter.notifyItemChanged(position - 1);
+        }
     }
 
     public void setIsPlayPage4(int page, int position) {
@@ -874,6 +939,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("update favtitle set isopen = 1 where isopen = 2");
         sqLiteDatabase.execSQL("update favtitle set isedit = 1 where isedit = 2");
+        close();
     }
 
     public Bitmap getPageicon(String what) {
@@ -922,7 +988,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return ispro;
     }
 
-    public void changeIsProUser(int ispro) {
+    public void changeIsProUserFromSplash(int ispro) {
+        Log.d("DB>>>", "changeIsProUser 1");
+        sqLiteDatabase = this.getWritableDatabase();
+        int current_version = sqLiteDatabase.getVersion();
+        closeDatabse();
+        onUpgrade(sqLiteDatabase, current_version, DATABASE_VERSION);
+        sqLiteDatabase = this.getWritableDatabase();
+        Log.d("DB>>>", "get current_version: " + sqLiteDatabase.getVersion());
+        sqLiteDatabase.execSQL("update ispro set ispro = " + ispro);
+        closeDatabse();
+        Log.d("DB>>>", "changeIsProUser 2");
+    }
+
+    public void changeIsProUserFromPremium(int ispro) {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("update ispro set ispro = " + ispro);
         closeDatabse();

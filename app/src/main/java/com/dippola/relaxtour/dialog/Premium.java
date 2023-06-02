@@ -160,11 +160,11 @@ public class Premium extends AppCompatActivity {
                                         // handle active permission here
                                         if (MainActivity.databaseHandler == null) {
                                             DatabaseHandler databaseHandler = new DatabaseHandler(Premium.this);
-                                            databaseHandler.changeIsProUser(2);
+                                            databaseHandler.changeIsProUserFromPremium(2);
                                             databaseHandler.closeDatabse();
                                             databaseHandler.close();
                                         } else {
-                                            MainActivity.databaseHandler.changeIsProUser(2);
+                                            MainActivity.databaseHandler.changeIsProUserFromPremium(2);
                                         }
 
                                         startActivity(new Intent(Premium.this, ResetDialog.class));
