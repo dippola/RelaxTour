@@ -198,7 +198,7 @@ public class CommunityWrite extends AppCompatActivity {
                     if (favListItems.size() != 0) {
                         list += listtitle.getText().toString() + "●";
                         for (int i = 0; i < favListItems.size(); i++) {
-                            list += favListItems.get(i).getPage() + "-" + favListItems.get(i).getPosition() + "-" + favListItems.get(i).getSeek();
+                            list += favListItems.get(i).getTid() + "-" + favListItems.get(i).getSeek();
                             if (i != favListItems.size() - 1) {
                                 list += "●";
                             }

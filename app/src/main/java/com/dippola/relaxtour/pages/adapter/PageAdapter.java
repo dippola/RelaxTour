@@ -656,7 +656,6 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onClick(View view) {
                 MainActivity.load.setVisibility(View.VISIBLE);
-                MainActivity.bottomSheetBehavior.setDraggable(false);
                 Qonversion.getSharedInstance().restore(new QonversionEntitlementsCallback() {
                     @Override
                     public void onSuccess(@NonNull Map<String, QEntitlement> map) {

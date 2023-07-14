@@ -275,33 +275,24 @@ public class MainActivity extends AppCompatActivity {
         community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                load.setVisibility(View.VISIBLE);
-                FirebaseFirestore.getInstance().collection("app_status").document("fix_server").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            boolean fix = Boolean.TRUE.equals(task.getResult().getBoolean("fix"));
-                            if (!fix) {
-                                startActivity(new Intent(MainActivity.this, CommunityMain.class));
-                            } else {
-                                String st = task.getResult().getString("start_time");
-                                String et = task.getResult().getString("end_time");
-                                FixServerDialog.showDialog(MainActivity.this, st, et);
-                                load.setVisibility(View.GONE);
-                            }
-                        }
-                    }
-                });
-
-
-//                List<ActivityManager.RunningServiceInfo> serviceList;
-//                ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-//                serviceList = activityManager.getRunningServices(Integer.MAX_VALUE);
-//                for (ActivityManager.RunningServiceInfo service : serviceList) {
-//                    if (service.foreground) {
-//                        Log.d("MainActivity>>>", "Foreground service found: " + service.service.getClassName());
+//                load.setVisibility(View.VISIBLE);
+//                FirebaseFirestore.getInstance().collection("app_status").document("fix_server").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            boolean fix = Boolean.TRUE.equals(task.getResult().getBoolean("fix"));
+//                            if (!fix) {
+////                                startActivity(new Intent(MainActivity.this, CommunityMain.class));
+//                            } else {
+//                                String st = task.getResult().getString("start_time");
+//                                String et = task.getResult().getString("end_time");
+//                                FixServerDialog.showDialog(MainActivity.this, st, et);
+//                                load.setVisibility(View.GONE);
+//                            }
+//                        }
 //                    }
-//                }
+//                });
+                startActivity(new Intent(MainActivity.this, CommunityMain.class));
             }
         });
 
@@ -571,6 +562,7 @@ public class MainActivity extends AppCompatActivity {
                                 pnps.add(bottomSheetPlayList.get(i).getPnp());
                                 bottomSheetPlayList.remove(i);
                                 bottomSheetAdapter.notifyItemRemoved(i);
+                                bottomSheetAdapter.notifyDataSetChanged();
                                 isContain = true;
                             }
                         }

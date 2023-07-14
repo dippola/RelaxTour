@@ -15,12 +15,13 @@ public class PageItem {
     String name;
     int ispro;
     int needdownload;
+    String tid;
 
     public PageItem() {
 
     }
 
-    public PageItem(int page, int position, String pnp, byte[] imgdefault, byte[] img, byte[] darkdefault, byte[] dark, int seek, int isplay, int time, String name, int ispro, int needdownload) {
+    public PageItem(int page, int position, String pnp, byte[] imgdefault, byte[] img, byte[] darkdefault, byte[] dark, int seek, int isplay, int time, String name, int ispro, int needdownload, String tid) {
         this.page = page;
         this.position = position;
         this.pnp = pnp;
@@ -34,6 +35,7 @@ public class PageItem {
         this.name = name;
         this.ispro = ispro;
         this.needdownload = needdownload;
+        this.tid = tid;
     }
 
     public int getPage() {
@@ -138,5 +140,13 @@ public class PageItem {
 
     public void setNeeddownload(int needdownload) {
         this.needdownload = needdownload;
+    }
+
+    public String getTid() {
+        return tid;
+    }
+
+    public void setTid(String tid) {
+        this.tid = tid;
     }
 }

@@ -65,6 +65,7 @@ import com.dippola.relaxtour.community.translate.Language;
 import com.dippola.relaxtour.community.translate.Translate;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.Premium;
+import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.CommentAllList;
 import com.dippola.relaxtour.retrofit.model.LikeUserListModel;
@@ -1349,7 +1350,8 @@ public class CommunityMainDetail extends AppCompatActivity {
             }
         }
         listCount.setText("[" + splitList.size() + "]");
-        shareListAdapter = new ShareListAdapter(splitList, new DatabaseHandler(CommunityMainDetail.this), CommunityMainDetail.this);
+        List<PageItem> allTrackTidList = databaseHandler.getAllTrackTidList();
+        shareListAdapter = new ShareListAdapter(splitList, new DatabaseHandler(CommunityMainDetail.this), CommunityMainDetail.this, allTrackTidList);
         listRecyclerview.setLayoutManager(new LinearLayoutManager(CommunityMainDetail.this));
         listRecyclerview.setAdapter(shareListAdapter);
 
@@ -1371,7 +1373,20 @@ public class CommunityMainDetail extends AppCompatActivity {
         listAddfav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String list = "";
+                for (int i = 0; i < favList.length; i++) {
+                    if (i != 0) {
+                        if (i == favList.length - 1) {
+                            list += favList[i];
+                        } else {
+                            list += favList[i] + "●";
+                        }
+                    }
+                }
+                Intent intent = new Intent(CommunityMainDetail.this, AddFavAskDialog.class);
+                intent.putExtra("title", favList[0]);
+                intent.putExtra("list", list);
+                startActivity(intent);
             }
         });
     }

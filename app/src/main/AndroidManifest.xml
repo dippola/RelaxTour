@@ -43,6 +43,7 @@
         <activity android:name=".community.main.CommunityMain" android:screenOrientation="portrait" />
         <activity android:name=".community.main.write.CommunityWrite" android:screenOrientation="portrait" />
         <activity android:name=".community.main.write.ShareListDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
+        <activity android:name=".community.main.detail.AddFavAskDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".community.auth.CommunityAuth" android:screenOrientation="portrait" />
         <activity android:name=".community.signIn.CommunitySignIn" android:screenOrientation="portrait" />
         <activity android:name=".community.signIn.CommunitySignUp" android:screenOrientation="portrait" />

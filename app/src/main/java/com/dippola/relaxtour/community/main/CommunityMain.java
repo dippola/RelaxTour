@@ -1331,4 +1331,33 @@ public class CommunityMain extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        if (fbg.getVisibility() == View.VISIBLE) {
+            Animation close = AnimationUtils.loadAnimation(CommunityMain.this, R.anim.fab_close);
+            close.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    fab1.setVisibility(View.GONE);
+                    fab2.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            fab1.startAnimation(close);
+            fab2.startAnimation(close);
+            fbg.setVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

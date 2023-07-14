@@ -19,18 +19,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.pages.item.PageItem;
 
 import java.util.List;
 
 public class ShareListAdapter extends RecyclerView.Adapter<ShareListAdapter.CustomViewHolder> {
     List<String> list;
+    List<PageItem> allTidList;
     DatabaseHandler databaseHandler;
     Context context;
 
-    public ShareListAdapter(List<String> list, DatabaseHandler databaseHandler, Context context) {
+    public ShareListAdapter(List<String> list, DatabaseHandler databaseHandler, Context context, List<PageItem> allTidList) {
         this.list = list;
         this.databaseHandler = databaseHandler;
         this.context = context;
+        this.allTidList = allTidList;
     }
     @NonNull
     @Override
@@ -44,13 +47,18 @@ public class ShareListAdapter extends RecyclerView.Adapter<ShareListAdapter.Cust
     public void onBindViewHolder(@NonNull ShareListAdapter.CustomViewHolder holder, int position) {
         String item = list.get(position);
         String split[] = item.split("-");
-        String page = split[0];
-        String pos = split[1];
-        String seek = split[2];
-        setImg(holder.img, databaseHandler.getTrackImageLight(Integer.parseInt(page), Integer.parseInt(pos)), databaseHandler.getTrackImageDark(Integer.parseInt(page), Integer.parseInt(pos)));
-        holder.seekBar.setEnabled(false);
-        holder.seekBar.setMax(MainActivity.maxVolumn);
-        holder.seekBar.setProgress(Integer.parseInt(seek));
+        String tid = split[0];
+        String seek = split[1];
+        for (int i = 0; i < allTidList.size(); i++) {
+            if (allTidList.get(i).getTid().equals(tid)) {
+                holder.name.setText(allTidList.get(i).getName());
+                setImg(holder.img, databaseHandler.getTrackImageLight(allTidList.get(i).getPage(), allTidList.get(i).getPosition()), databaseHandler.getTrackImageDark(allTidList.get(i).getPage(), allTidList.get(i).getPosition()));
+                holder.seekBar.setEnabled(false);
+                holder.seekBar.setMax(MainActivity.maxVolumn);
+                holder.seekBar.setProgress(Integer.parseInt(seek));
+                break;
+            }
+        }
     }
 
     @Override

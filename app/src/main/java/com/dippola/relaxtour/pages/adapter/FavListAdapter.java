@@ -90,6 +90,21 @@ public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomV
                         break;
                 }
             }
+
+            if (MainActivity.databaseHandler.getIsProUser() == 1) {
+                if (arrayList.get(position).getIspro() == 2) {
+                    holder.pro.setVisibility(View.VISIBLE);
+                    if (arrayList.get(position).getPage() != 1 && arrayList.get(position).getPage() != 2 && arrayList.get(position).getPage() != 3 && arrayList.get(position).getPage() != 4) {
+                        holder.pro.setImageBitmap(MainActivity.databaseHandler.getPageicon("circlepro"));
+                    } else {
+                        holder.pro.setImageBitmap(MainActivity.databaseHandler.getPageicon("pro"));
+                    }
+                } else {
+                    holder.pro.setVisibility(View.GONE);
+                }
+            } else {
+                holder.pro.setVisibility(View.GONE);
+            }
         }
 
 
@@ -149,12 +164,13 @@ public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomV
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        ImageView img;
+        ImageView img, pro;
         SeekBar seekBar;
         TextView name;
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.img = itemView.findViewById(R.id.favlist_item_img);
+            this.pro = itemView.findViewById(R.id.favlist_item_pro);
             this.seekBar = itemView.findViewById(R.id.favlist_item_seekbar);
             this.name = itemView.findViewById(R.id.favlist_item_name);
         }

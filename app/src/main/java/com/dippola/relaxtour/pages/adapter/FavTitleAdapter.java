@@ -32,6 +32,7 @@ import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.dialog.AskDownloadsDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
 import com.dippola.relaxtour.dialog.Premium;
+import com.dippola.relaxtour.dialog.RestoreDialog;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.FavPage;
 import com.dippola.relaxtour.pages.HzPage;
@@ -43,10 +44,15 @@ import com.dippola.relaxtour.pages.WindPage;
 import com.dippola.relaxtour.pages.item.FavListItem;
 import com.dippola.relaxtour.pages.item.FavTitleItem;
 import com.dippola.relaxtour.pages.item.PageItem;
+import com.qonversion.android.sdk.Qonversion;
+import com.qonversion.android.sdk.dto.QEntitlement;
+import com.qonversion.android.sdk.dto.QonversionError;
+import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Keep
 public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.CustomViewHolder> {
@@ -528,10 +534,28 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         favListItems = MainActivity.databaseHandler.getFavListItem(title);
 
         if (checkWillShowConstainProTrackDialog(favListItems)) {
-            Toast.makeText(context, "Premium sound is included.\nUpgrade to premium version is required.", Toast.LENGTH_SHORT).show();
-            context.startActivity(new Intent(context, Premium.class));
+            Qonversion.getSharedInstance().restore(new QonversionEntitlementsCallback() {
+                @Override
+                public void onSuccess(@NonNull Map<String, QEntitlement> map) {
+                    QEntitlement qPermission = map.get(context.getString(R.string.product_id));
+                    if (qPermission != null && qPermission.isActive()) {
+                        Log.d("Premium>>>", "restored");
+                        RestoreDialog.restoreDialog(context);
+                    } else {
+                        Log.d("Premium>>>", "no restore");
+                        Toast.makeText(context, "Premium sound is included.\nUpgrade to premium version is required.", Toast.LENGTH_SHORT).show();
+                        context.startActivity(new Intent(context, Premium.class));
+                        MainActivity.load.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onError(@NonNull QonversionError qonversionError) {
+                    Toast.makeText(context, "Error: " + qonversionError.getDescription(), Toast.LENGTH_SHORT).show();
+                    MainActivity.load.setVisibility(View.GONE);
+                }
+            });
         } else {
-            ArrayList<FavListItem> list = new ArrayList<>();
             if (checkNeedDownload(favListItems).size() != 0) {
                 AskDownloadsDialog.askDownloadsDialog(context, checkNeedDownload(favListItems));
             } else {

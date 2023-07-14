@@ -37,6 +37,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.qonversion.android.sdk.Qonversion;
 import com.qonversion.android.sdk.QonversionConfig;
 import com.qonversion.android.sdk.dto.QEntitlement;
@@ -46,6 +49,7 @@ import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Map;
@@ -63,7 +67,7 @@ public class Splash extends AppCompatActivity {
     ImageView img;
     ProgressBar progressBar;
 
-    boolean anim, qper;
+    boolean anim, qper, goAlready;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +82,7 @@ public class Splash extends AppCompatActivity {
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
         } catch (GeneralSecurityException | IOException e) {
+            Log.d("Splash>>>", "e: " + e.toString());
             throw new RuntimeException(e);
         }
 //        preferences = getSharedPreferences("checkFirst", Activity.MODE_PRIVATE);
@@ -92,14 +97,15 @@ public class Splash extends AppCompatActivity {
                 QLaunchMode.SubscriptionManagement
         ).build();
         Qonversion.initialize(qonversionConfig);
-        databaseHandler.setDB(Splash.this);
-        databaseHandler = new DatabaseHandler(Splash.this);
 
         title = findViewById(R.id.splash_title);
         dippola = findViewById(R.id.splash_dippola);
         img = findViewById(R.id.splash_img);
         progressBar = findViewById(R.id.splash_progressbar);
         progressBar.setVisibility(View.INVISIBLE);
+
+        databaseHandler.setDB(Splash.this);
+        databaseHandler = new DatabaseHandler(Splash.this);
 
         checkPermission();
     }
@@ -223,17 +229,27 @@ public class Splash extends AppCompatActivity {
     }
 
     private void goToMainActivity() {
-        Intent intent = new Intent(Splash.this, MainActivity.class);
-        intent.putExtra("fromSplash", false);
-        startActivity(intent);
-        finish();
+        if (!DatabaseHandler.isHaveNewVersionDB) {
+            if (!goAlready) {
+                goAlready = true;
+                Intent intent = new Intent(Splash.this, MainActivity.class);
+                intent.putExtra("fromSplash", false);
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 
     private void goToOnBoarding() {
-        Intent intent = new Intent(Splash.this, OnBoarding.class);
-        intent.putExtra("fromSplash", true);
-        startActivity(intent);
-        finish();
+        if (!DatabaseHandler.isHaveNewVersionDB) {
+            if (!goAlready) {
+                goAlready = true;
+                Intent intent = new Intent(Splash.this, OnBoarding.class);
+                intent.putExtra("fromSplash", true);
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 
     private String getAppVersion() {
