@@ -105,7 +105,8 @@ public class Splash extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
 
         databaseHandler.setDB(Splash.this);
-        databaseHandler = new DatabaseHandler(Splash.this);
+        databaseHandler = new DatabaseHandler(Splash.this, Splash.this);
+//        databaseHandler = new DatabaseHandler(Splash.this);
 
         checkPermission();
     }

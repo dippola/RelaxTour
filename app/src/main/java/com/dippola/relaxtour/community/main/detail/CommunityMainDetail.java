@@ -1351,6 +1351,7 @@ public class CommunityMainDetail extends AppCompatActivity {
         }
         listCount.setText("[" + splitList.size() + "]");
         List<PageItem> allTrackTidList = databaseHandler.getAllTrackTidList();
+        Log.d("MainDetail>>>", "all track tid list size: " + allTrackTidList.size());
         shareListAdapter = new ShareListAdapter(splitList, new DatabaseHandler(CommunityMainDetail.this), CommunityMainDetail.this, allTrackTidList);
         listRecyclerview.setLayoutManager(new LinearLayoutManager(CommunityMainDetail.this));
         listRecyclerview.setAdapter(shareListAdapter);

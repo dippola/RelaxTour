@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
 //                        if (task.isSuccessful()) {
 //                            boolean fix = Boolean.TRUE.equals(task.getResult().getBoolean("fix"));
 //                            if (!fix) {
-////                                startActivity(new Intent(MainActivity.this, CommunityMain.class));
+//                                startActivity(new Intent(MainActivity.this, CommunityMain.class));
 //                            } else {
 //                                String st = task.getResult().getString("start_time");
 //                                String et = task.getResult().getString("end_time");
