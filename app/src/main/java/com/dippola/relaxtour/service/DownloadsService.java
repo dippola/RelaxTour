@@ -32,6 +32,10 @@ import com.dippola.relaxtour.notification.SuccessDownloadNotification;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.HzPage;
 import com.dippola.relaxtour.pages.MantraPage;
+import com.dippola.relaxtour.pages.NaturePage;
+import com.dippola.relaxtour.pages.RainPage;
+import com.dippola.relaxtour.pages.WaterPage;
+import com.dippola.relaxtour.pages.WindPage;
 import com.dippola.relaxtour.setting.StorageManageAdapter;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -114,7 +118,7 @@ public class DownloadsService extends Service {
         }
     }
 
-    public static void downloads(Context context, ProgressBar progressBar, TextView count, ArrayList<String> pnps, TextView title, ProgressBar button2, Button button3) {
+    public static void downloads(Context context, ProgressBar progressBar, TextView count, ArrayList<String> tids, TextView title, ProgressBar button2, Button button3) {
         storage = FirebaseStorage.getInstance();
         reference = storage.getReference();
 
@@ -122,32 +126,32 @@ public class DownloadsService extends Service {
 
         progressBar.setVisibility(View.VISIBLE);
         count.setVisibility(View.VISIBLE);
-        progressBar.setMax(pnps.size());
-        count.setText("0 / " + pnps.size());
+        progressBar.setMax(tids.size());
+        count.setText("0 / " + tids.size());
 
         progressBar.setProgress(counter[0]);
-        for (int i = 0; i < pnps.size(); i++) {
-            String pnp = pnps.get(i);
-            String ptop = pnps.get(i).substring(0, 1) + "to" + pnps.get(i).substring(2, 3);
-            int page = Integer.parseInt(pnps.get(i).substring(0, 1));
-            String fileName = "audio" + ptop + ".mp3";
+        for (int i = 0; i < tids.size(); i++) {
+            String tid = tids.get(i);
+//            String ptop = pnps.get(i).substring(0, 1) + "to" + pnps.get(i).substring(2, 3);
+//            int page = Integer.parseInt(pnps.get(i).substring(0, 1));
+            String fileName = "audio" + tid + ".mp3";
             try {
                 File localFile = File.createTempFile("downloading", "0");
                 Log.d("DownloadsService>>>", "check: " + localFile.getName());
                 reference.child("audios").child(fileName).getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        resetPage(page);
+                        resetPage(MainActivity.databaseHandler.getPageUseTid(tid));
                         File from = new File(context.getApplicationInfo().dataDir + "/cache", localFile.getName());
                         File to = new File(context.getApplicationInfo().dataDir + "/cache", fileName);
                         if (from.exists()) {
                             from.renameTo(to);
                         }
                         counter[0] += 1;
-                        count.setText(counter[0] + " / " + pnps.size());
+                        count.setText(counter[0] + " / " + tids.size());
                         progressBar.setProgress(counter[0]);
-                        if (counter[0] == pnps.size()) {
-                            checkSuccess(context, pnps, title, button2, button3);
+                        if (counter[0] == tids.size()) {
+                            checkSuccess(context, tids, title, button2, button3);
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -163,17 +167,17 @@ public class DownloadsService extends Service {
         Log.d("DownloadsService>>>", "finished for");
     }
 
-    private static void checkSuccess(Context context, ArrayList<String> pnps, TextView title, ProgressBar button2, Button button3) {
+    private static void checkSuccess(Context context, ArrayList<String> tids, TextView title, ProgressBar button2, Button button3) {
         boolean isFail = false;
         ArrayList<String> failList = new ArrayList<>();
-        for (int i = 0; i < pnps.size(); i++) {
-            String ptop = pnps.get(i).substring(0, 1) + "to" + pnps.get(i).substring(2, 3);
-            File file = new File(context.getApplicationInfo().dataDir + "/cache/audio" + ptop + ".mp3");
+        for (int i = 0; i < tids.size(); i++) {
+            String tid = tids.get(i);
+            File file = new File(context.getApplicationInfo().dataDir + "/cache/audio" + tid + ".mp3");
             if (!file.exists()) {
                 isFail = true;
-                failList.add(pnps.get(i));
+                failList.add(tids.get(i));
             }
-            if (i == pnps.size() - 1) {
+            if (i == tids.size() - 1) {
                 if (isFail) {
                     //fail download
                     title.setText("failed download\n" + setTextWhenFailed(failList));
@@ -191,7 +195,15 @@ public class DownloadsService extends Service {
     }
 
     private static void resetPage(int page) {
-        if (page == 5 && ChakraPage.arrayList.size() != 0) {
+        if (page == 1 && RainPage.arrayList.size() != 0) {
+            RainPage.adapter.notifyDataSetChanged();
+        } else if (page == 2 && WaterPage.arrayList.size() != 0) {
+            WaterPage.adapter.notifyDataSetChanged();
+        } else if (page == 3 && WindPage.arrayList.size() != 0) {
+            WindPage.adapter.notifyDataSetChanged();
+        } else if (page == 4 && NaturePage.arrayList.size() != 0) {
+            NaturePage.adapter.notifyDataSetChanged();
+        } else if (page == 5 && ChakraPage.arrayList.size() != 0) {
             ChakraPage.adapter.notifyDataSetChanged();
         } else if (page == 6 && MantraPage.arrayList.size() != 0) {
             MantraPage.adapter.notifyDataSetChanged();
@@ -204,7 +216,7 @@ public class DownloadsService extends Service {
         String failedText = "";
         for (int i = 0; i < failList.size(); i++) {
             String page = StorageManageAdapter.getPageName(Integer.parseInt(failList.get(i).substring(0, 1)));
-            String name = MainActivity.databaseHandler.getTrackName(Integer.parseInt(failList.get(i).substring(0, 1)), Integer.parseInt(failList.get(i).substring(2, 3)));
+            String name = MainActivity.databaseHandler.getTrackName(failList.get(i));
             String print = page + " - " + name + "\n";
             failedText += print;
         }

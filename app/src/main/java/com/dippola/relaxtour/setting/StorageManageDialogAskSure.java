@@ -56,7 +56,7 @@ public class StorageManageDialogAskSure {
                 editor.apply();
 
                 StorageManageDialog.progressBar.setVisibility(View.VISIBLE);
-                String path = context.getApplicationInfo().dataDir + "/cache/" + "audio" + arrayList.get(i).getPage() + "to" + arrayList.get(i).getPosition() + ".mp3";
+                String path = context.getApplicationInfo().dataDir + "/cache/" + "audio" + arrayList.get(i).getTid() + ".mp3";
                 File file = new File(path);
                 if (file.exists()) {
                     file.delete();

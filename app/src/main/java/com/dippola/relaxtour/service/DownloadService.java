@@ -120,13 +120,11 @@ public class DownloadService extends Service {
         }
     }
 
-    public static void setOnClickDownload(Context context, ProgressBar loading, ImageView img, ImageView download, int page, int position, SeekBar seekBar, DownloadItem downloadItem) {
-        Log.d("DownloadService>>>", "start");
-        String ptop = page + "to" + position;
+    public static void setOnClickDownload(Context context, ProgressBar loading, ImageView img, ImageView download, String tid, SeekBar seekBar, DownloadItem downloadItem) {
         loading.setVisibility(View.VISIBLE);
         img.setEnabled(false);
         download.setEnabled(false);
-        String fileName = "audio" + ptop + ".mp3";
+        String fileName = "audio" + tid + ".mp3";
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference reference = storage.getReference();
         File localFile;
@@ -140,7 +138,7 @@ public class DownloadService extends Service {
                     if (from.exists()) {
                         from.renameTo(to);
                     }
-                    resetMediaPlayer(page + "-" + position, context);
+                    resetMediaPlayer(tid, context);
                     img.setEnabled(true);
                     download.setVisibility(View.GONE);
                     loading.setVisibility(View.GONE);
@@ -173,8 +171,8 @@ public class DownloadService extends Service {
         }
     }
 
-    private static void resetMediaPlayer(String pnp, Context context) {
-        MPList.initalMP(pnp, context, 3);
+    private static void resetMediaPlayer(String tid, Context context) {
+        MPList.initalMP(tid, context, 3);
     }
 
     @Override

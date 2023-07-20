@@ -58,8 +58,7 @@ public class WindController {
         }
     }
 
-    public static void stopPage3(String pnp) {
-        int position = Integer.parseInt(pnp.substring(2, 3));
+    public static void stopPage3(int position) {
         if (position == 1) {
             if (MPList.p3p1_1 != null && MPList.p3p1_2 != null) {
                 MPList.p3p1_1.stop();

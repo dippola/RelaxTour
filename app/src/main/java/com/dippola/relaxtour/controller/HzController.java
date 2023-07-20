@@ -60,8 +60,7 @@ public class HzController {
         }
     }
 
-    public static void stopHz(String pnp) {
-        int position = Integer.parseInt(pnp.substring(2, 3));
+    public static void stopHz(int position) {
         if (position == 1) {
             if (MPList.p7p1_1 != null && MPList.p7p1_2 != null) {
                 MPList.p7p1_1.stop();

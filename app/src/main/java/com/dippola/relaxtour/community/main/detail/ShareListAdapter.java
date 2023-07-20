@@ -52,7 +52,7 @@ public class ShareListAdapter extends RecyclerView.Adapter<ShareListAdapter.Cust
         for (int i = 0; i < allTidList.size(); i++) {
             if (allTidList.get(i).getTid().equals(tid)) {
                 holder.name.setText(allTidList.get(i).getName());
-                setImg(holder.img, databaseHandler.getTrackImageLight(allTidList.get(i).getPage(), allTidList.get(i).getPosition()), databaseHandler.getTrackImageDark(allTidList.get(i).getPage(), allTidList.get(i).getPosition()));
+                setImg(holder.img, databaseHandler.getTrackImageLight(allTidList.get(i).getTid()), databaseHandler.getTrackImageDark(allTidList.get(i).getTid()));
                 holder.seekBar.setEnabled(false);
                 holder.seekBar.setMax(MainActivity.maxVolumn);
                 holder.seekBar.setProgress(Integer.parseInt(seek));

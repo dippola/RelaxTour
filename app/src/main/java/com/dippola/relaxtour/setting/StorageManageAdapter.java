@@ -68,7 +68,7 @@ public class StorageManageAdapter extends  RecyclerView.Adapter<StorageManageAda
                 boolean isChecked = sharedPreferences.getBoolean("isChecked", false);
                 if (isChecked) {
                     StorageManageDialog.progressBar.setVisibility(View.VISIBLE);
-                    String path = context.getApplicationInfo().dataDir + "/cache/" + "audio" + arrayList.get(i).getPage() + "to" + arrayList.get(i).getPosition() + ".mp3";
+                    String path = context.getApplicationInfo().dataDir + "/cache/" + "audio" + arrayList.get(i).getTid() + ".mp3";
                     File file = new File(path);
                     if (file.exists()) {
                         file.delete();
@@ -132,10 +132,10 @@ public class StorageManageAdapter extends  RecyclerView.Adapter<StorageManageAda
 
     public static void deleteInBottomPlayList(PageItem pageItem, Context context) {
         if (MainActivity.bottomSheetPlayList.size() != 0) {
-            for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-                if (MainActivity.bottomSheetPlayList.get(i).getPnp().equals(pageItem.getPnp())) {
-                    MainActivity.databaseHandler.deletePlayingList(pageItem.getPage(), pageItem.getPosition());
-                    AudioController.stopPage(pageItem.getPage(), pageItem.getPnp());
+            for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {//storage에서 삭제할때 playlist에 있으면 지우기
+                if (MainActivity.bottomSheetPlayList.get(i).getTid().equals(pageItem.getTid())) {
+                    MainActivity.databaseHandler.deletePlayingList(pageItem.getTid());
+                    AudioController.stopPage(pageItem.getPage(), pageItem.getPosition());
                     int index = MainActivity.bottomSheetPlayList.indexOf(MainActivity.bottomSheetPlayList.get(i));
                     MainActivity.bottomSheetPlayList.remove(index);
                     MainActivity.bottomSheetAdapter.notifyItemRemoved(index);

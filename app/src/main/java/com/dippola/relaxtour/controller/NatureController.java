@@ -58,8 +58,7 @@ public class NatureController {
         }
     }
 
-    public static void stopPage4(String pnp) {
-        int position = Integer.parseInt(pnp.substring(2, 3));
+    public static void stopPage4(int position) {
         if (position == 1) {
             if (MPList.p4p1_1 != null && MPList.p4p1_2 != null) {
                 MPList.p4p1_1.stop();

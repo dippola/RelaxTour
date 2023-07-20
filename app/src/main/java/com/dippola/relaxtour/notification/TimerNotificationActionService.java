@@ -77,25 +77,25 @@ public class TimerNotificationActionService extends BroadcastReceiver {
 
     private void stopAllSound() {
         for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-            stopPage(MainActivity.bottomSheetPlayList.get(i).getPage(), MainActivity.bottomSheetPlayList.get(i).getPnp());
+            stopPage(MainActivity.bottomSheetPlayList.get(i).getPage(), MainActivity.bottomSheetPlayList.get(i).getPosition());
         }
     }
 
-    private void stopPage(int page, String pnp) {
+    private void stopPage(int page, int position) {
         if (page == 1) {
-            RainController.stopPage1(pnp);
+            RainController.stopPage1(position);
         } else if (page == 2) {
-            WaterController.stopPage2(pnp);
+            WaterController.stopPage2(position);
         } else if (page == 3) {
-            WindController.stopPage3(pnp);
+            WindController.stopPage3(position);
         } else if (page == 4) {
-            NatureController.stopPage4(pnp);
+            NatureController.stopPage4(position);
         } else if (page == 5) {
-            ChakraController.stopChakra(pnp);
+            ChakraController.stopChakra(position);
         } else if (page == 6) {
-            MantraController.stopMantra(pnp);
+            MantraController.stopMantra(position);
         } else if (page == 7) {
-            HzController.stopHz(pnp);
+            HzController.stopHz(position);
         }
     }
 

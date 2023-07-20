@@ -57,21 +57,21 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
 
         if (arrayList.size() != 0) {
             if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
-                Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+                Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(positions).getImg(), 0, arrayList.get(positions).getImg().length);
                 holder.button.setImageBitmap(bitmap1);
             } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-                Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+                Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(positions).getDark(), 0, arrayList.get(positions).getDark().length);
                 holder.button.setImageBitmap(bitmap2);
             } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
                 Configuration config = context.getResources().getConfiguration();
                 int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
                 switch (currentNightMode) {
                     case Configuration.UI_MODE_NIGHT_NO://system light 모드
-                        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+                        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(positions).getImg(), 0, arrayList.get(positions).getImg().length);
                         holder.button.setImageBitmap(bitmap1);
                         break;
                     case Configuration.UI_MODE_NIGHT_YES://system dark 모드
-                        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+                        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(positions).getDark(), 0, arrayList.get(positions).getDark().length);
                         holder.button.setImageBitmap(bitmap2);
                         break;
                 }
@@ -80,11 +80,11 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
                 int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
                 switch (currentNightMode) {
                     case Configuration.UI_MODE_NIGHT_NO://system light 모드
-                        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImg(), 0, arrayList.get(position).getImg().length);
+                        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(positions).getImg(), 0, arrayList.get(positions).getImg().length);
                         holder.button.setImageBitmap(bitmap1);
                         break;
                     case Configuration.UI_MODE_NIGHT_YES://system dark 모드
-                        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(position).getDark(), 0, arrayList.get(position).getDark().length);
+                        Bitmap bitmap2 = BitmapFactory.decodeByteArray(arrayList.get(positions).getDark(), 0, arrayList.get(positions).getDark().length);
                         holder.button.setImageBitmap(bitmap2);
                         break;
                 }
@@ -98,8 +98,8 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
 
             }
         });
-        holder.name.setText(arrayList.get(position).getName());
-        holder.seekBar.setProgress(arrayList.get(position).getSeek());
+        holder.name.setText(arrayList.get(positions).getName());
+        holder.seekBar.setProgress(arrayList.get(positions).getSeek());
         holder.seekBar.setMax(MainActivity.maxVolumn);
 
         holder.delete_btn.setOnClickListener(new View.OnClickListener() {
@@ -109,8 +109,8 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
                 int getposition = arrayList.get(positions).getPosition();
                 int getpage = arrayList.get(positions).getPage();
                 int index = arrayList.indexOf(arrayList.get(positions));
-                MainActivity.databaseHandler.deletePlayingList(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
-                AudioController.stopPage(arrayList.get(positions).getPage(), arrayList.get(positions).getPnp());
+                MainActivity.databaseHandler.deletePlayingList(arrayList.get(positions).getTid());
+                AudioController.stopPage(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
                 arrayList.remove(index);
                 MainActivity.bottomSheetAdapter.notifyItemRemoved(index);
                 MainActivity.bottomSheetAdapter.notifyDataSetChanged();
@@ -128,8 +128,8 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
                 if (SeekController.bottomMoving) {
                     arrayList.get(positions).setSeek(seekBar.getProgress());
                     float volume = (float) (1 - (Math.log(SeekController.MAX_VOLUME - i) / Math.log(SeekController.MAX_VOLUME)));
-                    String pp = arrayList.get(positions).getPnp();
-                    SeekController.changeVolumn(pp, volume);
+                    String pnp = arrayList.get(positions).getPage() + "-" + arrayList.get(positions).getPosition();
+                    SeekController.changeVolumn(pnp, volume);
                     SeekController.changeSeekInBottom(context, arrayList.get(positions), seekBar.getProgress());
                 }
             }
@@ -181,11 +181,9 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
         if (page == 1 && RainPage.arrayList.size() != 0) {
             RainPage.arrayList.get(position - 1).setIsplay(1);
             RainPage.adapter.notifyItemChanged(position - 1);
-//            Page1.adapter.notifyDataSetChanged();
         } else if (page == 2 && WaterPage.arrayList.size() != 0) {
             WaterPage.arrayList.get(position - 1).setIsplay(1);
             WaterPage.adapter.notifyItemChanged(position - 1);
-//            Page2.adapter.notifyDataSetChanged();
         } else if (page == 3 && WindPage.arrayList.size() != 0) {
             WindPage.arrayList.get(position - 1).setIsplay(1);
             WindPage.adapter.notifyItemChanged(position - 1);

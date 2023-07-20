@@ -227,7 +227,7 @@ public class TimerService extends Service {
 //            notification.addAction(R.drawable.bottom_pause, "Play", pendingIntentPlay);
             if (MainActivity.bottomSheetPlayList.size() != 0) {
                 initMP(context);
-                if (AudioController.playingListindex0_1(MainActivity.bottomSheetPlayList.get(0).getPnp()).isPlaying() || AudioController.playingListindex0_2(MainActivity.bottomSheetPlayList.get(0).getPnp()).isPlaying()) {
+                if (AudioController.playingListindex0_1(MainActivity.bottomSheetPlayList.get(0).getTid()).isPlaying() || AudioController.playingListindex0_2(MainActivity.bottomSheetPlayList.get(0).getTid()).isPlaying()) {
                     notification.addAction(R.drawable.bottom_pause, "Play", pendingIntentPlay);
                 } else {
                     notification.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
@@ -290,7 +290,7 @@ public class TimerService extends Service {
 //            notification.addAction(R.drawable.bottom_pause, "Play", pendingIntentPlay);
         if (MainActivity.bottomSheetPlayList.size() != 0) {
             initMP(context);
-            if (AudioController.playingListindex0_1(MainActivity.bottomSheetPlayList.get(0).getPnp()).isPlaying() || AudioController.playingListindex0_2(MainActivity.bottomSheetPlayList.get(0).getPnp()).isPlaying()) {
+            if (AudioController.playingListindex0_1(MainActivity.bottomSheetPlayList.get(0).getTid()).isPlaying() || AudioController.playingListindex0_2(MainActivity.bottomSheetPlayList.get(0).getTid()).isPlaying()) {
                 builder.addAction(R.drawable.bottom_pause, "Play", pendingIntentPlay);
             } else {
                 builder.addAction(R.drawable.bottom_sheet_play, "Play", pendingIntentPlay);
@@ -310,7 +310,7 @@ public class TimerService extends Service {
 
     private void initMP(Context context) {
         for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-            MPList.initalMP(MainActivity.bottomSheetPlayList.get(i).getPnp(), context, MainActivity.bottomSheetPlayList.get(i).getSeek());
+            MPList.initalMP(MainActivity.bottomSheetPlayList.get(i).getTid(), context, MainActivity.bottomSheetPlayList.get(i).getSeek());
         }
     }
 }

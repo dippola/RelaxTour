@@ -579,11 +579,11 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < favListItems.size(); i++) {
             if (favListItems.get(i).getNeeddownload() == 2) {
-                String path = context.getApplicationInfo().dataDir + "/cache/audio" + favListItems.get(i).getPage() + "to" + favListItems.get(i).getPosition() + ".mp3";
+                String path = context.getApplicationInfo().dataDir + "/cache/audio" + favListItems.get(i).getTid() + "to" + favListItems.get(i).getPosition() + ".mp3";
                 File file = new File(path);
                 if (!file.exists()) {
                     if (file.getName().contains("audio")) {
-                        list.add(favListItems.get(i).getPnp());
+                        list.add(favListItems.get(i).getTid());
                     }
                 }
             }
@@ -598,7 +598,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
             for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {
                 pagelist.add(MainActivity.bottomSheetPlayList.get(ii).getPage());
                 positionlist.add(MainActivity.bottomSheetPlayList.get(ii).getPosition());
-                AudioController.stopPage(MainActivity.bottomSheetPlayList.get(ii).getPage(), MainActivity.bottomSheetPlayList.get(ii).getPnp());
+                AudioController.stopPage(MainActivity.bottomSheetPlayList.get(ii).getPage(), MainActivity.bottomSheetPlayList.get(ii).getPosition());
                 if (ii == MainActivity.bottomSheetPlayList.size() - 1) {
                     MainActivity.bottomSheetPlayList.clear();
 //                    MainActivity.bottomSheetAdapter.notifyItemRangeRemoved(0, MainActivity.bottomSheetPlayList.size() - 1);
@@ -613,10 +613,10 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         ArrayList<PageItem> pageItems = new ArrayList<>();
         for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
 //            SeekController.changeVolumn(MainActivity.bottomSheetPlayList.get(i).getPnp(), MainActivity.bottomSheetPlayList.get(i).getSeek());
-            AudioController.setVolumn(MainActivity.bottomSheetPlayList.get(i).getPnp(), MainActivity.bottomSheetPlayList.get(i).getSeek());
+            AudioController.setVolumn(MainActivity.bottomSheetPlayList.get(i).getTid(), MainActivity.bottomSheetPlayList.get(i).getSeek());
             pageItems.add(MainActivity.bottomSheetPlayList.get(i));
             changePageImage(MainActivity.bottomSheetPlayList.get(i).getPage(), MainActivity.bottomSheetPlayList.get(i).getPosition() - 1);
-            MainActivity.databaseHandler.changePageSeekWhenPlayInFavTitle(MainActivity.bottomSheetPlayList.get(i).getPage(), MainActivity.bottomSheetPlayList.get(i).getPosition(), MainActivity.bottomSheetPlayList.get(i).getSeek());
+            MainActivity.databaseHandler.changePageSeekWhenPlayInFavTitle(MainActivity.bottomSheetPlayList.get(i).getTid(), MainActivity.bottomSheetPlayList.get(i).getSeek());
             if (i == MainActivity.bottomSheetPlayList.size() - 1) {
                 AudioController.startPlayingList(context, pageItems);
                 AudioController.checkOpenService(context);

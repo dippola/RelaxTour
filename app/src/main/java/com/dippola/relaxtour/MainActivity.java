@@ -556,10 +556,10 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     if (databaseHandler.getIsProUser() == 1) {
                         boolean isContain = false;
-                        List<String> pnps = new ArrayList<>();
+                        List<String> tids = new ArrayList<>();
                         for (int i = 0; i < bottomSheetPlayList.size(); i++) {
                             if (bottomSheetPlayList.get(i).getIspro() == 2) {
-                                pnps.add(bottomSheetPlayList.get(i).getPnp());
+                                tids.add(bottomSheetPlayList.get(i).getTid());
                                 bottomSheetPlayList.remove(i);
                                 bottomSheetAdapter.notifyItemRemoved(i);
                                 bottomSheetAdapter.notifyDataSetChanged();
@@ -568,9 +568,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                         if (isContain) {
                             Toast.makeText(MainActivity.this, "The premium track is included in the playlist. After removing the premium track from the playlist, it will be played.", Toast.LENGTH_SHORT).show();
-                            for (int i = 0; i < pnps.size(); i++) {
-                                databaseHandler.deletePlayingList(Integer.parseInt(pnps.get(i).split("-")[0]), Integer.parseInt(pnps.get(i).split("-")[1]));
-                                databaseHandler.setIsPlay1(Integer.parseInt(pnps.get(i).split("-")[0]), Integer.parseInt(pnps.get(i).split("-")[1]));
+                            for (int i = 0; i < tids.size(); i++) {
+                                databaseHandler.deletePlayingList(tids.get(i));
+                                databaseHandler.setIsPlay1(tids.get(i));
                                 setOnClickPandS();
                             }
                         } else {
@@ -656,7 +656,7 @@ public class MainActivity extends AppCompatActivity {
             List<PageItem> pageItems = new ArrayList<>();
             for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
                 pageItems.add(bottomSheetPlayList.get(i));
-                MPList.initalMP(bottomSheetPlayList.get(i).getPnp(), MainActivity.this, bottomSheetPlayList.get(i).getSeek());
+                MPList.initalMP(bottomSheetPlayList.get(i).getTid(), MainActivity.this, bottomSheetPlayList.get(i).getSeek());
                 if (i == bottomSheetPlayList.size() - 1) {
                     //playinglist start
                     AudioController.startPlayingList(MainActivity.this, pageItems);

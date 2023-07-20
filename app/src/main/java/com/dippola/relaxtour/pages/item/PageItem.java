@@ -4,7 +4,6 @@ public class PageItem {
 
     int page;
     int position;
-    String pnp;
     byte[] imgdefault;
     byte[] img;
     byte[] darkdefault;
@@ -21,10 +20,9 @@ public class PageItem {
 
     }
 
-    public PageItem(int page, int position, String pnp, byte[] imgdefault, byte[] img, byte[] darkdefault, byte[] dark, int seek, int isplay, int time, String name, int ispro, int needdownload, String tid) {
+    public PageItem(int page, int position, byte[] imgdefault, byte[] img, byte[] darkdefault, byte[] dark, int seek, int isplay, int time, String name, int ispro, int needdownload, String tid) {
         this.page = page;
         this.position = position;
-        this.pnp = pnp;
         this.imgdefault = imgdefault;
         this.img = img;
         this.darkdefault = darkdefault;
@@ -52,14 +50,6 @@ public class PageItem {
 
     public void setPosition(int position) {
         this.position = position;
-    }
-
-    public String getPnp() {
-        return pnp;
-    }
-
-    public void setPnp(String pnp) {
-        this.pnp = pnp;
     }
 
     public byte[] getImgdefault() {

@@ -53,7 +53,7 @@ public class AskDeleteAllPlaylistDialog {
                 if (NotificationService.isPlaying) {
                     context.stopService(new Intent(context, NotificationService.class));
                     for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-                        AudioController.stopPage(MainActivity.bottomSheetPlayList.get(i).getPage(), MainActivity.bottomSheetPlayList.get(i).getPnp());
+                        AudioController.stopPage(MainActivity.bottomSheetPlayList.get(i).getPage(), MainActivity.bottomSheetPlayList.get(i).getPosition());
                     }
                     MainActivity.pands.setBackgroundResource(R.drawable.bottom_sheet_play);
                 }

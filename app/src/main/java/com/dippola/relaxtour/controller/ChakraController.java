@@ -58,8 +58,7 @@ public class ChakraController {
         }
     }
 
-    public static void stopChakra(String pnp) {
-        int position = Integer.parseInt(pnp.substring(2, 3));
+    public static void stopChakra(int position) {
         if (position == 1) {
             if (MPList.p5p1_1 != null && MPList.p5p1_2 != null) {
                 MPList.p5p1_1.stop();

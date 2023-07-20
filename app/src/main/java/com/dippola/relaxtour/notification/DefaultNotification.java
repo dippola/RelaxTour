@@ -93,7 +93,7 @@ public class DefaultNotification {
 
     private static void initMP(Context context) {
         for (int i = 0; i < MainActivity.bottomSheetPlayList.size(); i++) {
-            MPList.initalMP(MainActivity.bottomSheetPlayList.get(i).getPnp(), context, MainActivity.bottomSheetPlayList.get(i).getSeek());
+            MPList.initalMP(MainActivity.bottomSheetPlayList.get(i).getTid(), context, MainActivity.bottomSheetPlayList.get(i).getSeek());
         }
     }
 }

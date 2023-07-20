@@ -56,8 +56,7 @@ public class MantraController {
         }
     }
 
-    public static void stopMantra(String pnp) {
-        int position = Integer.parseInt(pnp.substring(2, 3));
+    public static void stopMantra(int position) {
         if (position == 1) {
             if (MPList.p6p1_1 != null && MPList.p6p1_2 != null) {
                 MPList.p6p1_1.stop();

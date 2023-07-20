@@ -30,7 +30,7 @@ public class AskDownloadsDialog {
     private static ProgressBar bottom_progressbar;
     public static boolean isDownloading = false;
 
-    public static void askDownloadsDialog(Context context, ArrayList<String> pnps) {
+    public static void askDownloadsDialog(Context context, ArrayList<String> tids) {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout layout = (LinearLayout) vi.inflate(R.layout.ask_downloads_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context, androidx.appcompat.R.style.Theme_AppCompat_Dialog).setOnKeyListener(new DialogInterface.OnKeyListener() {
@@ -54,7 +54,7 @@ public class AskDownloadsDialog {
         alertDialog.show();
 
         title = layout.findViewById(R.id.ask_downloads_dialog_title);
-        title.setText("Contains " + pnps.size() + " tracks that require download.\nnWould you like to download it?");
+        title.setText("Contains " + tids.size() + " tracks that require download.\nnWould you like to download it?");
         button_layout_1 = layout.findViewById(R.id.ask_downloads_dialog_1);
         bottom_progressbar = layout.findViewById(R.id.ask_downloads_dialog_2);
         close = layout.findViewById(R.id.ask_downloads_dialog_3);
@@ -81,7 +81,7 @@ public class AskDownloadsDialog {
                 } else {
                     context.startService(intent);
                 }
-                DownloadsService.downloads(context, progressBar, count, pnps, title, bottom_progressbar, close);
+                DownloadsService.downloads(context, progressBar, count, tids, title, bottom_progressbar, close);
             }
         });
 
