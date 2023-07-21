@@ -37,7 +37,7 @@ public class AskDownloadDialog {
     private static Button okbtn, cancel;
     private static CheckBox checkBox;
 
-    public static void askDownloadDialog(Context context, ProgressBar progressBar, ImageView img, ImageView download, int page, int position, SeekBar seekBar) {
+    public static void askDownloadDialog(Context context, ProgressBar progressBar, ImageView img, ImageView download, String tid, SeekBar seekBar) {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout layout = (LinearLayout) vi.inflate(R.layout.ask_download_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
@@ -74,10 +74,10 @@ public class AskDownloadDialog {
                     editor.putBoolean("isChecked", false);
                 }
                 editor.apply();
-                PageAdapter.openDownloadService(context, progressBar, img, download, page, position);
-                DownloadItem downloadItem = new DownloadItem(page, position);
+                PageAdapter.openDownloadService(context, progressBar, img, download, tid);
+                DownloadItem downloadItem = new DownloadItem(tid);
                 DownloadService.downloadList.add(downloadItem);
-                DownloadService.setOnClickDownload(context, progressBar, img, download, page, position, seekBar, downloadItem);
+                DownloadService.setOnClickDownload(context, progressBar, img, download, tid, seekBar, downloadItem);
                 if (alertDialog.isShowing()) {
                     alertDialog.dismiss();
                 }

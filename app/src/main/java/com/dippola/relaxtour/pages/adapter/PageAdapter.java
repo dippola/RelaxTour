@@ -483,9 +483,9 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public static void openDownloadService(Context context, ProgressBar progressBar, ImageView img, ImageView download, int page, int position) {
+    public static void openDownloadService(Context context, ProgressBar progressBar, ImageView img, ImageView download, String tid) {
         if (!DownloadService.isDownloadOpen) {
-            DownloadService downloadService = new DownloadService(progressBar, img, download, page, position);
+            DownloadService downloadService = new DownloadService(progressBar, img, download);
             Intent intent = new Intent(context, downloadService.getClass());
             if (Build.VERSION.SDK_INT >= 26) {
                 context.startForegroundService(intent);
@@ -640,12 +640,12 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     SharedPreferences sharedPreferences = context.getSharedPreferences("download_dialog_checkbox", MODE_PRIVATE);
                     boolean isChecked = sharedPreferences.getBoolean("isChecked", false);
                     if (isChecked) {
-                        openDownloadService(context, progressBar, img, download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
-                        DownloadItem downloadItem = new DownloadItem(arrayList.get(positions).getPage(), arrayList.get(positions).getPosition());
+                        openDownloadService(context, progressBar, img, download, arrayList.get(positions).getTid());
+                        DownloadItem downloadItem = new DownloadItem(arrayList.get(positions).getTid());
                         DownloadService.downloadList.add(downloadItem);
                         DownloadService.setOnClickDownload(context, progressBar, img, download, arrayList.get(positions).getTid(), seekBar, downloadItem);
                     } else {
-                        AskDownloadDialog.askDownloadDialog(context, progressBar, img, download, arrayList.get(positions).getPage(), arrayList.get(positions).getPosition(), seekBar);
+                        AskDownloadDialog.askDownloadDialog(context, progressBar, img, download, arrayList.get(positions).getTid(), seekBar);
                     }
                 }
             }

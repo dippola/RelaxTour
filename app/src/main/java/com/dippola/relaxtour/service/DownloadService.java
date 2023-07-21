@@ -54,19 +54,15 @@ public class DownloadService extends Service {
 
     ProgressBar progressBar;
     ImageView button, download;
-    int page;
-    int position;
 
     public DownloadService() {
 
     }
 
-    public DownloadService(ProgressBar progressBar, ImageView button, ImageView download, int page, int position) {
+    public DownloadService(ProgressBar progressBar, ImageView button, ImageView download) {
         this.progressBar = progressBar;
         this.button = button;
         this.download = download;
-        this.page = page;
-        this.position = position;
     }
 
     @Nullable
