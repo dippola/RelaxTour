@@ -29,126 +29,126 @@ public class AudioController {
 
         int page = pageItem.getPage();
         int position = pageItem.getPosition();
-        String pnp = pageItem.getPage() + "-" + pageItem.getPosition();
+        String tid = pageItem.getTid();
         MPList.initalMP(pageItem.getTid(), context, pageItem.getSeek());
 
         if (page == 1) {
             if (position == 1) {
-                MPList.p1p1_1.start();
+                MPList.t00001_1.start();
             } else if (position == 2) {
-                MPList.p1p2_1.start();
+                MPList.t00002_1.start();
             } else if (position == 3) {
-                MPList.p1p3_1.start();
+                MPList.t00003_1.start();
             } else if (position == 4) {
-                MPList.p1p4_1.start();
+                MPList.t00004_1.start();
             } else if (position == 5) {
-                MPList.p1p5_1.start();
+                MPList.t00005_1.start();
             } else if (position == 6) {
-                MPList.p1p6_1.start();
+                MPList.t00006_1.start();
             }
-            new RainController.p1t1(pnp).start();
+            new RainController.p1t1(tid).start();
         } else if (page == 2) {
             if (position == 1) {
-                MPList.p2p1_1.start();
+                MPList.t00007_1.start();
             } else if (position == 2) {
-                MPList.p2p2_1.start();
+                MPList.t00008_1.start();
             } else if (position == 3) {
-                MPList.p2p3_1.start();
+                MPList.t00009_1.start();
             } else if (position == 4) {
-                MPList.p2p4_1.start();
+                MPList.t00010_1.start();
             } else if (position == 5) {
-                MPList.p2p5_1.start();
+                MPList.t00011_1.start();
             } else if (position == 6) {
-                MPList.p2p6_1.start();
+                MPList.t00012_1.start();
             }
-            new WaterController.p2t1(pnp).start();
+            new WaterController.p2t1(tid).start();
         } else if (page == 3) {
             if (position == 1) {
-                MPList.p3p1_1.start();
+                MPList.t00013_1.start();
             } else if (position == 2) {
-                MPList.p3p2_1.start();
+                MPList.t00014_1.start();
             } else if (position == 3) {
-                MPList.p3p3_1.start();
+                MPList.t00015_1.start();
             } else if (position == 4) {
-                MPList.p3p4_1.start();
+                MPList.t00016_1.start();
             } else if (position == 5) {
-                MPList.p3p5_1.start();
+                MPList.t00017_1.start();
             } else if (position == 6) {
-                MPList.p3p6_1.start();
+                MPList.t00018_1.start();
             } else if (position == 7) {
-                MPList.p3p7_1.start();
+                MPList.t00019_1.start();
             }
-            new WindController.p3t1(pnp).start();
+            new WindController.p3t1(tid).start();
         } else if (page == 4) {
             if (position == 1) {
-                MPList.p4p1_1.start();
+                MPList.t00020_1.start();
             } else if (position == 2) {
-                MPList.p4p2_1.start();
+                MPList.t00021_1.start();
             } else if (position == 3) {
-                MPList.p4p3_1.start();
+                MPList.t00022_1.start();
             } else if (position == 4) {
-                MPList.p4p4_1.start();
+                MPList.t00023_1.start();
             } else if (position == 5) {
-                MPList.p4p5_1.start();
+                MPList.t00024_1.start();
             } else if (position == 6) {
-                MPList.p4p6_1.start();
+                MPList.t00025_1.start();
             } else if (position == 7) {
-                MPList.p4p7_1.start();
+                MPList.t00026_1.start();
             } else if (position == 8) {
-                MPList.p4p8_1.start();
+                MPList.t00027_1.start();
             }
-            new NatureController.p4t1(pnp).start();
+            new NatureController.p4t1(tid).start();
         } else if (page == 5) {
             if (position == 1) {
-                MPList.p5p1_1.start();
+                MPList.t00028_1.start();
             } else if (position == 2) {
-                MPList.p5p2_1.start();
+                MPList.t00029_1.start();
             } else if (position == 3) {
-                MPList.p5p3_1.start();
+                MPList.t00030_1.start();
             } else if (position == 4) {
-                MPList.p5p4_1.start();
+                MPList.t00031_1.start();
             } else if (position == 5) {
-                MPList.p5p5_1.start();
+                MPList.t00032_1.start();
             } else if (position == 6) {
-                MPList.p5p6_1.start();
+                MPList.t00033_1.start();
             } else if (position == 7) {
-                MPList.p5p7_1.start();
+                MPList.t00034_1.start();
             }
-            new ChakraController.p5t1(pnp).start();
+            new ChakraController.p5t1(tid).start();
         } else if (page == 6) {
             if (position == 1) {
-                MPList.p6p1_1.start();
+                MPList.t00035_1.start();
             } else if (position == 2) {
-                MPList.p6p2_1.start();
+                MPList.t00036_1.start();
             } else if (position == 3) {
-                MPList.p6p3_1.start();
+                MPList.t00037_1.start();
             } else if (position == 4) {
-                MPList.p6p4_1.start();
+                MPList.t00038_1.start();
             } else if (position == 5) {
-                MPList.p6p5_1.start();
+                MPList.t00039_1.start();
             } else if (position == 6) {
-                MPList.p6p6_1.start();
+                MPList.t00040_1.start();
             } else if (position == 7) {
-                MPList.p6p7_1.start();
+                MPList.t00041_1.start();
             }
-            new MantraController.p6t1(pnp).start();
+            new MantraController.p6t1(tid).start();
         } else if (page == 7) {
             if (position == 1) {
-                MPList.p7p1_1.start();
+                MPList.t00042_1.start();
             } else if (position == 2) {
-                MPList.p7p2_1.start();
+                MPList.t00043_1.start();
             } else if (position == 3) {
-                MPList.p7p3_1.start();
+                MPList.t00044_1.start();
             } else if (position == 4) {
-                MPList.p7p4_1.start();
+                MPList.t00045_1.start();
             } else if (position == 5) {
-                MPList.p7p5_1.start();
+                MPList.t00046_1.start();
             } else if (position == 6) {
-                MPList.p7p6_1.start();
+                MPList.t00047_1.start();
             } else if (position == 7) {
-                MPList.p7p7_1.start();
+                MPList.t00048_1.start();
             }
-            new HzController.p7t1(pnp).start();
+            new HzController.p7t1(tid).start();
         }
     }
 
@@ -161,7 +161,6 @@ public class AudioController {
     }
 
     public static void checkPP(Context context, String tid) {//곡 찾아서 재생
-
         Intent intent = new Intent(context, NotificationService.class);
         if (Build.VERSION.SDK_INT >= 26) {
             context.startForegroundService(intent);
@@ -169,205 +168,205 @@ public class AudioController {
             context.startService(intent);
         }
         switch (tid) {
-            case "1-1":
-                MPList.p1p1_1.start();
+            case "00001":
+                MPList.t00001_1.start();
                 new RainController.p1t1(tid).start();
                 break;
-            case "1-2":
-                MPList.p1p2_1.start();
+            case "00002":
+                MPList.t00002_1.start();
                 new RainController.p1t1(tid).start();
                 break;
-            case "1-3":
-                MPList.p1p3_1.start();
+            case "00003":
+                MPList.t00003_1.start();
                 new RainController.p1t1(tid).start();
                 break;
-            case "1-4":
-                MPList.p1p4_1.start();
+            case "00004":
+                MPList.t00004_1.start();
                 new RainController.p1t1(tid).start();
                 break;
-            case "1-5":
-                MPList.p1p5_1.start();
+            case "00005":
+                MPList.t00005_1.start();
                 new RainController.p1t1(tid).start();
                 break;
-            case "1-6":
-                MPList.p1p6_1.start();
+            case "00006":
+                MPList.t00006_1.start();
                 new RainController.p1t1(tid).start();
                 break;
 
 
-            case "2-1":
-                MPList.p2p1_1.start();
+            case "00007":
+                MPList.t00007_1.start();
                 new WaterController.p2t1(tid).start();
                 break;
-            case "2-2":
-                MPList.p2p2_1.start();
+            case "00008":
+                MPList.t00008_1.start();
                 new WaterController.p2t1(tid).start();
                 break;
-            case "2-3":
-                MPList.p2p3_1.start();
+            case "00009":
+                MPList.t00009_1.start();
                 new WaterController.p2t1(tid).start();
                 break;
-            case "2-4":
-                MPList.p2p4_1.start();
+            case "00010":
+                MPList.t00010_1.start();
                 new WaterController.p2t1(tid).start();
                 break;
-            case "2-5":
-                MPList.p2p5_1.start();
+            case "00011":
+                MPList.t00011_1.start();
                 new WaterController.p2t1(tid).start();
                 break;
-            case "2-6":
-                MPList.p2p6_1.start();
+            case "00012":
+                MPList.t00012_1.start();
                 new WaterController.p2t1(tid).start();
                 break;
 
 
-            case "3-1":
-                MPList.p3p1_1.start();
+            case "00013":
+                MPList.t00013_1.start();
                 new WindController.p3t1(tid).start();
                 break;
-            case "3-2":
-                MPList.p3p2_1.start();
+            case "00014":
+                MPList.t00014_1.start();
                 new WindController.p3t1(tid).start();
                 break;
-            case "3-3":
-                MPList.p3p3_1.start();
+            case "00015":
+                MPList.t00015_1.start();
                 new WindController.p3t1(tid).start();
                 break;
-            case "3-4":
-                MPList.p3p4_1.start();
+            case "00016":
+                MPList.t00016_1.start();
                 new WindController.p3t1(tid).start();
                 break;
-            case "3-5":
-                MPList.p3p5_1.start();
+            case "00017":
+                MPList.t00017_1.start();
                 new WindController.p3t1(tid).start();
                 break;
-            case "3-6":
-                MPList.p3p6_1.start();
+            case "00018":
+                MPList.t00018_1.start();
                 new WindController.p3t1(tid).start();
                 break;
-            case "3-7":
-                MPList.p3p7_1.start();
+            case "00019":
+                MPList.t00019_1.start();
                 new WindController.p3t1(tid).start();
                 break;
 
 
-            case "4-1":
-                MPList.p4p1_1.start();
+            case "00020":
+                MPList.t00020_1.start();
                 new NatureController.p4t1(tid).start();
                 break;
-            case "4-2":
-                MPList.p4p2_1.start();
+            case "00021":
+                MPList.t00021_1.start();
                 new NatureController.p4t1(tid).start();
                 break;
-            case "4-3":
-                MPList.p4p3_1.start();
+            case "00022":
+                MPList.t00022_1.start();
                 new NatureController.p4t1(tid).start();
                 break;
-            case "4-4":
-                MPList.p4p4_1.start();
+            case "00023":
+                MPList.t00023_1.start();
                 new NatureController.p4t1(tid).start();
                 break;
-            case "4-5":
-                MPList.p4p5_1.start();
+            case "00024":
+                MPList.t00024_1.start();
                 new NatureController.p4t1(tid).start();
                 break;
-            case "4-6":
-                MPList.p4p6_1.start();
+            case "00025":
+                MPList.t00025_1.start();
                 new NatureController.p4t1(tid).start();
                 break;
-            case "4-7":
-                MPList.p4p7_1.start();
+            case "00026":
+                MPList.t00026_1.start();
                 new NatureController.p4t1(tid).start();
                 break;
-            case "4-8":
-                MPList.p4p8_1.start();
+            case "00027":
+                MPList.t00027_1.start();
                 new NatureController.p4t1(tid).start();
                 break;
 
-            case "5-1":
-                MPList.p5p1_1.start();
+            case "00028":
+                MPList.t00028_1.start();
                 new ChakraController.p5t1(tid).start();
                 break;
-            case "5-2":
-                MPList.p5p2_1.start();
+            case "00029":
+                MPList.t00029_1.start();
                 new ChakraController.p5t1(tid).start();
                 break;
-            case "5-3":
-                MPList.p5p3_1.start();
+            case "00030":
+                MPList.t00030_1.start();
                 new ChakraController.p5t1(tid).start();
                 break;
-            case "5-4":
-                MPList.p5p4_1.start();
+            case "00031":
+                MPList.t00031_1.start();
                 new ChakraController.p5t1(tid).start();
                 break;
-            case "5-5":
-                MPList.p5p5_1.start();
+            case "00032":
+                MPList.t00032_1.start();
                 new ChakraController.p5t1(tid).start();
                 break;
-            case "5-6":
-                MPList.p5p6_1.start();
+            case "00033":
+                MPList.t00033_1.start();
                 new ChakraController.p5t1(tid).start();
                 break;
-            case "5-7":
-                MPList.p5p7_1.start();
+            case "00034":
+                MPList.t00034_1.start();
                 new ChakraController.p5t1(tid).start();
                 break;
 
-            case "6-1":
-                MPList.p6p1_1.start();
+            case "00035":
+                MPList.t00035_1.start();
                 new MantraController.p6t1(tid).start();
                 break;
-            case "6-2":
-                MPList.p6p2_1.start();
+            case "00036":
+                MPList.t00036_1.start();
                 new MantraController.p6t1(tid).start();
                 break;
-            case "6-3":
-                MPList.p6p3_1.start();
+            case "00037":
+                MPList.t00037_1.start();
                 new MantraController.p6t1(tid).start();
                 break;
-            case "6-4":
-                MPList.p6p4_1.start();
+            case "00038":
+                MPList.t00038_1.start();
                 new MantraController.p6t1(tid).start();
                 break;
-            case "6-5":
-                MPList.p6p5_1.start();
+            case "00039":
+                MPList.t00039_1.start();
                 new MantraController.p6t1(tid).start();
                 break;
-            case "6-6":
-                MPList.p6p6_1.start();
+            case "00040":
+                MPList.t00040_1.start();
                 new MantraController.p6t1(tid).start();
                 break;
-            case "6-7":
-                MPList.p6p7_1.start();
+            case "00041":
+                MPList.t00041_1.start();
                 new MantraController.p6t1(tid).start();
                 break;
 
-            case "7-1":
-                MPList.p7p1_1.start();
+            case "00042":
+                MPList.t00042_1.start();
                 new HzController.p7t1(tid).start();
                 break;
-            case "7-2":
-                MPList.p7p2_1.start();
+            case "00043":
+                MPList.t00043_1.start();
                 new HzController.p7t1(tid).start();
                 break;
-            case "7-3":
-                MPList.p7p3_1.start();
+            case "00044":
+                MPList.t00044_1.start();
                 new HzController.p7t1(tid).start();
                 break;
-            case "7-4":
-                MPList.p7p4_1.start();
+            case "00045":
+                MPList.t00045_1.start();
                 new HzController.p7t1(tid).start();
                 break;
-            case "7-5":
-                MPList.p7p5_1.start();
+            case "00046":
+                MPList.t00046_1.start();
                 new HzController.p7t1(tid).start();
                 break;
-            case "7-6":
-                MPList.p7p6_1.start();
+            case "00047":
+                MPList.t00047_1.start();
                 new HzController.p7t1(tid).start();
                 break;
-            case "7-7":
-                MPList.p7p7_1.start();
+            case "00048":
+                MPList.t00048_1.start();
                 new HzController.p7t1(tid).start();
                 break;
 
@@ -461,107 +460,107 @@ public class AudioController {
     public static MediaPlayer playingListindex0_1(String tid) {
         switch (tid) {
             case "00001":
-                return MPList.p1p1_1;
+                return MPList.t00001_1;
             case "00002":
-                return MPList.p1p2_1;
+                return MPList.t00002_1;
             case "00003":
-                return MPList.p1p3_1;
+                return MPList.t00003_1;
             case "00004":
-                return MPList.p1p4_1;
+                return MPList.t00004_1;
             case "00005":
-                return MPList.p1p5_1;
+                return MPList.t00005_1;
             case "00006":
-                return MPList.p1p6_1;
+                return MPList.t00006_1;
 
             case "00007":
-                return MPList.p2p1_1;
+                return MPList.t00007_1;
             case "00008":
-                return MPList.p2p2_1;
+                return MPList.t00008_1;
             case "00009":
-                return MPList.p2p3_1;
+                return MPList.t00009_1;
             case "00010":
-                return MPList.p2p4_1;
+                return MPList.t00010_1;
             case "00011":
-                return MPList.p2p5_1;
+                return MPList.t00011_1;
             case "00012":
-                return MPList.p2p6_1;
+                return MPList.t00012_1;
 
             case "00013":
-                return MPList.p3p1_1;
+                return MPList.t00013_1;
             case "00014":
-                return MPList.p3p2_1;
+                return MPList.t00014_1;
             case "00015":
-                return MPList.p3p3_1;
+                return MPList.t00015_1;
             case "00016":
-                return MPList.p3p4_1;
+                return MPList.t00016_1;
             case "00017":
-                return MPList.p3p5_1;
+                return MPList.t00017_1;
             case "00018":
-                return MPList.p3p6_1;
+                return MPList.t00018_1;
             case "00019":
-                return MPList.p3p7_1;
+                return MPList.t00019_1;
 
             case "00020":
-                return MPList.p4p1_1;
+                return MPList.t00020_1;
             case "00021":
-                return MPList.p4p2_1;
+                return MPList.t00021_1;
             case "00022":
-                return MPList.p4p3_1;
+                return MPList.t00022_1;
             case "00023":
-                return MPList.p4p4_1;
+                return MPList.t00023_1;
             case "00024":
-                return MPList.p4p5_1;
+                return MPList.t00024_1;
             case "00025":
-                return MPList.p4p6_1;
+                return MPList.t00025_1;
             case "00026":
-                return MPList.p4p7_1;
+                return MPList.t00026_1;
             case "00027":
-                return MPList.p4p8_1;
+                return MPList.t00027_1;
 
             case "00028":
-                return MPList.p5p1_1;
+                return MPList.t00028_1;
             case "00029":
-                return MPList.p5p2_1;
+                return MPList.t00029_1;
             case "00030":
-                return MPList.p5p3_1;
+                return MPList.t00030_1;
             case "00031":
-                return MPList.p5p4_1;
+                return MPList.t00031_1;
             case "00032":
-                return MPList.p5p5_1;
+                return MPList.t00032_1;
             case "00033":
-                return MPList.p5p6_1;
+                return MPList.t00033_1;
             case "00034":
-                return MPList.p5p7_1;
+                return MPList.t00034_1;
 
             case "00035":
-                return MPList.p6p1_1;
+                return MPList.t00035_1;
             case "00036":
-                return MPList.p6p2_1;
+                return MPList.t00036_1;
             case "00037":
-                return MPList.p6p3_1;
+                return MPList.t00037_1;
             case "00038":
-                return MPList.p6p4_1;
+                return MPList.t00038_1;
             case "00039":
-                return MPList.p6p5_1;
+                return MPList.t00039_1;
             case "00040":
-                return MPList.p6p6_1;
+                return MPList.t00040_1;
             case "00041":
-                return MPList.p6p7_1;
+                return MPList.t00041_1;
 
             case "00042":
-                return MPList.p7p1_1;
+                return MPList.t00042_1;
             case "00043":
-                return MPList.p7p2_1;
+                return MPList.t00043_1;
             case "00044":
-                return MPList.p7p3_1;
+                return MPList.t00044_1;
             case "00045":
-                return MPList.p7p4_1;
+                return MPList.t00045_1;
             case "00046":
-                return MPList.p7p5_1;
+                return MPList.t00046_1;
             case "00047":
-                return MPList.p7p6_1;
+                return MPList.t00047_1;
             case "00048":
-                return MPList.p7p7_1;
+                return MPList.t00048_1;
 
             default:
                 return null;
@@ -571,107 +570,107 @@ public class AudioController {
     public static MediaPlayer playingListindex0_2(String pp) {
         switch (pp) {
             case "00001":
-                return MPList.p1p1_2;
+                return MPList.t00001_2;
             case "00002":
-                return MPList.p1p2_2;
+                return MPList.t00002_2;
             case "00003":
-                return MPList.p1p3_2;
+                return MPList.t00003_2;
             case "00004":
-                return MPList.p1p4_2;
+                return MPList.t00004_2;
             case "00005":
-                return MPList.p1p5_2;
+                return MPList.t00005_2;
             case "00006":
-                return MPList.p1p6_2;
+                return MPList.t00006_2;
 
             case "00007":
-                return MPList.p2p1_2;
+                return MPList.t00007_2;
             case "00008":
-                return MPList.p2p2_2;
+                return MPList.t00008_2;
             case "00009":
-                return MPList.p2p3_2;
+                return MPList.t00009_2;
             case "00010":
-                return MPList.p2p4_2;
+                return MPList.t00010_2;
             case "00011":
-                return MPList.p2p5_2;
+                return MPList.t00011_2;
             case "00012":
-                return MPList.p2p6_2;
+                return MPList.t00012_2;
 
             case "00013":
-                return MPList.p3p1_2;
+                return MPList.t00013_2;
             case "00014":
-                return MPList.p3p2_2;
+                return MPList.t00014_2;
             case "00015":
-                return MPList.p3p3_2;
+                return MPList.t00015_2;
             case "00016":
-                return MPList.p3p4_2;
+                return MPList.t00016_2;
             case "00017":
-                return MPList.p3p5_2;
+                return MPList.t00017_2;
             case "00018":
-                return MPList.p3p6_2;
+                return MPList.t00018_2;
             case "00019":
-                return MPList.p3p7_2;
+                return MPList.t00019_2;
 
             case "00020":
-                return MPList.p4p1_2;
+                return MPList.t00020_2;
             case "00021":
-                return MPList.p4p2_2;
+                return MPList.t00021_2;
             case "00022":
-                return MPList.p4p3_2;
+                return MPList.t00022_2;
             case "00023":
-                return MPList.p4p4_2;
+                return MPList.t00023_2;
             case "00024":
-                return MPList.p4p5_2;
+                return MPList.t00024_2;
             case "00025":
-                return MPList.p4p6_2;
+                return MPList.t00025_2;
             case "00026":
-                return MPList.p4p7_2;
+                return MPList.t00026_2;
             case "00027":
-                return MPList.p4p8_2;
+                return MPList.t00027_2;
 
             case "00028":
-                return MPList.p5p1_2;
+                return MPList.t00028_2;
             case "00029":
-                return MPList.p5p2_2;
+                return MPList.t00029_2;
             case "00030":
-                return MPList.p5p3_2;
+                return MPList.t00030_2;
             case "00031":
-                return MPList.p5p4_2;
+                return MPList.t00031_2;
             case "00032":
-                return MPList.p5p5_2;
+                return MPList.t00032_2;
             case "00033":
-                return MPList.p5p6_2;
+                return MPList.t00033_2;
             case "00034":
-                return MPList.p5p7_2;
+                return MPList.t00034_2;
 
             case "00035":
-                return MPList.p6p1_2;
+                return MPList.t00035_2;
             case "00036":
-                return MPList.p6p2_2;
+                return MPList.t00036_2;
             case "00037":
-                return MPList.p6p3_2;
+                return MPList.t00037_2;
             case "00038":
-                return MPList.p6p4_2;
+                return MPList.t00038_2;
             case "00039":
-                return MPList.p6p5_2;
+                return MPList.t00039_2;
             case "00040":
-                return MPList.p6p6_2;
+                return MPList.t00040_2;
             case "00041":
-                return MPList.p6p7_2;
+                return MPList.t00041_2;
 
             case "00042":
-                return MPList.p7p1_2;
+                return MPList.t00042_2;
             case "00043":
-                return MPList.p7p2_2;
+                return MPList.t00043_2;
             case "00044":
-                return MPList.p7p3_2;
+                return MPList.t00044_2;
             case "00045":
-                return MPList.p7p4_2;
+                return MPList.t00045_2;
             case "00046":
-                return MPList.p7p5_2;
+                return MPList.t00046_2;
             case "00047":
-                return MPList.p7p6_2;
+                return MPList.t00047_2;
             case "00048":
-                return MPList.p7p7_2;
+                return MPList.t00048_2;
             default:
                 return null;
         }

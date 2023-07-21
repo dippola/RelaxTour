@@ -1,7 +1,5 @@
 package com.dippola.relaxtour.controller;
 
-import android.util.Log;
-
 import androidx.annotation.Keep;
 
 import com.dippola.relaxtour.MPList;
@@ -9,10 +7,10 @@ import com.dippola.relaxtour.MPList;
 @Keep
 public class WindController {
     public static class p3t1 extends Thread {
-        String pnp;
+        String tid;
 
-        public p3t1(String pnp) {
-            this.pnp = pnp;
+        public p3t1(String tid) {
+            this.tid = tid;
         }
         private boolean stop;
         public void setStop(boolean stop) {
@@ -22,11 +20,11 @@ public class WindController {
         @Override
         public void run() {
             while (!stop) {
-                if (AudioController.playingListindex0_1(pnp).isPlaying()) {
-                    int i = AudioController.playingListindex0_1(pnp).getCurrentPosition();
-                    if (i >= getSec(pnp)) {
-                        AudioController.playingListindex0_2(pnp).start();
-                        new p3t2(pnp).start();
+                if (AudioController.playingListindex0_1(tid).isPlaying()) {
+                    int i = AudioController.playingListindex0_1(tid).getCurrentPosition();
+                    if (i >= getSec(tid)) {
+                        AudioController.playingListindex0_2(tid).start();
+                        new p3t2(tid).start();
                         setStop(true);
                     }
                 }
@@ -34,9 +32,9 @@ public class WindController {
         }
     }
     public static class p3t2 extends Thread {
-        String pnp;
-        public p3t2(String pnp) {
-            this.pnp = pnp;
+        String tid;
+        public p3t2(String tid) {
+            this.tid = tid;
         }
         private boolean stop;
         public void setStop(boolean stop) {
@@ -46,11 +44,11 @@ public class WindController {
         @Override
         public void run() {
             while (!stop) {
-                if (AudioController.playingListindex0_2(pnp).isPlaying()) {
-                    int i = AudioController.playingListindex0_2(pnp).getCurrentPosition();
-                    if (i >= getSec(pnp)) {
-                        AudioController.playingListindex0_1(pnp).start();
-                        new p3t1(pnp).start();
+                if (AudioController.playingListindex0_2(tid).isPlaying()) {
+                    int i = AudioController.playingListindex0_2(tid).getCurrentPosition();
+                    if (i >= getSec(tid)) {
+                        AudioController.playingListindex0_1(tid).start();
+                        new p3t1(tid).start();
                         setStop(true);
                     }
                 }
@@ -60,73 +58,73 @@ public class WindController {
 
     public static void stopPage3(int position) {
         if (position == 1) {
-            if (MPList.p3p1_1 != null && MPList.p3p1_2 != null) {
-                MPList.p3p1_1.stop();
-                MPList.p3p1_1.prepareAsync();
-                MPList.p3p1_2.stop();
-                MPList.p3p1_2.prepareAsync();
+            if (MPList.t00013_1 != null && MPList.t00013_2 != null) {
+                MPList.t00013_1.stop();
+                MPList.t00013_1.prepareAsync();
+                MPList.t00013_2.stop();
+                MPList.t00013_2.prepareAsync();
             }
         } else if (position == 2) {
-            if (MPList.p3p2_1 != null && MPList.p3p2_2 != null) {
-                MPList.p3p2_1.stop();
-                MPList.p3p2_1.prepareAsync();
-                MPList.p3p2_2.stop();
-                MPList.p3p2_2.prepareAsync();
+            if (MPList.t00014_1 != null && MPList.t00014_2 != null) {
+                MPList.t00014_1.stop();
+                MPList.t00014_1.prepareAsync();
+                MPList.t00014_2.stop();
+                MPList.t00014_2.prepareAsync();
             }
         } else if (position == 3) {
-            if (MPList.p3p3_1 != null && MPList.p3p3_2 != null) {
-                MPList.p3p3_1.stop();
-                MPList.p3p3_1.prepareAsync();
-                MPList.p3p3_2.stop();
-                MPList.p3p3_2.prepareAsync();
+            if (MPList.t00015_1 != null && MPList.t00015_2 != null) {
+                MPList.t00015_1.stop();
+                MPList.t00015_1.prepareAsync();
+                MPList.t00015_2.stop();
+                MPList.t00015_2.prepareAsync();
             }
         } else if (position == 4) {
-            if (MPList.p3p4_1 != null && MPList.p3p4_2 != null) {
-                MPList.p3p4_1.stop();
-                MPList.p3p4_1.prepareAsync();
-                MPList.p3p4_2.stop();
-                MPList.p3p4_2.prepareAsync();
+            if (MPList.t00016_1 != null && MPList.t00016_2 != null) {
+                MPList.t00016_1.stop();
+                MPList.t00016_1.prepareAsync();
+                MPList.t00016_2.stop();
+                MPList.t00016_2.prepareAsync();
             }
         } else if (position == 5) {
-            if (MPList.p3p5_1 != null && MPList.p3p5_2 != null) {
-                MPList.p3p5_1.stop();
-                MPList.p3p5_1.prepareAsync();
-                MPList.p3p5_2.stop();
-                MPList.p3p5_2.prepareAsync();
+            if (MPList.t00017_1 != null && MPList.t00017_2 != null) {
+                MPList.t00017_1.stop();
+                MPList.t00017_1.prepareAsync();
+                MPList.t00017_2.stop();
+                MPList.t00017_2.prepareAsync();
             }
         } else if (position == 6) {
-            if (MPList.p3p6_1 != null && MPList.p3p6_2 != null) {
-                MPList.p3p6_1.stop();
-                MPList.p3p6_1.prepareAsync();
-                MPList.p3p6_2.stop();
-                MPList.p3p6_2.prepareAsync();
+            if (MPList.t00018_1 != null && MPList.t00018_2 != null) {
+                MPList.t00018_1.stop();
+                MPList.t00018_1.prepareAsync();
+                MPList.t00018_2.stop();
+                MPList.t00018_2.prepareAsync();
             }
         } else if (position == 7) {
-            if (MPList.p3p7_1 != null && MPList.p3p7_2 != null) {
-                MPList.p3p7_1.stop();
-                MPList.p3p7_1.prepareAsync();
-                MPList.p3p7_2.stop();
-                MPList.p3p7_2.prepareAsync();
+            if (MPList.t00019_1 != null && MPList.t00019_2 != null) {
+                MPList.t00019_1.stop();
+                MPList.t00019_1.prepareAsync();
+                MPList.t00019_2.stop();
+                MPList.t00019_2.prepareAsync();
             }
         }
         new p3t1(null).setStop(true);
         new p3t2(null).setStop(true);
     }
 
-    private static int getSec(String pnp) {
-        if (pnp.equals("3-1")) {
+    private static int getSec(String tid) {
+        if (tid.equals("00013")) {
             return 125900-3000;
-        } else if (pnp.equals("3-2")) {
+        } else if (tid.equals("00014")) {
             return 180000-3000;
-        } else if (pnp.equals("3-3")) {
+        } else if (tid.equals("00015")) {
             return 137700-3000;
-        } else if (pnp.equals("3-4")) {
+        } else if (tid.equals("00016")) {
             return 97900-3000;
-        } else if (pnp.equals("3-5")) {
+        } else if (tid.equals("00017")) {
             return 40000-3000;
-        } else if (pnp.equals("3-6")) {
+        } else if (tid.equals("00018")) {
             return 121400-3000;
-        } else if (pnp.equals("3-7")) {
+        } else if (tid.equals("00019")) {
             return 129400-3000;
         } else {
             return 0;

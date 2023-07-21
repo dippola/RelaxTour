@@ -1,7 +1,5 @@
 package com.dippola.relaxtour.controller;
 
-import android.util.Log;
-
 import androidx.annotation.Keep;
 
 import com.dippola.relaxtour.MPList;
@@ -9,10 +7,10 @@ import com.dippola.relaxtour.MPList;
 @Keep
 public class NatureController {
     public static class p4t1 extends Thread {
-        String pnp;
+        String tid;
 
-        public p4t1(String pnp) {
-            this.pnp = pnp;
+        public p4t1(String tid) {
+            this.tid = tid;
         }
         private boolean stop;
         public void setStop(boolean stop) {
@@ -22,11 +20,11 @@ public class NatureController {
         @Override
         public void run() {
             while (!stop) {
-                if (AudioController.playingListindex0_1(pnp).isPlaying()) {
-                    int i = AudioController.playingListindex0_1(pnp).getCurrentPosition();
-                    if (i >= getSec(pnp)) {
-                        AudioController.playingListindex0_2(pnp).start();
-                        new p4t2(pnp).start();
+                if (AudioController.playingListindex0_1(tid).isPlaying()) {
+                    int i = AudioController.playingListindex0_1(tid).getCurrentPosition();
+                    if (i >= getSec(tid)) {
+                        AudioController.playingListindex0_2(tid).start();
+                        new p4t2(tid).start();
                         setStop(true);
                     }
                 }
@@ -34,9 +32,9 @@ public class NatureController {
         }
     }
     public static class p4t2 extends Thread {
-        String pnp;
-        public p4t2(String pnp) {
-            this.pnp = pnp;
+        String tid;
+        public p4t2(String tid) {
+            this.tid = tid;
         }
         private boolean stop;
         public void setStop(boolean stop) {
@@ -46,11 +44,11 @@ public class NatureController {
         @Override
         public void run() {
             while (!stop) {
-                if (AudioController.playingListindex0_2(pnp).isPlaying()) {
-                    int i = AudioController.playingListindex0_2(pnp).getCurrentPosition();
-                    if (i >= getSec(pnp)) {
-                        AudioController.playingListindex0_1(pnp).start();
-                        new p4t1(pnp).start();
+                if (AudioController.playingListindex0_2(tid).isPlaying()) {
+                    int i = AudioController.playingListindex0_2(tid).getCurrentPosition();
+                    if (i >= getSec(tid)) {
+                        AudioController.playingListindex0_1(tid).start();
+                        new p4t1(tid).start();
                         setStop(true);
                     }
                 }
@@ -60,60 +58,60 @@ public class NatureController {
 
     public static void stopPage4(int position) {
         if (position == 1) {
-            if (MPList.p4p1_1 != null && MPList.p4p1_2 != null) {
-                MPList.p4p1_1.stop();
-                MPList.p4p1_1.prepareAsync();
-                MPList.p4p1_2.stop();
-                MPList.p4p1_2.prepareAsync();
+            if (MPList.t00020_1 != null && MPList.t00020_2 != null) {
+                MPList.t00020_1.stop();
+                MPList.t00020_1.prepareAsync();
+                MPList.t00020_2.stop();
+                MPList.t00020_2.prepareAsync();
             }
         } else if (position == 2) {
-            if (MPList.p4p2_1 != null && MPList.p4p2_2 != null) {
-                MPList.p4p2_1.stop();
-                MPList.p4p2_1.prepareAsync();
-                MPList.p4p2_2.stop();
-                MPList.p4p2_2.prepareAsync();
+            if (MPList.t00021_1 != null && MPList.t00021_2 != null) {
+                MPList.t00021_1.stop();
+                MPList.t00021_1.prepareAsync();
+                MPList.t00021_2.stop();
+                MPList.t00021_2.prepareAsync();
             }
         } else if (position == 3) {
-            if (MPList.p4p3_1 != null && MPList.p4p3_2 != null) {
-                MPList.p4p3_1.stop();
-                MPList.p4p3_1.prepareAsync();
-                MPList.p4p3_2.stop();
-                MPList.p4p3_2.prepareAsync();
+            if (MPList.t00022_1 != null && MPList.t00022_2 != null) {
+                MPList.t00022_1.stop();
+                MPList.t00022_1.prepareAsync();
+                MPList.t00022_2.stop();
+                MPList.t00022_2.prepareAsync();
             }
         } else if (position == 4) {
-            if (MPList.p4p4_1 != null && MPList.p4p4_2 != null) {
-                MPList.p4p4_1.stop();
-                MPList.p4p4_1.prepareAsync();
-                MPList.p4p4_2.stop();
-                MPList.p4p4_2.prepareAsync();
+            if (MPList.t00023_1 != null && MPList.t00023_2 != null) {
+                MPList.t00023_1.stop();
+                MPList.t00023_1.prepareAsync();
+                MPList.t00023_2.stop();
+                MPList.t00023_2.prepareAsync();
             }
         } else if (position == 5) {
-            if (MPList.p4p5_1 != null && MPList.p4p5_2 != null) {
-                MPList.p4p5_1.stop();
-                MPList.p4p5_1.prepareAsync();
-                MPList.p4p5_2.stop();
-                MPList.p4p5_2.prepareAsync();
+            if (MPList.t00024_1 != null && MPList.t00024_2 != null) {
+                MPList.t00024_1.stop();
+                MPList.t00024_1.prepareAsync();
+                MPList.t00024_2.stop();
+                MPList.t00024_2.prepareAsync();
             }
         } else if (position == 6) {
-            if (MPList.p4p6_1 != null && MPList.p4p6_2 != null) {
-                MPList.p4p6_1.stop();
-                MPList.p4p6_1.prepareAsync();
-                MPList.p4p6_2.stop();
-                MPList.p4p6_2.prepareAsync();
+            if (MPList.t00025_1 != null && MPList.t00025_2 != null) {
+                MPList.t00025_1.stop();
+                MPList.t00025_1.prepareAsync();
+                MPList.t00025_2.stop();
+                MPList.t00025_2.prepareAsync();
             }
         } else if (position == 7) {
-            if (MPList.p4p7_1 != null && MPList.p4p7_2 != null) {
-                MPList.p4p7_1.stop();
-                MPList.p4p7_1.prepareAsync();
-                MPList.p4p7_2.stop();
-                MPList.p4p7_2.prepareAsync();
+            if (MPList.t00026_1 != null && MPList.t00026_2 != null) {
+                MPList.t00026_1.stop();
+                MPList.t00026_1.prepareAsync();
+                MPList.t00026_2.stop();
+                MPList.t00026_2.prepareAsync();
             }
         } else if (position == 8) {
-            if (MPList.p4p8_1 != null && MPList.p4p8_2 != null) {
-                MPList.p4p8_1.stop();
-                MPList.p4p8_1.prepareAsync();
-                MPList.p4p8_2.stop();
-                MPList.p4p8_2.prepareAsync();
+            if (MPList.t00027_1 != null && MPList.t00027_2 != null) {
+                MPList.t00027_1.stop();
+                MPList.t00027_1.prepareAsync();
+                MPList.t00027_2.stop();
+                MPList.t00027_2.prepareAsync();
             }
         }
 
@@ -121,22 +119,22 @@ public class NatureController {
         new RainController.p1t2(null).setStop(true);
     }
 
-    private static int getSec(String pnp) {
-        if (pnp.equals("4-1")) {
+    private static int getSec(String tid) {
+        if (tid.equals("00020")) {
             return 73100-3000;
-        } else if (pnp.equals("4-2")) {
+        } else if (tid.equals("00021")) {
             return 75020-3000;
-        } else if (pnp.equals("4-3")) {
+        } else if (tid.equals("00022")) {
             return 45500-3000;
-        } else if (pnp.equals("4-4")) {
+        } else if (tid.equals("00023")) {
             return 52700-3000;
-        } else if (pnp.equals("4-5")) {
+        } else if (tid.equals("00024")) {
             return 21900-3000;
-        } else if (pnp.equals("4-6")) {
+        } else if (tid.equals("00025")) {
             return 73800-3000;
-        } else if (pnp.equals("4-7")) {
+        } else if (tid.equals("00026")) {
             return 180000-3000;
-        } else if (pnp.equals("4-8")) {
+        } else if (tid.equals("00027")) {
             return 146700-3000;
         } else {
             return 0;

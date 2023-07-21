@@ -514,7 +514,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void deletePlayingList(String tid) {//무료회원이 pro인 트랙 있으면 지우기
         sqLiteDatabase = this.getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select page, position from track where = '" + tid + "'", null);
+        Cursor cursor = sqLiteDatabase.rawQuery("select page, position from track where tid = '" + tid + "'", null);
+        cursor.moveToFirst();
         int page = cursor.getInt(0);
         int position = cursor.getInt(1);
         cursor.close();
@@ -883,54 +884,39 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void deleteAllPlayinglist(ArrayList<Integer> pagelist, ArrayList<Integer> positionlist, String title) {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("delete from playing");
-//        if (pagelist.contains(1)) {
-//            sqLiteDatabase.execSQL("update rain set isplay = 1 where isplay = 2");
-//        } else if (pagelist.contains(2)) {
-//            sqLiteDatabase.execSQL("update water set isplay = 1 where isplay = 2");
-//        } else if (pagelist.contains(3)) {
-//            sqLiteDatabase.execSQL("update wind set isplay = 1 where isplay = 2");
-//        } else if (pagelist.contains(4)) {
-//            sqLiteDatabase.execSQL("update nature set isplay = 1 where isplay = 2");
-//        } else if (pagelist.contains(5)) {
-//            sqLiteDatabase.execSQL("update chakra set isplay = 1 where isplay = 2");
-//        } else if (pagelist.contains(6)) {
-//            sqLiteDatabase.execSQL("update mantra set isplay = 1 where isplay = 2");
-//        } else if (pagelist.contains(7)) {
-//            sqLiteDatabase.execSQL("update hz set isplay = 1 where isplay = 2");
-//        }
         for (int i = 0; i < pagelist.size(); i++) {
             if (pagelist.get(i) == 1 && RainPage.arrayList.size() != 0) {
-                sqLiteDatabase.execSQL("update rain set isplay = 1 where isplay = 2");
+                sqLiteDatabase.execSQL("update track set isplay = 1 where isplay = 2 and page = 1");
                 RainPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 RainPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 RainPage.adapter.notifyDataSetChanged();
             } else if (pagelist.get(i) == 2 && WaterPage.arrayList.size() != 0) {
-                sqLiteDatabase.execSQL("update water set isplay = 1 where isplay = 2");
+                sqLiteDatabase.execSQL("update track set isplay = 1 where isplay = 2 and page = 2");
                 WaterPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 WaterPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 WaterPage.adapter.notifyDataSetChanged();
             } else if (pagelist.get(i) == 3 && WindPage.arrayList.size() != 0) {
-                sqLiteDatabase.execSQL("update wind set isplay = 1 where isplay = 2");
+                sqLiteDatabase.execSQL("update track set isplay = 1 where isplay = 2 and page = 3");
                 WindPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 WindPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 WindPage.adapter.notifyDataSetChanged();
             } else if (pagelist.get(i) == 4 && NaturePage.arrayList.size() != 0) {
-                sqLiteDatabase.execSQL("update nature set isplay = 1 where isplay = 2");
+                sqLiteDatabase.execSQL("update track set isplay = 1 where isplay = 2 and page = 4");
                 NaturePage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 NaturePage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 NaturePage.adapter.notifyDataSetChanged();
             } else if (pagelist.get(i) == 5 && ChakraPage.arrayList.size() != 0) {
-                sqLiteDatabase.execSQL("update chakra set isplay = 1 where isplay = 2");
+                sqLiteDatabase.execSQL("update track set isplay = 1 where isplay = 2 and page = 5");
                 ChakraPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 ChakraPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 ChakraPage.adapter.notifyDataSetChanged();
             } else if (pagelist.get(i) == 6 && MantraPage.arrayList.size() != 0) {
-                sqLiteDatabase.execSQL("update mantra set isplay = 1 where isplay = 2");
+                sqLiteDatabase.execSQL("update track set isplay = 1 where isplay = 2 and page = 6");
                 MantraPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 MantraPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 MantraPage.adapter.notifyDataSetChanged();
             } else if (pagelist.get(i) == 7 && HzPage.arrayList.size() != 0) {
-                sqLiteDatabase.execSQL("update hz set isplay = 1 where isplay = 2");
+                sqLiteDatabase.execSQL("update track set isplay = 1 where isplay = 2 and page = 7");
                 HzPage.arrayList.get(positionlist.get(i) - 1).setIsplay(1);
                 HzPage.adapter.notifyItemChanged(positionlist.get(i) - 1);
                 HzPage.adapter.notifyDataSetChanged();
@@ -946,13 +932,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void deleteAllPlayinglistWhenDeleteInBottomSheet() {
         sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.execSQL("delete from playing");
-        sqLiteDatabase.execSQL("update rain set isplay = 1 where isplay = 2");
-        sqLiteDatabase.execSQL("update water set isplay = 1 where isplay = 2");
-        sqLiteDatabase.execSQL("update wind set isplay = 1 where isplay = 2");
-        sqLiteDatabase.execSQL("update nature set isplay = 1 where isplay = 2");
-        sqLiteDatabase.execSQL("update chakra set isplay = 1 where isplay = 2");
-        sqLiteDatabase.execSQL("update mantra set isplay = 1 where isplay = 2");
-        sqLiteDatabase.execSQL("update hz set isplay = 1 where isplay = 2");
         sqLiteDatabase.execSQL("update track set isplay = 1 where isplay = 2");
     }
 
@@ -969,19 +948,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             ContentValues contentValues = new ContentValues();
             contentValues.put("page", cursor.getInt(0));
             contentValues.put("position", cursor.getInt(1));
-            contentValues.put("pnp", cursor.getString(2));
-            contentValues.put("imgdefault", cursor.getBlob(3));
-            contentValues.put("img", cursor.getBlob(4));
-            contentValues.put("darkdefault", cursor.getBlob(5));
-            contentValues.put("dark", cursor.getBlob(6));
-            contentValues.put("seek", cursor.getInt(7));
-            contentValues.put("isplay", 2);
-            contentValues.put("time", cursor.getInt(10));
-            contentValues.put("name", cursor.getString(11));
-            contentValues.put("ispro", cursor.getInt(12));
-            contentValues.put("needdownload", cursor.getInt(13));
-            contentValues.put("tid", cursor.getString(14));
-            setIsPlay2WhenPlayInFavTitle(cursor.getString(14));
+//            contentValues.put("pnp", cursor.getString(2));
+            contentValues.put("imgdefault", cursor.getBlob(2));
+            contentValues.put("img", cursor.getBlob(3));
+            contentValues.put("darkdefault", cursor.getBlob(4));
+            contentValues.put("dark", cursor.getBlob(5));
+            contentValues.put("seek", cursor.getInt(6));
+            contentValues.put("isplay", 7);
+            contentValues.put("time", cursor.getInt(9));
+            contentValues.put("name", cursor.getString(10));
+            contentValues.put("ispro", cursor.getInt(11));
+            contentValues.put("needdownload", cursor.getInt(12));
+            contentValues.put("tid", cursor.getString(13));
+            setIsPlay2WhenPlayInFavTitle(cursor.getString(13));
             sqLiteDatabase.insert("playing", null, contentValues);
             cursor.moveToNext();
         }
@@ -1348,7 +1327,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         ContentValues contentValues = new ContentValues();
                         contentValues.put("page", lists.get(ii).getPage());
                         contentValues.put("position", lists.get(ii).getPosition());
-                        contentValues.put("imagedefault", lists.get(ii).getImgdefault());
+                        contentValues.put("imgdefault", lists.get(ii).getImgdefault());
                         contentValues.put("img", lists.get(ii).getImg());
                         contentValues.put("darkdefault", lists.get(ii).getDarkdefault());
                         contentValues.put("dark", lists.get(ii).getDark());
