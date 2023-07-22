@@ -12,13 +12,6 @@ import androidx.core.app.NotificationManagerCompat;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
-import com.dippola.relaxtour.controller.ChakraController;
-import com.dippola.relaxtour.controller.HzController;
-import com.dippola.relaxtour.controller.MantraController;
-import com.dippola.relaxtour.controller.NatureController;
-import com.dippola.relaxtour.controller.RainController;
-import com.dippola.relaxtour.controller.WaterController;
-import com.dippola.relaxtour.controller.WindController;
 import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.service.TimerService;
 import com.dippola.relaxtour.timer.Timer2;
@@ -83,19 +76,19 @@ public class TimerNotificationActionService extends BroadcastReceiver {
 
     private void stopPage(int page, int position) {
         if (page == 1) {
-            RainController.stopPage1(position);
+            AudioController.stopPage1(position);
         } else if (page == 2) {
-            WaterController.stopPage2(position);
+            AudioController.stopPage2(position);
         } else if (page == 3) {
-            WindController.stopPage3(position);
+            AudioController.stopPage3(position);
         } else if (page == 4) {
-            NatureController.stopPage4(position);
+            AudioController.stopPage4(position);
         } else if (page == 5) {
-            ChakraController.stopChakra(position);
+            AudioController.stopChakra(position);
         } else if (page == 6) {
-            MantraController.stopMantra(position);
+            AudioController.stopMantra(position);
         } else if (page == 7) {
-            HzController.stopHz(position);
+            AudioController.stopHz(position);
         }
     }
 

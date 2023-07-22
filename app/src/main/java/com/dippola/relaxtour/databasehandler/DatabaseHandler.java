@@ -514,16 +514,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void deletePlayingList(String tid) {//무료회원이 pro인 트랙 있으면 지우기
         sqLiteDatabase = this.getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select page, position from track where tid = '" + tid + "'", null);
+        Cursor cursor = sqLiteDatabase.rawQuery("select page from track where tid = '" + tid + "'", null);
         cursor.moveToFirst();
         int page = cursor.getInt(0);
-        int position = cursor.getInt(1);
         cursor.close();
         if (page != 4) {
             sqLiteDatabase.execSQL("delete from playing where page = " + page);
         } else {
-            String pnp = page + "-" + position;
-            sqLiteDatabase.execSQL("delete from playing where pnp = '" + pnp + "'");
+            sqLiteDatabase.execSQL("delete from playing where tid = '" + tid + "'");
         }
         sqLiteDatabase.execSQL("update track set isplay = 1 where tid = '" + tid + "'");
     }
@@ -588,7 +586,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void setIsPlayPage4(String tid) {
         sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.execSQL("update track set isplay = 2 where = '" + tid + "'");
+        sqLiteDatabase.execSQL("update track set isplay = 2 where tid = '" + tid + "'");
         sqLiteDatabase.execSQL("insert into playing select * from track where tid = '" + tid + "'");
     }
 

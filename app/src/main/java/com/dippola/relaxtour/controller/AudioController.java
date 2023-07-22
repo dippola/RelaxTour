@@ -46,7 +46,7 @@ public class AudioController {
             } else if (position == 6) {
                 MPList.t00006_1.start();
             }
-            new RainController.p1t1(tid).start();
+            new TrackThread.t1(tid).start();
         } else if (page == 2) {
             if (position == 1) {
                 MPList.t00007_1.start();
@@ -61,7 +61,7 @@ public class AudioController {
             } else if (position == 6) {
                 MPList.t00012_1.start();
             }
-            new WaterController.p2t1(tid).start();
+            new TrackThread.t1(tid).start();
         } else if (page == 3) {
             if (position == 1) {
                 MPList.t00013_1.start();
@@ -78,7 +78,7 @@ public class AudioController {
             } else if (position == 7) {
                 MPList.t00019_1.start();
             }
-            new WindController.p3t1(tid).start();
+            new TrackThread.t1(tid).start();
         } else if (page == 4) {
             if (position == 1) {
                 MPList.t00020_1.start();
@@ -97,7 +97,7 @@ public class AudioController {
             } else if (position == 8) {
                 MPList.t00027_1.start();
             }
-            new NatureController.p4t1(tid).start();
+            new TrackThread.t1(tid).start();
         } else if (page == 5) {
             if (position == 1) {
                 MPList.t00028_1.start();
@@ -114,7 +114,7 @@ public class AudioController {
             } else if (position == 7) {
                 MPList.t00034_1.start();
             }
-            new ChakraController.p5t1(tid).start();
+            new TrackThread.t1(tid).start();
         } else if (page == 6) {
             if (position == 1) {
                 MPList.t00035_1.start();
@@ -131,7 +131,7 @@ public class AudioController {
             } else if (position == 7) {
                 MPList.t00041_1.start();
             }
-            new MantraController.p6t1(tid).start();
+            new TrackThread.t1(tid).start();
         } else if (page == 7) {
             if (position == 1) {
                 MPList.t00042_1.start();
@@ -148,7 +148,7 @@ public class AudioController {
             } else if (position == 7) {
                 MPList.t00048_1.start();
             }
-            new HzController.p7t1(tid).start();
+            new TrackThread.t1(tid).start();
         }
     }
 
@@ -170,218 +170,159 @@ public class AudioController {
         switch (tid) {
             case "00001":
                 MPList.t00001_1.start();
-                new RainController.p1t1(tid).start();
                 break;
             case "00002":
                 MPList.t00002_1.start();
-                new RainController.p1t1(tid).start();
                 break;
             case "00003":
                 MPList.t00003_1.start();
-                new RainController.p1t1(tid).start();
                 break;
             case "00004":
                 MPList.t00004_1.start();
-                new RainController.p1t1(tid).start();
                 break;
             case "00005":
                 MPList.t00005_1.start();
-                new RainController.p1t1(tid).start();
                 break;
             case "00006":
                 MPList.t00006_1.start();
-                new RainController.p1t1(tid).start();
                 break;
 
 
             case "00007":
                 MPList.t00007_1.start();
-                new WaterController.p2t1(tid).start();
                 break;
             case "00008":
                 MPList.t00008_1.start();
-                new WaterController.p2t1(tid).start();
                 break;
             case "00009":
                 MPList.t00009_1.start();
-                new WaterController.p2t1(tid).start();
                 break;
             case "00010":
                 MPList.t00010_1.start();
-                new WaterController.p2t1(tid).start();
                 break;
             case "00011":
                 MPList.t00011_1.start();
-                new WaterController.p2t1(tid).start();
                 break;
             case "00012":
                 MPList.t00012_1.start();
-                new WaterController.p2t1(tid).start();
                 break;
 
 
             case "00013":
                 MPList.t00013_1.start();
-                new WindController.p3t1(tid).start();
                 break;
             case "00014":
                 MPList.t00014_1.start();
-                new WindController.p3t1(tid).start();
                 break;
             case "00015":
                 MPList.t00015_1.start();
-                new WindController.p3t1(tid).start();
                 break;
             case "00016":
                 MPList.t00016_1.start();
-                new WindController.p3t1(tid).start();
                 break;
             case "00017":
                 MPList.t00017_1.start();
-                new WindController.p3t1(tid).start();
                 break;
             case "00018":
                 MPList.t00018_1.start();
-                new WindController.p3t1(tid).start();
                 break;
             case "00019":
                 MPList.t00019_1.start();
-                new WindController.p3t1(tid).start();
                 break;
 
 
             case "00020":
                 MPList.t00020_1.start();
-                new NatureController.p4t1(tid).start();
                 break;
             case "00021":
                 MPList.t00021_1.start();
-                new NatureController.p4t1(tid).start();
                 break;
             case "00022":
                 MPList.t00022_1.start();
-                new NatureController.p4t1(tid).start();
                 break;
             case "00023":
                 MPList.t00023_1.start();
-                new NatureController.p4t1(tid).start();
                 break;
             case "00024":
                 MPList.t00024_1.start();
-                new NatureController.p4t1(tid).start();
                 break;
             case "00025":
                 MPList.t00025_1.start();
-                new NatureController.p4t1(tid).start();
                 break;
             case "00026":
                 MPList.t00026_1.start();
-                new NatureController.p4t1(tid).start();
                 break;
             case "00027":
                 MPList.t00027_1.start();
-                new NatureController.p4t1(tid).start();
                 break;
 
             case "00028":
                 MPList.t00028_1.start();
-                new ChakraController.p5t1(tid).start();
                 break;
             case "00029":
                 MPList.t00029_1.start();
-                new ChakraController.p5t1(tid).start();
                 break;
             case "00030":
                 MPList.t00030_1.start();
-                new ChakraController.p5t1(tid).start();
                 break;
             case "00031":
                 MPList.t00031_1.start();
-                new ChakraController.p5t1(tid).start();
                 break;
             case "00032":
                 MPList.t00032_1.start();
-                new ChakraController.p5t1(tid).start();
                 break;
             case "00033":
                 MPList.t00033_1.start();
-                new ChakraController.p5t1(tid).start();
                 break;
             case "00034":
                 MPList.t00034_1.start();
-                new ChakraController.p5t1(tid).start();
                 break;
 
             case "00035":
                 MPList.t00035_1.start();
-                new MantraController.p6t1(tid).start();
                 break;
             case "00036":
                 MPList.t00036_1.start();
-                new MantraController.p6t1(tid).start();
                 break;
             case "00037":
                 MPList.t00037_1.start();
-                new MantraController.p6t1(tid).start();
                 break;
             case "00038":
                 MPList.t00038_1.start();
-                new MantraController.p6t1(tid).start();
                 break;
             case "00039":
                 MPList.t00039_1.start();
-                new MantraController.p6t1(tid).start();
                 break;
             case "00040":
                 MPList.t00040_1.start();
-                new MantraController.p6t1(tid).start();
                 break;
             case "00041":
                 MPList.t00041_1.start();
-                new MantraController.p6t1(tid).start();
                 break;
 
             case "00042":
                 MPList.t00042_1.start();
-                new HzController.p7t1(tid).start();
                 break;
             case "00043":
                 MPList.t00043_1.start();
-                new HzController.p7t1(tid).start();
                 break;
             case "00044":
                 MPList.t00044_1.start();
-                new HzController.p7t1(tid).start();
                 break;
             case "00045":
                 MPList.t00045_1.start();
-                new HzController.p7t1(tid).start();
                 break;
             case "00046":
                 MPList.t00046_1.start();
-                new HzController.p7t1(tid).start();
                 break;
             case "00047":
                 MPList.t00047_1.start();
-                new HzController.p7t1(tid).start();
                 break;
             case "00048":
                 MPList.t00048_1.start();
-                new HzController.p7t1(tid).start();
                 break;
-
-//            case "4-1":
-//                NaturePage.p4p1_1.start();
-//                new NatureController
-
-
-//            case "4-1":
-//                HzController.startHz(pp);
-//                break;
-//            case "4-2":
-//                HzController.startHz(pp);
-//                break;
         }
+        new TrackThread.t1(tid).start();
     }
 
     public static void checkOpenService(Context context) {//service 안켜져있으면 다시 시키
@@ -678,19 +619,19 @@ public class AudioController {
 
     public static void stopPage(int page, int position) {
         if (page == 1) {
-            RainController.stopPage1(position);
+            stopPage1(position);
         } else if (page == 2) {
-            WaterController.stopPage2(position);
+            stopPage2(position);
         } else if (page == 3) {
-            WindController.stopPage3(position);
+            stopPage3(position);
         } else if (page == 4) {
-            NatureController.stopPage4(position);
+            stopPage4(position);
         } else if (page == 5) {
-            ChakraController.stopChakra(position);
+            stopChakra(position);
         } else if (page == 6) {
-            MantraController.stopMantra(position);
+            stopMantra(position);
         } else if (page == 7) {
-            HzController.stopHz(position);
+            stopHz(position);
         }
     }
 
@@ -767,19 +708,383 @@ public class AudioController {
     public static void stopPlayingList(ArrayList<PageItem> pageItem) {//playinglist에 있는 목록만 stop(page)
         for (int i = 0; i < pageItem.size(); i++) {
             if (pageItem.get(i).getPage() == 1) {
-                RainController.stopPage1(pageItem.get(i).getPosition());
+                stopPage1(pageItem.get(i).getPosition());
             } else if (pageItem.get(i).getPage() == 2) {
-                WaterController.stopPage2(pageItem.get(i).getPosition());
+                stopPage2(pageItem.get(i).getPosition());
             } else if (pageItem.get(i).getPage() == 3) {
-                WindController.stopPage3(pageItem.get(i).getPosition());
+                stopPage3(pageItem.get(i).getPosition());
             } else if (pageItem.get(i).getPage() == 4) {
-                NatureController.stopPage4(pageItem.get(i).getPosition());
+                stopPage4(pageItem.get(i).getPosition());
             } else if (pageItem.get(i).getPage() == 5) {
-                ChakraController.stopChakra(pageItem.get(i).getPosition());
+                stopChakra(pageItem.get(i).getPosition());
             } else if (pageItem.get(i).getPage() == 6) {
-                MantraController.stopMantra(pageItem.get(i).getPosition());
+                stopMantra(pageItem.get(i).getPosition());
             } else if (pageItem.get(i).getPage() == 7) {
-                HzController.stopHz(pageItem.get(i).getPosition());
+                stopHz(pageItem.get(i).getPosition());
+            }
+        }
+    }
+
+    public static void stopPage1(int position) {
+        if (position == 1) {
+            if (MPList.t00001_1 != null && MPList.t00001_2 != null) {
+                MPList.t00001_1.stop();
+                MPList.t00001_1.prepareAsync();
+                MPList.t00001_2.stop();
+                MPList.t00001_2.prepareAsync();
+            }
+        } else if (position == 2) {
+            if (MPList.t00002_1 != null && MPList.t00002_2 != null) {
+                MPList.t00002_1.stop();
+                MPList.t00002_1.prepareAsync();
+                MPList.t00002_2.stop();
+                MPList.t00002_2.prepareAsync();
+            }
+        } else if (position == 3) {
+            if (MPList.t00003_1 != null && MPList.t00003_2 != null) {
+                MPList.t00003_1.stop();
+                MPList.t00003_1.prepareAsync();
+                MPList.t00003_2.stop();
+                MPList.t00003_2.prepareAsync();
+            }
+        } else if (position == 4) {
+            if (MPList.t00004_1 != null && MPList.t00004_2 != null) {
+                MPList.t00004_1.stop();
+                MPList.t00004_1.prepareAsync();
+                MPList.t00004_2.stop();
+                MPList.t00004_2.prepareAsync();
+            }
+        } else if (position == 5) {
+            if (MPList.t00005_1 != null && MPList.t00005_2 != null) {
+                MPList.t00005_1.stop();
+                MPList.t00005_1.prepareAsync();
+                MPList.t00005_2.stop();
+                MPList.t00005_2.prepareAsync();
+            }
+        } else if (position == 6) {
+            if (MPList.t00006_1 != null && MPList.t00006_2 != null) {
+                MPList.t00006_1.stop();
+                MPList.t00006_1.prepareAsync();
+                MPList.t00006_2.stop();
+                MPList.t00006_2.prepareAsync();
+            }
+        }
+    }
+
+    public static void stopPage2(int position) {
+        if (position == 1) {
+            if (MPList.t00007_1 != null && MPList.t00007_2 != null) {
+                MPList.t00007_1.stop();
+                MPList.t00007_1.prepareAsync();
+                MPList.t00007_2.stop();
+                MPList.t00007_2.prepareAsync();
+            }
+        } else if (position == 2) {
+            if (MPList.t00008_1 != null && MPList.t00008_2 != null) {
+                MPList.t00008_1.stop();
+                MPList.t00008_1.prepareAsync();
+                MPList.t00008_2.stop();
+                MPList.t00008_2.prepareAsync();
+            }
+        } else if (position == 3) {
+            if (MPList.t00009_1 != null && MPList.t00009_2 != null) {
+                MPList.t00009_1.stop();
+                MPList.t00009_1.prepareAsync();
+                MPList.t00009_2.stop();
+                MPList.t00009_2.prepareAsync();
+            }
+        } else if (position == 4) {
+            if (MPList.t00010_1 != null && MPList.t00010_2 != null) {
+                MPList.t00010_1.stop();
+                MPList.t00010_1.prepareAsync();
+                MPList.t00010_2.stop();
+                MPList.t00010_2.prepareAsync();
+            }
+        } else if (position == 5) {
+            if (MPList.t00011_1 != null && MPList.t00011_2 != null) {
+                MPList.t00011_1.stop();
+                MPList.t00011_1.prepareAsync();
+                MPList.t00011_2.stop();
+                MPList.t00011_2.prepareAsync();
+            }
+        } else if (position == 6) {
+            if (MPList.t00012_1 != null && MPList.t00012_2 != null) {
+                MPList.t00012_1.stop();
+                MPList.t00012_1.prepareAsync();
+                MPList.t00012_2.stop();
+                MPList.t00012_2.prepareAsync();
+            }
+        }
+    }
+
+    public static void stopPage3(int position) {
+        if (position == 1) {
+            if (MPList.t00013_1 != null && MPList.t00013_2 != null) {
+                MPList.t00013_1.stop();
+                MPList.t00013_1.prepareAsync();
+                MPList.t00013_2.stop();
+                MPList.t00013_2.prepareAsync();
+            }
+        } else if (position == 2) {
+            if (MPList.t00014_1 != null && MPList.t00014_2 != null) {
+                MPList.t00014_1.stop();
+                MPList.t00014_1.prepareAsync();
+                MPList.t00014_2.stop();
+                MPList.t00014_2.prepareAsync();
+            }
+        } else if (position == 3) {
+            if (MPList.t00015_1 != null && MPList.t00015_2 != null) {
+                MPList.t00015_1.stop();
+                MPList.t00015_1.prepareAsync();
+                MPList.t00015_2.stop();
+                MPList.t00015_2.prepareAsync();
+            }
+        } else if (position == 4) {
+            if (MPList.t00016_1 != null && MPList.t00016_2 != null) {
+                MPList.t00016_1.stop();
+                MPList.t00016_1.prepareAsync();
+                MPList.t00016_2.stop();
+                MPList.t00016_2.prepareAsync();
+            }
+        } else if (position == 5) {
+            if (MPList.t00017_1 != null && MPList.t00017_2 != null) {
+                MPList.t00017_1.stop();
+                MPList.t00017_1.prepareAsync();
+                MPList.t00017_2.stop();
+                MPList.t00017_2.prepareAsync();
+            }
+        } else if (position == 6) {
+            if (MPList.t00018_1 != null && MPList.t00018_2 != null) {
+                MPList.t00018_1.stop();
+                MPList.t00018_1.prepareAsync();
+                MPList.t00018_2.stop();
+                MPList.t00018_2.prepareAsync();
+            }
+        } else if (position == 7) {
+            if (MPList.t00019_1 != null && MPList.t00019_2 != null) {
+                MPList.t00019_1.stop();
+                MPList.t00019_1.prepareAsync();
+                MPList.t00019_2.stop();
+                MPList.t00019_2.prepareAsync();
+            }
+        }
+    }
+
+    public static void stopPage4(int position) {
+        if (position == 1) {
+            if (MPList.t00020_1 != null && MPList.t00020_2 != null) {
+                MPList.t00020_1.stop();
+                MPList.t00020_1.prepareAsync();
+                MPList.t00020_2.stop();
+                MPList.t00020_2.prepareAsync();
+            }
+        } else if (position == 2) {
+            if (MPList.t00021_1 != null && MPList.t00021_2 != null) {
+                MPList.t00021_1.stop();
+                MPList.t00021_1.prepareAsync();
+                MPList.t00021_2.stop();
+                MPList.t00021_2.prepareAsync();
+            }
+        } else if (position == 3) {
+            if (MPList.t00022_1 != null && MPList.t00022_2 != null) {
+                MPList.t00022_1.stop();
+                MPList.t00022_1.prepareAsync();
+                MPList.t00022_2.stop();
+                MPList.t00022_2.prepareAsync();
+            }
+        } else if (position == 4) {
+            if (MPList.t00023_1 != null && MPList.t00023_2 != null) {
+                MPList.t00023_1.stop();
+                MPList.t00023_1.prepareAsync();
+                MPList.t00023_2.stop();
+                MPList.t00023_2.prepareAsync();
+            }
+        } else if (position == 5) {
+            if (MPList.t00024_1 != null && MPList.t00024_2 != null) {
+                MPList.t00024_1.stop();
+                MPList.t00024_1.prepareAsync();
+                MPList.t00024_2.stop();
+                MPList.t00024_2.prepareAsync();
+            }
+        } else if (position == 6) {
+            if (MPList.t00025_1 != null && MPList.t00025_2 != null) {
+                MPList.t00025_1.stop();
+                MPList.t00025_1.prepareAsync();
+                MPList.t00025_2.stop();
+                MPList.t00025_2.prepareAsync();
+            }
+        } else if (position == 7) {
+            if (MPList.t00026_1 != null && MPList.t00026_2 != null) {
+                MPList.t00026_1.stop();
+                MPList.t00026_1.prepareAsync();
+                MPList.t00026_2.stop();
+                MPList.t00026_2.prepareAsync();
+            }
+        } else if (position == 8) {
+            if (MPList.t00027_1 != null && MPList.t00027_2 != null) {
+                MPList.t00027_1.stop();
+                MPList.t00027_1.prepareAsync();
+                MPList.t00027_2.stop();
+                MPList.t00027_2.prepareAsync();
+            }
+        }
+    }
+
+    public static void stopChakra(int position) {
+        if (position == 1) {
+            if (MPList.t00028_1 != null && MPList.t00028_2 != null) {
+                MPList.t00028_1.stop();
+                MPList.t00028_1.prepareAsync();
+                MPList.t00028_2.stop();
+                MPList.t00028_2.prepareAsync();
+            }
+        } else if (position == 2) {
+            if (MPList.t00029_1 != null && MPList.t00029_2 != null) {
+                MPList.t00029_1.stop();
+                MPList.t00029_1.prepareAsync();
+                MPList.t00029_2.stop();
+                MPList.t00029_2.prepareAsync();
+            }
+        } else if (position == 3) {
+            if (MPList.t00030_1 != null && MPList.t00030_2 != null) {
+                MPList.t00030_1.stop();
+                MPList.t00030_1.prepareAsync();
+                MPList.t00030_2.stop();
+                MPList.t00030_2.prepareAsync();
+            }
+        } else if (position == 4) {
+            if (MPList.t00031_1 != null && MPList.t00031_2 != null) {
+                MPList.t00031_1.stop();
+                MPList.t00031_1.prepareAsync();
+                MPList.t00031_2.stop();
+                MPList.t00031_2.prepareAsync();
+            }
+        } else if (position == 5) {
+            if (MPList.t00032_1 != null && MPList.t00032_2 != null) {
+                MPList.t00032_1.stop();
+                MPList.t00032_1.prepareAsync();
+                MPList.t00032_2.stop();
+                MPList.t00032_2.prepareAsync();
+            }
+        } else if (position == 6) {
+            if (MPList.t00033_1 != null && MPList.t00033_2 != null) {
+                MPList.t00033_1.stop();
+                MPList.t00033_1.prepareAsync();
+                MPList.t00033_2.stop();
+                MPList.t00033_2.prepareAsync();
+            }
+        } else if (position == 7) {
+            if (MPList.t00034_1 != null && MPList.t00034_2 != null) {
+                MPList.t00034_1.stop();
+                MPList.t00034_1.prepareAsync();
+                MPList.t00034_2.stop();
+                MPList.t00034_2.prepareAsync();
+            }
+        }
+    }
+
+    public static void stopMantra(int position) {
+        if (position == 1) {
+            if (MPList.t00035_1 != null && MPList.t00035_2 != null) {
+                MPList.t00035_1.stop();
+                MPList.t00035_1.prepareAsync();
+                MPList.t00035_2.stop();
+                MPList.t00035_2.prepareAsync();
+            }
+        } else if (position == 2) {
+            if (MPList.t00036_1 != null && MPList.t00036_2 != null) {
+                MPList.t00036_1.stop();
+                MPList.t00036_1.prepareAsync();
+                MPList.t00036_2.stop();
+                MPList.t00036_2.prepareAsync();
+            }
+        } else if (position == 3) {
+            if (MPList.t00037_1 != null && MPList.t00037_2 != null) {
+                MPList.t00037_1.stop();
+                MPList.t00037_1.prepareAsync();
+                MPList.t00037_2.stop();
+                MPList.t00037_2.prepareAsync();
+            }
+        } else if (position == 4) {
+            if (MPList.t00038_1 != null && MPList.t00038_2 != null) {
+                MPList.t00038_1.stop();
+                MPList.t00038_1.prepareAsync();
+                MPList.t00038_2.stop();
+                MPList.t00038_2.prepareAsync();
+            }
+        } else if (position == 5) {
+            if (MPList.t00039_1 != null && MPList.t00039_2 != null) {
+                MPList.t00039_1.stop();
+                MPList.t00039_1.prepareAsync();
+                MPList.t00039_2.stop();
+                MPList.t00039_2.prepareAsync();
+            }
+        } else if (position == 6) {
+            if (MPList.t00040_1 != null && MPList.t00040_2 != null) {
+                MPList.t00040_1.stop();
+                MPList.t00040_1.prepareAsync();
+                MPList.t00040_2.stop();
+                MPList.t00040_2.prepareAsync();
+            }
+        } else if (position == 7) {
+            if (MPList.t00041_1 != null && MPList.t00041_2 != null) {
+                MPList.t00041_1.stop();
+                MPList.t00041_1.prepareAsync();
+                MPList.t00041_2.stop();
+                MPList.t00041_2.prepareAsync();
+            }
+        }
+    }
+
+    public static void stopHz(int position) {
+        if (position == 1) {
+            if (MPList.t00042_1 != null && MPList.t00042_2 != null) {
+                MPList.t00042_1.stop();
+                MPList.t00042_1.prepareAsync();
+                MPList.t00042_2.stop();
+                MPList.t00042_2.prepareAsync();
+            }
+        } else if (position == 2) {
+            if (MPList.t00043_1 != null && MPList.t00043_2 != null) {
+                MPList.t00043_1.stop();
+                MPList.t00043_1.prepareAsync();
+                MPList.t00043_2.stop();
+                MPList.t00043_2.prepareAsync();
+            }
+        } else if (position == 3) {
+            if (MPList.t00044_1 != null && MPList.t00044_2 != null) {
+                MPList.t00044_1.stop();
+                MPList.t00044_1.prepareAsync();
+                MPList.t00044_2.stop();
+                MPList.t00044_2.prepareAsync();
+            }
+        } else if (position == 4) {
+            if (MPList.t00045_1 != null && MPList.t00045_2 != null) {
+                MPList.t00045_1.stop();
+                MPList.t00045_1.prepareAsync();
+                MPList.t00045_2.stop();
+                MPList.t00045_2.prepareAsync();
+            }
+        } else if (position == 5) {
+            if (MPList.t00046_1 != null && MPList.t00046_2 != null) {
+                MPList.t00046_1.stop();
+                MPList.t00046_1.prepareAsync();
+                MPList.t00046_2.stop();
+                MPList.t00046_2.prepareAsync();
+            }
+        } else if (position == 6) {
+            if (MPList.t00047_1 != null && MPList.t00047_2 != null) {
+                MPList.t00047_1.stop();
+                MPList.t00047_1.prepareAsync();
+                MPList.t00047_2.stop();
+                MPList.t00047_2.prepareAsync();
+            }
+        } else if (position == 7) {
+            if (MPList.t00048_1 != null && MPList.t00048_2 != null) {
+                MPList.t00048_1.stop();
+                MPList.t00048_1.prepareAsync();
+                MPList.t00048_2.stop();
+                MPList.t00048_2.prepareAsync();
             }
         }
     }
