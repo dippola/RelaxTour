@@ -87,7 +87,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Activate all Relax Tour's"
+                            android:text="Activate everything of Relax Tour."
                             android:textColor="@color/text_color"
                             android:textSize="17dp"
                             android:textStyle="bold" />
@@ -95,7 +95,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="More sounds and combinations are available."
+                            android:text="You can activate all tracks to use more combinations."
                             android:textColor="@color/text_color" />
 
                     </LinearLayout>
@@ -133,7 +133,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="There is a community where you can share the experiences and information of meditators with other users.\nShare your meditation story and your favorite list."
+                            android:text="This is a community where meditators can share their experiences and information with other users\nShare your meditation stories and favorite list!"
                             android:textColor="@color/text_color" />
 
                     </LinearLayout>
@@ -163,7 +163,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Enjoy Meditation"
+                            android:text="Enjoy your meditation!"
                             android:textColor="@color/text_color"
                             android:textSize="17dp"
                             android:textStyle="bold" />
