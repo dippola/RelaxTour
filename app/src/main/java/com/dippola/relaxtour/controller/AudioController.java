@@ -96,6 +96,8 @@ public class AudioController {
                 MPList.t00026_1.start();
             } else if (position == 8) {
                 MPList.t00027_1.start();
+            } else if (position == 9) {
+                MPList.t00049_1.start();
             }
             new TrackThread.t1(tid).start();
         } else if (page == 5) {
@@ -321,6 +323,10 @@ public class AudioController {
             case "00048":
                 MPList.t00048_1.start();
                 break;
+
+            case "00049":
+                MPList.t00049_1.start();
+                break;
         }
         new TrackThread.t1(tid).start();
     }
@@ -386,6 +392,7 @@ public class AudioController {
         tidList.add("00046");
         tidList.add("00047");
         tidList.add("00048");
+        tidList.add("00049");
         MPList.initalMP(pageItem.getTid(), context, pageItem.getSeek());
         if (tidList.contains(pageItem.getTid())) {
             return playingListindex0_1(pageItem.getTid()).isPlaying() || playingListindex0_2(pageItem.getTid()).isPlaying();
@@ -503,6 +510,9 @@ public class AudioController {
             case "00048":
                 return MPList.t00048_1;
 
+            case "00049":
+                return MPList.t00049_1;
+
             default:
                 return null;
         }
@@ -612,6 +622,8 @@ public class AudioController {
                 return MPList.t00047_2;
             case "00048":
                 return MPList.t00048_2;
+            case "00049":
+                return MPList.t00049_2;
             default:
                 return null;
         }
@@ -926,6 +938,13 @@ public class AudioController {
                 MPList.t00027_1.prepareAsync();
                 MPList.t00027_2.stop();
                 MPList.t00027_2.prepareAsync();
+            }
+        } else if (position == 9) {
+            if (MPList.t00049_1 != null && MPList.t00049_2 != null) {
+                MPList.t00049_1.stop();
+                MPList.t00049_1.prepareAsync();
+                MPList.t00049_2.stop();
+                MPList.t00049_2.prepareAsync();
             }
         }
     }

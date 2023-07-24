@@ -98,6 +98,8 @@ public class TrackSecond {
             return 600000-2200;
         } else if (tid.equals("00048")) {
             return 600000-2200;
+        } else if (tid.equals("00049")) {
+            return 71100-2200;
         } else {
             return 0;
         }

@@ -128,8 +128,7 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
                 if (SeekController.bottomMoving) {
                     arrayList.get(positions).setSeek(seekBar.getProgress());
                     float volume = (float) (1 - (Math.log(SeekController.MAX_VOLUME - i) / Math.log(SeekController.MAX_VOLUME)));
-                    String pnp = arrayList.get(positions).getPage() + "-" + arrayList.get(positions).getPosition();
-                    SeekController.changeVolumn(pnp, volume);
+                    SeekController.changeVolumn(arrayList.get(positions).getTid(), volume);
                     SeekController.changeSeekInBottom(context, arrayList.get(positions), seekBar.getProgress());
                 }
             }
