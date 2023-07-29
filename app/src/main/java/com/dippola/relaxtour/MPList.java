@@ -95,18 +95,30 @@ public class MPList {
                 }
                 break;
             case "00005":
-                if (t00005_1 == null || t00005_2 == null) {
-                    t00005_1 = MediaPlayer.create(context, R.raw.audio00005);
-                    t00005_2 = MediaPlayer.create(context, R.raw.audio00005);
-                    AudioController.setVolumn(tid, volumn);
+                try {
+                    t00005_1 = new MediaPlayer();
+                    t00005_2 = new MediaPlayer();
+                    t00005_1.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00005.mp3");
+                    t00005_2.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00005.mp3");
+                    t00005_1.prepareAsync();
+                    t00005_2.prepareAsync();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                AudioController.setVolumn(tid, volumn);
                 break;
             case "00006":
-                if (t00006_1 == null || t00006_2 == null) {
-                    t00006_1 = MediaPlayer.create(context, R.raw.audio00006);
-                    t00006_2 = MediaPlayer.create(context, R.raw.audio00006);
-                    AudioController.setVolumn(tid, volumn);
+                try {
+                    t00006_1 = new MediaPlayer();
+                    t00006_2 = new MediaPlayer();
+                    t00006_1.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00006.mp3");
+                    t00006_2.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00006.mp3");
+                    t00006_1.prepareAsync();
+                    t00006_2.prepareAsync();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                AudioController.setVolumn(tid, volumn);
                 break;
             case "00007":
                 if (t00007_1 == null || t00007_2 == null) {
@@ -137,18 +149,30 @@ public class MPList {
                 }
                 break;
             case "00011":
-                if (t00011_1 == null || t00011_2 == null) {
-                    t00011_1 = MediaPlayer.create(context, R.raw.audio00011);
-                    t00011_2 = MediaPlayer.create(context, R.raw.audio00011);
-                    AudioController.setVolumn(tid, volumn);
+                try {
+                    t00011_1 = new MediaPlayer();
+                    t00011_2 = new MediaPlayer();
+                    t00011_1.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00011.mp3");
+                    t00011_2.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00011.mp3");
+                    t00011_1.prepareAsync();
+                    t00011_2.prepareAsync();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                AudioController.setVolumn(tid, volumn);
                 break;
             case "00012":
-                if (t00012_1 == null || t00012_2 == null) {
-                    t00012_1 = MediaPlayer.create(context, R.raw.audio00012);
-                    t00012_2 = MediaPlayer.create(context, R.raw.audio00012);
-                    AudioController.setVolumn(tid, volumn);
+                try {
+                    t00012_1 = new MediaPlayer();
+                    t00012_2 = new MediaPlayer();
+                    t00012_1.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00012.mp3");
+                    t00012_2.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00012.mp3");
+                    t00012_1.prepareAsync();
+                    t00012_2.prepareAsync();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                AudioController.setVolumn(tid, volumn);
                 break;
             case "00013":
                 if (t00013_1 == null || t00013_2 == null) {
@@ -179,25 +203,43 @@ public class MPList {
                 }
                 break;
             case "00017":
-                if (t00017_1 == null || t00017_2 == null) {
-                    t00017_1 = MediaPlayer.create(context, R.raw.audio00017);
-                    t00017_2 = MediaPlayer.create(context, R.raw.audio00017);
-                    AudioController.setVolumn(tid, volumn);
+                try {
+                    t00017_1 = new MediaPlayer();
+                    t00017_2 = new MediaPlayer();
+                    t00017_1.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00017.mp3");
+                    t00017_2.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00017.mp3");
+                    t00017_1.prepareAsync();
+                    t00017_2.prepareAsync();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                AudioController.setVolumn(tid, volumn);
                 break;
             case "00018":
-                if (t00018_1 == null || t00018_2 == null) {
-                    t00018_1 = MediaPlayer.create(context, R.raw.audio00018);
-                    t00018_2 = MediaPlayer.create(context, R.raw.audio00018);
-                    AudioController.setVolumn(tid, volumn);
+                try {
+                    t00018_2 = new MediaPlayer();
+                    t00018_2 = new MediaPlayer();
+                    t00018_1.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00018.mp3");
+                    t00018_2.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00018.mp3");
+                    t00018_1.prepareAsync();
+                    t00018_2.prepareAsync();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                AudioController.setVolumn(tid, volumn);
                 break;
             case "00019":
-                if (t00019_1 == null || t00019_2 == null) {
-                    t00019_1 = MediaPlayer.create(context, R.raw.audio00019);
-                    t00019_2 = MediaPlayer.create(context, R.raw.audio00019);
-                    AudioController.setVolumn(tid, volumn);
+                try {
+                    t00019_1 = new MediaPlayer();
+                    t00019_2 = new MediaPlayer();
+                    t00019_1.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00019.mp3");
+                    t00019_2.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00019.mp3");
+                    t00019_1.prepareAsync();
+                    t00019_2.prepareAsync();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                AudioController.setVolumn(tid, volumn);
                 break;
             case "00020":
                 if (t00020_1 == null || t00020_2 == null) {
@@ -235,25 +277,43 @@ public class MPList {
                 }
                 break;
             case "00025":
-                if (t00025_1 == null || t00025_2 == null) {
-                    t00025_1 = MediaPlayer.create(context, R.raw.audio00025);
-                    t00025_2 = MediaPlayer.create(context, R.raw.audio00025);
-                    AudioController.setVolumn(tid, volumn);
+                try {
+                    t00025_1 = new MediaPlayer();
+                    t00025_2 = new MediaPlayer();
+                    t00025_1.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00025.mp3");
+                    t00025_2.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00025.mp3");
+                    t00025_1.prepareAsync();
+                    t00025_2.prepareAsync();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                AudioController.setVolumn(tid, volumn);
                 break;
             case "00026":
-                if (t00026_1 == null || t00026_2 == null) {
-                    t00026_1 = MediaPlayer.create(context, R.raw.audio00026);
-                    t00026_2 = MediaPlayer.create(context, R.raw.audio00026);
-                    AudioController.setVolumn(tid, volumn);
+                try {
+                    t00026_1 = new MediaPlayer();
+                    t00026_2 = new MediaPlayer();
+                    t00026_1.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00026.mp3");
+                    t00026_2.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00026.mp3");
+                    t00026_1.prepareAsync();
+                    t00026_2.prepareAsync();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                AudioController.setVolumn(tid, volumn);
                 break;
             case "00027":
-                if (t00027_1 == null || t00027_2 == null) {
-                    t00027_1 = MediaPlayer.create(context, R.raw.audio00027);
-                    t00027_2 = MediaPlayer.create(context, R.raw.audio00027);
-                    AudioController.setVolumn(tid, volumn);
+                try {
+                    t00027_1 = new MediaPlayer();
+                    t00027_2 = new MediaPlayer();
+                    t00027_1.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00027.mp3");
+                    t00027_2.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00027.mp3");
+                    t00027_1.prepareAsync();
+                    t00027_2.prepareAsync();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                AudioController.setVolumn(tid, volumn);
                 break;
 
             case "00028":
@@ -549,11 +609,17 @@ public class MPList {
                 }
                 break;
             case "00049":
-                if (t00049_1 == null || t00049_2 == null) {
-                    t00049_1 = MediaPlayer.create(context, R.raw.audio00049);
-                    t00049_2 = MediaPlayer.create(context, R.raw.audio00049);
-                    AudioController.setVolumn(tid, volumn);
+                try {
+                    t00049_1 = new MediaPlayer();
+                    t00049_2 = new MediaPlayer();
+                    t00049_1.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00049.mp3");
+                    t00049_2.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00049.mp3");
+                    t00049_1.prepareAsync();
+                    t00049_2.prepareAsync();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                AudioController.setVolumn(tid, volumn);
         }
     }
 

@@ -275,24 +275,24 @@ public class MainActivity extends AppCompatActivity {
         community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                load.setVisibility(View.VISIBLE);
-//                FirebaseFirestore.getInstance().collection("app_status").document("fix_server").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            boolean fix = Boolean.TRUE.equals(task.getResult().getBoolean("fix"));
-//                            if (!fix) {
-//                                startActivity(new Intent(MainActivity.this, CommunityMain.class));
-//                            } else {
-//                                String st = task.getResult().getString("start_time");
-//                                String et = task.getResult().getString("end_time");
-//                                FixServerDialog.showDialog(MainActivity.this, st, et);
-//                                load.setVisibility(View.GONE);
-//                            }
-//                        }
-//                    }
-//                });
-                startActivity(new Intent(MainActivity.this, CommunityMain.class));
+                load.setVisibility(View.VISIBLE);
+                FirebaseFirestore.getInstance().collection("app_status").document("fix_server").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            boolean fix = Boolean.TRUE.equals(task.getResult().getBoolean("fix"));
+                            if (!fix) {
+                                startActivity(new Intent(MainActivity.this, CommunityMain.class));
+                            } else {
+                                String st = task.getResult().getString("start_time");
+                                String et = task.getResult().getString("end_time");
+                                FixServerDialog.showDialog(MainActivity.this, st, et);
+                                load.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                });
+//                startActivity(new Intent(MainActivity.this, CommunityMain.class));
             }
         });
 
