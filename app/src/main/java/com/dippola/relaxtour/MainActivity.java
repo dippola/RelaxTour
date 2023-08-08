@@ -275,24 +275,24 @@ public class MainActivity extends AppCompatActivity {
         community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                load.setVisibility(View.VISIBLE);
-                FirebaseFirestore.getInstance().collection("app_status").document("fix_server").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            boolean fix = Boolean.TRUE.equals(task.getResult().getBoolean("fix"));
-                            if (!fix) {
-                                startActivity(new Intent(MainActivity.this, CommunityMain.class));
-                            } else {
-                                String st = task.getResult().getString("start_time");
-                                String et = task.getResult().getString("end_time");
-                                FixServerDialog.showDialog(MainActivity.this, st, et);
-                                load.setVisibility(View.GONE);
-                            }
-                        }
-                    }
-                });
-//                startActivity(new Intent(MainActivity.this, CommunityMain.class));
+//                load.setVisibility(View.VISIBLE);
+//                FirebaseFirestore.getInstance().collection("app_status").document("fix_server").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            boolean fix = Boolean.TRUE.equals(task.getResult().getBoolean("fix"));
+//                            if (!fix) {
+//                                startActivity(new Intent(MainActivity.this, CommunityMain.class));
+//                            } else {
+//                                String st = task.getResult().getString("start_time");
+//                                String et = task.getResult().getString("end_time");
+//                                FixServerDialog.showDialog(MainActivity.this, st, et);
+//                                load.setVisibility(View.GONE);
+//                            }
+//                        }
+//                    }
+//                });
+                startActivity(new Intent(MainActivity.this, CommunityMain.class));
             }
         });
 
@@ -567,12 +567,12 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                         if (isContain) {
-                            Toast.makeText(MainActivity.this, "The premium track is included in the playlist. After removing the premium track from the playlist, it will be played.", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity.this, "The premium track is included in the playlist. After removing the premium track from the playlist, it will be played.", Toast.LENGTH_SHORT).show();
                             for (int i = 0; i < tids.size(); i++) {
                                 databaseHandler.deletePlayingList(tids.get(i));
                                 databaseHandler.setIsPlay1(tids.get(i));
-                                setOnClickPandS();
                             }
+                            setOnClickPandS();
                         } else {
                             setOnClickPandS();
                         }

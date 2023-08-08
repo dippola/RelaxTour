@@ -253,7 +253,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("drop table mantra");
         db.execSQL("drop table hz");
         db.execSQL("alter table favlist add column tid text");
-
         for (int i = 0; i < nlist.size(); i++) {
             ContentValues c = new ContentValues();
             c.put("page", nlist.get(i).getPage());
@@ -271,33 +270,38 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             c.put("tid", nlist.get(i).getTid());
             db.insert("track", null, c);
         }
-
-        db.execSQL("create table if not exists playingbackup(page INTEGER, position INTEGER, imgdefault BLOB, img BLOB, darkdefault BLOB, dark BLOB, seek INTEGER, isplay INTEGER, time INTEGER, name TEXT, ispro INTEGER, needdownload INTEGER, tid TEXT);");
-        //playlist
         for (int i = 0; i < olist.size(); i++) {
-            db.execSQL("update track set seek = " + olist.get(i).getSeek() + " where name = '" + olist.get(i).getName() + "'");
-            db.execSQL("update track set isplay = " + olist.get(i).getIsplay() + " where name = '" + olist.get(i).getName() + "'");
-            if (olist.get(i).getIsplay() == 2) {
-                ContentValues addPlaying = new ContentValues();
-                addPlaying.put("page", olist.get(i).getPage());
-                addPlaying.put("position", olist.get(i).getPosition());
-                addPlaying.put("imgdefault", olist.get(i).getImgdefault());
-                addPlaying.put("img", olist.get(i).getImg());
-                addPlaying.put("darkdefault", olist.get(i).getDarkdefault());
-                addPlaying.put("dark", olist.get(i).getDark());
-                addPlaying.put("seek", olist.get(i).getSeek());
-                addPlaying.put("isplay", olist.get(i).getIsplay());
-                addPlaying.put("time", olist.get(i).getTime());
-                addPlaying.put("name", olist.get(i).getName());
-                addPlaying.put("ispro", olist.get(i).getIspro());
-                addPlaying.put("needdownload", olist.get(i).getNeeddownload());
-                Cursor cursor1 = newDb.rawQuery("select tid from track where name = '" + olist.get(i).getName() + "'", null);
-                cursor1.moveToFirst();
-                addPlaying.put("tid", cursor1.getString(0));
-                cursor1.close();
-                db.insert("playingbackup", null, addPlaying);
-            }
+            db.execSQL("update track set seek + " + olist.get(i).getSeek() + " where name = '" + olist.get(i).getName() + "'");
         }
+        db.execSQL("update track set isplay = 1");
+
+        //playlist
+        db.execSQL("delete from playing");
+        db.execSQL("create table if not exists playingbackup(page INTEGER, position INTEGER, imgdefault BLOB, img BLOB, darkdefault BLOB, dark BLOB, seek INTEGER, isplay INTEGER, time INTEGER, name TEXT, ispro INTEGER, needdownload INTEGER, tid TEXT);");
+//        for (int i = 0; i < olist.size(); i++) {
+//            db.execSQL("update track set seek = " + olist.get(i).getSeek() + " where name = '" + olist.get(i).getName() + "'");
+//            db.execSQL("update track set isplay = " + olist.get(i).getIsplay() + " where name = '" + olist.get(i).getName() + "'");
+//            if (olist.get(i).getIsplay() == 2) {
+//                ContentValues addPlaying = new ContentValues();
+//                addPlaying.put("page", olist.get(i).getPage());
+//                addPlaying.put("position", olist.get(i).getPosition());
+//                addPlaying.put("imgdefault", olist.get(i).getImgdefault());
+//                addPlaying.put("img", olist.get(i).getImg());
+//                addPlaying.put("darkdefault", olist.get(i).getDarkdefault());
+//                addPlaying.put("dark", olist.get(i).getDark());
+//                addPlaying.put("seek", olist.get(i).getSeek());
+//                addPlaying.put("isplay", olist.get(i).getIsplay());
+//                addPlaying.put("time", olist.get(i).getTime());
+//                addPlaying.put("name", olist.get(i).getName());
+//                addPlaying.put("ispro", olist.get(i).getIspro());
+//                addPlaying.put("needdownload", olist.get(i).getNeeddownload());
+//                Cursor cursor1 = newDb.rawQuery("select tid from track where name = '" + olist.get(i).getName() + "'", null);
+//                cursor1.moveToFirst();
+//                addPlaying.put("tid", cursor1.getString(0));
+//                cursor1.close();
+//                db.insert("playingbackup", null, addPlaying);
+//            }
+//        }
         db.execSQL("drop table playing");
         db.execSQL("alter table playingbackup rename to playing");
 
@@ -556,9 +560,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void setIsPlay1(String tid) {
         sqLiteDatabase = this.getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select page, position from track where = '" + tid + "'", null);
+        Cursor cursor = sqLiteDatabase.rawQuery("select page, position from track where tid = '" + tid + "'", null);
+        cursor.moveToFirst();
         int page = cursor.getInt(0);
         int position = cursor.getInt(1);
+        cursor.close();
         sqLiteDatabase.execSQL("update track set isplay = 1 where tid = " + tid);
         if (page == 1 && RainPage.adapter != null) {
             RainPage.arrayList.get(position - 1).setIsplay(1);
@@ -666,7 +672,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             ContentValues contentValues = new ContentValues();
             contentValues.put("page", MainActivity.bottomSheetPlayList.get(i).getPage());
             contentValues.put("position", MainActivity.bottomSheetPlayList.get(i).getPosition());
-            contentValues.put("imagedefault", MainActivity.bottomSheetPlayList.get(i).getImgdefault());
+            contentValues.put("imgdefault", MainActivity.bottomSheetPlayList.get(i).getImgdefault());
             contentValues.put("img", MainActivity.bottomSheetPlayList.get(i).getImg());
             contentValues.put("darkdefault", MainActivity.bottomSheetPlayList.get(i).getDarkdefault());
             contentValues.put("dark", MainActivity.bottomSheetPlayList.get(i).getDark());

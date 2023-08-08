@@ -565,14 +565,14 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
     }
 
     private boolean checkWillShowConstainProTrackDialog(ArrayList<FavListItem> favListItems) {
-        boolean needShow = false;
-        for (int i = 0; i < favListItems.size(); i++) {
-            if (favListItems.get(i).getIspro() == 2 && MainActivity.databaseHandler.getIsProUser() == 1) {
-                needShow = true;
-                break;
+        if (MainActivity.databaseHandler.getIsProUser() == 1) {
+            for (int i = 0; i < favListItems.size(); i++) {
+                if (favListItems.get(i).getIspro() == 2) {
+                    return true;
+                }
             }
         }
-        return needShow;
+        return false;
     }
 
     private ArrayList<String> checkNeedDownload(ArrayList<FavListItem> favListItems) {
