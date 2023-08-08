@@ -195,6 +195,7 @@ public class Splash extends AppCompatActivity {
 
     private void checkFirst() {
         if (qper && anim) {
+            Log.d("Splash", "1");
             if (!preferences.getBoolean("checkFirst", false)) {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("checkFirst", true);
@@ -235,6 +236,7 @@ public class Splash extends AppCompatActivity {
                 goAlready = true;
                 Intent intent = new Intent(Splash.this, MainActivity.class);
                 intent.putExtra("fromSplash", false);
+                Log.d("Splash", "2");
                 startActivity(intent);
                 finish();
             }

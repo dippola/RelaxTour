@@ -171,6 +171,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void restoreDatabase(SQLiteDatabase db, int v1) {
+        Log.d("DB>>>", "test1");
         SQLiteDatabase newDb = SQLiteDatabase.openDatabase(DBLOCATION + "newdb.sqlite", null, SQLiteDatabase.OPEN_READWRITE);
 
         //pageicon
@@ -192,33 +193,45 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             db.insert("credit", null, creditValue);
         }
 
+        Log.d("DB>>>", "test2");
         //version
         if (v1 < 2) {
+            Log.d("DB>>>", "test3");
             upgrade1to2(db, newDb, v1);
         } else {
+            Log.d("DB>>>", "test4");
             upgrademore2(db, newDb, v1);
         }
         //version
 
+        Log.d("DB>>>", "test5");
         if (db.inTransaction()) {
+            Log.d("DB>>>", "test6");
             try {
+                Log.d("DB>>>", "test7");
                 db.setTransactionSuccessful();
             } finally {
+                Log.d("DB>>>", "test8");
                 db.endTransaction();
             }
         }
+        Log.d("DB>>>", "test9");
         db.execSQL("vacuum");
         db.beginTransaction();
         newDb.close();
         //delete copy database file
         File forDeleteNewDb = new File(DBLOCATION + "newdb.sqlite");
         if (forDeleteNewDb.exists()) {
+            Log.d("DB>>>", "test10");
             forDeleteNewDb.delete();
         }
+        Log.d("DB>>>", "test11");
         File forDeleteNewDbJournal = new File(DBLOCATION + "newdb.sqlite-journal");
         if (forDeleteNewDbJournal.exists()) {
+            Log.d("DB>>>", "test12");
             forDeleteNewDbJournal.delete();
         }
+        Log.d("DB>>>", "test13");
         goToNext();
     }
 
@@ -361,6 +374,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         } else {
             Intent intent = new Intent(context, MainActivity.class);
             intent.putExtra("fromSplash", false);
+            Log.d("DB>>>", "14");
             context.startActivity(intent);
             activity.finish();
         }
