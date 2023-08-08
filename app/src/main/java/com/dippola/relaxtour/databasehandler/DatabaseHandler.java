@@ -58,9 +58,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //upgrade
     Context context;
     Activity activity;
-    TextView text, percent;
-    ProgressBar progressBar, circle;
-    ConstraintLayout box;
 
     private static final int DATABASE_VERSION = 2;
     //1.0.44 = 1
@@ -79,7 +76,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private final String TRACK_TEAM = "create table if not exists track(page INTEGER, position INTEGER, imgdefault BLOB, img BLOB, darkdefault BLOB, dark BLOB, seek INTEGER, isplay INTEGER, time INTEGER, name TEXT, ispro INTEGER, needdownload INTEGER, tid TEXT);";
 
     private final String FAV_TITLE_TEAM = "create table if not exists favtitle(title TEXT, isopen INTEGER, isedit INTEGER);";
-//    private final String FAV_LIST_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER," + COLUMN_FAVTITLENAME + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
+    //    private final String FAV_LIST_TEAM = "create table if not exists " + WIND_TABLE_NAME + "(" + COLUMN_PAGE + " INTEGER," + COLUMN_POSITION + " INTEGER," + COLUMN_PNP + " TEXT, " + COLUMN_IMGDEFAULT + " BLOB," + COLUMN_IMAGE + " BLOB," + COLUMN_DARKDEFAULT + " BLOB," + COLUMN_DARK + " BLOB," + COLUMN_SEEK + " INTEGER," + COLUMN_ISPLAY + " INTEGER," + COLUMN_FAVTITLENAME + " INTEGER, " + COLUMN_TIME + " INTEGER, " + COLUMN_NAME + " TEXT," + COLUMN_ISPRO + " INTEGER," + COLUMN_NEED_DOWNLOAD + " INTEGER" + ");";
     private final String FAV_LIST_TEAM = "create table if not exists favlist(page INTEGER, position INTEGER, imgdefault BLOB, img BLOB, darkdefault BLOB, dark BLOB, seek INTEGER, isplay INTEGER, favtitlename TEXT, time INTEGER, name TEXT, ispro INTEGER, needdownload INTEGER, tid TEXT);";
 
     private final String ISPRO_TEAM = "create table if not exists ispro (ispro INTEGER);";
@@ -105,6 +102,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
         this.activity = activity;
+        Log.d("DB>>>", "DatabaseHandler");
+        checkUpgrade();
+    }
+
+    public void checkUpgrade() {
+        sqLiteDatabase = this.getWritableDatabase();
+        if (sqLiteDatabase.getVersion() < DATABASE_VERSION) {
+            onUpgrade(sqLiteDatabase, sqLiteDatabase.getVersion(), DATABASE_VERSION);
+        }
     }
 
     public static void setDB(Context context) {
@@ -151,22 +157,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public synchronized void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        isHaveNewVersionDB = true;
-
-        AssetManager assetManager = context.getAssets();
-        try {
-            InputStream newDb = assetManager.open("list.sqlite");
-            FileOutputStream newDbCopy = new FileOutputStream(DBLOCATION + "newdb.sqlite");
-            byte[] b = new byte[1024];
-            int length;
-            while ((length = newDb.read(b, 0, 1024)) > 0) {
-                newDbCopy.write(b, 0, length);
+        Log.d("DB>>>", "onUpgrade");
+        if (!isHaveNewVersionDB) {
+            isHaveNewVersionDB = true;
+            AssetManager assetManager = context.getAssets();
+            try {
+                InputStream newDb = assetManager.open("list.sqlite");
+                FileOutputStream newDbCopy = new FileOutputStream(DBLOCATION + "newdb.sqlite");
+                byte[] b = new byte[1024];
+                int length;
+                while ((length = newDb.read(b, 0, 1024)) > 0) {
+                    newDbCopy.write(b, 0, length);
+                }
+                newDb.close();
+                newDbCopy.close();
+                restoreDatabase(db, i);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-            newDb.close();
-            newDbCopy.close();
-            restoreDatabase(db, i);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -284,7 +292,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             db.insert("track", null, c);
         }
         for (int i = 0; i < olist.size(); i++) {
-            db.execSQL("update track set seek = " + olist.get(i).getSeek() + " where name = '" + olist.get(i).getName() + "'");
+            db.execSQL("update track set seek + " + olist.get(i).getSeek() + " where name = '" + olist.get(i).getName() + "'");
         }
         db.execSQL("update track set isplay = 1");
 

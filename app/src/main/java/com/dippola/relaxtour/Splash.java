@@ -1,6 +1,5 @@
 package com.dippola.relaxtour;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,7 +7,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.security.keystore.KeyGenParameterSpec;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -25,7 +23,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
-import com.dippola.relaxtour.community.auth.CommunityAuth;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.UpdateDialog;
 import com.dippola.relaxtour.onboarding.OnBoarding;
@@ -37,9 +34,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.qonversion.android.sdk.Qonversion;
 import com.qonversion.android.sdk.QonversionConfig;
 import com.qonversion.android.sdk.dto.QEntitlement;
@@ -49,7 +43,6 @@ import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Map;
@@ -67,7 +60,7 @@ public class Splash extends AppCompatActivity {
     ImageView img;
     ProgressBar progressBar;
 
-    boolean anim, qper, goAlready;
+    boolean animFinished, qonversionPermissionCheckFinished, goNextAlready;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,7 +101,21 @@ public class Splash extends AppCompatActivity {
         databaseHandler = new DatabaseHandler(Splash.this, Splash.this);
 //        databaseHandler = new DatabaseHandler(Splash.this);
 
+        //인터넷 연결상태 확인
+        //qonversion 확인
+        //app version 확인
+        checkInternet();
+
         checkPermission();
+    }
+
+    private void checkInternet() {
+        if (NetworkStatus.getNetworkStatus(Splash.this) == 3) {
+            qonversionPermissionCheckFinished = true;
+            checkFirst();
+        } else {
+            checkPermission();
+        }
     }
 
     private void checkPermission() {
@@ -119,12 +126,12 @@ public class Splash extends AppCompatActivity {
 
                 if (premiumEntitlement != null && premiumEntitlement.isActive()) {
                     databaseHandler.changeIsProUserFromSplash(2);
-                    qper = true;
+                    qonversionPermissionCheckFinished = true;
                     Log.d("Splash>>>", "have permission");
                     checkAppVersion();
                 } else {
                     databaseHandler.changeIsProUserFromSplash(1);
-                    qper = true;
+                    qonversionPermissionCheckFinished = true;
                     Log.d("Splash>>>", "null permission: ");
                     if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                         FirebaseAuth.getInstance().signOut();
@@ -143,7 +150,7 @@ public class Splash extends AppCompatActivity {
 
             @Override
             public void onError(@NotNull QonversionError error) {
-                qper = true;
+                qonversionPermissionCheckFinished = true;
                 Log.d("Splash>>>", "qper error: " + error);
                 checkAppVersion();
             }
@@ -152,8 +159,8 @@ public class Splash extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (!qper) {
-                    qper = true;
+                if (!qonversionPermissionCheckFinished) {
+                    qonversionPermissionCheckFinished = true;
                     checkAppVersion();
                 }
             }
@@ -181,7 +188,7 @@ public class Splash extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                anim = true;
+                animFinished = true;
                 progressBar.setVisibility(View.VISIBLE);
                 checkAppVersion();
             }
@@ -194,8 +201,8 @@ public class Splash extends AppCompatActivity {
     }
 
     private void checkFirst() {
-        if (qper && anim) {
-            Log.d("Splash", "1");
+        if (qonversionPermissionCheckFinished && animFinished) {
+            Log.d("Splash>>>", "1");
             if (!preferences.getBoolean("checkFirst", false)) {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("checkFirst", true);
@@ -232,11 +239,11 @@ public class Splash extends AppCompatActivity {
 
     private void goToMainActivity() {
         if (!DatabaseHandler.isHaveNewVersionDB) {
-            if (!goAlready) {
-                goAlready = true;
+            if (!goNextAlready) {
+                goNextAlready = true;
                 Intent intent = new Intent(Splash.this, MainActivity.class);
                 intent.putExtra("fromSplash", false);
-                Log.d("Splash", "2");
+                Log.d("Splash>>>", "2");
                 startActivity(intent);
                 finish();
             }
@@ -245,8 +252,8 @@ public class Splash extends AppCompatActivity {
 
     private void goToOnBoarding() {
         if (!DatabaseHandler.isHaveNewVersionDB) {
-            if (!goAlready) {
-                goAlready = true;
+            if (!goNextAlready) {
+                goNextAlready = true;
                 Intent intent = new Intent(Splash.this, OnBoarding.class);
                 intent.putExtra("fromSplash", true);
                 startActivity(intent);
