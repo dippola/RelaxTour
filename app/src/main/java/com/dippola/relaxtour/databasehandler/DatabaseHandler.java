@@ -284,7 +284,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             db.insert("track", null, c);
         }
         for (int i = 0; i < olist.size(); i++) {
-            db.execSQL("update track set seek + " + olist.get(i).getSeek() + " where name = '" + olist.get(i).getName() + "'");
+            db.execSQL("update track set seek = " + olist.get(i).getSeek() + " where name = '" + olist.get(i).getName() + "'");
         }
         db.execSQL("update track set isplay = 1");
 
