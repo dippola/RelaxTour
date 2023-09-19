@@ -17,3 +17,13 @@ local.properties
 /app/src/main/res/values/strings.xml
 /app/release/app-release.aab
 /app/dippolarelaxtour.jks
+
+#bu
+#.gradle
+#/.idea/libraries
+#/.idea/assetWizardSettings.xml
+#/.idea/modules.xml
+#/.idea/workspace.xml
+#/build < in /app
+#/app/src/main/res/values/strings.xml
+#/app/dippolarelaxtour.jks
