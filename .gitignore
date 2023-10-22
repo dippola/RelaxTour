@@ -24,6 +24,7 @@ local.properties
 #/.idea/assetWizardSettings.xml
 #/.idea/modules.xml
 #/.idea/workspace.xml
-#/build < in /app
 #/app/src/main/res/values/strings.xml
 #/app/dippolarelaxtour.jks
+#
+#/build < in /app 자동생성되서 백업 안함

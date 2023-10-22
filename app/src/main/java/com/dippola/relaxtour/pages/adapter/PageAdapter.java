@@ -41,8 +41,8 @@ import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.pages.item.ViewTypeCode;
 import com.dippola.relaxtour.service.DownloadService;
 import com.qonversion.android.sdk.Qonversion;
-import com.qonversion.android.sdk.dto.QEntitlement;
 import com.qonversion.android.sdk.dto.QonversionError;
+import com.qonversion.android.sdk.dto.entitlements.QEntitlement;
 import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback;
 
 import java.io.File;

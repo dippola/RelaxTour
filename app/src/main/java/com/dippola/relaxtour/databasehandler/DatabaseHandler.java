@@ -98,7 +98,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         this.context = context;
     }
 
-    public DatabaseHandler(Context context, Activity activity) {
+    public DatabaseHandler(Context context, Activity activity) {//in splash
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
         this.activity = activity;
@@ -179,7 +179,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void restoreDatabase(SQLiteDatabase db, int v1) {
-        Log.d("DB>>>", "test1");
         SQLiteDatabase newDb = SQLiteDatabase.openDatabase(DBLOCATION + "newdb.sqlite", null, SQLiteDatabase.OPEN_READWRITE);
 
         //pageicon
@@ -201,53 +200,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             db.insert("credit", null, creditValue);
         }
 
-        Log.d("DB>>>", "test2");
-        //version
-        if (v1 < 2) {
-            Log.d("DB>>>", "test3");
-            upgrade1to2(db, newDb, v1);
-        } else {
-            Log.d("DB>>>", "test4");
-            upgrademore2(db, newDb, v1);
-        }
-        //version
-
-        Log.d("DB>>>", "test5");
-        if (db.inTransaction()) {
-            Log.d("DB>>>", "test6");
-            try {
-                Log.d("DB>>>", "test7");
-                db.setTransactionSuccessful();
-            } finally {
-                Log.d("DB>>>", "test8");
-                db.endTransaction();
-            }
-        }
-        Log.d("DB>>>", "test9");
-        db.execSQL("vacuum");
-        db.beginTransaction();
-        newDb.close();
-        //delete copy database file
-        File forDeleteNewDb = new File(DBLOCATION + "newdb.sqlite");
-        if (forDeleteNewDb.exists()) {
-            Log.d("DB>>>", "test10");
-            forDeleteNewDb.delete();
-        }
-        Log.d("DB>>>", "test11");
-        File forDeleteNewDbJournal = new File(DBLOCATION + "newdb.sqlite-journal");
-        if (forDeleteNewDbJournal.exists()) {
-            Log.d("DB>>>", "test12");
-            forDeleteNewDbJournal.delete();
-        }
-        Log.d("DB>>>", "test13");
-        goToNext();
-    }
-
-    public void upgrade1to2(SQLiteDatabase db, SQLiteDatabase newDb, int v1) {
-        db.execSQL(TRACK_TEAM);
-        List<PageItem> nlist = getNewTackListForUpgrade(newDb);
-        List<PageItem> olist = getPageListForUpgradeVersion1(db, v1);
-
         //user
         Cursor cursor = db.rawQuery("select * from user", null);
         if (cursor != null && cursor.getCount() > 0) {
@@ -265,7 +217,38 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             db.insert("user", null, userValue);
         }
 
-        //pages
+        //version
+        if (v1 < 2) {
+            upgrade1to2(db, newDb, v1);
+        } else {
+            upgrademore2(db, newDb, v1);
+        }
+        //version
+
+        if (db.inTransaction()) {
+            try {
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        }
+        db.execSQL("vacuum");
+        db.beginTransaction();
+        newDb.close();
+        //delete copy database file
+        File forDeleteNewDb = new File(DBLOCATION + "newdb.sqlite");
+        if (forDeleteNewDb.exists()) {
+            forDeleteNewDb.delete();
+        }
+        File forDeleteNewDbJournal = new File(DBLOCATION + "newdb.sqlite-journal");
+        if (forDeleteNewDbJournal.exists()) {
+            forDeleteNewDbJournal.delete();
+        }
+        goToNext();
+    }
+
+    public void upgrade1to2(SQLiteDatabase db, SQLiteDatabase newDb, int v1) {
+        db.execSQL(TRACK_TEAM);
         db.execSQL("drop table rain");
         db.execSQL("drop table water");
         db.execSQL("drop table wind");
@@ -273,7 +256,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("drop table chakra");
         db.execSQL("drop table mantra");
         db.execSQL("drop table hz");
-        db.execSQL("alter table favlist add column tid text");
+        db.execSQL("drop table favlist");
+        db.execSQL("drop table favtitle");
+        db.execSQL("drop table playing");
+        db.execSQL("create table if not exists playingbackup(page INTEGER, position INTEGER, imgdefault BLOB, img BLOB, darkdefault BLOB, dark BLOB, seek INTEGER, isplay INTEGER, time INTEGER, name TEXT, ispro INTEGER, needdownload INTEGER, tid TEXT);");
+
+        List<PageItem> nlist = getNewTackListForUpgrade(newDb);
         for (int i = 0; i < nlist.size(); i++) {
             ContentValues c = new ContentValues();
             c.put("page", nlist.get(i).getPage());
@@ -291,67 +279,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             c.put("tid", nlist.get(i).getTid());
             db.insert("track", null, c);
         }
-        for (int i = 0; i < olist.size(); i++) {
-            db.execSQL("update track set seek + " + olist.get(i).getSeek() + " where name = '" + olist.get(i).getName() + "'");
-        }
-        db.execSQL("update track set isplay = 1");
-
-        //playlist
-        db.execSQL("delete from playing");
-        db.execSQL("create table if not exists playingbackup(page INTEGER, position INTEGER, imgdefault BLOB, img BLOB, darkdefault BLOB, dark BLOB, seek INTEGER, isplay INTEGER, time INTEGER, name TEXT, ispro INTEGER, needdownload INTEGER, tid TEXT);");
-//        for (int i = 0; i < olist.size(); i++) {
-//            db.execSQL("update track set seek = " + olist.get(i).getSeek() + " where name = '" + olist.get(i).getName() + "'");
-//            db.execSQL("update track set isplay = " + olist.get(i).getIsplay() + " where name = '" + olist.get(i).getName() + "'");
-//            if (olist.get(i).getIsplay() == 2) {
-//                ContentValues addPlaying = new ContentValues();
-//                addPlaying.put("page", olist.get(i).getPage());
-//                addPlaying.put("position", olist.get(i).getPosition());
-//                addPlaying.put("imgdefault", olist.get(i).getImgdefault());
-//                addPlaying.put("img", olist.get(i).getImg());
-//                addPlaying.put("darkdefault", olist.get(i).getDarkdefault());
-//                addPlaying.put("dark", olist.get(i).getDark());
-//                addPlaying.put("seek", olist.get(i).getSeek());
-//                addPlaying.put("isplay", olist.get(i).getIsplay());
-//                addPlaying.put("time", olist.get(i).getTime());
-//                addPlaying.put("name", olist.get(i).getName());
-//                addPlaying.put("ispro", olist.get(i).getIspro());
-//                addPlaying.put("needdownload", olist.get(i).getNeeddownload());
-//                Cursor cursor1 = newDb.rawQuery("select tid from track where name = '" + olist.get(i).getName() + "'", null);
-//                cursor1.moveToFirst();
-//                addPlaying.put("tid", cursor1.getString(0));
-//                cursor1.close();
-//                db.insert("playingbackup", null, addPlaying);
-//            }
-//        }
-        db.execSQL("drop table playing");
-        db.execSQL("alter table playingbackup rename to playing");
-
-        //favlist
-        List<FavListItem> favList = getFavListItemForUpgrade(db);
-        db.execSQL("create table if not exists favlistbackup(page INTEGER, position INTEGER, imgdefault BLOB, img BLOB, darkdefault BLOB, dark BLOB, seek INTEGER, isplay INTEGER, favtitlename TEXT, time INTEGER, name TEXT, ispro INTEGER, needdownload INTEGER, tid TEXT);");
-        for (int i = 0; i < favList.size(); i++) {
-            ContentValues c = new ContentValues();
-            c.put("page", favList.get(i).getPage());
-            c.put("position", favList.get(i).getPosition());
-            c.put("imgdefault", favList.get(i).getImgdefault());
-            c.put("img", favList.get(i).getImg());
-            c.put("darkdefault", favList.get(i).getDarkdefault());
-            c.put("dark", favList.get(i).getDark());
-            c.put("seek", favList.get(i).getSeek());
-            c.put("isplay", favList.get(i).getIsplay());
-            c.put("favtitlename", favList.get(i).getFavtitlename());
-            c.put("time", favList.get(i).getTime());
-            c.put("name", favList.get(i).getName());
-            c.put("ispro", favList.get(i).getIspro());
-            c.put("needdownload", favList.get(i).getNeeddownload());
-            Cursor cursor1 = newDb.rawQuery("select tid from track where name = '" + favList.get(i).getName() + "'", null);
-            cursor1.moveToFirst();
-            c.put("tid", cursor1.getString(0));
-            cursor1.close();
-            db.insert("favlistbackup", null, c);
-        }
-        db.execSQL("drop table favlist");
-        db.execSQL("alter table favlistbackup rename to favlist");
     }
 
     public void upgrademore2(SQLiteDatabase db, SQLiteDatabase newDb, int v1) {
@@ -441,22 +368,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return pageItems;
     }
 
-    public ArrayList<PageItem> getBottomSheetPlayingListForUpgrade(SQLiteDatabase db) {
-        PageItem pageItem = null;
-        ArrayList<PageItem> pageItems = new ArrayList<>();
-
-        String sql = "SELECT * FROM playing";
-        Cursor cursor = db.rawQuery(sql, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getBlob(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getInt(6), cursor.getInt(7), cursor.getInt(8), cursor.getString(9), cursor.getInt(10), cursor.getInt(11), cursor.getString(12));
-            pageItems.add(pageItem);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        return pageItems;
-    }
-
     public ArrayList<PageItem> getPageList(int page) {
         PageItem pageItem = null;
         ArrayList<PageItem> pageItems = new ArrayList<>();
@@ -472,23 +383,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         cursor.close();
         closeDatabse();
-        return pageItems;
-    }
-
-    public ArrayList<PageItem> getPageListForUpgradeVersion1(SQLiteDatabase db, int oldVersion) {
-        PageItem pageItem = null;
-        ArrayList<PageItem> pageItems = new ArrayList<>();
-        for (int i = 1; i < 8; i++) {
-            String sql = "SELECT page, position, imgdefault, img, dark, darkdefault, seek, isplay, time, name, ispro, needdownload FROM " + getPageName(i);
-            Cursor cursor = db.rawQuery(sql, null);
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                pageItem = new PageItem(cursor.getInt(0), cursor.getInt(1), cursor.getBlob(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getInt(6), cursor.getInt(7), cursor.getInt(8), cursor.getString(9), cursor.getInt(10), cursor.getInt(11), "");
-                pageItems.add(pageItem);
-                cursor.moveToNext();
-            }
-            cursor.close();
-        }
         return pageItems;
     }
 

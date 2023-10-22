@@ -29,8 +29,8 @@ import com.dippola.relaxtour.dialog.credit_dialog.CreditDialog;
 import com.dippola.relaxtour.dialog.Premium;
 import com.dippola.relaxtour.onboarding.OnBoarding;
 import com.qonversion.android.sdk.Qonversion;
-import com.qonversion.android.sdk.dto.QEntitlement;
 import com.qonversion.android.sdk.dto.QonversionError;
+import com.qonversion.android.sdk.dto.entitlements.QEntitlement;
 import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback;
 
 import java.util.Map;

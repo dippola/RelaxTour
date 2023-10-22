@@ -36,9 +36,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.qonversion.android.sdk.Qonversion;
 import com.qonversion.android.sdk.QonversionConfig;
-import com.qonversion.android.sdk.dto.QEntitlement;
 import com.qonversion.android.sdk.dto.QLaunchMode;
 import com.qonversion.android.sdk.dto.QonversionError;
+import com.qonversion.android.sdk.dto.entitlements.QEntitlement;
 import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback;
 
 import org.jetbrains.annotations.NotNull;
@@ -60,7 +60,7 @@ public class Splash extends AppCompatActivity {
     ImageView img;
     ProgressBar progressBar;
 
-    boolean animFinished, qonversionPermissionCheckFinished, goNextAlready;
+    boolean animFinished, qonversionPermissionCheckFinished, goNextAlready, isCheckAppVersion;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,11 +106,11 @@ public class Splash extends AppCompatActivity {
         //app version 확인
         checkInternet();
 
-        checkPermission();
+//        checkPermission();
     }
 
     private void checkInternet() {
-        if (NetworkStatus.getNetworkStatus(Splash.this) == 3) {
+        if (NetworkStatus.getNetworkStatus(Splash.this) == NetworkStatus.NO) {
             qonversionPermissionCheckFinished = true;
             checkFirst();
         } else {
@@ -215,26 +215,29 @@ public class Splash extends AppCompatActivity {
     }
 
     private void checkAppVersion() {
-        String current_version_withdot = getAppVersion();
-        int current_version = Integer.parseInt(current_version_withdot.replace(".", ""));
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("app_status").document("app_version").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String new_version_withdot = documentSnapshot.get("new_version").toString();
-                int new_version = Integer.parseInt(new_version_withdot.replace(".", ""));
-                if (current_version >= new_version) {
-                    checkFirst();
-                } else {
-                    UpdateDialog.showDialog(Splash.this, current_version_withdot, new_version_withdot);
+        if (!isCheckAppVersion) {
+            isCheckAppVersion = true;
+            String current_version_withdot = getAppVersion();
+            int current_version = Integer.parseInt(current_version_withdot.replace(".", ""));
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("app_status").document("app_version").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    String new_version_withdot = documentSnapshot.get("new_version").toString();
+                    int new_version = Integer.parseInt(new_version_withdot.replace(".", ""));
+                    if (current_version >= new_version) {
+                        checkFirst();
+                    } else {
+                        UpdateDialog.showDialog(Splash.this, current_version_withdot, new_version_withdot);
+                    }
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                checkFirst();
-            }
-        });
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    checkFirst();
+                }
+            });
+        }
     }
 
     private void goToMainActivity() {
