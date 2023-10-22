@@ -200,23 +200,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             db.insert("credit", null, creditValue);
         }
 
-        //user
-        Cursor cursor = db.rawQuery("select * from user", null);
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.close();
-        } else {
-            ContentValues userValue = new ContentValues();
-            userValue.put("id", 0);
-            userValue.put("email", "");
-            userValue.put("uid", "");
-            userValue.put("nickname", "");
-            userValue.put("imageurl", "");
-            userValue.put("provider", "");
-            userValue.put("token", "");
-            userValue.put("notification", "false");
-            db.insert("user", null, userValue);
-        }
-
         //version
         if (v1 < 2) {
             upgrade1to2(db, newDb, v1);
@@ -278,6 +261,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             c.put("needdownload", nlist.get(i).getNeeddownload());
             c.put("tid", nlist.get(i).getTid());
             db.insert("track", null, c);
+        }
+
+        //user
+        Cursor cursor = db.rawQuery("select * from user", null);
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.close();
+        } else {
+            ContentValues userValue = new ContentValues();
+            userValue.put("id", 0);
+            userValue.put("email", "");
+            userValue.put("uid", "");
+            userValue.put("nickname", "");
+            userValue.put("imageurl", "");
+            userValue.put("provider", "");
+            userValue.put("token", "");
+            userValue.put("notification", "false");
+            db.insert("user", null, userValue);
         }
     }
 
