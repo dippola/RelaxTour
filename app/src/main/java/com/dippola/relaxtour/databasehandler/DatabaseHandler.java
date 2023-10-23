@@ -240,9 +240,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("drop table mantra");
         db.execSQL("drop table hz");
         db.execSQL("drop table favlist");
-        db.execSQL("drop table favtitle");
+        db.execSQL("create table if not exists favlist(page INTEGER, position INTEGER, imgdefault BLOB, img BLOB, darkdefault BLOB, dark BLOB, seek INTEGER, isplay INTEGER, favtitlename TEXT, time INTEGER, name TEXT, ispro INTEGER, needdownload INTEGER, tid TEXT)");
+        db.execSQL("delete from favtitle");
         db.execSQL("drop table playing");
-        db.execSQL("create table if not exists playingbackup(page INTEGER, position INTEGER, imgdefault BLOB, img BLOB, darkdefault BLOB, dark BLOB, seek INTEGER, isplay INTEGER, time INTEGER, name TEXT, ispro INTEGER, needdownload INTEGER, tid TEXT);");
+        db.execSQL("create table if not exists playing(page INTEGER, position INTEGER, imgdefault BLOB, img BLOB, darkdefault BLOB, dark BLOB, seek INTEGER, isplay INTEGER, time INTEGER, name TEXT, ispro INTEGER, needdownload INTEGER, tid TEXT);");
 
         List<PageItem> nlist = getNewTackListForUpgrade(newDb);
         for (int i = 0; i < nlist.size(); i++) {
