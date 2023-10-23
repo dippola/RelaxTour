@@ -60,7 +60,8 @@ public class Splash extends AppCompatActivity {
     ImageView img;
     ProgressBar progressBar;
 
-    boolean animFinished, qonversionPermissionCheckFinished, goNextAlready, isCheckAppVersion;
+    boolean animFinished, qonversionPermissionCheckFinished, checkAppVersionFinished;
+    public static boolean goNextAlready;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,19 +100,17 @@ public class Splash extends AppCompatActivity {
 
         databaseHandler.setDB(Splash.this);
         databaseHandler = new DatabaseHandler(Splash.this, Splash.this);
-//        databaseHandler = new DatabaseHandler(Splash.this);
 
-        //인터넷 연결상태 확인
-        //qonversion 확인
-        //app version 확인
+        animation();
+
         checkInternet();
 
-//        checkPermission();
     }
 
     private void checkInternet() {
         if (NetworkStatus.getNetworkStatus(Splash.this) == NetworkStatus.NO) {
             qonversionPermissionCheckFinished = true;
+            checkAppVersionFinished = true;
             checkFirst();
         } else {
             checkPermission();
@@ -123,16 +122,13 @@ public class Splash extends AppCompatActivity {
             @Override
             public void onSuccess(@NotNull Map<String, QEntitlement> entitlements) {
                 final QEntitlement premiumEntitlement = entitlements.get(getString(R.string.product_id));
-
+                qonversionPermissionCheckFinished = true;
                 if (premiumEntitlement != null && premiumEntitlement.isActive()) {
                     databaseHandler.changeIsProUserFromSplash(2);
-                    qonversionPermissionCheckFinished = true;
                     Log.d("Splash>>>", "have permission");
-                    checkAppVersion();
                 } else {
                     databaseHandler.changeIsProUserFromSplash(1);
-                    qonversionPermissionCheckFinished = true;
-                    Log.d("Splash>>>", "null permission: ");
+                    Log.d("Splash>>>", "null permission");
                     if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                         FirebaseAuth.getInstance().signOut();
                         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -144,8 +140,8 @@ public class Splash extends AppCompatActivity {
                         DatabaseHandler databaseHandler = new DatabaseHandler(Splash.this);
                         databaseHandler.deleteUserProfile();
                     }
-                    checkAppVersion();
                 }
+                checkAppVersion();
             }
 
             @Override
@@ -156,16 +152,15 @@ public class Splash extends AppCompatActivity {
             }
         });
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!qonversionPermissionCheckFinished) {
-                    qonversionPermissionCheckFinished = true;
-                    checkAppVersion();
-                }
-            }
-        }, 5000);
-        animation();
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (!qonversionPermissionCheckFinished) {
+//                    qonversionPermissionCheckFinished = true;
+//                    checkAppVersion();
+//                }
+//            }
+//        }, 5000);
     }
 
     @Override
@@ -190,7 +185,7 @@ public class Splash extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 animFinished = true;
                 progressBar.setVisibility(View.VISIBLE);
-                checkAppVersion();
+                checkFirst();
             }
 
             @Override
@@ -201,8 +196,8 @@ public class Splash extends AppCompatActivity {
     }
 
     private void checkFirst() {
-        if (qonversionPermissionCheckFinished && animFinished) {
-            Log.d("Splash>>>", "1");
+        Log.d("Splash>>>", "3, " + qonversionPermissionCheckFinished + ", " + animFinished);
+        if (qonversionPermissionCheckFinished && checkAppVersionFinished && animFinished) {
             if (!preferences.getBoolean("checkFirst", false)) {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("checkFirst", true);
@@ -215,8 +210,8 @@ public class Splash extends AppCompatActivity {
     }
 
     private void checkAppVersion() {
-        if (!isCheckAppVersion) {
-            isCheckAppVersion = true;
+        if (!checkAppVersionFinished) {
+            checkAppVersionFinished = true;
             String current_version_withdot = getAppVersion();
             int current_version = Integer.parseInt(current_version_withdot.replace(".", ""));
             FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -228,7 +223,10 @@ public class Splash extends AppCompatActivity {
                     if (current_version >= new_version) {
                         checkFirst();
                     } else {
-                        UpdateDialog.showDialog(Splash.this, current_version_withdot, new_version_withdot);
+                        if (!goNextAlready) {
+                            goNextAlready = true;
+                            UpdateDialog.showDialog(Splash.this, current_version_withdot, new_version_withdot);
+                        }
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -246,7 +244,6 @@ public class Splash extends AppCompatActivity {
                 goNextAlready = true;
                 Intent intent = new Intent(Splash.this, MainActivity.class);
                 intent.putExtra("fromSplash", false);
-                Log.d("Splash>>>", "2");
                 startActivity(intent);
                 finish();
             }

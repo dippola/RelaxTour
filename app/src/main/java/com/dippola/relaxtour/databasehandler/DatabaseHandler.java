@@ -22,6 +22,7 @@ import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
 import com.dippola.relaxtour.MainActivity;
+import com.dippola.relaxtour.Splash;
 import com.dippola.relaxtour.community.main.ForHitsModel;
 import com.dippola.relaxtour.community.main.detail.AddFavAskDialog;
 import com.dippola.relaxtour.community.main.notification.NotificationItem;
@@ -157,7 +158,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public synchronized void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        Log.d("DB>>>", "onUpgrade");
         if (!isHaveNewVersionDB) {
             isHaveNewVersionDB = true;
             AssetManager assetManager = context.getAssets();
@@ -303,16 +303,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean("checkFirst", true);
             editor.apply();
-            Intent intent = new Intent(context, OnBoarding.class);
-            intent.putExtra("fromSplash", true);
-            context.startActivity(intent);
-            activity.finish();
+            if (!Splash.goNextAlready) {
+                Splash.goNextAlready = true;
+                Intent intent = new Intent(context, OnBoarding.class);
+                intent.putExtra("fromSplash", true);
+                context.startActivity(intent);
+                activity.finish();
+            }
         } else {
-            Intent intent = new Intent(context, MainActivity.class);
-            intent.putExtra("fromSplash", false);
-            Log.d("DB>>>", "14");
-            context.startActivity(intent);
-            activity.finish();
+            if (!Splash.goNextAlready) {
+                Splash.goNextAlready = true;
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.putExtra("fromSplash", false);
+                Log.d("DB>>>", "14");
+                context.startActivity(intent);
+                activity.finish();
+            }
         }
     }
 
