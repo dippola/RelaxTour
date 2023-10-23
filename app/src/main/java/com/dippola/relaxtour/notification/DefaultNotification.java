@@ -59,7 +59,7 @@ public class DefaultNotification {
                 notification = new NotificationCompat.Builder(context);
             }
             notification.setSilent(true);
-            notification.setSmallIcon(R.drawable.tabicon_chakra);
+            notification.setSmallIcon(R.drawable.notification_small_icon);
             notification.setContentTitle("Relax Tour");//.setContentText(track.getName())
             notification.setLargeIcon(icon);
             notification.setOnlyAlertOnce(true);//show notification for only first time

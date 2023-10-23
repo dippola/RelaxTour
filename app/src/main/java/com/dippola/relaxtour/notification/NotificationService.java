@@ -2,6 +2,7 @@ package com.dippola.relaxtour.notification;
 
 import static com.dippola.relaxtour.notification.NotifiControllID.MAIN_ID;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,6 +11,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.media.session.MediaSession;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.media.session.MediaSessionCompat;
@@ -91,8 +94,8 @@ public class NotificationService extends Service {
             } else {
                 notification = new NotificationCompat.Builder(context);
             }
-            notification.setSilent(true);
-            notification.setSmallIcon(R.drawable.tabicon_chakra);
+//            notification.setSilent(true);
+            notification.setSmallIcon(R.drawable.notification_small_icon);
             notification.setContentTitle("Relax Tour");//.setContentText(track.getName())
             notification.setLargeIcon(icon);
             notification.setOnlyAlertOnce(true);//show notification for only first time

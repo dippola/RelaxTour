@@ -218,7 +218,7 @@ public class TimerService extends Service {
                 notification = new NotificationCompat.Builder(context);
             }
             notification.setSilent(true);
-            notification.setSmallIcon(R.drawable.bottom_sheet_play);
+            notification.setSmallIcon(R.drawable.notification_small_icon);
             notification.setContentTitle("Relax Tour timer " + time);//.setContentText(track.getName())
             notification.setLargeIcon(icon);
             notification.setOnlyAlertOnce(true);//show notification for only first time
@@ -281,7 +281,7 @@ public class TimerService extends Service {
             builder = new NotificationCompat.Builder(context);
         }
         builder.setSilent(true);
-        builder.setSmallIcon(R.drawable.tabicon_chakra);
+        builder.setSmallIcon(R.drawable.notification_small_icon);
         builder.setContentTitle("Relax Tour " + count);//.setContentText(track.getName())
         builder.setLargeIcon(icon);
         builder.setOnlyAlertOnce(true);//show notification for only first time
