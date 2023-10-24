@@ -17,17 +17,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
 import com.dippola.relaxtour.MainActivity;
+import com.dippola.relaxtour.NetworkStatus;
+import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.Splash;
 import com.dippola.relaxtour.community.main.ForHitsModel;
 import com.dippola.relaxtour.community.main.detail.AddFavAskDialog;
 import com.dippola.relaxtour.community.main.notification.NotificationItem;
 import com.dippola.relaxtour.dialog.AddFavDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
+import com.dippola.relaxtour.dialog.UpdateDialog;
 import com.dippola.relaxtour.onboarding.OnBoarding;
 import com.dippola.relaxtour.pages.ChakraPage;
 import com.dippola.relaxtour.pages.FavPage;
@@ -42,6 +46,18 @@ import com.dippola.relaxtour.pages.item.FavTitleItem;
 import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.dialog.credit_dialog.CreditItem;
 import com.dippola.relaxtour.retrofit.model.UserModel;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.qonversion.android.sdk.Qonversion;
+import com.qonversion.android.sdk.dto.QonversionError;
+import com.qonversion.android.sdk.dto.entitlements.QEntitlement;
+import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -51,6 +67,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
@@ -65,7 +82,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "list.sqlite";
     private static final String DBLOCATION = "/data/data/com.dippola.relaxtour/databases/";
-    public static boolean isHaveNewVersionDB = false;
 
     //pageicon
     private final String PAGE_ICON_TEAM = "create table if not exists pageicon(download BLOB, pro BLOB);";
@@ -103,7 +119,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
         this.activity = activity;
-        Log.d("DB>>>", "DatabaseHandler");
         checkUpgrade();
     }
 
@@ -158,23 +173,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public synchronized void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        if (!isHaveNewVersionDB) {
-            isHaveNewVersionDB = true;
-            AssetManager assetManager = context.getAssets();
-            try {
-                InputStream newDb = assetManager.open("list.sqlite");
-                FileOutputStream newDbCopy = new FileOutputStream(DBLOCATION + "newdb.sqlite");
-                byte[] b = new byte[1024];
-                int length;
-                while ((length = newDb.read(b, 0, 1024)) > 0) {
-                    newDbCopy.write(b, 0, length);
-                }
-                newDb.close();
-                newDbCopy.close();
-                restoreDatabase(db, i);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        AssetManager assetManager = context.getAssets();
+        try {
+            InputStream newDb = assetManager.open("list.sqlite");
+            FileOutputStream newDbCopy = new FileOutputStream(DBLOCATION + "newdb.sqlite");
+            byte[] b = new byte[1024];
+            int length;
+            while ((length = newDb.read(b, 0, 1024)) > 0) {
+                newDbCopy.write(b, 0, length);
             }
+            newDb.close();
+            newDbCopy.close();
+            restoreDatabase(db, i);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -227,7 +239,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (forDeleteNewDbJournal.exists()) {
             forDeleteNewDbJournal.delete();
         }
-        goToNext();
     }
 
     public void upgrade1to2(SQLiteDatabase db, SQLiteDatabase newDb, int v1) {
@@ -284,42 +295,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void upgrademore2(SQLiteDatabase db, SQLiteDatabase newDb, int v1) {
 
-    }
-
-    public void goToNext() {
-        SharedPreferences preferences;
-        try {
-            preferences = EncryptedSharedPreferences.create(
-                    "checkFirst",
-                    MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-                    context.getApplicationContext(),
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            );
-        } catch (GeneralSecurityException | IOException e) {
-            throw new RuntimeException(e);
-        }
-        if (!preferences.getBoolean("checkFirst", false)) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("checkFirst", true);
-            editor.apply();
-            if (!Splash.goNextAlready) {
-                Splash.goNextAlready = true;
-                Intent intent = new Intent(context, OnBoarding.class);
-                intent.putExtra("fromSplash", true);
-                context.startActivity(intent);
-                activity.finish();
-            }
-        } else {
-            if (!Splash.goNextAlready) {
-                Splash.goNextAlready = true;
-                Intent intent = new Intent(context, MainActivity.class);
-                intent.putExtra("fromSplash", false);
-                Log.d("DB>>>", "14");
-                context.startActivity(intent);
-                activity.finish();
-            }
-        }
     }
 
     public void openDatabase() {
@@ -849,10 +824,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 HzPage.adapter.notifyDataSetChanged();
             }
         }
-        Log.d("DatabaseHandler>>>", "1");
         sqLiteDatabase.execSQL("vacuum");
 
-        Log.d("DatabaseHandler>>>", "0");
         addFavListInPlayinglist(title);
     }
 

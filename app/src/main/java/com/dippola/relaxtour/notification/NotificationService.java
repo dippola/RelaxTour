@@ -94,7 +94,7 @@ public class NotificationService extends Service {
             } else {
                 notification = new NotificationCompat.Builder(context);
             }
-//            notification.setSilent(true);
+            notification.setSilent(true);
             notification.setSmallIcon(R.drawable.notification_small_icon);
             notification.setContentTitle("Relax Tour");//.setContentText(track.getName())
             notification.setLargeIcon(icon);

@@ -104,7 +104,6 @@ public class Splash extends AppCompatActivity {
         animation();
 
         checkInternet();
-
     }
 
     private void checkInternet() {
@@ -196,7 +195,6 @@ public class Splash extends AppCompatActivity {
     }
 
     private void checkFirst() {
-        Log.d("Splash>>>", "3, " + qonversionPermissionCheckFinished + ", " + animFinished);
         if (qonversionPermissionCheckFinished && checkAppVersionFinished && animFinished) {
             if (!preferences.getBoolean("checkFirst", false)) {
                 SharedPreferences.Editor editor = preferences.edit();
@@ -239,26 +237,22 @@ public class Splash extends AppCompatActivity {
     }
 
     private void goToMainActivity() {
-        if (!DatabaseHandler.isHaveNewVersionDB) {
-            if (!goNextAlready) {
-                goNextAlready = true;
-                Intent intent = new Intent(Splash.this, MainActivity.class);
-                intent.putExtra("fromSplash", false);
-                startActivity(intent);
-                finish();
-            }
+        if (!goNextAlready) {
+            goNextAlready = true;
+            Intent intent = new Intent(Splash.this, MainActivity.class);
+            intent.putExtra("fromSplash", false);
+            startActivity(intent);
+            finish();
         }
     }
 
     private void goToOnBoarding() {
-        if (!DatabaseHandler.isHaveNewVersionDB) {
-            if (!goNextAlready) {
-                goNextAlready = true;
-                Intent intent = new Intent(Splash.this, OnBoarding.class);
-                intent.putExtra("fromSplash", true);
-                startActivity(intent);
-                finish();
-            }
+        if (!goNextAlready) {
+            goNextAlready = true;
+            Intent intent = new Intent(Splash.this, OnBoarding.class);
+            intent.putExtra("fromSplash", true);
+            startActivity(intent);
+            finish();
         }
     }
 
