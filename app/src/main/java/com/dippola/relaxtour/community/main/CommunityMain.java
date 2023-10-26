@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -37,6 +39,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.dippola.relaxtour.NetworkStatus;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.auth.CommunityAuth;
 import com.dippola.relaxtour.community.main.notification.Notification;
@@ -451,7 +454,7 @@ public class CommunityMain extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
-
+                    requestError(call);
                 }
             });
         } else if (tab2.isChecked()) {
@@ -473,7 +476,7 @@ public class CommunityMain extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
-
+                    requestError(call);
                 }
             });
         } else if (tab3.isChecked()) {
@@ -495,7 +498,7 @@ public class CommunityMain extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
-
+                    requestError(call);
                 }
             });
         }
@@ -833,76 +836,6 @@ public class CommunityMain extends AppCompatActivity {
         }
     });
 
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 111) {
-//            if (auth.getCurrentUser() != null) {
-//                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-//                try {
-//                    // Google Sign In was successful, authenticate with Firebase
-//                    GoogleSignInAccount account = task.getResult(ApiException.class);
-//                    Log.d("CommunityLogin>>>", "firebaseAuthWithGoogle:" + account.getId());
-//                    AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-//                    auth.getCurrentUser().reauthenticate(authCredential).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            Call<String> call;
-//                            call = RetrofitClient.getApiService(CommunityMain.this).deleteUser(auth.getCurrentUser().getUid(), getString(R.string.appkey));
-//                            call.enqueue(new Callback<String>() {
-//                                @Override
-//                                public void onResponse(Call<String> call, Response<String> response) {
-//                                    if (response.isSuccessful()) {
-//                                        Log.d("CommunityMain>>>", "firestore delete user successed");
-//                                        FirebaseStorage.getInstance().getReference().child("userimages/kmj654649@gmail.coma").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-//                                            @Override
-//                                            public void onSuccess(ListResult listResult) {
-//                                                if (listResult.getItems().size() != 0) {
-//                                                    for (StorageReference storageReference : listResult.getItems()) {
-//                                                        Log.d("CommunityMain>>>", "filename: " + storageReference.getName());
-//                                                        storageReference.delete();
-//                                                    }
-//                                                } else {
-//                                                    Log.d("CommunityMain>>>", "size0");
-//                                                }
-//                                            }
-//                                        }).addOnFailureListener(new OnFailureListener() {
-//                                            @Override
-//                                            public void onFailure(@NonNull Exception e) {
-//                                                Log.d("CommunityMain>>>", "error: " + e.getMessage());
-//                                            }
-//                                        });
-//
-//
-//                                        auth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                            @Override
-//                                            public void onComplete(@NonNull Task<Void> task) {
-//                                                Toast.makeText(CommunityMain.this, "delete success", Toast.LENGTH_SHORT).show();
-//                                            }
-//                                        });
-//                                    } else {
-//                                        Log.d("CommunityMain>>>", "2: " + response.message());
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void onFailure(Call<String> call, Throwable t) {
-//                                    Log.d("CommunityMain>>>", "user delete user failed");
-//                                }
-//                            });
-//                        }
-//                    });
-//                } catch (ApiException e) {
-//                    // Google Sign In failed, update UI appropriately
-//                    Log.w("CommunityLogin>>>", "Google sign in failed", e);
-//                }
-//            } else {
-//                Toast.makeText(CommunityMain.this, "auth null", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
-
     private void loadCommunityAllFirst(int page) {
         RetrofitClient.getApiService(CommunityMain.this).getMainPageAll(page, getString(R.string.appkey)).enqueue(new Callback<PostsViewWitPages>() {
             @Override
@@ -922,7 +855,7 @@ public class CommunityMain extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
-
+                requestError(call);
             }
         });
     }
@@ -942,7 +875,7 @@ public class CommunityMain extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
-
+                requestError(call);
             }
         });
     }
@@ -962,7 +895,7 @@ public class CommunityMain extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<PostsViewWitPages> call, Throwable t) {
-
+                requestError(call);
             }
         });
     }
@@ -1359,5 +1292,26 @@ public class CommunityMain extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void requestError(Call<PostsViewWitPages> call) {
+        authicon.setEnabled(false);
+        fabmain.setEnabled(false);
+        tab1.setEnabled(false);
+        tab2.setEnabled(false);
+        tab3.setEnabled(false);
+        if (NetworkStatus.getNetworkStatus(CommunityMain.this) == NetworkStatus.NO) {
+            Toast.makeText(CommunityMain.this, "The internet is not connected. Please try again. Returning to the home screen shortly.", Toast.LENGTH_LONG).show();
+        } else if (call.request().body() == null) {
+            Toast.makeText(CommunityMain.this, "Unable to load data. Please try again. Returning to the home screen shortly.", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(CommunityMain.this, "For unknown reasons, data cannot be loaded. Please check your internet connection. Returning to the home screen shortly.", Toast.LENGTH_LONG).show();
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, 2500);
     }
 }
