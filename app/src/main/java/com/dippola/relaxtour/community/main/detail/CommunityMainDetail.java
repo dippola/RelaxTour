@@ -39,6 +39,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -114,9 +115,9 @@ public class CommunityMainDetail extends AppCompatActivity {
 
     private int nowPage;
 
-    private ShimmerFrameLayout topMiddleLoad, bottomLoad;
+    private ShimmerFrameLayout topMiddleLoad, bottomLoad, likecommentboxLoad;
     private SwipeRefreshLayout refreshLayout;
-    private ConstraintLayout topFinish, middleFinish, bottomFinish, commentLayout;
+    private ConstraintLayout topFinish, middleFinish, bottomFinish, commentLayout, changeConstraint;
     private RelativeLayout likecommentrefbox;
     private ConstraintLayout load_body;
     private NestedScrollView scrollView;
@@ -213,8 +214,11 @@ public class CommunityMainDetail extends AppCompatActivity {
         refreshLayout = findViewById(R.id.community_main_detail_refresh);
         topMiddleLoad = findViewById(R.id.community_main_detail_load);
         topMiddleLoad.setVisibility(View.VISIBLE);
+        changeConstraint = findViewById(R.id.community_main_detail_for_change_constraint_layout);
         bottomLoad = findViewById(R.id.community_main_detail_comment_item_load);
         bottomLoad.setVisibility(View.VISIBLE);
+        likecommentboxLoad = findViewById(R.id.community_main_detail_comment_item_load_when_loaded_first);
+        likecommentboxLoad.setVisibility(View.GONE);
         topFinish = findViewById(R.id.community_main_detail_load_top_finish);
         likecommentrefbox = findViewById(R.id.community_main_detail_likecomment_box);
         middleFinish = findViewById(R.id.community_main_detail_load_middle_finish);
@@ -341,6 +345,8 @@ public class CommunityMainDetail extends AppCompatActivity {
     private void startRefresh() {
         topMiddleLoad.setVisibility(View.VISIBLE);
         bottomLoad.setVisibility(View.VISIBLE);
+        firstCommentLoad1.setVisibility(View.VISIBLE);
+        firstCommentLoad2.setVisibility(View.VISIBLE);
         topFinish.setVisibility(View.INVISIBLE);
         middleFinish.setVisibility(View.INVISIBLE);
         bottomFinish.setVisibility(View.INVISIBLE);
@@ -856,7 +862,8 @@ public class CommunityMainDetail extends AppCompatActivity {
 
                 Animation animation = AnimationUtils.loadAnimation(CommunityMainDetail.this, R.anim.refresh_turn);
                 refreshload.startAnimation(animation);
-                bottomLoad.setVisibility(View.VISIBLE);
+//                bottomLoad.setVisibility(View.VISIBLE);
+                likecommentboxLoad.setVisibility(View.VISIBLE);
                 if (adapter == null) {
                     bottomFinish.setVisibility(View.GONE);
                 } else {
@@ -865,6 +872,12 @@ public class CommunityMainDetail extends AppCompatActivity {
                 getData("refresh");
             }
         });
+    }
+
+    private void likeCommentBoxChangeConstraint(String toWhere) {
+        if (toWhere.equals("toFinished")) {
+
+        }
     }
 
     private void onClickOk() {
@@ -1283,6 +1296,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             nullcomment.setVisibility(View.VISIBLE);
             commentLayout.setVisibility(View.GONE);
             bottomLoad.setVisibility(View.GONE);
+            likecommentboxLoad.setVisibility(View.GONE);
             bottomFinish.setVisibility(View.VISIBLE);
             adapter = null;
         } else {
@@ -1291,6 +1305,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             commentlist.setLayoutManager(new LinearLayoutManager(CommunityMainDetail.this));
             commentlist.setAdapter(adapter);
             bottomLoad.setVisibility(View.GONE);
+            likecommentboxLoad.setVisibility(View.GONE);
             commentLayout.setVisibility(View.VISIBLE);
             bottomFinish.setVisibility(View.VISIBLE);
             likecommentrefbox.setVisibility(View.VISIBLE);

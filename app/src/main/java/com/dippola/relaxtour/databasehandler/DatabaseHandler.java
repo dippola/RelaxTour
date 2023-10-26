@@ -214,9 +214,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         //version
         if (v1 < 2) {
-            upgrade1to2(db, newDb, v1);
+            upgrade1to2(db, newDb);
         } else {
-            upgrademore2(db, newDb, v1);
+            upgrademore2(db, newDb);
         }
         //version
 
@@ -241,7 +241,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public void upgrade1to2(SQLiteDatabase db, SQLiteDatabase newDb, int v1) {
+    public void upgrade1to2(SQLiteDatabase db, SQLiteDatabase newDb) {
         db.execSQL(TRACK_TEAM);
         db.execSQL("drop table rain");
         db.execSQL("drop table water");
@@ -293,7 +293,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public void upgrademore2(SQLiteDatabase db, SQLiteDatabase newDb, int v1) {
+    public void upgrademore2(SQLiteDatabase db, SQLiteDatabase newDb) {
 
     }
 

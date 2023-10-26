@@ -275,6 +275,17 @@ public class MainActivity extends AppCompatActivity {
         community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+            }
+        });
+
+        community.setOnClickListener(view -> {
+
+        });
+
+        community.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 //                load.setVisibility(View.VISIBLE);
 //                FirebaseFirestore.getInstance().collection("app_status").document("fix_server").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 //                    @Override
