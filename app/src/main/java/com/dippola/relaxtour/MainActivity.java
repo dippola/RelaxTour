@@ -136,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
         }
         String mode = sharedPreferences.getString("mode", "default");
         ThemeHelper.applyTheme(mode);
+
+        FavPage.setAgain();
     }
 
     @Override
@@ -270,17 +272,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ThemeDialog.themeDialog(MainActivity.this);
             }
-        });
-
-        community.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        community.setOnClickListener(view -> {
-
         });
 
         community.setOnClickListener(new View.OnClickListener() {
@@ -715,5 +706,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+
 
 }
