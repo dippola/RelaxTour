@@ -15,31 +15,34 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.IntentSenderRequest;
 import androidx.appcompat.app.AlertDialog;
 
 import com.dippola.relaxtour.R;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateOptions;
+import com.google.android.play.core.install.model.AppUpdateType;
 
 public class UpdateDialog {
     public static AlertDialog alertDialog;
+    public static AlertDialog alertDialog2;
     private static Button ok;
-    private static TextView currentVersion, newVersion;
 
-    public static void showDialog(Context context, String cv, String nv) {
+    private static TextView text1, text2;
+
+    public static void showDialog(Context context) {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout layout = (LinearLayout) vi.inflate(R.layout.update_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
         builder.setView(layout);
         alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.setCancelable(false);
 
         alertDialog.show();
 
         ok = layout.findViewById(R.id.update_dialog_btn);
-        currentVersion = layout.findViewById(R.id.update_dialog_current_version);
-        newVersion = layout.findViewById(R.id.update_dialog_new_version);
-
-        currentVersion.setText("Current Version: " + cv);
-        newVersion.setText("New Version: " + nv);
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,5 +52,30 @@ public class UpdateDialog {
                 context.startActivity(intent);
             }
         });
+    }
+
+    public static void showDialog2(Context context) {
+        LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LinearLayout layout = (LinearLayout) vi.inflate(R.layout.update_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
+        builder.setView(layout);
+        alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.setCancelable(false);
+
+        alertDialog.show();
+
+        ok = layout.findViewById(R.id.update_dialog_btn);
+        ok.setVisibility(View.GONE);
+        text1 = layout.findViewById(R.id.update_dialog_title);
+        text2 = layout.findViewById(R.id.update_dialog_text);
+        text1.setText("Updating to new version");
+        text2.setText("※ Please wait a moment.");
+    }
+
+    public static void closeDialog() {
+        if (alertDialog.isShowing()) {
+            alertDialog.cancel();
+        }
     }
 }

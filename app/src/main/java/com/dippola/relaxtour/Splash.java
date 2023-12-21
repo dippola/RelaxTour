@@ -2,6 +2,7 @@ package com.dippola.relaxtour;
 
 import android.app.Application;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -14,7 +15,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.IntentSenderRequest;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +39,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.appupdate.AppUpdateOptions;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -140,14 +155,16 @@ public class Splash extends AppCompatActivity {
                         databaseHandler.deleteUserProfile();
                     }
                 }
-                checkAppVersion();
+//                checkAppVersion();
+                checkAppVersionTest();
             }
 
             @Override
             public void onError(@NotNull QonversionError error) {
                 qonversionPermissionCheckFinished = true;
                 Log.d("Splash>>>", "qper error: " + error);
-                checkAppVersion();
+//                checkAppVersion();
+                checkAppVersionTest();
             }
         });
 
@@ -207,24 +224,23 @@ public class Splash extends AppCompatActivity {
         }
     }
 
-    private void checkAppVersion() {
+    private void checkAppVersionTest() {
         if (!checkAppVersionFinished) {
             checkAppVersionFinished = true;
-            String current_version_withdot = getAppVersion();
-            int current_version = Integer.parseInt(current_version_withdot.replace(".", ""));
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("app_status").document("app_version").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(Splash.this);
+            Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+            appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
                 @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    String new_version_withdot = documentSnapshot.get("new_version").toString();
-                    int new_version = Integer.parseInt(new_version_withdot.replace(".", ""));
-                    if (current_version >= new_version) {
-                        checkFirst();
-                    } else {
+                public void onSuccess(AppUpdateInfo appUpdateInfo) {
+                    if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
                         if (!goNextAlready) {
                             goNextAlready = true;
-                            UpdateDialog.showDialog(Splash.this, current_version_withdot, new_version_withdot);
                         }
+                        Toast.makeText(Splash.this, "The new version has been released!\nPlease update to the latest version on the Play Store.", Toast.LENGTH_LONG).show();
+                        UpdateDialog.showDialog(Splash.this);
+                        appUpdateManager.startUpdateFlowForResult(appUpdateInfo, launcher, AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build());
+                    } else {
+                        checkFirst();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -234,6 +250,23 @@ public class Splash extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    ActivityResultLauncher<IntentSenderRequest> launcher = registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == RESULT_CANCELED) {
+            } else if (result.getResultCode() == RESULT_OK) {
+                UpdateDialog.closeDialog();
+                UpdateDialog.showDialog2(Splash.this);
+            }
+        }
+    });
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d("Splash>>>", "back pressed");
     }
 
     private void goToMainActivity() {
