@@ -71,7 +71,7 @@ dependencies {
 
     implementation "androidx.media:media:1.6.0"
 
-    implementation 'io.qonversion.android.sdk:sdk:6.2.0'
+    implementation 'io.qonversion.android.sdk:sdk:6.3.0'
 
     implementation("com.tbuonomo:dotsindicator:4.3")
 

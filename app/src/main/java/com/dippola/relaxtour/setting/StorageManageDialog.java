@@ -85,7 +85,7 @@ public class StorageManageDialog extends AppCompatActivity {
         if (files.length != 0) {
             for (int i = 0; i < files.length; i++) {
                 if (files[i].getName().contains("audio")) {
-                    String tid = files[i].getName().replace("audio", "");
+                    String tid = files[i].getName().replace("audio", "").replace(".mp3", "");
                     list.add(databaseHandler.getPageItemInStorageManage(tid));
                 }
             }
