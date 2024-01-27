@@ -167,16 +167,6 @@ public class Splash extends AppCompatActivity {
                 checkAppVersionTest();
             }
         });
-
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (!qonversionPermissionCheckFinished) {
-//                    qonversionPermissionCheckFinished = true;
-//                    checkAppVersion();
-//                }
-//            }
-//        }, 5000);
     }
 
     @Override

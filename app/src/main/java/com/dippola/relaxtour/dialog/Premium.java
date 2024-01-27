@@ -147,71 +147,71 @@ public class Premium extends AppCompatActivity {
         Qonversion.getSharedInstance().offerings(new QonversionOfferingsCallback() {
             @Override
             public void onSuccess(@NotNull QOfferings offerings) {
-                QOffering qOffering = offerings.offeringForID(getString(R.string.qoffering_id));
-                if (qOffering != null) {
-                    Qonversion.getSharedInstance().products(new QonversionProductsCallback() {
-                        @Override
-                        public void onSuccess(@NotNull Map<String, QProduct> productsList) {
-                            Qonversion.getSharedInstance().purchase(activity, getString(R.string.product_id), new QonversionEntitlementsCallback() {
-                                @Override
-                                public void onSuccess(@NotNull Map<String, QEntitlement> permissions) {
-                                    QEntitlement premiumPermission = permissions.get(getString(R.string.product_id));
-                                    if (premiumPermission != null && premiumPermission.isActive()) {
-                                        // handle active permission here
-                                        if (MainActivity.databaseHandler == null) {
-                                            DatabaseHandler databaseHandler = new DatabaseHandler(Premium.this);
-                                            databaseHandler.changeIsProUserFromPremium(2);
-                                            databaseHandler.closeDatabse();
-                                            databaseHandler.close();
-                                        } else {
-                                            MainActivity.databaseHandler.changeIsProUserFromPremium(2);
+                if (offerings.getMain() != null && !offerings.getMain().getProducts().isEmpty()) {
+                    QOffering qOffering = offerings.offeringForID(getString(R.string.qoffering_id));
+                    if (qOffering != null) {
+                        Qonversion.getSharedInstance().products(new QonversionProductsCallback() {
+                            @Override
+                            public void onSuccess(@NotNull Map<String, QProduct> productsList) {
+                                Qonversion.getSharedInstance().purchase(activity, getString(R.string.product_id), new QonversionEntitlementsCallback() {
+                                    @Override
+                                    public void onSuccess(@NotNull Map<String, QEntitlement> entitlements) {
+                                        QEntitlement premiumPermission = entitlements.get(getString(R.string.product_id));
+                                        if (premiumPermission != null && premiumPermission.isActive()) {
+                                            // handle active permission here
+                                            if (MainActivity.databaseHandler == null) {
+                                                DatabaseHandler databaseHandler = new DatabaseHandler(Premium.this);
+                                                databaseHandler.changeIsProUserFromPremium(2);
+                                                databaseHandler.closeDatabse();
+                                                databaseHandler.close();
+                                            } else {
+                                                MainActivity.databaseHandler.changeIsProUserFromPremium(2);
+                                            }
+
+                                            startActivity(new Intent(Premium.this, ResetDialog.class));
                                         }
-
-                                        startActivity(new Intent(Premium.this, ResetDialog.class));
                                     }
-                                }
 
-                                @Override
-                                public void onError(@NotNull QonversionError error) {
-                                    setLoadGone();
-                                    if (error.getCode() != QonversionErrorCode.CanceledPurchase) {
-                                        if (error.getCode() == QonversionErrorCode.ProductAlreadyOwned) {
-                                            Log.d("Premium>>>", "1: " + error.getCode());
-                                            Qonversion.getSharedInstance().restore(new QonversionEntitlementsCallback() {
-                                                @Override
-                                                public void onSuccess(@NonNull Map<String, QEntitlement> map) {
-                                                    QEntitlement qPermission = map.get(getString(R.string.product_id));
-                                                    if (qPermission != null && qPermission.isActive()) {
-                                                        Log.d("Premium>>>", "restored");
-                                                    } else {
-                                                        Log.d("Premium>>>", "no restore");
+                                    @Override
+                                    public void onError(@NotNull QonversionError error) {
+                                        setLoadGone();
+                                        if (error.getCode() != QonversionErrorCode.CanceledPurchase) {
+                                            if (error.getCode() == QonversionErrorCode.ProductAlreadyOwned) {
+                                                Log.d("Premium>>>", "1: " + error.getCode());
+                                                Qonversion.getSharedInstance().restore(new QonversionEntitlementsCallback() {
+                                                    @Override
+                                                    public void onSuccess(@NonNull Map<String, QEntitlement> map) {
+                                                        QEntitlement qPermission = map.get(getString(R.string.product_id));
+                                                        if (qPermission != null && qPermission.isActive()) {
+                                                            Log.d("Premium>>>", "restored");
+                                                        } else {
+                                                            Log.d("Premium>>>", "no restore");
+                                                        }
                                                     }
-                                                }
 
-                                                @Override
-                                                public void onError(@NonNull QonversionError qonversionError) {
+                                                    @Override
+                                                    public void onError(@NonNull QonversionError qonversionError) {
 
-                                                }
-                                            });
+                                                    }
+                                                });
+                                            }
+                                            Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
                                         }
-                                        Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
                                     }
-                                }
-                            });
-                        }
+                                });
+                            }
 
-                        @Override
-                        public void onError(@NotNull QonversionError error) {
-                            setLoadGone();
-                            Log.d("Premium>>>", "2");
-                            Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
-                        }
-                    });
+                            @Override
+                            public void onError(@NotNull QonversionError error) {
+                                setLoadGone();
+                                Log.d("Premium>>>", "2");
+                                Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
                 }
-//                if (offerings.getMain() != null && !offerings.getMain().getProducts().isEmpty()) {
-//                    // Display products for sale
-//                }
             }
+
             @Override
             public void onError(@NotNull QonversionError error) {
                 setLoadGone();
