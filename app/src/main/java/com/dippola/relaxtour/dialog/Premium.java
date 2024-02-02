@@ -167,7 +167,6 @@ public class Premium extends AppCompatActivity {
                                             } else {
                                                 MainActivity.databaseHandler.changeIsProUserFromPremium(2);
                                             }
-
                                             startActivity(new Intent(Premium.this, ResetDialog.class));
                                         }
                                     }
@@ -177,7 +176,7 @@ public class Premium extends AppCompatActivity {
                                         setLoadGone();
                                         if (error.getCode() != QonversionErrorCode.CanceledPurchase) {
                                             if (error.getCode() == QonversionErrorCode.ProductAlreadyOwned) {
-                                                Log.d("Premium>>>", "1: " + error.getCode());
+                                                Log.d("Premium>>>", "e1: " + error.getCode());
                                                 Qonversion.getSharedInstance().restore(new QonversionEntitlementsCallback() {
                                                     @Override
                                                     public void onSuccess(@NonNull Map<String, QEntitlement> map) {
@@ -204,7 +203,6 @@ public class Premium extends AppCompatActivity {
                             @Override
                             public void onError(@NotNull QonversionError error) {
                                 setLoadGone();
-                                Log.d("Premium>>>", "2");
                                 Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
                             }
                         });
@@ -215,7 +213,6 @@ public class Premium extends AppCompatActivity {
             @Override
             public void onError(@NotNull QonversionError error) {
                 setLoadGone();
-                Log.d("Premium>>>", "3");
                 Toast.makeText(Premium.this, "error: " + error.getDescription(), Toast.LENGTH_LONG).show();
             }
         });

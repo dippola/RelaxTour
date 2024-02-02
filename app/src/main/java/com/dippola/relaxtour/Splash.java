@@ -52,9 +52,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.qonversion.android.sdk.Qonversion;
 import com.qonversion.android.sdk.QonversionConfig;
 import com.qonversion.android.sdk.dto.QLaunchMode;
+import com.qonversion.android.sdk.dto.QUser;
 import com.qonversion.android.sdk.dto.QonversionError;
 import com.qonversion.android.sdk.dto.entitlements.QEntitlement;
+import com.qonversion.android.sdk.dto.offerings.QOfferings;
+import com.qonversion.android.sdk.dto.products.QProduct;
 import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback;
+import com.qonversion.android.sdk.listeners.QonversionOfferingsCallback;
+import com.qonversion.android.sdk.listeners.QonversionProductsCallback;
+import com.qonversion.android.sdk.listeners.QonversionUserCallback;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -155,8 +161,7 @@ public class Splash extends AppCompatActivity {
                         databaseHandler.deleteUserProfile();
                     }
                 }
-//                checkAppVersion();
-                checkAppVersionTest();
+                checkAppVersion();
             }
 
             @Override
@@ -164,7 +169,7 @@ public class Splash extends AppCompatActivity {
                 qonversionPermissionCheckFinished = true;
                 Log.d("Splash>>>", "qper error: " + error);
 //                checkAppVersion();
-                checkAppVersionTest();
+                checkAppVersion();
             }
         });
     }
@@ -214,7 +219,7 @@ public class Splash extends AppCompatActivity {
         }
     }
 
-    private void checkAppVersionTest() {
+    private void checkAppVersion() {
         if (!checkAppVersionFinished) {
             checkAppVersionFinished = true;
             AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(Splash.this);
