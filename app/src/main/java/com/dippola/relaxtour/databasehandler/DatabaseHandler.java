@@ -695,9 +695,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         for (int i = 0; i < list.length; i++) {
             if (i != 0) {
                 String tid = list[i].split("-")[0];
+                int seek = Integer.parseInt(list[i].split("-")[1]);
+                Log.d("DatabaseHandler>>>", "tid: " + tid);
                 Cursor cursor = sqLiteDatabase.rawQuery("select * from track where tid = '" + tid + "'", null);
                 cursor.moveToFirst();
-                favListItem = new FavListItem(cursor.getInt(0), cursor.getInt(1), cursor.getBlob(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8), cursor.getInt(9), cursor.getString(10), cursor.getInt(11), cursor.getInt(12), cursor.getString(13));
+                favListItem = new FavListItem(cursor.getInt(0), cursor.getInt(1), cursor.getBlob(2), cursor.getBlob(3), cursor.getBlob(4), cursor.getBlob(5), seek, cursor.getInt(7), list[0], cursor.getInt(8), cursor.getString(9), cursor.getInt(10), cursor.getInt(11), cursor.getString(12));
                 favListItems.add(favListItem);
                 cursor.close();
             }

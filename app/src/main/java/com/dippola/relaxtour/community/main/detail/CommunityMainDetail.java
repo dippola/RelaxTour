@@ -58,6 +58,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.bottomsheet_intent.DeleteCommunityDialog;
+import com.dippola.relaxtour.community.bottomsheet_intent.EditComment;
 import com.dippola.relaxtour.community.bottomsheet_intent.EditPost;
 import com.dippola.relaxtour.community.bottomsheet_intent.Report;
 import com.dippola.relaxtour.community.main.CommunityMain;
@@ -98,6 +99,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     public static final int FROM_DELETE = 301;
     public static final int FROM_EDITPOST = 302;
     public static final int FROM_CREATE_PROFILE = 303;
+    public static final int FROM_EDIT_COMMENT = 304;
 
     private int id;
     private static int parent_user;
@@ -166,6 +168,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     private static LinearLayout l1, l2, l3;
     public static String bottomFrom;
     public static int comment_parent_user, comment_parent_id, comment_index;
+    public static String comment_body;
 
     private static FirebaseUser mAuth;
 
@@ -414,6 +417,12 @@ public class CommunityMainDetail extends AppCompatActivity {
                     Intent intent = new Intent(CommunityMainDetail.this, EditPost.class);
                     intent.putExtra("id", id);
                     launcher.launch(intent);
+                } else if (bottomFrom.equals("comment")) {
+                    Intent intent = new Intent(CommunityMainDetail.this, EditComment.class);
+                    intent.putExtra("body", comment_body);
+                    intent.putExtra("comment_id", comment_parent_id);
+                    intent.putExtra("post_id", id);
+                    launcher.launch(intent);
                 }
             }
         });
@@ -552,6 +561,22 @@ public class CommunityMainDetail extends AppCompatActivity {
                     setResult(CommunityMain.FROM_DETAIL, intent);
                     finish();
                 }
+            } else if (result.getResultCode() == FROM_EDIT_COMMENT) {
+                isCommentLoad = true;
+                if (adapter != null) {
+                    adapter.notifyItemRangeChanged(0, commentModelList.size());
+                }
+
+                Animation animation = AnimationUtils.loadAnimation(CommunityMainDetail.this, R.anim.refresh_turn);
+                refreshload.startAnimation(animation);
+//                bottomLoad.setVisibility(View.VISIBLE);
+                likecommentboxLoad.setVisibility(View.VISIBLE);
+                if (adapter == null) {
+                    bottomFinish.setVisibility(View.GONE);
+                } else {
+                    likecommentrefbox.setVisibility(View.INVISIBLE);
+                }
+                getData("refresh");
             }
         }
     });
@@ -1301,7 +1326,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             adapter = null;
         } else {
             nullcomment.setVisibility(View.GONE);
-            adapter = new MainDetailCommentAdapter(commentModelList, CommunityMainDetail.this, databaseHandler.getUserModel().getId(), mAuth);
+            adapter = new MainDetailCommentAdapter(commentModelList, CommunityMainDetail.this, databaseHandler.getUserModel().getId(), mAuth, launcher, databaseHandler);
             commentlist.setLayoutManager(new LinearLayoutManager(CommunityMainDetail.this));
             commentlist.setAdapter(adapter);
             bottomLoad.setVisibility(View.GONE);

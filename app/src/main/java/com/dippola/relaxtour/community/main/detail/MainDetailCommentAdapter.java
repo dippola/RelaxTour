@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
+import com.dippola.relaxtour.community.auth.CommunityAuth;
+import com.dippola.relaxtour.community.main.CommunityMain;
+import com.dippola.relaxtour.community.signIn.CommunitySignIn;
 import com.dippola.relaxtour.community.translate.Language;
 import com.dippola.relaxtour.community.translate.Translate;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
@@ -46,12 +50,16 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
     Context context;
     int myid;
     FirebaseUser mAuth;
+    ActivityResultLauncher<Intent> launcher;
+    DatabaseHandler databaseHandler;
 
-    public MainDetailCommentAdapter(List<PostCommentModel> list, Context context, int myid, FirebaseUser mAuth) {
+    public MainDetailCommentAdapter(List<PostCommentModel> list, Context context, int myid, FirebaseUser mAuth, ActivityResultLauncher<Intent> launcher, DatabaseHandler databaseHandler) {
         this.list = list;
         this.context = context;
         this.myid = myid;
         this.mAuth = mAuth;
+        this.launcher = launcher;
+        this.databaseHandler = databaseHandler;
     }
     @NonNull
     @Override
@@ -119,18 +127,21 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
             holder.more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mAuth != null) {
+                    if (databaseHandler.getIsProUser() == 1) {
+                        context.startActivity(new Intent(context, Premium.class));
+                    } else if (mAuth == null) {
+                        Toast.makeText(context, "Sign in is required", Toast.LENGTH_SHORT).show();
+                    } else {
                         CommunityMainDetail.bottomFrom = "comment";
                         CommunityMainDetail.comment_parent_user = list.get(i).getParent_user();
                         CommunityMainDetail.comment_parent_id = list.get(i).getId();
                         CommunityMainDetail.comment_index = i;
+                        CommunityMainDetail.comment_body = list.get(i).getBody();
+                        list.get(i).getId();
                         CommunityMainDetail.setBottomSheetBehavior(context);
                         if (CommunityMainDetail.bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
                             CommunityMainDetail.bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                         }
-                    } else {
-                        Toast.makeText(context, "Premium rights are required to access the community.", Toast.LENGTH_SHORT).show();
-                        context.startActivity(new Intent(context, Premium.class));
                     }
                 }
             });
@@ -138,14 +149,12 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
             holder.recomment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!list.get(i).getNickname().equals(new DatabaseHandler(context).getUserModel().getNickname())) {
-                        CommunityMainDetail.towho.setText(list.get(i).getNickname());
-                        CommunityMainDetail.towhoid = list.get(i).getParent_user();
-                        CommunityMainDetail.towho.setVisibility(View.VISIBLE);
-                        CommunityMainDetail.editComment.clearFocus();
-                        CommunityMainDetail.editComment.requestFocus();
-                        CommunityMainDetail.showKeyboard(view, context);
-                    }
+                    CommunityMainDetail.towho.setText(list.get(i).getNickname());
+                    CommunityMainDetail.towhoid = list.get(i).getParent_user();
+                    CommunityMainDetail.towho.setVisibility(View.VISIBLE);
+                    CommunityMainDetail.editComment.clearFocus();
+                    CommunityMainDetail.editComment.requestFocus();
+                    CommunityMainDetail.showKeyboard(view, context);
                 }
             });
 
