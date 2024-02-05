@@ -95,10 +95,6 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
                 holder.tonickname.setVisibility(View.GONE);
             }
 
-            if (list.get(i).getParent_user() == myid) {
-                holder.recomment.setVisibility(View.GONE);
-            }
-
             holder.nickname.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

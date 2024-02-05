@@ -103,6 +103,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 int index = list.indexOf(list.get(i));
                 list.remove(index);
                 notifyItemRemoved(index);
+                notifyDataSetChanged();
                 if (list.size() == 0) {
                     recyclerView.setVisibility(View.GONE);
                     zero.setVisibility(View.VISIBLE);

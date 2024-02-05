@@ -12,8 +12,11 @@ import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
 
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
@@ -26,6 +29,8 @@ import com.dippola.relaxtour.retrofit.model.UserModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -123,10 +128,20 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     }
 
     private void insertDB(String title, String body) {
-        SharedPreferences sharedPreferences = getSharedPreferences("haveNewNotification", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("haveNewNotification", true);
-        editor.apply();
+        try {
+            SharedPreferences preferences = EncryptedSharedPreferences.create(
+                    "haveNewNotification",
+                    MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+                    getApplicationContext(),
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            );
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("haveNewNotification", true);
+            editor.apply();
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException(e);
+        }
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         String date = getTime();
         databaseHandler.insertCNotification(title, body, date);

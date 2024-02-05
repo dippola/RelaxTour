@@ -8,10 +8,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.main.detail.CommunityMainDetail;
@@ -54,8 +56,9 @@ public class EditComment extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                editting = true;
-//                load.setVisibility(View.VISIBLE);
+                editting = true;
+                load.setVisibility(View.VISIBLE);
+                hideKeyboard(view);
                 editComment();
             }
         });

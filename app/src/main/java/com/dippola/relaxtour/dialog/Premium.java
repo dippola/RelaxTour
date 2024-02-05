@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,10 +47,9 @@ public class Premium extends AppCompatActivity {
     TextView cancel;
     Application application;
     Activity activity;
-    RelativeLayout load;
+    LinearLayout load;
     ImageView img;
-
-    Dialog dialog;
+    TextView loadText;
 
     boolean isLoading = false;
 
@@ -74,6 +74,7 @@ public class Premium extends AppCompatActivity {
         img = findViewById(R.id.premium_dialog_title_img);
         cancel = findViewById(R.id.premium_dialog_cancel);
         load = findViewById(R.id.premium_dialog_load);
+        loadText = findViewById(R.id.premium_load_text);
         load.setVisibility(View.GONE);
         okSetOnClick();
         cancelSetOnClick();
@@ -124,6 +125,7 @@ public class Premium extends AppCompatActivity {
     private void setLoadGone() {
         isLoading = false;
         load.setVisibility(View.GONE);
+        loadText.setVisibility(View.GONE);
         setFinishOnTouchOutside(true);
     }
 
@@ -198,6 +200,7 @@ public class Premium extends AppCompatActivity {
                                         }
                                     }
                                 });
+                                loadText.setVisibility(View.VISIBLE);
                             }
 
                             @Override
