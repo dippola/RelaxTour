@@ -49,11 +49,11 @@ public class ShareListAdapter extends RecyclerView.Adapter<ShareListAdapter.Cust
         String split[] = item.split("-");
         String tid = split[0];
         String seek = split[1];
+        holder.seekBar.setEnabled(false);
         for (int i = 0; i < allTidList.size(); i++) {
             if (allTidList.get(i).getTid().equals(tid)) {
                 holder.name.setText(allTidList.get(i).getName());
                 setImg(holder.img, databaseHandler.getTrackImageLight(allTidList.get(i).getTid()), databaseHandler.getTrackImageDark(allTidList.get(i).getTid()));
-                holder.seekBar.setEnabled(false);
                 holder.seekBar.setMax(MainActivity.maxVolumn);
                 holder.seekBar.setProgress(Integer.parseInt(seek));
                 break;

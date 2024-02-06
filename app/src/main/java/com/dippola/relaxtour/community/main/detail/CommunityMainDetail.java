@@ -354,6 +354,8 @@ public class CommunityMainDetail extends AppCompatActivity {
         middleFinish.setVisibility(View.INVISIBLE);
         bottomFinish.setVisibility(View.INVISIBLE);
 
+        commentViewMore.setEnabled(true);
+
         refreshLayout.setRefreshing(false);
         getData("");
     }
@@ -546,6 +548,7 @@ public class CommunityMainDetail extends AppCompatActivity {
                         Log.d("MainDetail>>>", "from: " + result.getData().getStringExtra("from"));
                         commentModelList.remove(comment_index);
                         adapter.notifyItemRemoved(comment_index);
+                        adapter.notifyDataSetChanged();
                         commentcount.setText(String.valueOf(Integer.parseInt(commentcount.getText().toString()) - 1));
                     }
                 }
@@ -881,6 +884,7 @@ public class CommunityMainDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 isCommentLoad = true;
+                commentViewMore.setEnabled(true);
                 if (adapter != null) {
                     adapter.notifyItemRangeChanged(0, commentModelList.size());
                 }
@@ -897,12 +901,6 @@ public class CommunityMainDetail extends AppCompatActivity {
                 getData("refresh");
             }
         });
-    }
-
-    private void likeCommentBoxChangeConstraint(String toWhere) {
-        if (toWhere.equals("toFinished")) {
-
-        }
     }
 
     private void onClickOk() {
