@@ -545,10 +545,13 @@ public class CommunityMainDetail extends AppCompatActivity {
                         Toast.makeText(CommunityMainDetail.this, "Post deletion complete", Toast.LENGTH_SHORT).show();
                         finish();
                     } else if (result.getData().getStringExtra("from").equals("comment")) {
-                        Log.d("MainDetail>>>", "from: " + result.getData().getStringExtra("from"));
                         commentModelList.remove(comment_index);
                         adapter.notifyItemRemoved(comment_index);
                         adapter.notifyDataSetChanged();
+                        if (commentModelList.size() == 0) {
+                            nullcomment.setVisibility(View.VISIBLE);
+                            commentViewMore.setVisibility(View.GONE);
+                        }
                         commentcount.setText(String.valueOf(Integer.parseInt(commentcount.getText().toString()) - 1));
                     }
                 }
@@ -1012,10 +1015,22 @@ public class CommunityMainDetail extends AppCompatActivity {
         commentsend.setVisibility(View.VISIBLE);
         commentsendload.setVisibility(View.GONE);
         commentsend.setEnabled(true);
+
+        isCommentLoad = true;
+        commentViewMore.setEnabled(true);
+        if (adapter != null) {
+            adapter.notifyItemRangeChanged(0, commentModelList.size());
+        }
+
         Animation animation = AnimationUtils.loadAnimation(CommunityMainDetail.this, R.anim.refresh_turn);
         refreshload.startAnimation(animation);
-        bottomLoad.setVisibility(View.VISIBLE);
-        bottomFinish.setVisibility(View.GONE);
+//                bottomLoad.setVisibility(View.VISIBLE);
+        likecommentboxLoad.setVisibility(View.VISIBLE);
+        if (adapter == null) {
+            bottomFinish.setVisibility(View.GONE);
+        } else {
+            likecommentrefbox.setVisibility(View.INVISIBLE);
+        }
         getData("refresh");
     }
 
@@ -1042,7 +1057,6 @@ public class CommunityMainDetail extends AppCompatActivity {
             @Override
             public void onResponse(Call<PostDetailWithComments> call, Response<PostDetailWithComments> response) {
                 if (response.isSuccessful()) {
-                    Log.d("CommunityMainDetail>>>", "get data 1");
                     postModel = response.body().getPost();
                     parent_user = postModel.getParent_user();
                     setBottomSheetBehavior(CommunityMainDetail.this);
@@ -1054,14 +1068,12 @@ public class CommunityMainDetail extends AppCompatActivity {
                     }
                     setData(postModel);
                     setComment(commentModelList.size(), from);
-                } else {
-                    Log.d("CommunityMainDetail>>>", "get data 2");
                 }
             }
 
             @Override
             public void onFailure(Call<PostDetailWithComments> call, Throwable t) {
-                Log.d("CommunityMainDetail>>>", "get data 3: " + t.getMessage());
+                Toast.makeText(CommunityMainDetail.this, "Please try again..\nerror: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -1316,11 +1328,13 @@ public class CommunityMainDetail extends AppCompatActivity {
     private void setComment(int size, String from) {
         isCommentLoad = false;
         if (size == 0) {
+            Log.d("CommunityMainDetail>>>", "comment size 0");
             nullcomment.setVisibility(View.VISIBLE);
             commentLayout.setVisibility(View.GONE);
             bottomLoad.setVisibility(View.GONE);
             likecommentboxLoad.setVisibility(View.GONE);
             bottomFinish.setVisibility(View.VISIBLE);
+            likecommentrefbox.setVisibility(View.VISIBLE);
             adapter = null;
         } else {
             nullcomment.setVisibility(View.GONE);

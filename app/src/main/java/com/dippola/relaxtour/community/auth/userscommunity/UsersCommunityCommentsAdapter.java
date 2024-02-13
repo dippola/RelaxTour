@@ -43,8 +43,10 @@ public class UsersCommunityCommentsAdapter extends RecyclerView.Adapter<UsersCom
     @Override
     public void onBindViewHolder(@NonNull UsersCommunityCommentsAdapter.ViewHolder holder, int position) {
         int i = position;
-        if (!String.valueOf(list.get(i).getTowho()).equals("")) {
+        if (list.get(i).getTowho() != null && !String.valueOf(list.get(i).getTowho()).equals("")) {
             holder.towho.setText("@" + String.valueOf(list.get(i).getTowho()));
+        } else {
+            holder.towho.setText("");
         }
         holder.body.setText(String.valueOf(list.get(i).getBody()));
         holder.date.setText(getDateResult(list.get(i).getDate()));
