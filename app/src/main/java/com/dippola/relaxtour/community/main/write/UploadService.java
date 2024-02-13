@@ -31,19 +31,23 @@ import com.dippola.relaxtour.retrofit.RetrofitClient;
 import com.dippola.relaxtour.retrofit.model.PostModelDetail;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UploadService extends Service {
-    public static final String CHANNEL_ID = "upload";
+    public static final String CHANNEL_ID = "postring";
     private static List<String> resultUrlList = new ArrayList<>();
 
     @Nullable
@@ -72,7 +76,7 @@ public class UploadService extends Service {
 
             NotificationCompat.Builder notification;
             if (Build.VERSION.SDK_INT >= 26) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Upload", NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Posting", NotificationManager.IMPORTANCE_DEFAULT);
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
                 notification = new NotificationCompat.Builder(context, CHANNEL_ID);
             } else {
@@ -100,7 +104,7 @@ public class UploadService extends Service {
             upload1(1, loadtext, activity, context, urllist, rd, myid, model, load);
         } else {
             model.setImageurl("");
-            uploadToDjango(activity, context, myid, model, load, loadtext);
+            uploadToDjango(activity, context, myid, model, load, loadtext, rd);
         }
     }
 
@@ -139,11 +143,11 @@ public class UploadService extends Service {
                 resultUrlStrings += "●" + resultUrlList.get(i);
             }
             model.setImageurl(resultUrlStrings);
-            uploadToDjango(activity, context, myid, model, load, loadtext);
+            uploadToDjango(activity, context, myid, model, load, loadtext, rd);
         }
     }
 
-    public static void uploadToDjango(Activity activity, Context context, int id, PostModelDetail model, RelativeLayout load, TextView loadtext) {
+    public static void uploadToDjango(Activity activity, Context context, int id, PostModelDetail model, RelativeLayout load, TextView loadtext, String rd) {
         loadtext.setText("Post Uploading...");
         RetrofitClient.getApiService(context).createPost(id, model, context.getString(R.string.appkey)).enqueue(new Callback<PostModelDetail>() {
             @Override
@@ -166,6 +170,9 @@ public class UploadService extends Service {
 
             @Override
             public void onFailure(Call<PostModelDetail> call, Throwable t) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("rd", rd);
+                FirebaseFirestore.getInstance().collection("post_error").document(rd).set(map);
                 Intent intent1 = new Intent(context, UploadService.class);
                 context.stopService(intent1);
                 Toast.makeText(context, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();

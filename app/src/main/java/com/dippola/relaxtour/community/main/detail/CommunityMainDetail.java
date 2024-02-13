@@ -896,11 +896,14 @@ public class CommunityMainDetail extends AppCompatActivity {
                 refreshload.startAnimation(animation);
 //                bottomLoad.setVisibility(View.VISIBLE);
                 likecommentboxLoad.setVisibility(View.VISIBLE);
-                if (adapter == null) {
-                    bottomFinish.setVisibility(View.GONE);
-                } else {
-                    likecommentrefbox.setVisibility(View.INVISIBLE);
-                }
+//                if (adapter == null) {
+//                    Log.d("MainDetail>>>", "1");
+//                    bottomFinish.setVisibility(View.GONE);
+//                } else {
+//                    Log.d("MainDetail>>>", "2");
+//                    likecommentrefbox.setVisibility(View.INVISIBLE);
+//                }
+                likecommentrefbox.setVisibility(View.INVISIBLE);
                 getData("refresh");
             }
         });
@@ -1328,7 +1331,6 @@ public class CommunityMainDetail extends AppCompatActivity {
     private void setComment(int size, String from) {
         isCommentLoad = false;
         if (size == 0) {
-            Log.d("CommunityMainDetail>>>", "comment size 0");
             nullcomment.setVisibility(View.VISIBLE);
             commentLayout.setVisibility(View.GONE);
             bottomLoad.setVisibility(View.GONE);

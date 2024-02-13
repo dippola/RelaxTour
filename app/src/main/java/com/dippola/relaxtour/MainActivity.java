@@ -57,16 +57,23 @@ import com.dippola.relaxtour.setting.SettingDialog;
 import com.dippola.relaxtour.timer.Timer2;
 import com.dippola.relaxtour.timer.TimerDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -294,6 +301,7 @@ public class MainActivity extends AppCompatActivity {
 //                        }
 //                    }
 //                });
+
                 startActivity(new Intent(MainActivity.this, CommunityMain.class));
             }
         });

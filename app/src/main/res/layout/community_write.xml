@@ -97,19 +97,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/community_write_title" />
 
-            <EditText
-                android:id="@+id/community_write_body"
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/community_white_body_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#00000000"
-                android:gravity="start"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="15dp"
-                android:textCursorDrawable="@drawable/edittext_cursor"
-                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/community_write_line2" />
+                app:layout_constraintTop_toBottomOf="@+id/community_write_line2">
+                <EditText
+                    android:id="@+id/community_write_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#00000000"
+                    android:gravity="start"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="15dp"
+                    android:textCursorDrawable="@drawable/edittext_cursor"
+                    android:textSize="14dp" />
+            </androidx.core.widget.NestedScrollView>
+
 
             <View
                 android:id="@+id/community_write_line3"
@@ -119,7 +125,7 @@
                 android:background="@color/community_main_line_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/community_write_body" />
+                app:layout_constraintTop_toBottomOf="@+id/community_white_body_scroll" />
 
             <HorizontalScrollView
                 android:id="@+id/community_write_imgbox"

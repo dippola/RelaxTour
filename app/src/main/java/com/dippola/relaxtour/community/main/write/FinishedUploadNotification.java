@@ -1,6 +1,7 @@
 package com.dippola.relaxtour.community.main.write;
 
 import static com.dippola.relaxtour.notification.NotifiControllID.FINISHED_POST_ID;
+import static com.dippola.relaxtour.notification.NotifiControllID.POST_ID;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -15,9 +16,10 @@ import androidx.core.app.NotificationCompat;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.main.CommunityMain;
+import com.dippola.relaxtour.community.main.notification.Notification;
 
 public class FinishedUploadNotification {
-    public static final String CHANNEL_ID = "finished upload";
+    public static final String CHANNEL_ID = "post completed";
 
     public static void finishedUploadNotification(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
@@ -33,7 +35,7 @@ public class FinishedUploadNotification {
 
             NotificationCompat.Builder notification;
             if (Build.VERSION.SDK_INT >= 26) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "post finished", NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Post Completed", NotificationManager.IMPORTANCE_DEFAULT);
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
                 notification = new NotificationCompat.Builder(context, CHANNEL_ID);
             } else {
@@ -41,7 +43,7 @@ public class FinishedUploadNotification {
             }
             notification.setSilent(true);
             notification.setSmallIcon(R.drawable.success_download_icon);
-            notification.setContentTitle("Finished Post");//.setContentText(track.getName())
+            notification.setContentTitle("Post Completed");//.setContentText(track.getName())
             notification.setLargeIcon(icon);
             notification.setOnlyAlertOnce(true);//show notification for only first time
             notification.setShowWhen(false);
