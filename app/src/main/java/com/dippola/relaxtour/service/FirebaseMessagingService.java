@@ -41,6 +41,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
+    public static final String CHANNEL_ID = "community notification";
     @Override
     public void onNewToken(String token) {
         super.onNewToken(token);
@@ -101,10 +102,10 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_IMMUTABLE);
 
-            String channelId = "relax tour notification channel id";
+//            String channelId = "relax tour notification channel id";
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder =
-                    new NotificationCompat.Builder(this, channelId)
+                    new NotificationCompat.Builder(this, CHANNEL_ID)
                             .setSmallIcon(R.drawable.notification_small_icon)
                             .setContentTitle(showTitle)
                             .setContentText(messageBody)
@@ -117,8 +118,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
             // Since android Oreo notification channel is needed.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel(channelId,
-                        "Channel human readable title",
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                        "Community Notification",
                         NotificationManager.IMPORTANCE_DEFAULT);
                 notificationManager.createNotificationChannel(channel);
             }

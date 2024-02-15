@@ -22,7 +22,7 @@ public class FinishedUploadNotification {
     public static final String CHANNEL_ID = "post completed";
 
     public static void finishedUploadNotification(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.main_head);
 
@@ -33,25 +33,41 @@ public class FinishedUploadNotification {
 
             PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-            NotificationCompat.Builder notification;
-            if (Build.VERSION.SDK_INT >= 26) {
+//            NotificationCompat.Builder notification;
+//            if (Build.VERSION.SDK_INT >= 26) {
+//                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Post Completed", NotificationManager.IMPORTANCE_DEFAULT);
+//                ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+//                notification = new NotificationCompat.Builder(context, CHANNEL_ID);
+//            } else {
+//                notification = new NotificationCompat.Builder(context);
+//            }
+//            notification.setSilent(true);
+//            notification.setSmallIcon(R.drawable.success_download_icon);
+//            notification.setContentTitle("Post Completed");//.setContentText(track.getName())
+//            notification.setLargeIcon(icon);
+//            notification.setOnlyAlertOnce(true);//show notification for only first time
+//            notification.setShowWhen(false);
+//
+//            notification.setContentIntent(pIntent);
+//            notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
+
+            NotificationCompat.Builder notificationBuilder =
+                    new NotificationCompat.Builder(context, CHANNEL_ID).
+                            setSilent(true).
+                            setSmallIcon(R.drawable.success_download_icon).
+                            setContentTitle("Post Completed").
+                            setLargeIcon(icon).
+                            setOnlyAlertOnce(true).
+                            setAutoCancel(true).
+                            setShowWhen(false).
+                            setContentIntent(pIntent).
+                            setPriority(NotificationCompat.PRIORITY_LOW);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Post Completed", NotificationManager.IMPORTANCE_DEFAULT);
-                ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
-                notification = new NotificationCompat.Builder(context, CHANNEL_ID);
-            } else {
-                notification = new NotificationCompat.Builder(context);
+                notificationManager.createNotificationChannel(channel);
             }
-            notification.setSilent(true);
-            notification.setSmallIcon(R.drawable.success_download_icon);
-            notification.setContentTitle("Post Completed");//.setContentText(track.getName())
-            notification.setLargeIcon(icon);
-            notification.setOnlyAlertOnce(true);//show notification for only first time
-            notification.setShowWhen(false);
 
-            notification.setContentIntent(pIntent);
-            notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
-
-            notificationManager.notify(FINISHED_POST_ID, notification.build());
+            notificationManager.notify(FINISHED_POST_ID, notificationBuilder.build());
         }
     }
 }

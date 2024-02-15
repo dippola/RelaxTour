@@ -108,13 +108,18 @@ public class CommunityWrite extends AppCompatActivity {
         onClickAddImg();
         listbox = findViewById(R.id.community_write_playlist_box);
         line5 = findViewById(R.id.community_write_line5);
-        if (!category.equals("free")) {
-            listbox.setVisibility(View.GONE);
-            line5.setVisibility(View.GONE);
-            body.setHint("Ask questions about meditation. Let's solve the problem with members of the Relax Tour.");
-        } else {
-            body.setHint("It's a space where you can tell all the stories about meditation. share your meditation story.");
-        }
+
+//        if (!category.equals("free")) {
+//            listbox.setVisibility(View.GONE);
+//            line5.setVisibility(View.GONE);
+//            body.setHint("Ask questions about meditation. Let's solve the problem with members of the Relax Tour.");
+//        } else {
+//            body.setHint("It's a space where you can tell all the stories about meditation. share your meditation story.");
+//        }
+
+        listbox.setVisibility(View.GONE);
+        line5.setVisibility(View.GONE);
+        body.setHint("Ask questions about meditation. Let's solve the problem with members of the Relax Tour.");
 
         imagecount = findViewById(R.id.community_write_imgcount);
         recyclerView = findViewById(R.id.community_write_recyclerview);
