@@ -36,9 +36,9 @@ import com.dippola.relaxtour.dialog.Premium;
 import com.dippola.relaxtour.dialog.RestoreDialog;
 import com.dippola.relaxtour.notification.NotificationService;
 import com.dippola.relaxtour.pages.NaturePage;
-import com.dippola.relaxtour.pages.item.DownloadItem;
 import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.pages.item.ViewTypeCode;
+import com.dippola.relaxtour.service.DownloadItem;
 import com.dippola.relaxtour.service.DownloadService;
 import com.qonversion.android.sdk.Qonversion;
 import com.qonversion.android.sdk.dto.QonversionError;
@@ -483,9 +483,9 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public static void openDownloadService(Context context, ProgressBar progressBar, ImageView img, ImageView download, String tid) {
+    public static void openDownloadService(Context context) {
         if (!DownloadService.isDownloadOpen) {
-            DownloadService downloadService = new DownloadService(progressBar, img, download);
+            DownloadService downloadService = new DownloadService();
             Intent intent = new Intent(context, downloadService.getClass());
             if (Build.VERSION.SDK_INT >= 26) {
                 context.startForegroundService(intent);
@@ -551,7 +551,7 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     img.setEnabled(true);
                     seekBar.setEnabled(true);
                 } else if (arrayList.get(positions).getNeeddownload() == 2) {
-                    File file = new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getPage() + "to" + arrayList.get(positions).getPosition() + ".mp3");
+                    File file = new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getTid() + ".mp3");
                     if (file.exists()) {
                         download.setVisibility(View.GONE);
                         download.setEnabled(false);
@@ -575,7 +575,7 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 img.setEnabled(true);
                 seekBar.setEnabled(true);
             } else if (arrayList.get(positions).getNeeddownload() == 2) {
-                if (new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getPage() + "to" + arrayList.get(positions).getPosition() + ".mp3").exists()) {
+                if (new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getTid() + ".mp3").exists()) {
                     download.setVisibility(View.GONE);
                     seekBar.setEnabled(true);
                 } else {
@@ -639,13 +639,17 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 } else {
                     SharedPreferences sharedPreferences = context.getSharedPreferences("download_dialog_checkbox", MODE_PRIVATE);
                     boolean isChecked = sharedPreferences.getBoolean("isChecked", false);
+                    DownloadItem downloadItem = new DownloadItem(arrayList.get(positions).getTid(), progressBar, img, download, seekBar);
                     if (isChecked) {
-                        openDownloadService(context, progressBar, img, download, arrayList.get(positions).getTid());
-                        DownloadItem downloadItem = new DownloadItem(arrayList.get(positions).getTid());
+                        openDownloadService(context);
                         DownloadService.downloadList.add(downloadItem);
-                        DownloadService.setOnClickDownload(context, progressBar, img, download, arrayList.get(positions).getTid(), seekBar, downloadItem);
+                        DownloadService.setViewDownloading(downloadItem);
+//                        DownloadService.downloadList.add(arrayList.get(positions).getTid());
+                        if (!DownloadService.isDownloadOpen) {
+                            DownloadService.setOnClickDownload(context);
+                        }
                     } else {
-                        AskDownloadDialog.askDownloadDialog(context, progressBar, img, download, arrayList.get(positions).getTid(), seekBar);
+                        AskDownloadDialog.askDownloadDialog(context, downloadItem, arrayList.get(positions).getTid());
                     }
                 }
             }

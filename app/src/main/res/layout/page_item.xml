@@ -42,7 +42,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:scaleType="fitCenter"
-            android:indeterminateTint="@color/button_design_color"/>
+            android:indeterminateTint="@color/button_design_color"
+            android:layout_centerVertical="true"/>
     </RelativeLayout>
 
     <TextView

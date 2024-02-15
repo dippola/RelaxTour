@@ -24,7 +24,7 @@ import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 
 public class SuccessDownloadNotification {
-    public static final String CHANNEL_ID = "channel_download_success";
+    public static final String CHANNEL_ID = "download_completed";
 
     public static void successDownloadNotification(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -40,7 +40,7 @@ public class SuccessDownloadNotification {
 
             NotificationCompat.Builder notification;
             if (Build.VERSION.SDK_INT >= 26) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Download Successed", NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Download completed", NotificationManager.IMPORTANCE_DEFAULT);
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
                 notification = new NotificationCompat.Builder(context, CHANNEL_ID);
             } else {
@@ -48,7 +48,7 @@ public class SuccessDownloadNotification {
             }
             notification.setSilent(true);
             notification.setSmallIcon(R.drawable.success_download_icon);
-            notification.setContentTitle("Success Download");//.setContentText(track.getName())
+            notification.setContentTitle("Download completed");//.setContentText(track.getName())
             notification.setLargeIcon(icon);
             notification.setOnlyAlertOnce(true);//show notification for only first time
             notification.setShowWhen(false);
@@ -75,7 +75,7 @@ public class SuccessDownloadNotification {
 
             NotificationCompat.Builder notification;
             if (Build.VERSION.SDK_INT >= 26) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Download Failed", NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Download failed", NotificationManager.IMPORTANCE_DEFAULT);
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
                 notification = new NotificationCompat.Builder(context, CHANNEL_ID);
             } else {

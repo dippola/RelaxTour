@@ -1,13 +1,9 @@
 package com.dippola.relaxtour.dialog;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.security.crypto.EncryptedSharedPreferences;
@@ -24,20 +19,19 @@ import androidx.security.crypto.MasterKeys;
 
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.pages.adapter.PageAdapter;
-import com.dippola.relaxtour.pages.item.DownloadItem;
+import com.dippola.relaxtour.service.DownloadItem;
 import com.dippola.relaxtour.service.DownloadService;
-import com.dippola.relaxtour.service.DownloadsService;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class AskDownloadDialog {
     public static AlertDialog alertDialog;
     private static Button okbtn, cancel;
     private static CheckBox checkBox;
 
-    public static void askDownloadDialog(Context context, ProgressBar progressBar, ImageView img, ImageView download, String tid, SeekBar seekBar) {
+    public static void askDownloadDialog(Context context, DownloadItem downloadItem, String tid) {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout layout = (LinearLayout) vi.inflate(R.layout.ask_download_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
@@ -50,7 +44,6 @@ public class AskDownloadDialog {
         okbtn = layout.findViewById(R.id.ask_download_dialog_ok);
         cancel = layout.findViewById(R.id.ask_download_dialog_cancel);
         checkBox = layout.findViewById(R.id.ask_download_dialog_checkbox);
-
 
         okbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,10 +67,12 @@ public class AskDownloadDialog {
                     editor.putBoolean("isChecked", false);
                 }
                 editor.apply();
-                PageAdapter.openDownloadService(context, progressBar, img, download, tid);
-                DownloadItem downloadItem = new DownloadItem(tid);
+                PageAdapter.openDownloadService(context);
                 DownloadService.downloadList.add(downloadItem);
-                DownloadService.setOnClickDownload(context, progressBar, img, download, tid, seekBar, downloadItem);
+                DownloadService.setViewDownloading(downloadItem);
+                if (!DownloadService.isDownloadOpen) {
+                    DownloadService.setOnClickDownload(context);
+                }
                 if (alertDialog.isShowing()) {
                     alertDialog.dismiss();
                 }

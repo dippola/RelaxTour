@@ -27,13 +27,7 @@ import androidx.core.app.NotificationCompat;
 import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
-import com.dippola.relaxtour.controller.AudioController;
 import com.dippola.relaxtour.notification.SuccessDownloadNotification;
-import com.dippola.relaxtour.pages.ChakraPage;
-import com.dippola.relaxtour.pages.HzPage;
-import com.dippola.relaxtour.pages.MantraPage;
-import com.dippola.relaxtour.pages.RainPage;
-import com.dippola.relaxtour.pages.item.DownloadItem;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -47,23 +41,22 @@ import java.util.ArrayList;
 public class DownloadService extends Service {
     public static boolean isDownloadOpen;
 
-    public static final String CHANNEL_ID = "channel_download";
+    public static final String CHANNEL_ID = "downloading";
 
+//    public static ArrayList<String> downloadList = new ArrayList<>();
     public static ArrayList<DownloadItem> downloadList = new ArrayList<>();
 
-
-    ProgressBar progressBar;
-    ImageView button, download;
+    private static NotificationCompat.Builder notification;
 
     public DownloadService() {
 
     }
 
-    public DownloadService(ProgressBar progressBar, ImageView button, ImageView download) {
-        this.progressBar = progressBar;
-        this.button = button;
-        this.download = download;
-    }
+//    public DownloadService(ProgressBar progressBar, ImageView button, ImageView download) {
+//        this.progressBar = progressBar;
+//        this.button = button;
+//        this.download = download;
+//    }
 
     @Nullable
     @Override
@@ -91,20 +84,21 @@ public class DownloadService extends Service {
             PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent,
                     PendingIntent.FLAG_IMMUTABLE);
 
-            NotificationCompat.Builder notification;
+
             if (Build.VERSION.SDK_INT >= 26) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Download", NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Downloading track", NotificationManager.IMPORTANCE_DEFAULT);
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
                 notification = new NotificationCompat.Builder(context, CHANNEL_ID);
             } else {
                 notification = new NotificationCompat.Builder(context);
             }
             notification.setSilent(true);
-            notification.setSmallIcon(R.drawable.download);
-            notification.setContentTitle("downloading..");//.setContentText(track.getName())
+            notification.setSmallIcon(R.drawable.downloading_icon);
+            notification.setContentTitle("Downloading..");//.setContentText(track.getName())
             notification.setLargeIcon(icon);
             notification.setOnlyAlertOnce(true);//show notification for only first time
             notification.setShowWhen(false);
+            notification.setAutoCancel(true);
 
             notification.setContentIntent(pIntent);
             notification.setPriority(NotificationCompat.PRIORITY_LOW);//PRIORITY_LOW
@@ -116,10 +110,17 @@ public class DownloadService extends Service {
         }
     }
 
-    public static void setOnClickDownload(Context context, ProgressBar loading, ImageView img, ImageView download, String tid, SeekBar seekBar, DownloadItem downloadItem) {
-        loading.setVisibility(View.VISIBLE);
-        img.setEnabled(false);
-        download.setEnabled(false);
+    public static void setViewDownloading(DownloadItem downloadItem) {
+        downloadItem.getLoading().setVisibility(View.VISIBLE);
+        downloadItem.getImg().setEnabled(false);
+        downloadItem.getDownload().setEnabled(false);
+    }
+
+    public static void setOnClickDownload(Context context) {
+        String tid = downloadList.get(0).getTid();
+//        downloadList.get(0).getLoading().setVisibility(View.VISIBLE);
+//        downloadList.get(0).getImg().setEnabled(false);
+//        downloadList.get(0).getDownload().setEnabled(false);
         String fileName = "audio" + tid + ".mp3";
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference reference = storage.getReference();
@@ -135,30 +136,38 @@ public class DownloadService extends Service {
                         from.renameTo(to);
                     }
                     resetMediaPlayer(tid, context);
-                    img.setEnabled(true);
-                    download.setVisibility(View.GONE);
-                    loading.setVisibility(View.GONE);
-                    seekBar.setEnabled(true);
-                    seekBar.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_in_page_enable));
-                    seekBar.setThumb(context.getResources().getDrawable(R.drawable.seekbar_in_page_thumb_enable));
+                    downloadList.get(0).getImg().setEnabled(true);
+                    downloadList.get(0).getDownload().setVisibility(View.GONE);
+                    downloadList.get(0).getLoading().setVisibility(View.GONE);
+                    downloadList.get(0).getSeekBar().setEnabled(true);
+                    downloadList.get(0).getSeekBar().setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_in_page_enable));
+                    downloadList.get(0).getSeekBar().setThumb(context.getResources().getDrawable(R.drawable.seekbar_in_page_thumb_enable));
 //                    stopSelf();
 
-                    downloadList.remove(downloadItem);
-
-                    if (isDownloadOpen) {
+                    downloadList.remove(0);
+                    if (downloadList.size() == 0 && isDownloadOpen) {
                         Intent intent = new Intent(context, DownloadService.class);
                         context.stopService(intent);
                         SuccessDownloadNotification.successDownloadNotification(context);
+                    } else {
+                        setOnClickDownload(context);
                     }
-
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.d("DownloadService>>>", "download failed: " + e.toString());
-                    download.setEnabled(true);
-                    loading.setVisibility(View.GONE);
+                    downloadList.get(0).getDownload().setEnabled(true);
+                    downloadList.get(0).getLoading().setVisibility(View.GONE);
                     Toast.makeText(context, "failed download. please try again. (" + e.toString() + ")", Toast.LENGTH_LONG).show();
+                    downloadList.remove(0);
+                    if (downloadList.size() == 0 && isDownloadOpen) {
+                        Intent intent = new Intent(context, DownloadService.class);
+                        context.stopService(intent);
+                        SuccessDownloadNotification.successDownloadNotification(context);
+                    } else {
+                        setOnClickDownload(context);
+                    }
                     SuccessDownloadNotification.failedDownloadNotification(context, e.toString());
                 }
             });

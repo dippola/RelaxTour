@@ -45,8 +45,6 @@ public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomV
     @Override
     public void onBindViewHolder(@NonNull FavListAdapter.CustomViewHolder holder, int position) {
         int positions = position;
-//        databaseHandler = new DatabaseHandler(context);
-//        arrayList = databaseHandler.getFavListItem(title);
 
         if (MainActivity.databaseHandler.getFavTitleIsEdit(arrayList.get(position).getFavtitlename()) == 1) {
             holder.seekBar.setEnabled(false);
@@ -107,38 +105,9 @@ public class FavListAdapter  extends RecyclerView.Adapter<FavListAdapter.CustomV
             }
         }
 
-
-
-
-//        Bitmap bitmap1 = BitmapFactory.decodeByteArray(arrayList.get(position).getImgdefault(), 0, arrayList.get(position).getImgdefault().length);
-//        holder.img.setImageBitmap(bitmap1);
-
         holder.name.setText(arrayList.get(position).getName());
         holder.seekBar.setProgress(arrayList.get(position).getSeek());
         holder.seekBar.setMax(MainActivity.maxVolumn);
-
-//        holder.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-//                if (SeekController.favMoving) {
-//                    arrayList.get(positions).setSeek(seekBar.getProgress());
-//
-////                    SeekController.changeSeekInFavList(context, arrayList.get(positions), i);
-//                }
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//                SeekController.favMoving = true;
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                notifyItemChanged(positions);
-//                notifyDataSetChanged();
-//                SeekController.favMoving = false;
-//            }
-//        });
 
         holder.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

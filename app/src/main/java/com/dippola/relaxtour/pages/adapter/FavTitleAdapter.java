@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.controller.AudioController;
-import com.dippola.relaxtour.dialog.AskDownloadsDialog;
+import com.dippola.relaxtour.dialog.AskDownloadDialog;
 import com.dippola.relaxtour.dialog.DeleteFavTitleDialog;
 import com.dippola.relaxtour.dialog.Premium;
 import com.dippola.relaxtour.dialog.RestoreDialog;
@@ -51,7 +51,6 @@ import com.qonversion.android.sdk.listeners.QonversionEntitlementsCallback;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Keep
@@ -557,7 +556,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
             });
         } else {
             if (checkNeedDownload(favListItems).size() != 0) {
-                AskDownloadsDialog.askDownloadsDialog(context, checkNeedDownload(favListItems));
+                Toast.makeText(context, "Contains track that require download. Please download first.", Toast.LENGTH_SHORT).show();
             } else {
                 favListPlay(title);
             }

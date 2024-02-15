@@ -4,13 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -26,10 +23,7 @@ import com.dippola.relaxtour.pages.RainPage;
 import com.dippola.relaxtour.pages.WaterPage;
 import com.dippola.relaxtour.pages.WindPage;
 import com.dippola.relaxtour.pages.adapter.PageAdapter;
-import com.dippola.relaxtour.service.DownloadsService;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-
-import java.util.ArrayList;
 
 public class AskDeleteAllPlaylistDialog {
     public static AlertDialog alertDialog;
