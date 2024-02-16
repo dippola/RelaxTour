@@ -51,6 +51,7 @@ public class CommunityWrite extends AppCompatActivity {
 
     private int FROM_GALLERY = 1;
     public static int FROM_LIST = 2;
+    public static int FROM_ASK_CANCEL = 3;
 
     private NestedScrollView scrollView;
     private Button goback, ok, addshare;
@@ -109,17 +110,13 @@ public class CommunityWrite extends AppCompatActivity {
         listbox = findViewById(R.id.community_write_playlist_box);
         line5 = findViewById(R.id.community_write_line5);
 
-//        if (!category.equals("free")) {
-//            listbox.setVisibility(View.GONE);
-//            line5.setVisibility(View.GONE);
-//            body.setHint("Ask questions about meditation. Let's solve the problem with members of the Relax Tour.");
-//        } else {
-//            body.setHint("It's a space where you can tell all the stories about meditation. share your meditation story.");
-//        }
-
-        listbox.setVisibility(View.GONE);
-        line5.setVisibility(View.GONE);
-        body.setHint("Ask questions about meditation. Let's solve the problem with members of the Relax Tour.");
+        if (!category.equals("free")) {
+            listbox.setVisibility(View.GONE);
+            line5.setVisibility(View.GONE);
+            body.setHint("Ask questions about meditation. Let's solve the problem with members of the Relax Tour.");
+        } else {
+            body.setHint("It's a space where you can tell all the stories about meditation. share your meditation story.");
+        }
 
         imagecount = findViewById(R.id.community_write_imgcount);
         recyclerView = findViewById(R.id.community_write_recyclerview);
@@ -180,6 +177,7 @@ public class CommunityWrite extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 hideKeyboard(view);
+                String titleToString = title.getText().toString();
                 if (title.getText().toString().contains("●")) {
                     Toast.makeText(CommunityWrite.this, "'●' characters are not allowed.", Toast.LENGTH_SHORT).show();
                 } else if (title.getText().toString().length() == 0) {
@@ -187,13 +185,16 @@ public class CommunityWrite extends AppCompatActivity {
                 } else if (body.getText().toString().length() == 0) {
                     Toast.makeText(CommunityWrite.this, "Please enter a body", Toast.LENGTH_SHORT).show();
                 } else {
+                    if (title.getText().toString().startsWith("\n")) {
+                        titleToString = titleToString.replaceFirst("\n", "");
+                    }
                     load.setVisibility(View.VISIBLE);
                     PostModelDetail model = new PostModelDetail();
                     DatabaseHandler databaseHandler = new DatabaseHandler(CommunityWrite.this);
                     UserModel myProfile = databaseHandler.getUserModel();
                     model.setParent_user(myProfile.getId());
                     model.setCategory(getIntent().getStringExtra("category"));
-                    model.setTitle(title.getText().toString());
+                    model.setTitle(titleToString);
                     model.setBody(body.getText().toString());
                     String rd = "";
                     if (urllist.size() != 0) {
@@ -323,6 +324,10 @@ public class CommunityWrite extends AppCompatActivity {
                         haveShare();
                     }
                 }
+            } else if (result.getResultCode() == FROM_ASK_CANCEL) {
+                if (result.getData() != null) {
+                    finish();
+                }
             }
         }
     });
@@ -346,15 +351,6 @@ public class CommunityWrite extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 scrollView.clearFocus();
                 return false;
-            }
-        });
-    }
-
-    private void onClickGoBack() {
-        goback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
             }
         });
     }
@@ -425,10 +421,31 @@ public class CommunityWrite extends AppCompatActivity {
         return sb.toString();
     }
 
+    private void onClickGoBack() {
+        goback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (load.getVisibility() == View.GONE) {
+                    if (!title.getText().toString().equals("") || !body.getText().toString().equals("") || urllist.size() != 0 || favListItems.size() != 0) {
+                        Intent intent = new Intent(CommunityWrite.this, AskCancelWriteDialog.class);
+                        launcher.launch(intent);
+                    } else {
+                        finish();
+                    }
+                }
+            }
+        });
+    }
+
     @Override
     public void onBackPressed() {
         if (load.getVisibility() == View.GONE) {
-            super.onBackPressed();
+            if (!title.getText().toString().equals("") || !body.getText().toString().equals("") || urllist.size() != 0 || favListItems.size() != 0) {
+                Intent intent = new Intent(CommunityWrite.this, AskCancelWriteDialog.class);
+                launcher.launch(intent);
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -436,4 +453,6 @@ public class CommunityWrite extends AppCompatActivity {
         InputMethodManager manager = (InputMethodManager) v.getContext().getSystemService(INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
+
+
 }

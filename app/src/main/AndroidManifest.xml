@@ -35,7 +35,6 @@
         <service android:name=".notification.NotificationService" android:stopWithTask="true" android:foregroundServiceType="mediaPlayback"/>
         <service android:name=".service.GetStateKillApp" />
         <service android:name=".service.DownloadService"/>
-        <service android:name=".service.DownloadsService"/>
         <activity android:name=".timer.TimerDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".setting.SettingDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <service android:name=".service.TimerService"  android:stopWithTask="true" android:foregroundServiceType="mediaPlayback"/>
@@ -43,6 +42,7 @@
         <activity android:name=".community.main.CommunityMain" android:screenOrientation="portrait" />
         <activity android:name=".community.main.write.CommunityWrite" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan" />
         <activity android:name=".community.main.write.ShareListDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
+        <activity android:name=".community.main.write.AskCancelWriteDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".community.main.detail.AddFavAskDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
         <activity android:name=".community.auth.CommunityAuth" android:screenOrientation="portrait" />
         <activity android:name=".community.signIn.CommunitySignIn" android:screenOrientation="portrait" />
