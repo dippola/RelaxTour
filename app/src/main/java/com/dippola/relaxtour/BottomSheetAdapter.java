@@ -105,7 +105,6 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
         holder.delete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("BottomSheetAdapter>>>", "check positions: " + positions);
                 int getposition = arrayList.get(positions).getPosition();
                 int getpage = arrayList.get(positions).getPage();
                 int index = arrayList.indexOf(arrayList.get(positions));

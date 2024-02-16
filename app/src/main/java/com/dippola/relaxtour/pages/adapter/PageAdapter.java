@@ -370,6 +370,7 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
         MPList.initalMP(arrayList.get(positions).getTid(), context, arrayList.get(positions).getSeek());
         if (arrayList.get(positions).getIsplay() == 1) {//해당 아이템이 playing중이 아닐때
+            Log.d("PageAdapter>>>", "1");
             setPageImageOnClickChangeImage(positions, img);
             for (int i = 0; i < arrayList.size(); i++) {//같은 page에 재생중인게 있으면 없애기
                 if (arrayList.get(i).getIsplay() == 2) {//같은page에 재생중인게 있으면
@@ -393,16 +394,17 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0), context)) {//다른page에 이미 재생중인게 있을때 (pands버튼이 재생중일때)
                 AudioController.startTrack(context, arrayList.get(positions));//새로 재생할 트랙 찾아서 다같이 재생
             } else {//재생중인게 없을때(pands버튼이 재생 중이 아닐때)
-                List<PageItem> pp = new ArrayList<>();
+                List<PageItem> bottomList = new ArrayList<>();
                 for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {//bottom list에 모든 트랙 pnp 수집
-                    pp.add(MainActivity.bottomSheetPlayList.get(ii));
+                    bottomList.add(MainActivity.bottomSheetPlayList.get(ii));
                     if (ii == MainActivity.bottomSheetPlayList.size() - 1) {
-                        AudioController.startPlayingList(context, pp);//bottom list에 있는 목록 다 재생
+                        AudioController.startPlayingList(context, bottomList);//bottom list에 있는 목록 다 재생
                     }
                 }
             }
             checkOpenService();
         } else {//해당 아이템이 playing중일때
+            Log.d("PageAdapter>>>", "2");
             //remove
             setPageImageOnClickChangeImage(positions, img);
             databaseHandler.deletePlayingList(arrayList.get(positions).getTid());//db bottom list에서 지우고 page db에 isplay 1로 변경
@@ -443,11 +445,11 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (AudioController.checkIsPlaying(MainActivity.bottomSheetPlayList.get(0), context)) {//다른page에 이미 재생중인게 있을때 (pands버튼이 재생중일때)
                     AudioController.startTrack(context, arrayList.get(positions));//새로 재생할 트랙 찾아서 재생
                 } else {//재생중인게 없을때(pands버튼이 재생 중이 아닐때)
-                    List<PageItem> pp = new ArrayList<>();
+                    List<PageItem> bottomList = new ArrayList<>();
                     for (int ii = 0; ii < MainActivity.bottomSheetPlayList.size(); ii++) {//bottom list에 모든 트랙 pnp 수집
-                        pp.add(MainActivity.bottomSheetPlayList.get(ii));
+                        bottomList.add(MainActivity.bottomSheetPlayList.get(ii));
                         if (ii == MainActivity.bottomSheetPlayList.size() - 1) {
-                            AudioController.startPlayingList(context, pp);//bottom list에 있는 목록 다 재생
+                            AudioController.startPlayingList(context, bottomList);//bottom list에 있는 목록 다 재생
                         }
                     }
                 }

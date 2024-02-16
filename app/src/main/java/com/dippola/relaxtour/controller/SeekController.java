@@ -32,7 +32,6 @@ public class SeekController {
 
     public static void changeVolumn(String tid, float volumn) {
         if (AudioController.playingListindex0_1(tid) != null) {
-            Log.d("SeekController>>>", "1");
             AudioController.playingListindex0_1(tid).setVolume(volumn, volumn);
             AudioController.playingListindex0_2(tid).setVolume(volumn, volumn);
         }
