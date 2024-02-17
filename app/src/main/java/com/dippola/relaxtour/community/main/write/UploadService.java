@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +38,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,31 +113,44 @@ public class UploadService extends Service {
     }
 
     private static void upload1(int i, TextView loadtext, Activity activity, Context context, List<UriAndFileNameModel> urllist, String rd, int myid, PostModelDetail model, RelativeLayout load) {
-        final int position = i;
-        StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + urllist.get(i - 1).getName());
-        reference.putFile(urllist.get(i - 1).getUri()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        loadtext.setText("Image Uploading... " + position + "/" + urllist.size());
-                        resultUrlList.add(uri.toString());
-                        if (urllist.size() == position) {
-                            checkurllistsize(urllist.size(), resultUrlList, rd, loadtext, context, activity, myid, model, load);
-                        } else {
-                            int positionPlus = position + 1;
-                            upload1(positionPlus, loadtext, activity, context, urllist, rd, myid, model, load);
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), urllist.get(i-1).getUri());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+            byte[] imageData = baos.toByteArray();
+            final int position = i;
+            StorageReference reference = FirebaseStorage.getInstance().getReference().child("community/main/" + rd + "/" + urllist.get(i - 1).getName());
+            reference.putBytes(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            loadtext.setText("Image Uploading... " + position + "/" + urllist.size());
+                            resultUrlList.add(uri.toString());
+                            if (urllist.size() == position) {
+                                checkurllistsize(urllist.size(), resultUrlList, rd, loadtext, context, activity, myid, model, load);
+                            } else {
+                                int positionPlus = position + 1;
+                                upload1(positionPlus, loadtext, activity, context, urllist, rd, myid, model, load);
+                            }
                         }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
 
-                    }
-                });
-            }
-        });
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void checkurllistsize(int size, List<String> resultUrlList, String rd, TextView loadtext, Context context, Activity activity, int myid, PostModelDetail model, RelativeLayout load) {

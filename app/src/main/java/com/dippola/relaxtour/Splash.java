@@ -1,13 +1,18 @@
 package com.dippola.relaxtour;
 
 import android.app.Application;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -31,6 +36,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
+import com.dippola.relaxtour.community.main.write.CommunityWrite;
+import com.dippola.relaxtour.community.main.write.UriAndFileNameModel;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.UpdateDialog;
 import com.dippola.relaxtour.onboarding.OnBoarding;
@@ -49,6 +56,9 @@ import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.qonversion.android.sdk.Qonversion;
 import com.qonversion.android.sdk.QonversionConfig;
 import com.qonversion.android.sdk.dto.QLaunchMode;
@@ -64,7 +74,12 @@ import com.qonversion.android.sdk.listeners.QonversionUserCallback;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.util.Map;
 
@@ -293,4 +308,53 @@ public class Splash extends AppCompatActivity {
         }
         return packageInfo.versionName;
     }
+
+//    @Override
+//    protected void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.splash);
+//        test();
+//    }
+//
+//    private void test() {
+//        Intent intent = new Intent(Intent.ACTION_PICK);
+////        Intent intent = new Intent();
+//        intent.setType("image/*");
+////        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+////        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        launcher.launch(intent);
+//    }
+//
+//    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+//        @Override
+//        public void onActivityResult(ActivityResult result) {
+//            if (result.getResultCode() == RESULT_OK) {
+//                if (result.getData() != null) {
+//                    String print = result.getData().getData().toString();
+//                    try {
+//                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result.getData().getData());
+//                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+//                        byte[] imageData = baos.toByteArray();
+//                        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("community/test");
+//                        storageReference.putBytes(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                            @Override
+//                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                                Log.d("Splash>>>", "8");
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.d("Splash>>>", "9");
+//                            }
+//                        });
+//                    } catch (IOException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }
+//            }
+//        }
+//    });
+//
+
 }
