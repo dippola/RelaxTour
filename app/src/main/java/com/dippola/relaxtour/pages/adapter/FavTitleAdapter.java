@@ -556,6 +556,8 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
             });
         } else {
             if (checkNeedDownload(favListItems).size() != 0) {
+                Log.d("FavTitleAdapter>>>", "1");
+                MainActivity.load.setVisibility(View.GONE);
                 Toast.makeText(context, "Contains track that require download. Please download first.", Toast.LENGTH_SHORT).show();
             } else {
                 favListPlay(title);
@@ -578,7 +580,7 @@ public class FavTitleAdapter extends RecyclerView.Adapter<FavTitleAdapter.Custom
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < favListItems.size(); i++) {
             if (favListItems.get(i).getNeeddownload() == 2) {
-                String path = context.getApplicationInfo().dataDir + "/cache/audio" + favListItems.get(i).getTid() + "to" + favListItems.get(i).getPosition() + ".mp3";
+                String path = context.getApplicationInfo().dataDir + "/cache/audio" + favListItems.get(i).getTid() + ".mp3";
                 File file = new File(path);
                 if (!file.exists()) {
                     if (file.getName().contains("audio")) {

@@ -368,6 +368,7 @@ public class CommunityMain extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    setAllPageUnChoice();
                     startLoad();
                     if (tab2.isChecked()) {
                         tab2.setChecked(false);
@@ -387,6 +388,7 @@ public class CommunityMain extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    setAllPageUnChoice();
                     startLoad();
                     if (tab1.isChecked()) {
                         tab1.setChecked(false);
@@ -406,6 +408,7 @@ public class CommunityMain extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    setAllPageUnChoice();
                     startLoad();
                     if (tab1.isChecked()) {
                         tab1.setChecked(false);
