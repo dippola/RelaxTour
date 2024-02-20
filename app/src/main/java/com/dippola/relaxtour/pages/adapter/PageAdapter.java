@@ -580,6 +580,7 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (new File(context.getApplicationInfo().dataDir + "/cache/audio" + arrayList.get(positions).getTid() + ".mp3").exists()) {
                     download.setVisibility(View.GONE);
                     seekBar.setEnabled(true);
+                    img.setEnabled(true);
                 } else {
                     setBackgroundDownload(arrayList.get(positions).getPage(), download);
                     download.setVisibility(View.VISIBLE);

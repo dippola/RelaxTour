@@ -281,6 +281,9 @@ public class Splash extends AppCompatActivity {
 
     private void goToMainActivity() {
         if (!goNextAlready) {
+
+//            databaseHandler.changeIsProUserFromSplash(2);
+
             goNextAlready = true;
             Intent intent = new Intent(Splash.this, MainActivity.class);
             intent.putExtra("fromSplash", false);
