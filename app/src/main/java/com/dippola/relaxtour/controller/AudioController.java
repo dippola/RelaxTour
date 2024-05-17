@@ -129,6 +129,10 @@ public class AudioController {
             MPList.t00048_1.start();
         } else if (tid.equals("00049")) {
             MPList.t00049_1.start();
+        } else if (tid.equals("00050")) {
+            MPList.t00050_1.start();
+        } else if (tid.equals("00051")) {
+            MPList.t00051_1.start();
         }
 
         if (page == 1) {
@@ -311,6 +315,12 @@ public class AudioController {
             case "00049":
                 MPList.t00049_1.start();
                 break;
+            case "00050":
+                MPList.t00050_1.start();
+                break;
+            case "00051":
+                MPList.t00051_1.start();
+                break;
         }
         new TrackThread.t1(tid).start();
     }
@@ -377,6 +387,8 @@ public class AudioController {
         tidList.add("00047");
         tidList.add("00048");
         tidList.add("00049");
+        tidList.add("00050");
+        tidList.add("00051");
         MPList.initalMP(pageItem.getTid(), context, pageItem.getSeek());
         if (tidList.contains(pageItem.getTid())) {
             return playingListindex0_1(pageItem.getTid()).isPlaying() || playingListindex0_2(pageItem.getTid()).isPlaying();
@@ -496,6 +508,10 @@ public class AudioController {
 
             case "00049":
                 return MPList.t00049_1;
+            case "00050":
+                return MPList.t00050_1;
+            case "00051":
+                return MPList.t00051_1;
 
             default:
                 return null;
@@ -608,6 +624,10 @@ public class AudioController {
                 return MPList.t00048_2;
             case "00049":
                 return MPList.t00049_2;
+            case "00050":
+                return MPList.t00050_2;
+            case "00051":
+                return MPList.t00051_2;
             default:
                 return null;
         }
@@ -763,6 +783,13 @@ public class AudioController {
                 MPList.t00006_1.prepareAsync();
                 MPList.t00006_2.stop();
                 MPList.t00006_2.prepareAsync();
+            }
+        } else if (position == 7) {
+            if (MPList.t00051_1 != null && MPList.t00051_2 != null) {
+                MPList.t00051_1.stop();
+                MPList.t00051_1.prepareAsync();
+                MPList.t00051_2.stop();
+                MPList.t00051_2.prepareAsync();
             }
         }
     }
@@ -929,6 +956,13 @@ public class AudioController {
                 MPList.t00049_1.prepareAsync();
                 MPList.t00049_2.stop();
                 MPList.t00049_2.prepareAsync();
+            }
+        } else if (position == 10) {
+            if (MPList.t00050_1 != null && MPList.t00050_2 != null) {
+                MPList.t00050_1.stop();
+                MPList.t00050_1.prepareAsync();
+                MPList.t00050_2.stop();
+                MPList.t00050_2.prepareAsync();
             }
         }
     }

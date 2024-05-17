@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
+import com.dippola.relaxtour.ESPreference;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.pages.adapter.PageAdapter;
 import com.dippola.relaxtour.service.DownloadItem;
@@ -31,7 +32,7 @@ public class AskDownloadDialog {
     private static Button okbtn, cancel;
     private static CheckBox checkBox;
 
-    public static void askDownloadDialog(Context context, DownloadItem downloadItem, String tid) {
+    public static void askDownloadDialog(Context context, DownloadItem downloadItem) {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout layout = (LinearLayout) vi.inflate(R.layout.ask_download_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context, androidx.appcompat.R.style.Theme_AppCompat_Dialog);
@@ -48,18 +49,7 @@ public class AskDownloadDialog {
         okbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedPreferences;
-                try {
-                    sharedPreferences = EncryptedSharedPreferences.create(
-                            "download_dialog_checkbox",
-                            MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-                            context,
-                            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-                    );
-                } catch (GeneralSecurityException | IOException e) {
-                    throw new RuntimeException(e);
-                }
+                EncryptedSharedPreferences sharedPreferences = ESPreference.getEncryptedSharedPreference(context, "download_dialog_checkbox");
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (checkBox.isChecked()) {
                     editor.putBoolean("isChecked", true);

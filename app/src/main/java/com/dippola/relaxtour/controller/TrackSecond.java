@@ -23,9 +23,9 @@ public class TrackSecond {
         } else if (tid.equals("00010")) {
             return 401700-3000;
         } else if (tid.equals("00011")) {
-            return 120200-3000;
-        } else if (tid.equals("00012")) {
             return 86700-3000;
+        } else if (tid.equals("00012")) {
+            return 120200-3000;
         } else if (tid.equals("00013")) {
             return 125900-3000;
         } else if (tid.equals("00014")) {
@@ -99,7 +99,11 @@ public class TrackSecond {
         } else if (tid.equals("00048")) {
             return 600000-2200;
         } else if (tid.equals("00049")) {
-            return 71100-2200;
+            return 71100-3000;
+        } else if (tid.equals("00050")) {
+            return 14500-3000;
+        } else if (tid.equals("00051")) {
+            return 61100-3000;
         } else {
             return 0;
         }

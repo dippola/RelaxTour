@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:versionCode="50"
-    android:versionName="1.0.50">
+    android:versionCode="51"
+    android:versionName="1.0.51">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -61,7 +61,7 @@
         <activity android:name=".community.main.detail.DetailImageViewer" android:screenOrientation="portrait" />
         <activity android:name=".community.auth.CommunityAuthResetPasswordDialog" android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"/>
 <!--        <activity android:name=".community.main.detail.CommunityMainDetail" android:screenOrientation="portrait" android:launchMode="singleInstance"/>-->
-        <activity android:name=".community.main.detail.CommunityMainDetail" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".community.main.detail.CommunityMainDetail" android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".community.bottomsheet_intent.EditComment" android:screenOrientation="portrait" />
         <service android:name=".community.main.write.UploadService"/>
         <activity android:name=".community.auth.userscommunity.UsersCommunity" android:screenOrientation="portrait"/>

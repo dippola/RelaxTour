@@ -118,9 +118,6 @@ public class DownloadService extends Service {
 
     public static void setOnClickDownload(Context context) {
         String tid = downloadList.get(0).getTid();
-//        downloadList.get(0).getLoading().setVisibility(View.VISIBLE);
-//        downloadList.get(0).getImg().setEnabled(false);
-//        downloadList.get(0).getDownload().setEnabled(false);
         String fileName = "audio" + tid + ".mp3";
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference reference = storage.getReference();

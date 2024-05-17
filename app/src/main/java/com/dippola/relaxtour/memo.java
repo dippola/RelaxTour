@@ -4,6 +4,7 @@ public class memo {
 //    기존 페이지에 새로운트랙 업데이트 했을때 변경할거
 //    1. MPList
 //    2. AudioController
+    //3. TrackSecond
 
 
 //    새로운 페이지 업데이트 했을때 변경할거

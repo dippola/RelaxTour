@@ -15,10 +15,23 @@ public class RetrofitClient {
         return getInstance(context).create(RetrofitInterface.class);
     }
 
+    public static RetrofitInterface getGoogleTranslation(Context context) {
+        return getInstanceTranslation(context).create(RetrofitInterface.class);
+    }
+
     private static Retrofit getInstance(Context context){
         Gson gson = new GsonBuilder().setLenient().create();
         return new Retrofit.Builder()
                 .baseUrl(context.getString(R.string.base_url))
+//                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+    }
+
+    private static Retrofit getInstanceTranslation(Context context){
+        Gson gson = new GsonBuilder().setLenient().create();
+        return new Retrofit.Builder()
+                .baseUrl(context.getString(R.string.base_url_google_translation))
 //                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();

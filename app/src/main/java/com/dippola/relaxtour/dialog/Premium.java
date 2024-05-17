@@ -24,6 +24,7 @@ import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.NetworkStatus;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
+import com.dippola.relaxtour.setting.SettingDialog;
 import com.qonversion.android.sdk.Qonversion;
 import com.qonversion.android.sdk.QonversionConfig;
 import com.qonversion.android.sdk.dto.QLaunchMode;
@@ -43,7 +44,7 @@ import java.util.Map;
 
 public class Premium extends AppCompatActivity {
 
-    Button ok, close;
+    Button ok, close, restore;
     TextView cancel;
     Application application;
     Activity activity;
@@ -71,6 +72,7 @@ public class Premium extends AppCompatActivity {
     private void setInit() {
         ok = findViewById(R.id.premium_dialog_ok);
         close = findViewById(R.id.premium_dialog_close);
+        restore = findViewById(R.id.premium_dialog_restore);
         img = findViewById(R.id.premium_dialog_title_img);
         cancel = findViewById(R.id.premium_dialog_cancel);
         load = findViewById(R.id.premium_dialog_load);
@@ -78,6 +80,7 @@ public class Premium extends AppCompatActivity {
         load.setVisibility(View.GONE);
         okSetOnClick();
         cancelSetOnClick();
+        restoreSetOnClick();
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +114,35 @@ public class Premium extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+    }
+
+    private void restoreSetOnClick() {
+        restore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                load.setVisibility(View.VISIBLE);
+                Qonversion.getSharedInstance().restore(new QonversionEntitlementsCallback() {
+                    @Override
+                    public void onSuccess(@NonNull Map<String, QEntitlement> map) {
+                        QEntitlement qPermission = map.get(getString(R.string.product_id));
+                        if (qPermission != null && qPermission.isActive()) {
+                            Log.d("Premium>>>", "restored");
+                            RestoreDialog.restoreDialog(Premium.this);
+                        } else {
+                            Log.d("Premium>>>", "no restore");
+                            Toast.makeText(Premium.this, "There's no applicable premium qualification to restore.", Toast.LENGTH_SHORT).show();
+                            load.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull QonversionError qonversionError) {
+                        Toast.makeText(Premium.this, "Error: " + qonversionError.getDescription(), Toast.LENGTH_SHORT).show();
+                        load.setVisibility(View.GONE);
+                    }
+                });
             }
         });
     }

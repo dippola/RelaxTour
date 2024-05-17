@@ -3,6 +3,8 @@ package com.dippola.relaxtour.retrofit;
 import com.dippola.relaxtour.community.auth.userscommunity.UserCommentWithPageModel;
 import com.dippola.relaxtour.community.main.detail.AddHitModel;
 import com.dippola.relaxtour.community.main.detail.CommentWithPageWhenMore;
+import com.dippola.relaxtour.community.translate.RequestModel;
+import com.dippola.relaxtour.community.translate.ResponseModel;
 import com.dippola.relaxtour.retrofit.model.CommentAllList;
 import com.dippola.relaxtour.retrofit.model.PostCommentModel;
 import com.dippola.relaxtour.retrofit.model.PostDetailWithComments;
@@ -212,5 +214,10 @@ public interface RetrofitInterface {
             @Body UserModel userModel,
             @Header("why") String why,
             @Header("key") String appkey
+    );
+
+    @POST("language/translate/v2?key=AIzaSyBwvV0IuZAlO_1v4yJ3aJnZfh4MuKpxdhE")
+    Call<ResponseModel> getGoogleTrans(
+            @Body RequestModel requestModel
     );
 }

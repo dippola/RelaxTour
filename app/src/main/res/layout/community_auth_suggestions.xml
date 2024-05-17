@@ -39,6 +39,7 @@
         android:gravity="start"
         android:hint="Please fill out the suggestions."
         android:padding="10dp"
+        android:textColor="@color/fav_edittext_color"
         android:textCursorDrawable="@drawable/edittext_cursor"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"

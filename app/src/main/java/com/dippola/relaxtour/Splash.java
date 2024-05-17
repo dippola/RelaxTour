@@ -103,19 +103,7 @@ public class Splash extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
-        try {
-            preferences = EncryptedSharedPreferences.create(
-                    "checkFirst",
-                    MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-                    getApplicationContext(),
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            );
-        } catch (GeneralSecurityException | IOException e) {
-            Log.d("Splash>>>", "e: " + e.toString());
-            throw new RuntimeException(e);
-        }
-//        preferences = getSharedPreferences("checkFirst", Activity.MODE_PRIVATE);
+        preferences = ESPreference.getEncryptedSharedPreference(Splash.this, "checkFirst");
 
         bg = findViewById(R.id.splash_background);
 

@@ -106,33 +106,7 @@ public class SettingDialog extends AppCompatActivity {
         premiumBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                load.setVisibility(View.VISIBLE);
-                setFinishOnTouchOutside(false);
-                MainActivity.bottomSheetBehavior.setDraggable(false);
-                Qonversion.getSharedInstance().restore(new QonversionEntitlementsCallback() {
-                    @Override
-                    public void onSuccess(@NonNull Map<String, QEntitlement> map) {
-                        QEntitlement qPermission = map.get(getString(R.string.product_id));
-                        if (qPermission != null && qPermission.isActive()) {
-                            Log.d("Premium>>>", "restored");
-                            RestoreDialog.restoreDialog(SettingDialog.this);
-                        } else {
-                            Log.d("Premium>>>", "no restore");
-                            SettingDialog.this.startActivity(new Intent(SettingDialog.this, Premium.class));
-                            load.setVisibility(View.GONE);
-                            setFinishOnTouchOutside(true);
-                            MainActivity.bottomSheetBehavior.setDraggable(true);
-                        }
-                    }
-
-                    @Override
-                    public void onError(@NonNull QonversionError qonversionError) {
-                        Toast.makeText(SettingDialog.this, "Error: " + qonversionError.getDescription(), Toast.LENGTH_SHORT).show();
-                        load.setVisibility(View.GONE);
-                        setFinishOnTouchOutside(true);
-                        MainActivity.bottomSheetBehavior.setDraggable(true);
-                    }
-                });
+                startActivity(new Intent(SettingDialog.this, Premium.class));
             }
         });
     }

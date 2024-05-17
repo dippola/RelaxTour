@@ -72,6 +72,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -130,17 +131,7 @@ public class MainActivity extends AppCompatActivity {
         if (load.getVisibility() == View.VISIBLE) {
             load.setVisibility(View.GONE);
         }
-        try {
-            sharedPreferences = EncryptedSharedPreferences.create(
-                    "modeTable",
-                    MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-                    getApplicationContext(),
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            );
-        } catch (GeneralSecurityException | IOException e) {
-            throw new RuntimeException(e);
-        }
+        sharedPreferences = ESPreference.getEncryptedSharedPreference(MainActivity.this, "modeTable");
         String mode = sharedPreferences.getString("mode", "default");
         ThemeHelper.applyTheme(mode);
 
@@ -565,23 +556,20 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "The playlist is empty.", Toast.LENGTH_SHORT).show();
                 } else {
                     if (databaseHandler.getIsProUser() == 1) {
-                        boolean isContain = false;
-                        List<String> tids = new ArrayList<>();
-                        for (int i = 0; i < bottomSheetPlayList.size(); i++) {
-                            if (bottomSheetPlayList.get(i).getIspro() == 2) {
-                                tids.add(bottomSheetPlayList.get(i).getTid());
-                                bottomSheetPlayList.remove(i);
-                                bottomSheetAdapter.notifyItemRemoved(i);
+                        Iterator<PageItem> iterator = bottomSheetPlayList.iterator();
+                        while (iterator.hasNext()) {
+                            PageItem item = iterator.next();
+                            if (item.getIspro() == 2) {
+                                int index = bottomSheetPlayList.indexOf(item);
+                                iterator.remove();
+                                bottomSheetAdapter.notifyItemRemoved(index);
                                 bottomSheetAdapter.notifyDataSetChanged();
-                                isContain = true;
+                                databaseHandler.deletePlayingList(item.getTid());
+                                databaseHandler.setIsPlay1(item.getTid());
                             }
                         }
-                        if (isContain) {
-                            for (int i = 0; i < tids.size(); i++) {
-                                databaseHandler.deletePlayingList(tids.get(i));
-                                databaseHandler.setIsPlay1(tids.get(i));
-                            }
-                            setOnClickPandS();
+                        if (bottomSheetPlayList.size() == 0) {
+                            Toast.makeText(MainActivity.this, "The playlist is empty.", Toast.LENGTH_SHORT).show();
                         } else {
                             setOnClickPandS();
                         }

@@ -3,7 +3,6 @@ package com.dippola.relaxtour.community.main.detail;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +23,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.community.ImageViewer;
-import com.dippola.relaxtour.community.auth.CommunityAuth;
-import com.dippola.relaxtour.community.main.CommunityMain;
-import com.dippola.relaxtour.community.signIn.CommunitySignIn;
-import com.dippola.relaxtour.community.translate.Language;
 import com.dippola.relaxtour.community.translate.Translate;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.Premium;
@@ -175,21 +170,8 @@ public class MainDetailCommentAdapter extends RecyclerView.Adapter<MainDetailCom
                     if (nowLang.equals("device_language")) {
                         nowLang = Locale.getDefault().getLanguage();
                     }
-                    Translate translate = new Translate("auto", nowLang, list.get(i).getBody());
-                    translate.setTranslateListener(new Translate.TranslateListener() {
-                        @Override
-                        public void onSuccess(String translatedText) {
-                            holder.body.setText(translatedText);
-                            holder.transLoad.setVisibility(View.GONE);
-                            holder.transReturn.setVisibility(View.VISIBLE);
-                        }
 
-                        @Override
-                        public void onFailure(String ErrorText) {
-                            holder.transLoad.setVisibility(View.GONE);
-                            holder.transReturn.setVisibility(View.VISIBLE);
-                        }
-                    });
+                    Translate.translateComment(context, holder.body.getText().toString(), nowLang, holder.body, holder.transLoad, holder.transReturn);
                 }
             });
 

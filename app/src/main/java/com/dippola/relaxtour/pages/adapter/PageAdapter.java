@@ -23,7 +23,9 @@ import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.security.crypto.EncryptedSharedPreferences;
 
+import com.dippola.relaxtour.ESPreference;
 import com.dippola.relaxtour.MPList;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.NetworkStatus;
@@ -40,6 +42,7 @@ import com.dippola.relaxtour.pages.item.PageItem;
 import com.dippola.relaxtour.pages.item.ViewTypeCode;
 import com.dippola.relaxtour.service.DownloadItem;
 import com.dippola.relaxtour.service.DownloadService;
+import com.dippola.relaxtour.setting.SettingDialog;
 import com.qonversion.android.sdk.Qonversion;
 import com.qonversion.android.sdk.dto.QonversionError;
 import com.qonversion.android.sdk.dto.entitlements.QEntitlement;
@@ -640,7 +643,7 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (i == NetworkStatus.NO) {
                     Toast.makeText(context, "Internet connection is not present or unstable.\nPlease check and try again.", Toast.LENGTH_SHORT).show();
                 } else {
-                    SharedPreferences sharedPreferences = context.getSharedPreferences("download_dialog_checkbox", MODE_PRIVATE);
+                    EncryptedSharedPreferences sharedPreferences = ESPreference.getEncryptedSharedPreference(context, "download_dialog_checkbox");
                     boolean isChecked = sharedPreferences.getBoolean("isChecked", false);
                     DownloadItem downloadItem = new DownloadItem(arrayList.get(positions).getTid(), progressBar, img, download, seekBar);
                     if (isChecked) {
@@ -652,7 +655,7 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             DownloadService.setOnClickDownload(context);
                         }
                     } else {
-                        AskDownloadDialog.askDownloadDialog(context, downloadItem, arrayList.get(positions).getTid());
+                        AskDownloadDialog.askDownloadDialog(context, downloadItem);
                     }
                 }
             }
@@ -661,29 +664,7 @@ public class PageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         pro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.load.setVisibility(View.VISIBLE);
-                Qonversion.getSharedInstance().restore(new QonversionEntitlementsCallback() {
-                    @Override
-                    public void onSuccess(@NonNull Map<String, QEntitlement> map) {
-                        QEntitlement qPermission = map.get(context.getString(R.string.product_id));
-                        if (qPermission != null && qPermission.isActive()) {
-                            Log.d("Premium>>>", "restored");
-                            RestoreDialog.restoreDialog(context);
-                        } else {
-                            Log.d("Premium>>>", "no restore");
-                            context.startActivity(new Intent(context, Premium.class));
-                            MainActivity.load.setVisibility(View.GONE);
-                            MainActivity.bottomSheetBehavior.setDraggable(true);
-                        }
-                    }
-
-                    @Override
-                    public void onError(@NonNull QonversionError qonversionError) {
-                        Toast.makeText(context, "Error: " + qonversionError.getDescription(), Toast.LENGTH_SHORT).show();
-                        MainActivity.load.setVisibility(View.GONE);
-                        MainActivity.bottomSheetBehavior.setDraggable(true);
-                    }
-                });
+                context.startActivity(new Intent(context, Premium.class));
             }
         });
     }

@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKeys;
 
+import com.dippola.relaxtour.ESPreference;
 import com.dippola.relaxtour.MainActivity;
 import com.dippola.relaxtour.R;
 import com.dippola.relaxtour.ThemeHelper;
@@ -87,18 +88,7 @@ public class ThemeDialog {
         system = layout.findViewById(R.id.theme_dialog_system);
         okbtn = layout.findViewById(R.id.theme_dialog_okbtn);
 
-        SharedPreferences sharedPreferences;
-        try {
-            sharedPreferences = EncryptedSharedPreferences.create(
-                    "modeTable",
-                    MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-                    context,
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            );
-        } catch (GeneralSecurityException | IOException e) {
-            throw new RuntimeException(e);
-        }
+        SharedPreferences sharedPreferences = ESPreference.getEncryptedSharedPreference(context, "modeTable");
         String mode = sharedPreferences.getString("mode", "default");
         if (mode.equals("light")) {
             light.setChecked(true);

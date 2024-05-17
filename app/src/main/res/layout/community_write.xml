@@ -83,6 +83,7 @@
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="15dp"
                 android:textCursorDrawable="@drawable/edittext_cursor"
+                android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/community_write_line1" />

@@ -1,6 +1,5 @@
 package com.dippola.relaxtour.community.main.detail;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,12 +33,10 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,14 +53,15 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.dippola.relaxtour.ESPreference;
 import com.dippola.relaxtour.R;
+import com.dippola.relaxtour.community.ImageViewer;
 import com.dippola.relaxtour.community.bottomsheet_intent.DeleteCommunityDialog;
 import com.dippola.relaxtour.community.bottomsheet_intent.EditComment;
 import com.dippola.relaxtour.community.bottomsheet_intent.EditPost;
 import com.dippola.relaxtour.community.bottomsheet_intent.Report;
 import com.dippola.relaxtour.community.main.CommunityMain;
 import com.dippola.relaxtour.community.signIn.CommunityProfileCreate;
-import com.dippola.relaxtour.community.translate.Language;
 import com.dippola.relaxtour.community.translate.Translate;
 import com.dippola.relaxtour.databasehandler.DatabaseHandler;
 import com.dippola.relaxtour.dialog.Premium;
@@ -139,7 +137,7 @@ public class CommunityMainDetail extends AppCompatActivity {
     private LinearLayout transBox;
     private TextView transText;
     private ProgressBar transLoad;
-    private boolean isTrans;
+    public static boolean isTrans;
 
     //share list
     private ConstraintLayout listLayout;
@@ -275,6 +273,19 @@ public class CommunityMainDetail extends AppCompatActivity {
         setTranslate();
     }
 
+    private void onClickUserImg() {
+        userimg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CommunityMainDetail.this, ImageViewer.class);
+                if (postModel.getUser_url() != null) {
+                    intent.putExtra("url", postModel.getUser_url());
+                }
+                startActivity(intent);
+            }
+        });
+    }
+
     private void setTranslate() {
         transBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,45 +293,20 @@ public class CommunityMainDetail extends AppCompatActivity {
                 if (!isTrans) {
                     transLoad.setVisibility(View.VISIBLE);
                     transBox.setEnabled(false);
-                    SharedPreferences sharedPreferences;
-                    try {
-                        sharedPreferences = EncryptedSharedPreferences.create(
-                                "languageTable",
-                                MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-                                getApplicationContext(),
-                                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-                        );
-                    } catch (GeneralSecurityException | IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    SharedPreferences sharedPreferences = ESPreference.getEncryptedSharedPreference(CommunityMainDetail.this, "languageTable");
                     String lang = sharedPreferences.getString("nowLanguage", "device_language");
                     if (lang.equals("device_language")) {
                         lang = Locale.getDefault().getLanguage();
                     }
-                    Translate translate = new Translate("auto", lang, body.getText().toString());
-                    translate.setTranslateListener(new Translate.TranslateListener() {
-                        @Override
-                        public void onSuccess(String translatedText) {
-                            transText.setText("view original");
-                            transLoad.setVisibility(View.INVISIBLE);
-                            body.setText(translatedText);
-                            isTrans = true;
-                            transBox.setEnabled(true);
-                        }
-
-                        @Override
-                        public void onFailure(String ErrorText) {
-                            Toast.makeText(CommunityMainDetail.this, "Translate failed: " + ErrorText, Toast.LENGTH_SHORT).show();
-                            isTrans = false;
-                            transLoad.setVisibility(View.INVISIBLE);
-                            transBox.setEnabled(true);
-                        }
-                    });
+                    List<String> titleAndBody = new ArrayList<>();
+                    titleAndBody.add(title.getText().toString());
+                    titleAndBody.add(body.getText().toString());
+                    Translate.translateTitleAndBody(CommunityMainDetail.this, titleAndBody, lang, title, body, transText, transLoad, transBox);
                 } else {
                     isTrans = false;
                     transText.setText("translate");
                     transLoad.setVisibility(View.INVISIBLE);
+                    title.setText(postModel.getTitle());
                     body.setText(postModel.getBody());
                 }
             }
@@ -1056,6 +1042,9 @@ public class CommunityMainDetail extends AppCompatActivity {
         nowPage = 1;
         AddHitModel addHitModel = new AddHitModel();
         addHitModel.setWillAddHit(willAddHit);
+        if (willAddHit) {
+            willAddHit = false;
+        }
         RetrofitClient.getApiService(CommunityMainDetail.this).getPost(id, addHitModel, getString(R.string.appkey)).enqueue(new Callback<PostDetailWithComments>() {
             @Override
             public void onResponse(Call<PostDetailWithComments> call, Response<PostDetailWithComments> response) {
@@ -1118,6 +1107,7 @@ public class CommunityMainDetail extends AppCompatActivity {
         }
         like.setEnabled(true);
 
+        onClickUserImg();
     }
 
     private boolean checkLikeListContains(List<LikeUserListModel> likeUserList) {

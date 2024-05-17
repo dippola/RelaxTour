@@ -63,6 +63,8 @@ public class MPList {
     public static MediaPlayer t00047_1, t00047_2;
     public static MediaPlayer t00048_1, t00048_2;
     public static MediaPlayer t00049_1, t00049_2;
+    public static MediaPlayer t00050_1, t00050_2;
+    public static MediaPlayer t00051_1, t00051_2;
 
     public static void initalMP(String tid, Context context, int volumn) {
         switch (tid) {
@@ -637,6 +639,36 @@ public class MPList {
                         t00049_2.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00049.mp3");
                         t00049_1.prepareAsync();
                         t00049_2.prepareAsync();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    AudioController.setVolumn(tid, volumn);
+                }
+                break;
+            case "00050":
+                if (t00050_1 == null || t00050_2 == null) {
+                    try {
+                        t00050_1 = new MediaPlayer();
+                        t00050_2 = new MediaPlayer();
+                        t00050_1.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00050.mp3");
+                        t00050_2.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00050.mp3");
+                        t00050_1.prepareAsync();
+                        t00050_2.prepareAsync();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    AudioController.setVolumn(tid, volumn);
+                }
+                break;
+            case "00051":
+                if (t00051_1 == null || t00051_2 == null) {
+                    try {
+                        t00051_1 = new MediaPlayer();
+                        t00051_2 = new MediaPlayer();
+                        t00051_1.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00051.mp3");
+                        t00051_2.setDataSource(context.getApplicationInfo().dataDir + "/cache/audio00051.mp3");
+                        t00051_1.prepareAsync();
+                        t00051_2.prepareAsync();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
